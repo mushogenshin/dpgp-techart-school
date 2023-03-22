@@ -1,17 +1,18 @@
 mod commands;
 
+use log::{error, info};
 use serenity::{
     async_trait,
     client::Client,
     client::{Context, EventHandler},
     framework::{standard::macros::group, StandardFramework},
     http::Http,
-    model::{channel::Message, gateway::Ready},
+    model::{channel::Message, event::ResumedEvent, gateway::Ready},
     prelude::*,
 };
 use std::collections::HashSet;
 
-use crate::commands::category::*;
+use crate::commands::{category::*, meta::*, CMD_PREFIX};
 
 struct Handler;
 
@@ -29,7 +30,7 @@ impl EventHandler for Handler {
             // channel, so log to stdout when some error happens, with a
             // description of it.
             if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await {
-                println!("Error sending message: {:?}", why);
+                error!("Error sending message: {:?}", why);
             }
         }
     }
@@ -40,13 +41,26 @@ impl EventHandler for Handler {
     // private channels, and more.
     //
     // In this case, just print what the current user's username is.
-    async fn ready(&self, _: Context, ready: Ready) {
-        println!("{} is connected!", ready.user.name);
+    async fn ready(&self, _ctx: Context, ready: Ready) {
+        let bot = ready.user;
+        info!("{} is connected!", bot.name);
+
+        // bot.guilds(&_ctx.http)
+        //     .await
+        //     .expect("Failed to find guilds")
+        //     .iter()
+        //     .for_each(|g| {
+        //         info!("- Guild \"{}\": {}", g.name, g.id);
+        //     });
+    }
+
+    async fn resume(&self, _: Context, _: ResumedEvent) {
+        info!("Resumed");
     }
 }
 
 #[group]
-#[commands(make_category)]
+#[commands(meta, make_category)]
 struct General;
 
 pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
@@ -55,6 +69,8 @@ pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
     // We will fetch your bot's owners and id
     let (owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
+            info!("App owner is {}", info.owner.name);
+
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
@@ -65,7 +81,7 @@ pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
 
     // Create the framework
     let framework = StandardFramework::new()
-        .configure(|c| c.owners(owners).prefix("~"))
+        .configure(|c| c.owners(owners).prefix(CMD_PREFIX))
         .group(&GENERAL_GROUP);
 
     // Set gateway intents, which decides what events the bot will be notified about

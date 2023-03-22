@@ -1,4 +1,7 @@
 pub mod category;
+pub mod meta;
+
+pub const CMD_PREFIX: &str = "~";
 
 use serenity::{
     framework::standard::{macros::command, Args, CommandResult},
