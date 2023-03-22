@@ -2,15 +2,7 @@ mod bot;
 
 use serenity::{client::Client, prelude::*};
 
-use dotenv::dotenv;
-use std::env;
-
-pub async fn init_bot() {
-    dotenv().ok();
-
-    // Configure the client with your Discord bot token in the environment.
-    let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
-
+pub async fn init_bot(token: &str) {
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
         | GatewayIntents::DIRECT_MESSAGES
