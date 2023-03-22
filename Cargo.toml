@@ -1,16 +1,23 @@
-[package]
-name = "dlus-rs-bot"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+members = ["crates/dlus"]
 
-[dependencies]
-dotenv = "0.15.0"
-serenity = { version = "0.11.5", default-features = false, features = [
-    "client",
-    "gateway",
-    "rustls_backend",
-    "model",
-] }
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+[profile.dev]
+opt-level = 1
+# Faster debug builds on Mac, remember to comment out on Windows if using stable toolchain
+split-debuginfo = "unpacked"
+
+# Enable max optimizations for dependencies, but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+strip = true # Automatically strip symbols from the binary
+# lto = true # VERY slightly smaller wasm
+# opt-level = 's' # 10-20% smaller wasm compared to `opt-level = 3`
+# opt-level = 1 # very slow and big wasm. Don't do this.
+opt-level = 2 # fast and small wasm, basically same as `opt-level = 's'`
+# opt-level = 3 # unecessarily large wasm for no performance gain
+# debug = true # include debug symbols, useful when profiling wasm
+codegen-units = 1 # Maximize size reduction optimizations
