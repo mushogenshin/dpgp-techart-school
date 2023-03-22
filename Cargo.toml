@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 
-members = ["crates/dlus", "crates/gui"]
+members = ["crates/*"]
 
 [profile.dev]
 opt-level = 1
