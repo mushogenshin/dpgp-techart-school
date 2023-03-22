@@ -8,5 +8,7 @@ edition = "2021"
 [dependencies]
 dlus = { path = "../dlus" }
 
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.0", features = ["rt-multi-thread"] }
 dotenv = "0.15.0"
+eframe = "0.21.3"
+crossbeam-channel = "0.5.7"
