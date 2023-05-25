@@ -5,3 +5,9 @@ edition = "2021"
 
 [dependencies]
 firestore = "0.32.0"
+serde = { version = "1.0.163", features = ["derive"] }
+
+[dev-dependencies]
+gcloud-sdk = { version = "0.20", features = ["google-firestore-v1"] }
+# tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1", features = ["full"] }

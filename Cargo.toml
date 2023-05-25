@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 
-members = ["crates/*"]
+members = ["crates/dlus_serenity", "crates/dpgp_firestore"]
 
 [profile.dev]
 opt-level = 1
