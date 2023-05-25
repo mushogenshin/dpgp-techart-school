@@ -66,7 +66,7 @@ struct General;
 pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
     let http = Http::new(token);
 
-    // We will fetch your bot's owners and id
+    // Fetch the bot's owners and id
     let (owners, _bot_id) = match http.get_current_application_info().await {
         Ok(info) => {
             info!("App owner is {}", info.owner.name);

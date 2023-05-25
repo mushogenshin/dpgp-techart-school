@@ -1,0 +1,7 @@
+[package]
+name = "dpgp-firestore"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+firestore = "0.32.0"
