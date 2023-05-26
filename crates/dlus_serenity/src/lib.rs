@@ -1,4 +1,5 @@
 mod commands;
+mod db;
 
 use log::{error, info};
 use serenity::{

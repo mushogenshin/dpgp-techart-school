@@ -1,3 +1,5 @@
+pub extern crate firestore;
+
 #[cfg(test)]
 mod tests {
     use firestore::*;
