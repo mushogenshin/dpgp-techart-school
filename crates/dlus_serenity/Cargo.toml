@@ -1,5 +1,5 @@
 [package]
-name = "dlus"
+name = "dlus-serenity"
 version = "0.1.0"
 description = "A Discord bot for Dẫu Phải Giải-Phẫu school"
 edition = "2021"
@@ -9,7 +9,7 @@ edition = "2021"
 [lib]
 
 [features]
-# default = ["firebase"]
+default = ["firebase"]
 firebase = ["dpgp-firestore"]
 
 [dependencies]

@@ -1,4 +1,10 @@
+use firestore::{FirestoreDb, FirestoreResult};
+
 pub extern crate firestore;
+
+pub async fn client_from_token(project_id: &str, token: String) -> FirestoreResult<FirestoreDb> {
+    todo!()
+}
 
 #[cfg(test)]
 mod tests {

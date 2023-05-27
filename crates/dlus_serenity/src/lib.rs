@@ -68,10 +68,16 @@ struct General;
 
 pub async fn init_bot(
     bot_token: &str,
-    #[cfg(feature = "firebase")] firebase_auth: Option<String>,
+    #[cfg(feature = "firebase")] firestore_auth: Option<String>,
 ) -> Result<Client, SerenityError> {
     #[cfg(feature = "firebase")]
-    let firebase_auth = firebase_auth.expect("Expected Firebase auth in the environment");
+    let firestore =
+        dpgp_firestore::client_from_token(firestore_auth.expect("Expected Firestore auth"))
+            .await
+            .map_err(|e| {
+                error!("Firestore error: {}", e);
+                SerenityError::Other("Failed to initialize Firestore client")
+            })?;
 
     let http = Http::new(bot_token);
 
@@ -107,7 +113,7 @@ pub async fn init_bot(
 
     #[cfg(feature = "firebase")]
     {
-        builder = builder.type_map_insert::<db::DpgpFirestore>(todo!());
+        // builder = builder.type_map_insert::<db::DpgpFirestore>(todo!());
     }
 
     let mut client = builder.await?;
