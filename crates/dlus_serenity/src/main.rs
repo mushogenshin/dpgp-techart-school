@@ -16,12 +16,19 @@ pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
     let bot_token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
     #[cfg(feature = "firebase")]
-    let firestore_auth = env::var("FIRESTORE_AUTH");
+    let google_project_id =
+        env::var("GOOGLE_PROJECT_ID").expect("Expected Google project ID in the environment");
+
+    #[cfg(feature = "firebase")]
+    let firestore_auth =
+        env::var("FIRESTORE_AUTH").expect("Expected Firestore auth in the environment");
 
     dlus_serenity::init_bot(
         &bot_token,
         #[cfg(feature = "firebase")]
-        firestore_auth.ok(),
+        google_project_id,
+        #[cfg(feature = "firebase")]
+        firestore_auth,
     )
     .await
 }

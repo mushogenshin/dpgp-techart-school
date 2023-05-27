@@ -68,16 +68,23 @@ struct General;
 
 pub async fn init_bot(
     bot_token: &str,
-    #[cfg(feature = "firebase")] firestore_auth: Option<String>,
+    #[cfg(feature = "firebase")] google_project_id: String,
+    #[cfg(feature = "firebase")] firestore_auth: String,
 ) -> Result<Client, SerenityError> {
     #[cfg(feature = "firebase")]
-    let firestore =
-        dpgp_firestore::client_from_token(firestore_auth.expect("Expected Firestore auth"))
-            .await
-            .map_err(|e| {
-                error!("Firestore error: {}", e);
-                SerenityError::Other("Failed to initialize Firestore client")
-            })?;
+    let firestore = dpgp_firestore::client_from_token(google_project_id, firestore_auth)
+        .await
+        .map_err(|e| {
+            error!("Firestore error: {}", e);
+            SerenityError::Other("Failed to initialize Firestore client")
+        });
+
+    #[cfg(debug_assertions)]
+    {
+        if let Err(_) = &firestore {
+            error!("START DISCORD BOT WITHOUT ACCESS TO FIRESTORE DB");
+        };
+    }
 
     let http = Http::new(bot_token);
 

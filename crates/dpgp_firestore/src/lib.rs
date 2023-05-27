@@ -1,9 +1,14 @@
-use firestore::{FirestoreDb, FirestoreResult};
+use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 
 pub extern crate firestore;
 
-pub async fn client_from_token(project_id: &str, token: String) -> FirestoreResult<FirestoreDb> {
-    todo!()
+pub async fn client_from_token(project_id: String, token: String) -> FirestoreResult<FirestoreDb> {
+    FirestoreDb::with_options_token_source(
+        FirestoreDbOptions::new(project_id),
+        gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
+        gcloud_sdk::TokenSourceType::Json(token),
+    )
+    .await
 }
 
 #[cfg(test)]
