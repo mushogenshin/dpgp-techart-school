@@ -9,9 +9,16 @@ async fn main() {
 
     // This will load the environment variables located at `./.env`, relative to the CWD.
     dotenv().expect("Failed to load .env file");
-    let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
+    let bot_token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
-    init_bot(&token)
-        .await
-        .expect("Failed to start Discord client");
+    #[cfg(feature = "firebase")]
+    let firebase_auth = env::var("FIREBASE_AUTH");
+
+    init_bot(
+        &bot_token,
+        #[cfg(feature = "firebase")]
+        firebase_auth.ok(),
+    )
+    .await
+    .expect("Failed to start Discord client");
 }

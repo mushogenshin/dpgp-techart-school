@@ -1,5 +1,5 @@
 use dpgp_firestore::firestore::FirestoreDb;
-use typemap_rev::TypeMapKey;
+use serenity::prelude::TypeMapKey;
 
 pub(crate) struct DpgpFirestore {}
 

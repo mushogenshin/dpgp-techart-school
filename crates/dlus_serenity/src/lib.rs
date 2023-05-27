@@ -1,4 +1,6 @@
 mod commands;
+
+#[cfg(feature = "firebase")]
 mod db;
 
 use log::{error, info};
@@ -64,8 +66,14 @@ impl EventHandler for Handler {
 #[commands(meta, make_category)]
 struct General;
 
-pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
-    let http = Http::new(token);
+pub async fn init_bot(
+    bot_token: &str,
+    #[cfg(feature = "firebase")] firebase_auth: Option<String>,
+) -> Result<Client, SerenityError> {
+    #[cfg(feature = "firebase")]
+    let firebase_auth = firebase_auth.expect("Expected Firebase auth in the environment");
+
+    let http = Http::new(bot_token);
 
     // Fetch the bot's owners and id
     let (owners, _bot_id) = match http.get_current_application_info().await {
@@ -93,10 +101,16 @@ pub async fn init_bot(token: &str) -> Result<Client, SerenityError> {
     // Create a new instance of the Client, logging in as a bot. This will
     // automatically prepend your bot token with "Bot ", which is a requirement
     // by Discord for bot users.
-    let mut client = Client::builder(&token, intents)
+    let builder = Client::builder(&bot_token, intents)
         .framework(framework)
-        .event_handler(Handler)
-        .await?;
+        .event_handler(Handler);
+
+    #[cfg(feature = "firebase")]
+    {
+        builder = builder.type_map_insert::<db::DpgpFirestore>(todo!());
+    }
+
+    let mut client = builder.await?;
 
     // Finally, start a single shard, and start listening to events.
     //

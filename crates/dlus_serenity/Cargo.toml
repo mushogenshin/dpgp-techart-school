@@ -8,8 +8,12 @@ edition = "2021"
 
 [lib]
 
+[features]
+# default = ["firebase"]
+firebase = ["dpgp-firestore"]
+
 [dependencies]
-dpgp-firestore = { path = "../dpgp_firestore" }
+dpgp-firestore = { path = "../dpgp_firestore", optional = true }
 
 serenity = { version = "0.11.5" }
 log = "0.4.17"
@@ -17,4 +21,3 @@ dotenv = "0.15.0"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
-typemap_rev = "0.3.0"
