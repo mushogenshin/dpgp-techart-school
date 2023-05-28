@@ -9,12 +9,14 @@ edition = "2021"
 [lib]
 
 [features]
-default = ["firebase"]
+default = []
+# default = ["firebase"]
 firebase = ["dpgp-firestore"]
 
 [dependencies]
 dpgp-firestore = { path = "../dpgp_firestore", optional = true }
 
+serde = { version = "1.0.163", features = ["derive"] }
 serenity = { version = "0.11.5" }
 log = "0.4.17"
 dotenv = "0.15.0"
