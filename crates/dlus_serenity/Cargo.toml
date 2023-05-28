@@ -9,14 +9,15 @@ edition = "2021"
 [lib]
 
 [features]
-default = []
-# default = ["firebase"]
+# default = []
+default = ["firebase"]
 firebase = ["dpgp-firestore"]
 
 [dependencies]
+bricks-n-mortar = { path = "../bricks_n_mortar" }
 dpgp-firestore = { path = "../dpgp_firestore", optional = true }
 
-serde = { version = "1.0.163", features = ["derive"] }
+# serde = { version = "1.0.163", features = ["derive"] }
 serenity = { version = "0.11.5" }
 log = "0.4.17"
 dotenv = "0.15.0"

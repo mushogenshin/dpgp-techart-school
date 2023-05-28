@@ -1,0 +1,8 @@
+[package]
+name = "bricks-n-mortar"
+version = "0.1.0"
+description = "Central components of DPGP management, e.g., students, classes, etc."
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.163", features = ["derive"] }

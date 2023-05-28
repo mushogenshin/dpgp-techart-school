@@ -1,16 +1,5 @@
 use super::*;
 
-// use serde::{Deserialize, Serialize};
-
-// // Example structure to play with
-// #[derive(Debug, Clone, Default, Deserialize, Serialize)]
-// #[allow(non_snake_case)]
-// struct MyTestStructure {
-//     classId: String,
-//     format: String,
-//     location: String,
-// }
-
 #[command]
 pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let scope = args.single::<String>()?;
