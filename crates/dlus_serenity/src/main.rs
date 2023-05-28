@@ -28,7 +28,7 @@ pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
     #[cfg(feature = "firebase")]
     // NOTE: `TokenSourceType::Json(String)` seems to expect a JWT, not a regular serialized string
     let firestore_token = TokenSourceType::File(PathBuf::from(
-        "/Users/mushogenshin/projects/dlus-rs-bot/tmp/key.json",
+        "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json",
     ));
 
     dlus_serenity::init_bot(

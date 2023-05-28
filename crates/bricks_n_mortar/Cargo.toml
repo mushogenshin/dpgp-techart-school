@@ -5,4 +5,5 @@ description = "Central components of DPGP management, e.g., students, classes, e
 edition = "2021"
 
 [dependencies]
+chrono = "0.4.24"
 serde = { version = "1.0.163", features = ["derive"] }

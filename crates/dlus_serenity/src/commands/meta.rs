@@ -1,18 +1,10 @@
 use super::*;
+use bricks_n_mortar::Class;
+use dpgp_firestore::firestore::FirestoreResult;
 
 #[command]
 pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let scope = args.single::<String>()?;
-
-    msg.channel_id
-        .say(
-            &ctx.http,
-            format!(
-                "Received META command about \"{}\" by user {}",
-                scope, msg.author.name
-            ),
-        )
-        .await?;
+    let query = args.single::<String>()?;
 
     #[cfg(feature = "firebase")]
     {
@@ -21,25 +13,31 @@ pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
             .get_mut::<DpgpFirestore>()
             .expect("Expected DpgpFirestore in TypeMap");
 
-        // const TEST_COLLECTION_NAME: &'static str = "classes";
+        const TEST_COLLECTION_NAME: &'static str = "classes";
 
-        // let my_struct = MyTestStructure {
-        //     classId: "ZBL3_2020".to_string(),
-        //     ..Default::default()
-        // };
+        let class = Class::wih_id(query);
 
-        // // Get by id
-        // let obj_by_id: Option<MyTestStructure> = db
-        //     .fluent()
-        //     .select()
-        //     .by_id_in(TEST_COLLECTION_NAME)
-        //     .obj()
-        //     .one(&my_struct.classId)
-        //     .await?;
+        // Get by id
+        let class: FirestoreResult<Option<Class>> = _db
+            .fluent()
+            .select()
+            .by_id_in(TEST_COLLECTION_NAME)
+            .obj()
+            .one(&class.id)
+            .await;
 
-        // assert!(obj_by_id.is_some());
-
-        // info!("Get by id {:?}", obj_by_id);
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match class {
+                    Ok(Some(class)) => {
+                        format!("Found: {:?}", class)
+                    }
+                    Ok(None) => "Not found".to_string(),
+                    Err(e) => format!("Query error: {:?}", e),
+                },
+            )
+            .await?;
     }
 
     Ok(())
