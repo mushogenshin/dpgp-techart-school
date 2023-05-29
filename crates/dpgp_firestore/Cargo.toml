@@ -4,9 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+bricks-n-mortar = { path = "../bricks_n_mortar" }
+
 firestore = "0.32.0"
 gcloud-sdk = { version = "0.20", features = ["google-firestore-v1"] }
-serde = { version = "1.0.163", features = ["derive"] }
+# serde = { version = "1.0.163", features = ["derive"] }
 
 [dev-dependencies]
 # tracing-subscriber = { version = "0.3", features = ["env-filter"] }

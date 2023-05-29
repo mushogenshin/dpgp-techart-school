@@ -18,49 +18,38 @@ pub async fn client_from_token(
 
 #[cfg(test)]
 mod tests {
-    use firestore::*;
-    use serde::{Deserialize, Serialize};
+    use super::*;
+    use bricks_n_mortar::Class;
 
-    fn config_env_var(name: &str) -> Result<String, String> {
-        std::env::var(name).map_err(|e| format!("{}: {}", name, e))
-    }
+    const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
+    const PROJECT_ID: &str = "musho-genshin";
 
-    // Example structure to play with
-    #[derive(Debug, Clone, Default, Deserialize, Serialize)]
-    #[allow(non_snake_case)]
-    struct MyTestStructure {
-        classId: String,
-        format: String,
-        location: String,
-    }
+    // fn config_env_var(name: &str) -> Result<String, String> {
+    //     std::env::var(name).map_err(|e| format!("{}: {}", name, e))
+    // }
 
     #[tokio::test]
     async fn connect() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         // Create an instance
-        let db = FirestoreDb::with_options_token_source(
-            FirestoreDbOptions::new(config_env_var("PROJECT_ID")?.to_string()),
-            gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
-            gcloud_sdk::TokenSourceType::File(
-                "/Users/mushogenshin/projects/dlus-rs-bot/tmp/key.json".into(),
-            ),
+        let db = client_from_token(
+            // config_env_var("PROJECT_ID")?.to_string(),
+            PROJECT_ID.to_string(),
+            gcloud_sdk::TokenSourceType::File(TOKEN_FILE_PATH.into()),
         )
         .await?;
 
         {
             const TEST_COLLECTION_NAME: &'static str = "classes";
 
-            let my_struct = MyTestStructure {
-                classId: "ZBL3_2020".to_string(),
-                ..Default::default()
-            };
+            let class = Class::wih_id("ZBL3_2020".to_string());
 
             // Get by id
-            let obj_by_id: Option<MyTestStructure> = db
+            let obj_by_id: Option<Class> = db
                 .fluent()
                 .select()
                 .by_id_in(TEST_COLLECTION_NAME)
                 .obj()
-                .one(&my_struct.classId)
+                .one(&class.id)
                 .await?;
 
             assert!(obj_by_id.is_some());

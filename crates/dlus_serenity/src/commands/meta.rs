@@ -9,7 +9,7 @@ pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
     #[cfg(feature = "firebase")]
     {
         let mut data = ctx.data.write().await;
-        let _db = data
+        let db = data
             .get_mut::<DpgpFirestore>()
             .expect("Expected DpgpFirestore in TypeMap");
 
@@ -18,7 +18,7 @@ pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         let class = Class::wih_id(query);
 
         // Get by id
-        let class: FirestoreResult<Option<Class>> = _db
+        let result: FirestoreResult<Option<Class>> = db
             .fluent()
             .select()
             .by_id_in(TEST_COLLECTION_NAME)
@@ -29,7 +29,7 @@ pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         msg.channel_id
             .say(
                 &ctx.http,
-                match class {
+                match result {
                     Ok(Some(class)) => {
                         format!("Found: {:?}", class)
                     }
