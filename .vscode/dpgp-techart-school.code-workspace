@@ -4,9 +4,6 @@
 			"path": ".."
 		},
 		{
-			"path": "../../../development/firestore-rs"
-		},
-		{
 			"path": "../../../development/serenity"
 		}
 	],

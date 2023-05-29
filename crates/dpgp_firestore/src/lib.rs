@@ -6,6 +6,11 @@ use gcloud_sdk::TokenSourceType;
 pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
+pub struct ProjectToken {
+    pub google_project_id: String,
+    pub firestore_token: TokenSourceType,
+}
+
 pub async fn client_from_token(
     google_project_id: String,
     token: TokenSourceType,
