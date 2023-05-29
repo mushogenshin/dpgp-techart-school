@@ -1,11 +1,11 @@
 pub mod category;
-pub mod meta;
+pub mod inspect;
 
 #[allow(unused_imports)]
 use super::*;
 
-#[cfg(feature = "firebase")]
-use crate::db::DpgpFirestore;
+// #[cfg(feature = "firebase")]
+// use dpgp_firestore::firestore::FirestoreResult;
 
 use serenity::{
     framework::standard::{macros::command, Args, CommandResult},

@@ -1,10 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-pub const CLASS_COLLECTION_NAME: &str = "classes";
-pub const STUDENT_COLLECTION_NAME: &str = "students";
-pub const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
-
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct Class {
     #[serde(rename = "classId")]
@@ -17,9 +13,9 @@ pub struct Class {
 }
 
 impl Class {
-    pub fn wih_id(id: String) -> Self {
+    pub fn wih_id(id: &str) -> Self {
         Self {
-            id,
+            id: id.to_string(),
             ..Default::default()
         }
     }

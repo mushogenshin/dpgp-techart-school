@@ -1,10 +1,15 @@
 mod query;
+pub use query::DpgpFirestore;
 
 use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 use gcloud_sdk::TokenSourceType;
 
 pub extern crate firestore;
 pub extern crate gcloud_sdk;
+
+const CLASS_COLLECTION_NAME: &str = "classes";
+// const STUDENT_COLLECTION_NAME: &str = "students";
+// const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 
 pub struct GCPProjectAndToken {
     pub google_project_id: String,
@@ -23,7 +28,7 @@ pub async fn client_from_token(auth: GCPProjectAndToken) -> FirestoreResult<Fire
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bricks_n_mortar::{Class, CLASS_COLLECTION_NAME};
+    use bricks_n_mortar::Class;
 
     const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
     const PROJECT_ID: &str = "musho-genshin";

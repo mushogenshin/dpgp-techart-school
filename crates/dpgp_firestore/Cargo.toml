@@ -8,6 +8,7 @@ bricks-n-mortar = { path = "../bricks_n_mortar" }
 
 firestore = "0.32.0"
 gcloud-sdk = { version = "0.20", features = ["google-firestore-v1"] }
+# typemap_rev = "0.1.3"
 # serde = { version = "1.0.163", features = ["derive"] }
 
 [dev-dependencies]

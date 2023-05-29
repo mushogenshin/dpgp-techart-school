@@ -3,9 +3,11 @@ mod handler;
 
 #[cfg(feature = "firebase")]
 mod db;
+#[cfg(feature = "firebase")]
+use db::DpgpQuery;
 
 #[cfg(feature = "firebase")]
-pub use dpgp_firestore::{gcloud_sdk::TokenSourceType, GCPProjectAndToken};
+pub use dpgp_firestore::{gcloud_sdk::TokenSourceType, DpgpFirestore, GCPProjectAndToken};
 
 #[allow(unused_imports)]
 use log::{error, info, warn};
@@ -17,10 +19,10 @@ use serenity::{
 };
 
 // imports names of all custom commands
-use crate::commands::{category::*, meta::*, CMD_PREFIX};
+use crate::commands::{category::*, inspect::*, CMD_PREFIX};
 
 #[group]
-#[commands(meta, make_category)]
+#[commands(inspect, make_category)]
 /// This, along with the `group` macro, results in `GENERAL_GROUP`.
 struct General;
 
@@ -76,7 +78,7 @@ pub async fn init_bot(
     {
         match firestore {
             Some(Ok(firestore)) => {
-                builder = builder.type_map_insert::<db::DpgpFirestore>(firestore);
+                builder = builder.type_map_insert::<DpgpQuery>(DpgpFirestore::with_db(firestore));
                 info!("Discord bot data now holds access to Firestore DB");
             }
             Some(Err(e)) => {

@@ -1,8 +1,8 @@
-use dpgp_firestore::firestore::FirestoreDb;
+use super::*;
 use serenity::prelude::TypeMapKey;
 
-pub(crate) struct DpgpFirestore {}
+pub(crate) struct DpgpQuery {}
 
-impl TypeMapKey for DpgpFirestore {
-    type Value = FirestoreDb;
+impl TypeMapKey for DpgpQuery {
+    type Value = DpgpFirestore;
 }
