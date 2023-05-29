@@ -1,5 +1,5 @@
 use super::*;
-use bricks_n_mortar::Class;
+#[cfg(feature = "firebase")]
 use dpgp_firestore::firestore::FirestoreResult;
 
 #[command]
@@ -8,6 +8,8 @@ pub async fn meta(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
 
     #[cfg(feature = "firebase")]
     {
+        use bricks_n_mortar::Class;
+
         let mut data = ctx.data.write().await;
         let db = data
             .get_mut::<DpgpFirestore>()

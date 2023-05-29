@@ -1,3 +1,5 @@
+mod query;
+
 use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 use gcloud_sdk::TokenSourceType;
 
@@ -5,11 +7,11 @@ pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
 pub async fn client_from_token(
-    project_id: String,
+    google_project_id: String,
     token: TokenSourceType,
 ) -> FirestoreResult<FirestoreDb> {
     FirestoreDb::with_options_token_source(
-        FirestoreDbOptions::new(project_id),
+        FirestoreDbOptions::new(google_project_id),
         gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
         token,
     )
@@ -19,7 +21,7 @@ pub async fn client_from_token(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bricks_n_mortar::Class;
+    use bricks_n_mortar::{Class, CLASS_COLLECTION_NAME};
 
     const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
     const PROJECT_ID: &str = "musho-genshin";
@@ -34,20 +36,18 @@ mod tests {
         let db = client_from_token(
             // config_env_var("PROJECT_ID")?.to_string(),
             PROJECT_ID.to_string(),
-            gcloud_sdk::TokenSourceType::File(TOKEN_FILE_PATH.into()),
+            TokenSourceType::File(TOKEN_FILE_PATH.into()),
         )
         .await?;
 
         {
-            const TEST_COLLECTION_NAME: &'static str = "classes";
-
-            let class = Class::wih_id("ZBL3_2020".to_string());
+            let class = Class::wih_id("HAA19".to_string());
 
             // Get by id
             let obj_by_id: Option<Class> = db
                 .fluent()
                 .select()
-                .by_id_in(TEST_COLLECTION_NAME)
+                .by_id_in(CLASS_COLLECTION_NAME)
                 .obj()
                 .one(&class.id)
                 .await?;

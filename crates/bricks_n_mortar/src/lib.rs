@@ -1,14 +1,17 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-// Example structure to play with
+pub const CLASS_COLLECTION_NAME: &str = "classes";
+pub const STUDENT_COLLECTION_NAME: &str = "students";
+pub const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
+
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
-// #[allow(non_snake_case)]
 pub struct Class {
     #[serde(rename = "classId")]
     pub id: String,
     format: Format,
     location: String,
+    #[serde(default)]
     category: Vec<Category>,
     modules: Vec<Module>,
 }

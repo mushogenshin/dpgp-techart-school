@@ -1,20 +1,26 @@
+#[cfg(feature = "firebase")]
+use std::path::PathBuf;
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    run_dlus()
-        .await
-        .expect("Failed to start đầu-lâu u-sầu Discord client");
+    run_dlus(
+        #[cfg(feature = "firebase")]
+        PathBuf::from("/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json"),
+    )
+    .await
+    .expect("Failed to start đầu-lâu u-sầu Discord client");
 }
 
-pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
+pub async fn run_dlus(
+    #[cfg(feature = "firebase")] firestore_key_file: PathBuf,
+) -> Result<serenity::Client, serenity::Error> {
     use dotenv::dotenv;
     use std::env;
 
     #[cfg(feature = "firebase")]
     use dlus_serenity::TokenSourceType;
-    #[cfg(feature = "firebase")]
-    use std::path::PathBuf;
 
     // This will load the environment variables located at `./.env`, relative to the CWD.
     dotenv().expect("Failed to load .env file");
@@ -27,9 +33,7 @@ pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
 
     #[cfg(feature = "firebase")]
     // NOTE: `TokenSourceType::Json(String)` seems to expect a JWT, not a regular serialized string
-    let firestore_token = TokenSourceType::File(PathBuf::from(
-        "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json",
-    ));
+    let firestore_token = TokenSourceType::File(firestore_key_file);
 
     dlus_serenity::init_bot(
         &bot_token,
