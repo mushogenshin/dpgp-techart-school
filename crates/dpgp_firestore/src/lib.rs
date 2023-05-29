@@ -6,19 +6,16 @@ use gcloud_sdk::TokenSourceType;
 pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
-pub struct ProjectToken {
+pub struct GCPProjectAndToken {
     pub google_project_id: String,
     pub firestore_token: TokenSourceType,
 }
 
-pub async fn client_from_token(
-    google_project_id: String,
-    token: TokenSourceType,
-) -> FirestoreResult<FirestoreDb> {
+pub async fn client_from_token(auth: GCPProjectAndToken) -> FirestoreResult<FirestoreDb> {
     FirestoreDb::with_options_token_source(
-        FirestoreDbOptions::new(google_project_id),
+        FirestoreDbOptions::new(auth.google_project_id),
         gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
-        token,
+        auth.firestore_token,
     )
     .await
 }
@@ -31,18 +28,13 @@ mod tests {
     const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
     const PROJECT_ID: &str = "musho-genshin";
 
-    // fn config_env_var(name: &str) -> Result<String, String> {
-    //     std::env::var(name).map_err(|e| format!("{}: {}", name, e))
-    // }
-
     #[tokio::test]
     async fn connect() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         // Create an instance
-        let db = client_from_token(
-            // config_env_var("PROJECT_ID")?.to_string(),
-            PROJECT_ID.to_string(),
-            TokenSourceType::File(TOKEN_FILE_PATH.into()),
-        )
+        let db = client_from_token(GCPProjectAndToken {
+            google_project_id: PROJECT_ID.to_string(),
+            firestore_token: TokenSourceType::File(TOKEN_FILE_PATH.into()),
+        })
         .await?;
 
         {

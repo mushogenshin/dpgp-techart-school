@@ -5,7 +5,7 @@ mod handler;
 mod db;
 
 #[cfg(feature = "firebase")]
-pub use dpgp_firestore::gcloud_sdk::TokenSourceType;
+pub use dpgp_firestore::{gcloud_sdk::TokenSourceType, GCPProjectAndToken};
 
 #[allow(unused_imports)]
 use log::{error, info, warn};
@@ -26,18 +26,18 @@ struct General;
 
 pub async fn init_bot(
     bot_token: &str,
-    #[cfg(feature = "firebase")] google_project_id: String,
-    #[cfg(feature = "firebase")] firestore_token: TokenSourceType,
+    #[cfg(feature = "firebase")] firestore: Option<GCPProjectAndToken>,
 ) -> Result<Client, SerenityError> {
     use std::collections::HashSet;
 
     #[cfg(feature = "firebase")]
-    let firestore = dpgp_firestore::client_from_token(google_project_id, firestore_token)
-        .await
-        .map_err(|e| {
+    let firestore = match firestore {
+        Some(auth) => Some(dpgp_firestore::client_from_token(auth).await.map_err(|e| {
             error!("Firestore error: {}", e);
             SerenityError::Other("Failed to initialize Firestore client")
-        });
+        })),
+        None => None,
+    };
 
     let http = Http::new(bot_token);
 
@@ -75,12 +75,15 @@ pub async fn init_bot(
     #[cfg(feature = "firebase")]
     {
         match firestore {
-            Ok(firestore) => {
+            Some(Ok(firestore)) => {
                 builder = builder.type_map_insert::<db::DpgpFirestore>(firestore);
                 info!("Discord bot data now holds access to Firestore DB");
             }
-            Err(e) => {
+            Some(Err(e)) => {
                 warn!("{}. Starting Discord bot without access to Firestore DB", e);
+            }
+            None => {
+                info!("Skipped accessing Firestore DB");
             }
         }
     }
