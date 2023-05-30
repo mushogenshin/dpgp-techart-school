@@ -1,4 +1,5 @@
 use super::*;
+use anyhow::Context;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct DumbModule {
@@ -32,15 +33,15 @@ pub enum LearningFormat {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct LearningModule {
-    description: String,
-    listed_price: f32,
+    pub description: String,
+    pub listed_price: f32,
     /// The [`Class`]es which this `Module` belongs to.
-    parent_classes: Vec<ModuleOrder>,
-    format: LearningFormat,
+    pub parent_classes: Vec<ModuleOrder>,
+    pub format: LearningFormat,
     #[serde(with = "firestore::serialize_as_timestamp")]
-    starts_at: DateTime<Utc>,
+    pub starts_at: DateTime<Utc>,
     #[serde(with = "firestore::serialize_as_timestamp")]
-    ends_at: DateTime<Utc>,
+    pub ends_at: DateTime<Utc>,
 }
 
 impl LearningModule {
@@ -109,4 +110,13 @@ pub struct ModuleOrder {
     /// ID of the parent [`Class`].
     class_id: String,
     order: u8,
+}
+
+impl ModuleOrder {
+    pub fn new(class_id: &str, order: u8) -> Self {
+        Self {
+            class_id: class_id.to_string(),
+            order,
+        }
+    }
 }

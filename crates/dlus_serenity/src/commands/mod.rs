@@ -3,6 +3,7 @@ pub mod inspect;
 pub mod module;
 
 use super::*;
+use anyhow::Context as AnyhowContext;
 use bricks_n_mortar::*;
 
 use serenity::{
@@ -12,3 +13,4 @@ use serenity::{
 };
 
 pub(crate) const CMD_PREFIX: &str = "~";
+const NO_DPGP_FIRESTORE_ERR: &str = "Expected DpgpFirestore in TypeMap";

@@ -1,6 +1,8 @@
 mod query;
 pub use query::DpgpFirestore;
 
+#[allow(unused_imports)]
+use anyhow::Context as AnyhowContext;
 use async_trait::async_trait;
 use bricks_n_mortar::*;
 use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
@@ -21,7 +23,15 @@ pub trait ModuleQuery {
         id: &str,
         module: &LearningModule,
     ) -> FirestoreResult<LearningModule>;
+
     async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<LearningModule>>;
+
+    async fn link_module_to_class(
+        &self,
+        module_id: &str,
+        class_id: &str,
+        order: u8,
+    ) -> FirestoreResult<LearningModule>;
 }
 
 pub struct GCPProjectAndToken {

@@ -1,6 +1,5 @@
-use dpgp_firestore::ModuleQuery;
-
 use super::*;
+use dpgp_firestore::ModuleQuery;
 
 #[command]
 // // Limit all commands to be guild-restricted.
@@ -10,15 +9,15 @@ use super::*;
 #[aliases("m", "mod")]
 #[sub_commands(new, link)]
 /// Upper command queries the [`Module`] by ID.
+/// Subcommands handles creating module, or linking to module to a class.
+/// USAGE: `~module <id>`
 pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
 
     #[cfg(feature = "firebase")]
     {
         let data = ctx.data.read().await;
-        let db = data
-            .get::<DpgpQuery>()
-            .expect("Expected DpgpFirestore in TypeMap");
+        let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
         let module = db.module_by_id(&module_id).await;
 
@@ -53,9 +52,7 @@ async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     #[cfg(feature = "firebase")]
     {
         let data = ctx.data.read().await;
-        let db = data
-            .get::<DpgpQuery>()
-            .expect("Expected DpgpFirestore in TypeMap");
+        let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
         let module = db
             .create_module(
@@ -81,20 +78,31 @@ async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
 #[command("place")]
 #[aliases("p")]
+/// Link a [`Module`] to a [`Class`].
 /// USAGE: `~module place <module_id> <class_id> <order>`
 async fn link(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let class_id = args.single::<String>()?;
     let order = args.single::<u8>()?;
 
-    msg.reply(
-        &ctx.http,
-        format!(
-            "TODO: link module {} to class {} at order {}",
-            module_id, class_id, order
-        ),
-    )
-    .await?;
+    #[cfg(feature = "firebase")]
+    {
+        let data = ctx.data.read().await;
+        let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
+
+        let updated = db.link_module_to_class(&module_id, &class_id, order).await;
+
+        msg.reply(
+            &ctx.http,
+            match updated {
+                Ok(module) => {
+                    format!("Updated: {:?}", module)
+                }
+                Err(e) => format!("Update error: {:?}", e),
+            },
+        )
+        .await?;
+    }
 
     Ok(())
 }

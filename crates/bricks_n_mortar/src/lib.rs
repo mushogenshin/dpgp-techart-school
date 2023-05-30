@@ -4,7 +4,7 @@ pub use module::*;
 pub extern crate anyhow;
 pub extern crate chrono;
 
-use anyhow::{Context as AnyContext, Result as AnyResult};
+use anyhow::Result as AnyResult;
 use chrono::{DateTime, NaiveDate, Utc};
 use regex::Regex;
 use serde::{Deserialize, Serialize};

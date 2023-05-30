@@ -1,5 +1,8 @@
 use super::*;
 
+use firestore::errors::{
+    FirestoreDataNotFoundError, FirestoreError, FirestoreErrorPublicGenericDetails,
+};
 use firestore::*;
 use futures::stream::BoxStream;
 use futures::StreamExt;
@@ -84,18 +87,41 @@ impl ModuleQuery for DpgpFirestore {
             .one(id)
             .await
     }
+
+    async fn link_module_to_class(
+        &self,
+        module_id: &str,
+        class_id: &str,
+        order: u8,
+    ) -> FirestoreResult<LearningModule> {
+        let current = self
+            .module_by_id(module_id)
+            .await?
+            .context(format!("No module found with ID: {}", module_id))
+            .map_err(|e| data_not_found_error(e))?;
+        let mut parent_classes = current.parent_classes.clone();
+        parent_classes.push(ModuleOrder::new(class_id, order));
+
+        self.inner
+            .fluent()
+            .update()
+            .fields(paths!(LearningModule::{parent_classes})) // Update only specified fields
+            .in_col(MODULE_COLLECTION_NAME)
+            .document_id(module_id)
+            .object(&LearningModule {
+                parent_classes,
+                ..current.clone()
+            })
+            .execute()
+            .await
+    }
 }
 
-//   // Update documents
-//   let object_updated: MyTestStructure = db.fluent()
-//       .update()
-//       .fields(paths!(MyTestStructure::{some_num, one_more_string})) // Update only specified fields
-//       .in_col(TEST_COLLECTION_NAME)
-//       .document_id(&my_struct.some_id)
-//       .object(&MyTestStructure {
-//           some_num: my_struct.some_num + 1,
-//          one_more_string: "updated-value".to_string(),
-//           ..my_struct.clone()
-//       })
-//       .execute()
-//      .await?;
+fn data_not_found_error(e: anyhow::Error) -> FirestoreError {
+    FirestoreError::DataNotFoundError(FirestoreDataNotFoundError {
+        public: FirestoreErrorPublicGenericDetails {
+            code: "anyhow".to_string(),
+        },
+        data_detail_message: format!("{:?}", e),
+    })
+}
