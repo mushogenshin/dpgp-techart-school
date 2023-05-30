@@ -1,4 +1,5 @@
 use super::*;
+#[cfg(feature = "firebase")]
 use dpgp_firestore::ModuleQuery;
 
 #[command]

@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 pub mod channel;
 pub mod inspect;
 pub mod module;
@@ -13,4 +15,5 @@ use serenity::{
 };
 
 pub(crate) const CMD_PREFIX: &str = "~";
+#[cfg(feature = "firebase")]
 const NO_DPGP_FIRESTORE_ERR: &str = "Expected DpgpFirestore in TypeMap";
