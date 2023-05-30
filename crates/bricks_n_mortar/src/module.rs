@@ -12,19 +12,38 @@ pub struct DumbModule {
     end: DateTime<Utc>,
 }
 
+#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
+pub enum OldFormat {
+    #[default]
+    Online,
+    Offline,
+    #[serde(rename = "Hybrid (Online + Offline)")]
+    Hybrid,
+}
+
+// -------------------------------------------------------------------------------
+#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
+pub enum LearningFormat {
+    #[default]
+    Online,
+    Offline,
+    Hybrid,
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct Module {
+pub struct LearningModule {
     description: String,
     listed_price: f32,
     /// The [`Class`]es which this `Module` belongs to.
-    parent_classes: Vec<OrderInClass>,
+    parent_classes: Vec<ModuleOrder>,
+    format: LearningFormat,
     #[serde(with = "firestore::serialize_as_timestamp")]
     starts_at: DateTime<Utc>,
     #[serde(with = "firestore::serialize_as_timestamp")]
     ends_at: DateTime<Utc>,
 }
 
-impl Module {
+impl LearningModule {
     /// Converts a string of the form `(\d+)` to a `u8`.
     pub fn to_weeks(arg: &str) -> AnyResult<u8> {
         const PATTERN: &str = r"(\d+)";
@@ -58,25 +77,26 @@ impl Module {
 
     pub fn with_duration_and_start_args(
         duration: &str,
-        year: f64,
-        month: f64,
-        day: f64,
+        year: u16, // cannot be `u8`
+        month: u8,
+        day: u8,
     ) -> AnyResult<Self> {
-        Ok(Module::weeks_from(
+        Ok(LearningModule::weeks_from(
             NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
                 .context("Invalid start date, expected year month day within proper range")?,
-            Module::to_weeks(&duration)?,
+            LearningModule::to_weeks(&duration)?,
         ))
     }
 }
 
-impl Default for Module {
+impl Default for LearningModule {
     /// Makes a module with its end date 4 weeks from today.
     fn default() -> Self {
         Self {
             description: String::new(),
             listed_price: 0.,
             parent_classes: vec![],
+            format: LearningFormat::default(),
             starts_at: Utc::now(),
             ends_at: Utc::now() + chrono::Duration::weeks(4),
         }
@@ -84,8 +104,9 @@ impl Default for Module {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-/// Place of a [`Module`] in a [`Class`].
-pub struct OrderInClass {
+/// Place of a [`Module`] in a parent [`Class`].
+pub struct ModuleOrder {
+    /// ID of the parent [`Class`].
     class_id: String,
     order: u8,
 }

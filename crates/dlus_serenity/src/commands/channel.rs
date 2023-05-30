@@ -1,7 +1,7 @@
 use super::*;
 
 #[command]
-pub async fn make_category(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+pub async fn channel(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let class = args.single::<String>()?;
     let module = args.single::<String>()?;
 

@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 pub struct Class {
     #[serde(rename = "classId")]
     pub id: String,
-    format: Format,
+    format: OldFormat,
     location: String,
     #[serde(default)]
     category: Vec<Category>,
@@ -28,15 +28,6 @@ impl Class {
             ..Default::default()
         }
     }
-}
-
-#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
-pub enum Format {
-    #[default]
-    Online,
-    Offline,
-    #[serde(rename = "Hybrid (Online + Offline)")]
-    Hybrid,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]

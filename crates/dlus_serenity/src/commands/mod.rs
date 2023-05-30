@@ -1,6 +1,6 @@
 pub mod channel;
-pub mod genesis;
 pub mod inspect;
+pub mod module;
 
 use super::*;
 use bricks_n_mortar::*;

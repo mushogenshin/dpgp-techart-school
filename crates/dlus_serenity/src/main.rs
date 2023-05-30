@@ -55,7 +55,8 @@ mod tests {
     use super::*;
 
     #[tokio::test]
-    async fn run_dlus_test() {
+    async fn run_dlus_without_firestore() {
+        tracing_subscriber::fmt::init();
         run_dlus(None).await.unwrap();
     }
 }

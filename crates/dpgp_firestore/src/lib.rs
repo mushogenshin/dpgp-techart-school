@@ -16,8 +16,12 @@ const MODULE_COLLECTION_NAME: &str = "modules";
 
 #[async_trait]
 pub trait ModuleQuery {
-    async fn create_module(&self, id: &str, module: &Module) -> FirestoreResult<Module>;
-    async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<Module>>;
+    async fn create_module(
+        &self,
+        id: &str,
+        module: &LearningModule,
+    ) -> FirestoreResult<LearningModule>;
+    async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<LearningModule>>;
 }
 
 pub struct GCPProjectAndToken {
