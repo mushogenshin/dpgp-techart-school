@@ -1,6 +1,8 @@
 mod query;
 pub use query::DpgpFirestore;
 
+use async_trait::async_trait;
+use bricks_n_mortar::*;
 use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 use gcloud_sdk::TokenSourceType;
 
@@ -10,6 +12,13 @@ pub extern crate gcloud_sdk;
 const CLASS_COLLECTION_NAME: &str = "classes";
 const STUDENT_COLLECTION_NAME: &str = "students";
 // const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
+const MODULE_COLLECTION_NAME: &str = "modules";
+
+#[async_trait]
+pub trait ModuleQuery {
+    async fn create_module(&self, id: &str, module: &Module) -> FirestoreResult<Module>;
+    async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<Module>>;
+}
 
 pub struct GCPProjectAndToken {
     pub google_project_id: String,

@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../../../development/serenity"
+		},
+		{
+			"path": "../../../development/sqlx"
 		}
 	],
 	"settings": {}

@@ -1,11 +1,9 @@
-pub mod category;
+pub mod channel;
+pub mod genesis;
 pub mod inspect;
 
-#[allow(unused_imports)]
 use super::*;
-
-// #[cfg(feature = "firebase")]
-// use dpgp_firestore::firestore::FirestoreResult;
+use bricks_n_mortar::*;
 
 use serenity::{
     framework::standard::{macros::command, Args, CommandResult},

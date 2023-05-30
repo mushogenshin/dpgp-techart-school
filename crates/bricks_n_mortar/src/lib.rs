@@ -1,3 +1,6 @@
+mod module;
+pub use module::*;
+
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -10,7 +13,7 @@ pub struct Class {
     #[serde(default)]
     category: Vec<Category>,
     #[serde(default)]
-    modules: Vec<Module>,
+    modules: Vec<DumbModule>,
 }
 
 impl Class {
@@ -43,18 +46,6 @@ pub enum Category {
     #[serde(rename = "Technical Art")]
     TechArt,
     Python,
-}
-
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct Module {
-    #[serde(rename = "moduleId")]
-    id: u8,
-    name: String,
-    price: f32,
-    #[serde(rename = "startAt", with = "firestore::serialize_as_timestamp")]
-    start: DateTime<Utc>,
-    #[serde(rename = "endAt", with = "firestore::serialize_as_timestamp")]
-    end: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]

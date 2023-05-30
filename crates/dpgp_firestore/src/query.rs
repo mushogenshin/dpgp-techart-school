@@ -1,6 +1,5 @@
 use super::*;
 
-use bricks_n_mortar::{Class, Student};
 use firestore::*;
 use futures::stream::BoxStream;
 use futures::StreamExt;
@@ -35,7 +34,7 @@ impl DpgpFirestore {
             .inner
             .fluent()
             .select()
-            // field `id` is mandatory
+            // NOTE: field `id` is mandatory
             .fields(paths!(Student::{id, name, mail, registration, socials})) // Optionally select the fields needed
             .from(STUDENT_COLLECTION_NAME)
             .filter(|q| {
@@ -56,5 +55,29 @@ impl DpgpFirestore {
             .await?;
 
         Ok(object_stream.collect().await)
+    }
+}
+
+#[async_trait]
+impl ModuleQuery for DpgpFirestore {
+    async fn create_module(&self, id: &str, module: &Module) -> FirestoreResult<Module> {
+        self.inner
+            .fluent()
+            .insert()
+            .into(MODULE_COLLECTION_NAME)
+            .document_id(id)
+            .object(module)
+            .execute()
+            .await
+    }
+
+    async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<Module>> {
+        self.inner
+            .fluent()
+            .select()
+            .by_id_in(MODULE_COLLECTION_NAME)
+            .obj()
+            .one(id)
+            .await
     }
 }
