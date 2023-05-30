@@ -8,7 +8,7 @@ pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
 const CLASS_COLLECTION_NAME: &str = "classes";
-// const STUDENT_COLLECTION_NAME: &str = "students";
+const STUDENT_COLLECTION_NAME: &str = "students";
 // const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 
 pub struct GCPProjectAndToken {
@@ -43,7 +43,7 @@ mod tests {
         .await?;
 
         {
-            let class = Class::wih_id("HAA19".to_string());
+            let class = Class::wih_id("HAA19");
 
             // Get by id
             let obj_by_id: Option<Class> = db
