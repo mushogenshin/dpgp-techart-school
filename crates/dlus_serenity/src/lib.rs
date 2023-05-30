@@ -22,7 +22,7 @@ use serenity::{
 use crate::commands::{channel::*, genesis::*, inspect::*, CMD_PREFIX};
 
 #[group]
-#[commands(inspect, make_category, create)]
+#[commands(inspect, make_category, module)]
 /// This, along with the `group` macro, results in `GENERAL_GROUP`.
 struct General;
 
