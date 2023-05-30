@@ -85,3 +85,17 @@ impl ModuleQuery for DpgpFirestore {
             .await
     }
 }
+
+//   // Update documents
+//   let object_updated: MyTestStructure = db.fluent()
+//       .update()
+//       .fields(paths!(MyTestStructure::{some_num, one_more_string})) // Update only specified fields
+//       .in_col(TEST_COLLECTION_NAME)
+//       .document_id(&my_struct.some_id)
+//       .object(&MyTestStructure {
+//           some_num: my_struct.some_num + 1,
+//          one_more_string: "updated-value".to_string(),
+//           ..my_struct.clone()
+//       })
+//       .execute()
+//      .await?;

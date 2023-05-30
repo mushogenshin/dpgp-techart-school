@@ -9,7 +9,32 @@ use super::*;
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("m", "mod")]
 #[sub_commands(new, link)]
-pub async fn module(_ctx: &Context, _msg: &Message, _args: Args) -> CommandResult {
+/// Upper command queries the [`Module`] by ID.
+pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let module_id = args.single::<String>()?;
+
+    #[cfg(feature = "firebase")]
+    {
+        let data = ctx.data.read().await;
+        let db = data
+            .get::<DpgpQuery>()
+            .expect("Expected DpgpFirestore in TypeMap");
+
+        let module = db.module_by_id(&module_id).await;
+
+        msg.reply(
+            &ctx.http,
+            match module {
+                Ok(Some(module)) => {
+                    format!("Found: {:?}", module)
+                }
+                Ok(None) => format!("No module found with ID: {}", module_id),
+                Err(e) => format!("Query error: {:?}", e),
+            },
+        )
+        .await?;
+    }
+
     Ok(())
 }
 
@@ -17,7 +42,7 @@ pub async fn module(_ctx: &Context, _msg: &Message, _args: Args) -> CommandResul
 #[aliases("n")]
 /// Subcommand for creating a [`Module`]. NOTE: this leaves the `Module`'s
 /// description, price, and "parent classes" empty.
-/// FINAL USAGE: `~module new <id> <duration> <year> <month> <day>`
+/// USAGE: `~module new <id> <duration> <year> <month> <day>`
 async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let duration = args.single::<String>()?;
@@ -56,7 +81,7 @@ async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
 #[command("place")]
 #[aliases("p")]
-/// FINAL USAGE: `~module place <module_id> <class_id> <order>`
+/// USAGE: `~module place <module_id> <class_id> <order>`
 async fn link(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let class_id = args.single::<String>()?;
