@@ -3,7 +3,7 @@
 pub mod channels;
 pub mod classes;
 pub mod modules;
-pub mod students;
+pub mod users;
 
 use super::*;
 use anyhow::Context as AnyhowContext;

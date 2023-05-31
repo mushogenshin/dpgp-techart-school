@@ -19,7 +19,7 @@ use serenity::{
 };
 
 // imports names of all custom commands
-use crate::commands::{channels::*, classes::*, modules::*, students::*, CMD_PREFIX};
+use crate::commands::{channels::*, classes::*, modules::*, users::*, CMD_PREFIX};
 
 #[group]
 #[commands(module, class, student, channel)]
