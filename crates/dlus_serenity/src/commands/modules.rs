@@ -10,7 +10,7 @@ use dpgp_firestore::ModuleQuery;
 #[aliases("m", "mod")]
 #[sub_commands(new, link)]
 /// Upper command queries the [`Module`] by ID.
-/// Subcommands handles creating module, or linking to module to a class.
+/// Subcommands handles creating module, or linking to module to a [`Class`].
 /// USAGE: `~module <id>`
 pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;

@@ -1,6 +1,13 @@
 use super::*;
+#[cfg(feature = "firebase")]
+use dpgp_firestore::ClassQuery;
 
 #[command]
+// // Limit all commands to be guild-restricted.
+// #[only_in(guilds)]
+// // Allow only administrators to call this:
+// #[required_permissions("ADMINISTRATOR")]
+#[aliases("c", "cls")]
 // #[sub_commands(new)]
 pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let query = args.single::<String>()?;

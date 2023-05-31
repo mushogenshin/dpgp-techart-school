@@ -1,10 +1,10 @@
 mod class;
 mod module;
-mod student;
+mod user;
 
 pub use class::*;
 pub use module::*;
-pub use student::*;
+pub use user::*;
 
 pub extern crate anyhow;
 pub extern crate chrono;

@@ -18,20 +18,38 @@ const MODULE_COLLECTION_NAME: &str = "modules";
 
 #[async_trait]
 pub trait ModuleQuery {
+    /// Add a new [`LearningModule`] to the database.
     async fn create_module(
         &self,
         id: &str,
         module: &LearningModule,
     ) -> FirestoreResult<LearningModule>;
 
+    /// Get a [`LearningModule`] by its ID.
     async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<LearningModule>>;
 
+    /// Set a parent [`Class`] to a [`LearningModule`].
     async fn link_module_to_class(
         &self,
         module_id: &str,
         class_id: &str,
         order: u8,
     ) -> FirestoreResult<LearningModule>;
+}
+
+#[async_trait]
+pub trait ClassQuery {
+    /// Add a new [`Class`] to the database.
+    async fn create_class(&self, id: &str, class: &Class) -> FirestoreResult<Class>;
+
+    /// Get a [`Class`] by its ID.
+    async fn class_by_id(&self, id: &str) -> FirestoreResult<Option<Class>>;
+}
+
+#[async_trait]
+pub trait UserQuery {
+    /// Get a [`User`] by its email.
+    async fn user_by_email(&self, email: &str) -> FirestoreResult<Option<User>>;
 }
 
 pub struct GCPProjectAndToken {
@@ -66,15 +84,13 @@ mod tests {
         .await?;
 
         {
-            let class = Class::wih_id("HAA19");
-
             // Get by id
             let obj_by_id: Option<Class> = db
                 .fluent()
                 .select()
                 .by_id_in(CLASS_COLLECTION_NAME)
                 .obj()
-                .one(&class.id)
+                .one("HAA19")
                 .await?;
 
             assert!(obj_by_id.is_some());

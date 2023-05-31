@@ -1,16 +1,16 @@
 use super::*;
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
-pub struct Student {
+pub struct User {
     pub id: u32,
     /// NOTE: if this is a field to be queried by, it shall not be renamed.
     pub mail: String,
     pub name: String,
-    pub registration: Vec<Enrollment>,
+    pub enrollment: Vec<Enrollment>,
     pub socials: Vec<Social>,
 }
 
-impl Student {
+impl User {
     pub fn with_email(email: &str) -> Self {
         Self {
             mail: email.to_string(),

@@ -1,39 +1,9 @@
 use super::*;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct DumbModule {
-    #[serde(rename = "moduleId")]
-    id: u8,
-    name: String,
-    price: f32,
-    #[serde(rename = "startAt", with = "firestore::serialize_as_timestamp")]
-    start: DateTime<Utc>,
-    #[serde(rename = "endAt", with = "firestore::serialize_as_timestamp")]
-    end: DateTime<Utc>,
-}
-
-#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
-pub enum OldFormat {
-    #[default]
-    Online,
-    Offline,
-    #[serde(rename = "Hybrid (Online + Offline)")]
-    Hybrid,
-}
-
-// -------------------------------------------------------------------------------
-#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
-pub enum LearningFormat {
-    #[default]
-    Online,
-    Offline,
-    Hybrid,
-}
-
-#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct LearningModule {
     pub description: String,
-    pub listed_price: f32,
+    pub listed_fee: Fee,
     /// The [`Class`]es which this `Module` belongs to.
     pub parent_classes: Vec<ModuleOrder>,
     pub format: LearningFormat,
@@ -94,13 +64,38 @@ impl Default for LearningModule {
     fn default() -> Self {
         Self {
             description: String::new(),
-            listed_price: 0.,
+            listed_fee: Fee::default(),
             parent_classes: vec![],
             format: LearningFormat::default(),
             starts_at: Utc::now(),
             ends_at: Utc::now() + chrono::Duration::weeks(4),
         }
     }
+}
+
+// -------------------------------------------------------------------------------
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Fee {
+    currency: String,
+    amount: f32,
+}
+
+impl Default for Fee {
+    fn default() -> Self {
+        Self {
+            currency: "VND".to_string(),
+            amount: 3200000.,
+        }
+    }
+}
+
+// -------------------------------------------------------------------------------
+#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
+pub enum LearningFormat {
+    #[default]
+    Online,
+    Offline,
+    Hybrid,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

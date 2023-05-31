@@ -16,49 +16,6 @@ impl DpgpFirestore {
     pub fn with_db(db: FirestoreDb) -> Self {
         Self { inner: db }
     }
-
-    /// Get a class by ID.
-    pub async fn class_by_id(&self, id: &str) -> FirestoreResult<Option<Class>> {
-        let class = Class::wih_id(id);
-
-        self.inner
-            .fluent()
-            .select()
-            .by_id_in(CLASS_COLLECTION_NAME)
-            .obj()
-            .one(&class.id)
-            .await
-    }
-
-    /// Get a student by email.
-    pub async fn student_by_email(&self, email: &str) -> FirestoreResult<Vec<Student>> {
-        // Query as a stream our data
-        let object_stream: BoxStream<Student> = self
-            .inner
-            .fluent()
-            .select()
-            // NOTE: field `id` is mandatory
-            .fields(paths!(Student::{id, name, mail, registration, socials})) // Optionally select the fields needed
-            .from(STUDENT_COLLECTION_NAME)
-            .filter(|q| {
-                q.for_all([
-                    // q.field(path!(Student::some_num)).is_not_null(),
-                    q.field(path!(Student::mail)).eq(email),
-                    // // Sometimes you have optional filters
-                    // Some("Test2")
-                    //     .and_then(|value| q.field(path!(Student::one_more_string)).eq(value)),
-                ])
-            })
-            // .order_by([(
-            //     path!(Student::some_num),
-            //     FirestoreQueryDirection::Descending,
-            // )])
-            .obj() // Reading documents as structures using Serde gRPC deserializer
-            .stream_query()
-            .await?;
-
-        Ok(object_stream.collect().await)
-    }
 }
 
 #[async_trait]
@@ -114,6 +71,57 @@ impl ModuleQuery for DpgpFirestore {
             })
             .execute()
             .await
+    }
+}
+
+#[async_trait]
+impl ClassQuery for DpgpFirestore {
+    async fn create_class(&self, _id: &str, _class: &Class) -> FirestoreResult<Class> {
+        todo!()
+    }
+
+    async fn class_by_id(&self, id: &str) -> FirestoreResult<Option<Class>> {
+        self.inner
+            .fluent()
+            .select()
+            .by_id_in(CLASS_COLLECTION_NAME)
+            .obj()
+            .one(id)
+            .await
+    }
+}
+
+#[async_trait]
+impl UserQuery for DpgpFirestore {
+    async fn user_by_email(&self, email: &str) -> FirestoreResult<Option<User>> {
+        // Query as a stream our data
+        let object_stream: BoxStream<User> = self
+            .inner
+            .fluent()
+            .select()
+            // NOTE: field `id` is mandatory
+            .fields(paths!(User::{id, name, mail, socials})) // Optionally select the fields needed
+            .from(STUDENT_COLLECTION_NAME)
+            .filter(|q| {
+                q.for_all([
+                    // q.field(path!(User::some_num)).is_not_null(),
+                    q.field(path!(User::mail)).eq(email),
+                    // // Sometimes you have optional filters
+                    // Some("Test2")
+                    //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
+                ])
+            })
+            // .order_by([(
+            //     path!(User::some_num),
+            //     FirestoreQueryDirection::Descending,
+            // )])
+            .obj() // Reading documents as structures using Serde gRPC deserializer
+            .stream_query()
+            .await?;
+
+        let users = object_stream.collect::<Vec<User>>().await;
+
+        Ok(users.into_iter().next())
     }
 }
 
