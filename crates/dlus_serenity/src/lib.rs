@@ -19,10 +19,10 @@ use serenity::{
 };
 
 // imports names of all custom commands
-use crate::commands::{channel::*, inspect::*, module::*, CMD_PREFIX};
+use crate::commands::{channels::*, classes::*, modules::*, students::*, CMD_PREFIX};
 
 #[group]
-#[commands(inspect, channel, module)]
+#[commands(module, class, student, channel)]
 /// This, along with the `group` macro, results in `GENERAL_GROUP`.
 struct General;
 

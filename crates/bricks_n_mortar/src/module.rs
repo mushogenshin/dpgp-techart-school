@@ -1,5 +1,4 @@
 use super::*;
-use anyhow::Context;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct DumbModule {

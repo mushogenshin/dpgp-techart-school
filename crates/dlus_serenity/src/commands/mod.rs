@@ -1,8 +1,9 @@
 #![allow(unused_imports)]
 
-pub mod channel;
-pub mod inspect;
-pub mod module;
+pub mod channels;
+pub mod classes;
+pub mod modules;
+pub mod students;
 
 use super::*;
 use anyhow::Context as AnyhowContext;
