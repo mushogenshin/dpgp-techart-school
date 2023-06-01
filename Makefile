@@ -2,5 +2,5 @@ dlus:
 	cargo run
 
 dlus-no-fs:
-	# no firestore
+	# without firestore
 	cargo test run_dlus_without_firestore -- --show-output	

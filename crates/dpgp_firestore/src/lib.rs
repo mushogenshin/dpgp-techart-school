@@ -48,8 +48,8 @@ pub trait ClassQuery {
 
 #[async_trait]
 pub trait UserQuery {
-    /// Get a [`User`] by its email.
-    async fn user_by_email(&self, email: &str) -> FirestoreResult<Option<User>>;
+    /// Get a [`User`] by its name.
+    async fn user_by_exact_name(&self, email: &str) -> FirestoreResult<Option<User>>;
 }
 
 pub struct GCPProjectAndToken {

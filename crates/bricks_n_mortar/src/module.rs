@@ -18,11 +18,12 @@ impl LearningModule {
     pub fn to_weeks(arg: &str) -> AnyResult<u8> {
         const PATTERN: &str = r"(\d+)";
         let re = Regex::new(PATTERN)?;
-        let caps = re
-            .captures(&arg)
-            .context(format!("Found no capture groups of {} in {}", PATTERN, arg))?;
+        let caps = re.captures(&arg).context(format!(
+            "Found no regex capture groups of {} in {}",
+            PATTERN, arg
+        ))?;
         caps.get(1)
-            .context("Expected first capture group")?
+            .context("Expected first regex capture group")?
             .as_str()
             .parse::<u8>()
             .map_err(|e| e.into())

@@ -17,8 +17,9 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
         let data = ctx.data.read().await;
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
-        let students = db.user_by_email(&query).await;
+        let students = db.user_by_exact_name(&query).await;
 
+        // displays the result of the query
         msg.reply(
             &ctx.http,
             match students {

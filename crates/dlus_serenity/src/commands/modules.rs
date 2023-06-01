@@ -8,7 +8,7 @@ use dpgp_firestore::ModuleQuery;
 // // Allow only administrators to call this:
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("m", "mod")]
-#[sub_commands(new, link)]
+#[sub_commands(module_with_length, link_parent_class)]
 /// Upper command queries the [`Module`] by ID.
 /// Subcommands handles creating module, or linking to module to a [`Class`].
 /// USAGE: `~module <id>`
@@ -22,6 +22,7 @@ pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
 
         let module = db.module_by_id(&module_id).await;
 
+        // displays the result of the query
         msg.reply(
             &ctx.http,
             match module {
@@ -40,10 +41,10 @@ pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
 
 #[command("new")]
 #[aliases("n")]
-/// Subcommand for creating a [`Module`]. NOTE: this leaves the `Module`'s
-/// description, price, and "parent classes" empty.
+/// Subcommand for creating a [`Module`]. NOTE: this leaves the `Module::parent_classes` empty,
+/// and other fields at default values.
 /// USAGE: `~module new <id> <duration> <year> <month> <day>`
-async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+async fn module_with_length(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let duration = args.single::<String>()?;
     let year = args.single::<u16>()?;
@@ -62,6 +63,7 @@ async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             )
             .await;
 
+        // displays the result of the action
         msg.reply(
             &ctx.http,
             match module {
@@ -81,7 +83,7 @@ async fn new(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("p")]
 /// Link a [`Module`] to a [`Class`].
 /// USAGE: `~module place <module_id> <class_id> <order>`
-async fn link(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let class_id = args.single::<String>()?;
     let order = args.single::<u8>()?;
@@ -93,6 +95,7 @@ async fn link(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
         let updated = db.link_module_to_class(&module_id, &class_id, order).await;
 
+        // displays the result of the action
         msg.reply(
             &ctx.http,
             match updated {

@@ -76,8 +76,15 @@ impl ModuleQuery for DpgpFirestore {
 
 #[async_trait]
 impl ClassQuery for DpgpFirestore {
-    async fn create_class(&self, _id: &str, _class: &Class) -> FirestoreResult<Class> {
-        todo!()
+    async fn create_class(&self, id: &str, class: &Class) -> FirestoreResult<Class> {
+        self.inner
+            .fluent()
+            .insert()
+            .into(CLASS_COLLECTION_NAME)
+            .document_id(id)
+            .object(class)
+            .execute()
+            .await
     }
 
     async fn class_by_id(&self, id: &str) -> FirestoreResult<Option<Class>> {
@@ -93,19 +100,19 @@ impl ClassQuery for DpgpFirestore {
 
 #[async_trait]
 impl UserQuery for DpgpFirestore {
-    async fn user_by_email(&self, email: &str) -> FirestoreResult<Option<User>> {
+    async fn user_by_exact_name(&self, name: &str) -> FirestoreResult<Option<User>> {
         // Query as a stream our data
         let object_stream: BoxStream<User> = self
             .inner
             .fluent()
             .select()
             // NOTE: field `id` is mandatory
-            .fields(paths!(User::{id, name, mail, socials})) // Optionally select the fields needed
+            .fields(paths!(User::{name, enrollment, socials})) // Optionally select the fields needed
             .from(STUDENT_COLLECTION_NAME)
             .filter(|q| {
                 q.for_all([
                     // q.field(path!(User::some_num)).is_not_null(),
-                    q.field(path!(User::mail)).eq(email),
+                    q.field(path!(User::name)).eq(name),
                     // // Sometimes you have optional filters
                     // Some("Test2")
                     //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
