@@ -14,21 +14,6 @@ pub struct LearningModule {
 }
 
 impl LearningModule {
-    /// Converts a string of the form `(\d+)` to a `u8`.
-    pub fn to_weeks(arg: &str) -> AnyResult<u8> {
-        const PATTERN: &str = r"(\d+)";
-        let re = Regex::new(PATTERN)?;
-        let caps = re.captures(&arg).context(format!(
-            "Found no regex capture groups of {} in {}",
-            PATTERN, arg
-        ))?;
-        caps.get(1)
-            .context("Expected first regex capture group")?
-            .as_str()
-            .parse::<u8>()
-            .map_err(|e| e.into())
-    }
-
     pub fn with_date_range(start: NaiveDate, end: NaiveDate) -> Self {
         Self {
             starts_at: DateTime::from_utc(start.and_hms_opt(0, 0, 0).unwrap(), Utc),
@@ -57,6 +42,36 @@ impl LearningModule {
                 .context("Invalid start date, expected year month day within proper range")?,
             LearningModule::to_weeks(&duration)?,
         ))
+    }
+
+    pub fn format(mut self, format: LearningFormat) -> Self {
+        self.format = format;
+        self
+    }
+
+    pub fn parent_class(mut self, parent: (&str, u8)) -> Self {
+        self.parent_classes.push(ModuleOrder::from(parent));
+        self
+    }
+
+    pub fn description(mut self, desc: &str) -> Self {
+        self.description = desc.to_string();
+        self
+    }
+
+    /// Converts a string of the form `(\d+)` to a `u8`.
+    pub fn to_weeks(arg: &str) -> AnyResult<u8> {
+        const PATTERN: &str = r"(\d+)";
+        let re = Regex::new(PATTERN)?;
+        let caps = re.captures(&arg).context(format!(
+            "Found no regex capture groups of {} in {}",
+            PATTERN, arg
+        ))?;
+        caps.get(1)
+            .context("Expected first regex capture group")?
+            .as_str()
+            .parse::<u8>()
+            .map_err(|e| e.into())
     }
 }
 
@@ -113,5 +128,11 @@ impl ModuleOrder {
             class_id: class_id.to_string(),
             order,
         }
+    }
+}
+
+impl From<(&str, u8)> for ModuleOrder {
+    fn from(value: (&str, u8)) -> Self {
+        Self::new(value.0, value.1)
     }
 }

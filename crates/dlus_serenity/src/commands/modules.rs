@@ -8,7 +8,7 @@ use dpgp_firestore::ModuleQuery;
 // // Allow only administrators to call this:
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("m", "mod")]
-#[sub_commands(module_with_length, link_parent_class)]
+#[sub_commands(create_module_with_length, link_parent_class)]
 /// Upper command queries the [`Module`] by ID.
 /// Subcommands handles creating module, or linking to module to a [`Class`].
 /// USAGE: `~module <id>`
@@ -27,10 +27,10 @@ pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
             &ctx.http,
             match module {
                 Ok(Some(module)) => {
-                    format!("Found: {:?}", module)
+                    format!(":crystal_ball: Found: {:?}", module)
                 }
                 Ok(None) => format!("No module found with ID: {}", module_id),
-                Err(e) => format!("Query error: {:?}", e),
+                Err(e) => format!(":grey_question: Query error: {:?}", e),
             },
         )
         .await?;
@@ -44,7 +44,7 @@ pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
 /// Subcommand for creating a [`Module`]. NOTE: this leaves the `Module::parent_classes` empty,
 /// and other fields at default values.
 /// USAGE: `~module new <id> <duration> <year> <month> <day>`
-async fn module_with_length(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+async fn create_module_with_length(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let duration = args.single::<String>()?;
     let year = args.single::<u16>()?;
@@ -68,9 +68,9 @@ async fn module_with_length(ctx: &Context, msg: &Message, mut args: Args) -> Com
             &ctx.http,
             match module {
                 Ok(module) => {
-                    format!("Created: {:?}", module)
+                    format!(":mirror_ball: Created: {:?}", module)
                 }
-                Err(e) => format!("Creation error: {:?}", e),
+                Err(e) => format!(":x: Creation error: {:?}", e),
             },
         )
         .await?;
@@ -86,7 +86,7 @@ async fn module_with_length(ctx: &Context, msg: &Message, mut args: Args) -> Com
 async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
     let class_id = args.single::<String>()?;
-    let order = args.single::<u8>()?;
+    let order = args.single::<u8>().unwrap_or(1);
 
     #[cfg(feature = "firebase")]
     {
@@ -100,9 +100,9 @@ async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> Comm
             &ctx.http,
             match updated {
                 Ok(module) => {
-                    format!("Updated: {:?}", module)
+                    format!(":white_check_mark: Updated: {:?}", module)
                 }
-                Err(e) => format!("Update error: {:?}", e),
+                Err(e) => format!(":exclamation: Update error: {:?}", e),
             },
         )
         .await?;

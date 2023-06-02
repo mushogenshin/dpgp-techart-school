@@ -1,3 +1,4 @@
+mod migration;
 mod query;
 pub use query::DpgpFirestore;
 
@@ -15,6 +16,20 @@ const CLASS_COLLECTION_NAME: &str = "classes";
 const STUDENT_COLLECTION_NAME: &str = "students";
 // const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 const MODULE_COLLECTION_NAME: &str = "modules";
+
+pub struct GCPProjectAndToken {
+    pub google_project_id: String,
+    pub firestore_token: TokenSourceType,
+}
+
+pub async fn client_from_token(auth: GCPProjectAndToken) -> FirestoreResult<FirestoreDb> {
+    FirestoreDb::with_options_token_source(
+        FirestoreDbOptions::new(auth.google_project_id),
+        gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
+        auth.firestore_token,
+    )
+    .await
+}
 
 #[async_trait]
 pub trait ModuleQuery {
@@ -50,54 +65,4 @@ pub trait ClassQuery {
 pub trait UserQuery {
     /// Get a [`User`] by its name.
     async fn user_by_exact_name(&self, email: &str) -> FirestoreResult<Option<User>>;
-}
-
-pub struct GCPProjectAndToken {
-    pub google_project_id: String,
-    pub firestore_token: TokenSourceType,
-}
-
-pub async fn client_from_token(auth: GCPProjectAndToken) -> FirestoreResult<FirestoreDb> {
-    FirestoreDb::with_options_token_source(
-        FirestoreDbOptions::new(auth.google_project_id),
-        gcloud_sdk::GCP_DEFAULT_SCOPES.clone(),
-        auth.firestore_token,
-    )
-    .await
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use bricks_n_mortar::Class;
-
-    const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
-    const PROJECT_ID: &str = "musho-genshin";
-
-    #[tokio::test]
-    async fn connect() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-        // Create an instance
-        let db = client_from_token(GCPProjectAndToken {
-            google_project_id: PROJECT_ID.to_string(),
-            firestore_token: TokenSourceType::File(TOKEN_FILE_PATH.into()),
-        })
-        .await?;
-
-        {
-            // Get by id
-            let obj_by_id: Option<Class> = db
-                .fluent()
-                .select()
-                .by_id_in(CLASS_COLLECTION_NAME)
-                .obj()
-                .one("HAA19")
-                .await?;
-
-            assert!(obj_by_id.is_some());
-
-            println!("Get by id {:?}", obj_by_id);
-        }
-
-        Ok(())
-    }
 }

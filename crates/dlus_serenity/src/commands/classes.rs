@@ -8,7 +8,7 @@ use dpgp_firestore::ClassQuery;
 // // Allow only administrators to call this:
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("c", "cls")]
-#[sub_commands(class_with_categories)]
+#[sub_commands(create_class_with_categories)]
 pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let query = args.single::<String>()?;
 
@@ -24,10 +24,10 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
             &ctx.http,
             match class {
                 Ok(Some(class)) => {
-                    format!("Found: {:?}", class)
+                    format!(":crystal_ball: Found: {:?}", class)
                 }
                 Ok(None) => format!("No class found with ID: {}", query),
-                Err(e) => format!("Query error: {:?}", e),
+                Err(e) => format!(":grey_question: Query error: {:?}", e),
             },
         )
         .await?;
@@ -39,7 +39,11 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
 #[aliases("n")]
 /// USAGE: `~class new <id> <categories>`
 /// Subcommand for creating a [`Class`].
-async fn class_with_categories(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+async fn create_class_with_categories(
+    ctx: &Context,
+    msg: &Message,
+    mut args: Args,
+) -> CommandResult {
     args.trimmed();
     let class_id = args.single::<String>()?;
     let categories = args
@@ -66,9 +70,9 @@ async fn class_with_categories(ctx: &Context, msg: &Message, mut args: Args) -> 
             &ctx.http,
             match class {
                 Ok(class) => {
-                    format!("Created: {:?}", class)
+                    format!(":mirror_ball: Created: {:?}", class)
                 }
-                Err(e) => format!("Creation error: {:?}", e),
+                Err(e) => format!(":x: Creation error: {:?}", e),
             },
         )
         .await?;

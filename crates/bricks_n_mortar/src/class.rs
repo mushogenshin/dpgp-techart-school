@@ -44,7 +44,7 @@ pub enum Category {
     #[serde(rename = "Technical Art")]
     TechArt,
     Python,
-    Other,
+    Other(String),
 }
 
 impl From<&str> for Category {
@@ -58,7 +58,7 @@ impl From<&str> for Category {
             "zbrush" => Self::ZBrush,
             "techart" => Self::TechArt,
             "python" => Self::Python,
-            _ => Self::Other,
+            _ => Self::Other(cat.to_string()),
         }
     }
 }

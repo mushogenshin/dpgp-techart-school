@@ -24,9 +24,9 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
             &ctx.http,
             match students {
                 Ok(class) => {
-                    format!("Found: {:?}", class)
+                    format!(":crystal_ball: Found: {:?}", class)
                 }
-                Err(e) => format!("Query error: {:?}", e),
+                Err(e) => format!(":grey_question: Query error: {:?}", e),
             },
         )
         .await?;
