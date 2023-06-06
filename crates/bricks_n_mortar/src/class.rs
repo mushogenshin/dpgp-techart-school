@@ -9,8 +9,10 @@ pub struct Class {
     category: Vec<Category>,
     // /// Each `String` refers to a `Class` ID.
     // prerequisites: Vec<String>,
-    /// This refers to the "instructors" collection.
-    instructors: Vec<User>,
+    /// This refers to each [`User::full_name`] in the "instructors" collection.
+    instructors: Vec<String>,
+    /// This refers to each [`User::full_name`] in the "instructors" collection.
+    assistants: Vec<String>,
     study_groups: Vec<StudyGroup>,
 }
 
@@ -20,6 +22,26 @@ impl Class {
             category: cat.iter().map(|c| Category::from(*c)).collect(),
             ..Default::default()
         }
+    }
+
+    pub fn location(mut self, loc: &str) -> Self {
+        self.location = loc.to_string();
+        self
+    }
+
+    pub fn name(mut self, name: &str) -> Self {
+        self.name = name.to_string();
+        self
+    }
+
+    pub fn instructor(mut self, name: &str) -> Self {
+        self.instructors.push(name.to_string());
+        self
+    }
+
+    pub fn assistant(mut self, name: &str) -> Self {
+        self.assistants.push(name.to_string());
+        self
     }
 }
 
@@ -38,11 +60,13 @@ pub enum Category {
     Anatomy,
     Sculpting,
     #[serde(rename = "3D Modeling")]
+    /// For programmatical input, use "Modeling".
     Modeling,
-    Maya,
-    ZBrush,
+    Rigging,
     #[serde(rename = "Technical Art")]
     TechArt,
+    Maya,
+    ZBrush,
     Python,
     Other(String),
 }
@@ -54,9 +78,10 @@ impl From<&str> for Category {
             "anatomy" => Self::Anatomy,
             "sculpting" => Self::Sculpting,
             "modeling" => Self::Modeling,
+            "rigging" => Self::Rigging,
+            "techart" => Self::TechArt,
             "maya" => Self::Maya,
             "zbrush" => Self::ZBrush,
-            "techart" => Self::TechArt,
             "python" => Self::Python,
             _ => Self::Other(cat.to_string()),
         }

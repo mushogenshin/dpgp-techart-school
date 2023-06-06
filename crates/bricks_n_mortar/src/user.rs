@@ -3,8 +3,9 @@ use super::*;
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 /// This can act as either a student or an instructor.
 pub struct User {
-    // pub email: String,
-    pub name: String,
+    pub full_name: String,
+    pub username: String,
+    pub motto: String,
     /// Each `String` refers to the [`LearningModule`] ID.
     pub enrollment: Vec<String>,
     pub socials: Vec<Social>,

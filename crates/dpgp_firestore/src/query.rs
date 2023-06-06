@@ -107,12 +107,12 @@ impl UserQuery for DpgpFirestore {
             .fluent()
             .select()
             // NOTE: field `id` is mandatory
-            .fields(paths!(User::{name, enrollment, socials})) // Optionally select the fields needed
+            .fields(paths!(User::{full_name, enrollment, socials})) // Optionally select the fields needed
             .from(STUDENT_COLLECTION_NAME)
             .filter(|q| {
                 q.for_all([
                     // q.field(path!(User::some_num)).is_not_null(),
-                    q.field(path!(User::name)).eq(name),
+                    q.field(path!(User::full_name)).eq(name),
                     // // Sometimes you have optional filters
                     // Some("Test2")
                     //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
