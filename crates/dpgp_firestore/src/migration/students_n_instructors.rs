@@ -75,7 +75,7 @@ mod tests {
                 .collect::<Vec<String>>();
 
             User {
-                id: self.email.to_lowercase(),
+                email: self.email.to_lowercase(),
                 full_name: self.name.trim().to_string(),
                 ..Default::default()
             }
@@ -134,7 +134,7 @@ FROM Students
 
         users.iter().enumerate().for_each(|(idx, student)| {
             eprintln!("Got student #{}: {:#?}", idx + 1, student.full_name);
-            create.push(to.create_user(&student.id, student, STUDENT_COLLECTION_NAME));
+            create.push(to.create_user(&student.email, student, STUDENT_COLLECTION_NAME));
         });
 
         futures::future::join_all(create).await;

@@ -11,6 +11,7 @@ const STUDENT_COLLECTION_NAME: &str = "students";
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("s", "stu")]
 // #[sub_commands(new)]
+/// Upper command queries a [`User`] as student by their full name.
 /// USAGE: `~student <full_name in quotes>`
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let student_full_name = args.quoted().single::<String>()?;

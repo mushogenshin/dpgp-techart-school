@@ -3,7 +3,7 @@ use super::*;
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 /// This can act as either a student or an instructor.
 pub struct User {
-    pub id: String,
+    pub email: String,
     pub full_name: String,
     pub nickname: String,
     pub motto: String,

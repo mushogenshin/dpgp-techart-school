@@ -121,7 +121,9 @@ impl UserQuery for DpgpFirestore {
             .inner
             .fluent()
             .select()
-            .fields(paths!(User::{full_name, nickname, motto, enrollments, facebook, discord })) // the API does not allow to miss any field
+            .fields(
+                paths!(User::{full_name, email, nickname, motto, enrollments, facebook, discord }),
+            ) // the API does not allow to miss any field
             .from(collection)
             .filter(|q| {
                 q.for_all([

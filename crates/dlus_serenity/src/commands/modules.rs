@@ -9,8 +9,7 @@ use dpgp_firestore::ModuleQuery;
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("m", "mod")]
 #[sub_commands(create_module_with_length, link_parent_class)]
-/// Upper command queries the [`Module`] by ID.
-/// Subcommands handles creating module, or linking to module to a [`Class`].
+/// Upper command queries a [`Module`] by its ID.
 /// USAGE: `~module <id>`
 pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;
@@ -81,7 +80,7 @@ async fn create_module_with_length(ctx: &Context, msg: &Message, mut args: Args)
 
 #[command("place")]
 #[aliases("p")]
-/// Link a [`Module`] to a [`Class`].
+/// Subcommand for linking a [`Module`] to a [`Class`].
 /// USAGE: `~module place <module_id> <class_id> <order>`
 async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module_id = args.single::<String>()?;

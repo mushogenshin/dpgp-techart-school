@@ -9,6 +9,7 @@ use dpgp_firestore::ClassQuery;
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("c", "cls")]
 #[sub_commands(create_class_with_categories)]
+/// Upper command queries a [`Class`] by its ID.
 pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let class_id = args.single::<String>()?;
 
