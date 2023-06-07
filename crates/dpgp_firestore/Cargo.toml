@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = ["migration"]
-migration = ["sqlx"]
+default = ["sqlite"]
+sqlite = ["sqlx"]
 
 [dependencies]
 bricks-n-mortar = { path = "../bricks_n_mortar" }
