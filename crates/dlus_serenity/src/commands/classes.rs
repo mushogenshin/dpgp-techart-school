@@ -10,14 +10,14 @@ use dpgp_firestore::ClassQuery;
 #[aliases("c", "cls")]
 #[sub_commands(create_class_with_categories)]
 pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let query = args.single::<String>()?;
+    let class_id = args.single::<String>()?;
 
     #[cfg(feature = "firebase")]
     {
         let data = ctx.data.read().await;
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
-        let class = db.class_by_id(&query).await;
+        let class = db.class_by_id(&class_id).await;
 
         // displays the result of the query
         msg.reply(
@@ -26,7 +26,7 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
                 Ok(Some(class)) => {
                     format!(":crystal_ball: Found: {:?}", class)
                 }
-                Ok(None) => format!("No class found with ID: {}", query),
+                Ok(None) => format!("No class found with ID: {}", class_id),
                 Err(e) => format!(":grey_question: Query error: {:?}", e),
             },
         )

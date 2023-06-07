@@ -13,8 +13,8 @@ pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
 const CLASS_COLLECTION_NAME: &str = "classes";
-// const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 const MODULE_COLLECTION_NAME: &str = "modules";
+// const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 
 pub struct GCPProjectAndToken {
     pub google_project_id: String,
