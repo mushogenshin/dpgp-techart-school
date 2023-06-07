@@ -136,7 +136,7 @@ FROM Students
         let mut create = vec![];
 
         users.iter().for_each(|(id, student)| {
-            // eprintln!("Writing: {:#?}", student);
+            eprintln!("Got: {:#?}", student);
             create.push(to.create_user(id, student, STUDENT_COLLECTION_NAME));
         });
 
@@ -146,5 +146,6 @@ FROM Students
     }
 }
 
+// 9223372036854776000
 // 402125417273622528
 // 402125417273622500

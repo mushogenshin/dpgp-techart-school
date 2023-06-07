@@ -20,7 +20,7 @@ impl User {
     pub fn discord(mut self, discord: (Option<i64>, Option<String>)) -> Self {
         if let Some(username) = discord.1 {
             self.socials.push(Social::Discord {
-                user_id: discord.0,
+                user_id: discord.0.map(|id| id.to_string()),
                 username,
             });
         };
@@ -50,7 +50,8 @@ pub enum Social {
     },
     Discord {
         #[serde(skip_serializing_if = "Option::is_none")]
-        user_id: Option<i64>,
+        /// Using `String` as Firestore weirdly clamps `i64`.
+        user_id: Option<String>,
         username: String,
     },
 }
