@@ -5,7 +5,7 @@ mod tests {
     use anyhow::Result as AnyResult;
     use sqlx::sqlite::SqlitePool;
 
-    const STUDENT_COLLECTION_NAME: &str = "students_test";
+    const STUDENT_COLLECTION_NAME: &str = "students";
 
     #[derive(Debug, Clone, PartialEq, Eq, Hash, sqlx::FromRow)]
     struct Student {
@@ -80,7 +80,7 @@ mod tests {
                     full_name: self.name.trim().to_string(),
                     ..Default::default()
                 }
-                .enrollment(enrolled_modules)
+                .enrollments_empty_payment(enrolled_modules)
                 .discord(if self.discord_username.is_empty() {
                     (self.discord_id, None)
                 } else {
@@ -125,9 +125,9 @@ FROM Students
         let users: Vec<(String, User)> = list_students(&from)
             .await?
             .into_iter()
-            .filter(|s| s.discord_id.is_some())
+            // .filter(|s| s.discord_id.is_some())
             .map(|s| s.into())
-            .take(5)
+            // .take(5)
             .collect();
 
         // Firestore DB
@@ -135,8 +135,8 @@ FROM Students
 
         let mut create = vec![];
 
-        users.iter().for_each(|(id, student)| {
-            eprintln!("Got: {:#?}", student);
+        users.iter().enumerate().for_each(|(idx, (id, student))| {
+            eprintln!("Got student #{}: {:#?}", idx + 1, student.full_name);
             create.push(to.create_user(id, student, STUDENT_COLLECTION_NAME));
         });
 

@@ -6,14 +6,17 @@ pub struct User {
     pub full_name: String,
     pub nickname: String,
     pub motto: String,
-    /// Each `String` refers to the [`LearningModule`] ID.
-    pub enrollment: Vec<String>,
+    pub enrollments: Vec<Enrollment>,
     pub socials: Vec<Social>,
 }
 
 impl User {
-    pub fn enrollment(mut self, modules: Vec<String>) -> Self {
-        self.enrollment.extend(modules);
+    pub fn enrollments_empty_payment(mut self, modules: Vec<String>) -> Self {
+        self.enrollments.extend(
+            modules
+                .into_iter()
+                .map(|module| Enrollment::no_payment_id(module)),
+        );
         self
     }
 
@@ -35,13 +38,22 @@ impl User {
     }
 }
 
-// #[derive(Debug, Clone, Default, Deserialize, Serialize)]
-// pub struct Enrollment {
-//     #[serde(rename = "classId")]
-//     class: String,
-//     #[serde(rename = "moduleId")]
-//     module: u8,
-// }
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+pub struct Enrollment {
+    /// The `String` refers to the [`LearningModule`] ID.
+    module: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    payment_id: Option<i64>,
+}
+
+impl Enrollment {
+    pub fn no_payment_id(module: String) -> Self {
+        Self {
+            module,
+            ..Default::default()
+        }
+    }
+}
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 pub enum Social {
