@@ -24,19 +24,52 @@ mod tests {
         facebook: String,
     }
 
-    fn class_id_to_module_id(class_id: &str) -> String {
-        todo!()
+    fn class_id_to_module_id(class_id: String) -> String {
+        let module_id = match class_id.as_str() {
+            "haa01" => "HAA01_all",
+            "haa02" => "HAA02_all",
+            "haa03" => "HAA03_all",
+            "haa04" => "HAA04_all",
+            "haa05" => "HAA05_all",
+            "haa06" => "HAA06_all",
+            "haa07" => "HAA07_all",
+            "haa08" => "HAA08_all",
+            "haa09" => "HAA09_all",
+            "dprg_2018" => "DPRG_2018_all",
+            "haa10" => "HAA10_all",
+            "dfs01" => "DFS01_all",
+            "haa11" => "HAA11_all",
+            "haa12" => "HAA12_all",
+            "zbl3_2019" => "ZBL3_2019_all",
+            "mapy2019" => "MAPY2019_all",
+            "haa13" => "HAA13_all",
+            "zbl3_2020" => "ZBL3_2020_all",
+            "haa14" => "HAA14_all",
+            "mapy2020" => "MAPY2020_all",
+            "haa15" => "HAA15_all",
+            "haa16" => "HAA16_all",
+            "haa17" => "HAA17_all",
+            "haa18" => "HAA18_all",
+            "haa19" => "HAA19_all",
+            "dprg_2023" => "DPRG_2023_all",
+            "py101_2023" => "PY101_2023_all",
+            "haa20" => "HAA20_mod1",   // skips "HAA20" module 2-3-4
+            "fap01" => "FAP01_trackA", // skips "FAP01" track B
+            _ => "",
+        };
+        module_id.to_string()
     }
 
     impl Into<(String, User)> for Student {
         fn into(self) -> (String, User) {
-            let modules = self
+            let enrolled_modules = self
                 .class_str
                 .split(",")
                 .into_iter()
-                .map(|s| s.trim())
+                .map(|s| s.trim().to_lowercase())
                 .map(|s| class_id_to_module_id(s))
-                .filter(|s| s.is_empty())
+                // skips anomaly classes
+                .filter(|s| !s.is_empty())
                 .collect::<Vec<String>>();
 
             (
@@ -45,7 +78,7 @@ mod tests {
                     full_name: self.name,
                     ..Default::default()
                 }
-                .enrollment(modules)
+                .enrollment(enrolled_modules)
                 .discord(if self.discord_username.is_empty() {
                     (self.discord_id, None)
                 } else {
@@ -91,6 +124,7 @@ FROM Students
             .into_iter()
             // .filter(|s| s.discord_id.is_some())
             .map(|s| s.into())
+            // .take(20)
             .collect();
 
         eprintln!("{:#?}", users);
