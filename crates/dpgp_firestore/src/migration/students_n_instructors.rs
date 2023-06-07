@@ -24,14 +24,28 @@ mod tests {
         facebook: String,
     }
 
+    fn class_id_to_module_id(class_id: &str) -> String {
+        todo!()
+    }
+
     impl Into<(String, User)> for Student {
         fn into(self) -> (String, User) {
+            let modules = self
+                .class_str
+                .split(",")
+                .into_iter()
+                .map(|s| s.trim())
+                .map(|s| class_id_to_module_id(s))
+                .filter(|s| s.is_empty())
+                .collect::<Vec<String>>();
+
             (
                 self.email,
                 User {
                     full_name: self.name,
                     ..Default::default()
                 }
+                .enrollment(modules)
                 .discord(if self.discord_username.is_empty() {
                     (self.discord_id, None)
                 } else {

@@ -12,6 +12,11 @@ pub struct User {
 }
 
 impl User {
+    pub fn enrollment(mut self, modules: Vec<String>) -> Self {
+        self.enrollment.extend(modules);
+        self
+    }
+
     pub fn discord(mut self, discord: (Option<i64>, Option<String>)) -> Self {
         if let Some(username) = discord.1 {
             self.socials.push(Social::Discord {
