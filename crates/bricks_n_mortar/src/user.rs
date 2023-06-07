@@ -3,11 +3,15 @@ use super::*;
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 /// This can act as either a student or an instructor.
 pub struct User {
+    pub id: String,
     pub full_name: String,
     pub nickname: String,
     pub motto: String,
     pub enrollments: Vec<Enrollment>,
-    pub socials: Vec<Social>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub facebook: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub discord: Option<Discord>,
 }
 
 impl User {
@@ -22,7 +26,7 @@ impl User {
 
     pub fn discord(mut self, discord: (Option<i64>, Option<String>)) -> Self {
         if let Some(username) = discord.1 {
-            self.socials.push(Social::Discord {
+            self.discord = Some(Discord {
                 user_id: discord.0.map(|id| id.to_string()),
                 username,
             });
@@ -30,10 +34,8 @@ impl User {
         self
     }
 
-    pub fn facebook(mut self, url: Option<String>) -> Self {
-        if let Some(profile_url) = url {
-            self.socials.push(Social::Facebook { profile_url }.into());
-        };
+    pub fn facebook(mut self, profile_url: Option<String>) -> Self {
+        self.facebook = profile_url;
         self
     }
 }
@@ -56,14 +58,9 @@ impl Enrollment {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
-pub enum Social {
-    Facebook {
-        profile_url: String,
-    },
-    Discord {
-        #[serde(skip_serializing_if = "Option::is_none")]
-        /// Using `String` as Firestore weirdly clamps `i64`.
-        user_id: Option<String>,
-        username: String,
-    },
+pub struct Discord {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    /// Using `String` as Firestore weirdly clamps `i64`.
+    user_id: Option<String>,
+    username: String,
 }

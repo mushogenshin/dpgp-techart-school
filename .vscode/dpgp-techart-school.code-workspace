@@ -7,7 +7,7 @@
 			"path": "../../../development/serenity"
 		},
 		{
-			"path": "../../../development/sqlx"
+			"path": "../../../development/firestore-rs"
 		}
 	],
 	"settings": {}

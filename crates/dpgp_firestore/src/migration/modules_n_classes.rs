@@ -295,222 +295,165 @@ mod tests {
     #[tokio::test]
     async fn make_all_classes() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         let classes = [
-            (
-                "HAA01",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA02",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA03",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("VNG, Q.11, Sài Gòn"),
-            ),
-            (
-                "HAA04",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("BlueR Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "HAA05",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("Hanoi Hub, Q. Đống Đa, Hà Nội"),
-            ),
-            (
-                "HAA06",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA07",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA08",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Introduction to Human Anatomy")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SPARX* Studio, Sài Gòn"),
-            ),
-            (
-                "HAA09",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "DPRG_2018",
-                Class::with_categories(&["Rigging", "Maya", "TechArt"])
-                    .name("Rigging in Maya")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "HAA10",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "DFS01",
-                Class::with_categories(&["Art", "Anatomy", "Sculpting", "ZBrush"])
-                    .name("Figure Sculpting in ZBrush")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "HAA11",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan"),
-            ),
-            (
-                "HAA12",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "ZBL3_2019",
-                Class::with_categories(&["Modeling", "ZBrush"])
-                    .name("ZBrush Cho Bé Lên 3D")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "MAPY_2019",
-                Class::with_categories(&["Maya", "Python", "TechArt"])
-                    .name("Python Scripting in Maya")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
-            ),
-            (
-                "HAA13",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "ZBL3_2020",
-                Class::with_categories(&["Modeling", "ZBrush"])
-                    .name("ZBrush Cho Bé Lên 3D")
-                    .instructor("Nguyễn Trọng Hoan"),
-            ),
-            (
-                "HAA14",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "MAPY_2020",
-                Class::with_categories(&["Maya", "Python", "TechArt"])
-                    .instructor("Phùng Nhật Huy")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .name("Python Scripting in Maya"),
-            ),
-            (
-                "HAA15",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Fast Track: Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA16",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan"),
-            ),
-            (
-                "HAA17",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .location("SNA Studio, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA18",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Nguyễn Hoàng Nguyên")
-                    .location("THINK Space, Q.1, Sài Gòn"),
-            ),
-            (
-                "HAA19",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Fast Track: Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Nguyễn Hoàng Nguyên")
-                    .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
-            ),
-            (
-                "HAA20",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Human Anatomy for Artists")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Nguyễn Hoàng Nguyên")
-                    .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
-            ),
-            (
-                "DPRG_2023",
-                Class::with_categories(&["Rigging", "Maya", "TechArt"])
-                    .name("Introduction to Python")
-                    .instructor("Phùng Nhật Huy")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Hoàng Đức Phúc")
-                    .assistant("Võ Chí Thành"),
-            ),
-            (
-                "PY101_2023",
-                Class::with_categories(&["Python", "TechArt"])
-                    .name("Introduction to Python")
-                    .instructor("Phùng Nhật Huy")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Hoàng Đức Phúc")
-                    .assistant("Võ Chí Thành"),
-            ),
-            (
-                "FAP01",
-                Class::with_categories(&["Art", "Anatomy"])
-                    .name("Facial Anatomy & Portraiture")
-                    .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Nguyễn Hoàng Nguyên")
-                    .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
-            ),
+            Class::new("HAA01")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA02")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA03")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("VNG, Q.11, Sài Gòn"),
+            Class::new("HAA04")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("BlueR Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("HAA05")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("Hanoi Hub, Q. Đống Đa, Hà Nội"),
+            Class::new("HAA06")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA07")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA08")
+                .categories(&["Art", "Anatomy"])
+                .name("Introduction to Human Anatomy")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SPARX* Studio, Sài Gòn"),
+            Class::new("HAA09")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("DPRG_2018")
+                .categories(&["Rigging", "Maya", "TechArt"])
+                .name("Rigging in Maya")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("HAA10")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("DFS01")
+                .categories(&["Art", "Anatomy", "Sculpting", "ZBrush"])
+                .name("Figure Sculpting in ZBrush")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("HAA11")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan"),
+            Class::new("HAA12")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("ZBL3_2019")
+                .categories(&["Modeling", "ZBrush"])
+                .name("ZBrush Cho Bé Lên 3D")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("MAPY_2019")
+                .categories(&["Maya", "Python", "TechArt"])
+                .name("Python Scripting in Maya")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("FWA Studio, Q. Tân Bình, Sài Gòn"),
+            Class::new("HAA13")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("ZBL3_2020")
+                .categories(&["Modeling", "ZBrush"])
+                .name("ZBrush Cho Bé Lên 3D")
+                .instructor("Nguyễn Trọng Hoan"),
+            Class::new("HAA14")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("MAPY_2020")
+                .categories(&["Maya", "Python", "TechArt"])
+                .instructor("Phùng Nhật Huy")
+                .instructor("Nguyễn Trọng Hoan")
+                .name("Python Scripting in Maya"),
+            Class::new("HAA15")
+                .categories(&["Art", "Anatomy"])
+                .name("Fast Track: Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA16")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan"),
+            Class::new("HAA17")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .location("SNA Studio, Q.1, Sài Gòn"),
+            Class::new("HAA18")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Nguyễn Hoàng Nguyên")
+                .location("THINK Space, Q.1, Sài Gòn"),
+            Class::new("HAA19")
+                .categories(&["Art", "Anatomy"])
+                .name("Fast Track: Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Nguyễn Hoàng Nguyên")
+                .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
+            Class::new("HAA20")
+                .categories(&["Art", "Anatomy"])
+                .name("Human Anatomy for Artists")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Nguyễn Hoàng Nguyên")
+                .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
+            Class::new("DPRG_2023")
+                .categories(&["Rigging", "Maya", "TechArt"])
+                .name("Introduction to Python")
+                .instructor("Phùng Nhật Huy")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Hoàng Đức Phúc")
+                .assistant("Võ Chí Thành"),
+            Class::new("PY101_2023")
+                .categories(&["Python", "TechArt"])
+                .name("Introduction to Python")
+                .instructor("Phùng Nhật Huy")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Hoàng Đức Phúc")
+                .assistant("Võ Chí Thành"),
+            Class::new("FAP01")
+                .categories(&["Art", "Anatomy"])
+                .name("Facial Anatomy & Portraiture")
+                .instructor("Nguyễn Trọng Hoan")
+                .assistant("Nguyễn Hoàng Nguyên")
+                .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
         ];
 
         let db = connect().await?;
 
         let mut create = vec![];
 
-        classes.iter().for_each(|(id, class)| {
-            create.push(db.create_class(id, class));
+        classes.iter().for_each(|class| {
+            eprintln!("Got class: {:?}", class.id);
+            create.push(db.create_class(&class.id, class));
         });
 
         futures::future::join_all(create).await;

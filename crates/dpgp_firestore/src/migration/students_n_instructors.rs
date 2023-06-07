@@ -62,8 +62,8 @@ mod tests {
         module_id.to_string()
     }
 
-    impl Into<(String, User)> for Student {
-        fn into(self) -> (String, User) {
+    impl Into<User> for Student {
+        fn into(self) -> User {
             let enrolled_modules = self
                 .class_str
                 .split(",")
@@ -74,24 +74,22 @@ mod tests {
                 .filter(|s| !s.is_empty())
                 .collect::<Vec<String>>();
 
-            (
-                self.email.to_lowercase(),
-                User {
-                    full_name: self.name.trim().to_string(),
-                    ..Default::default()
-                }
-                .enrollments_empty_payment(enrolled_modules)
-                .discord(if self.discord_username.is_empty() {
-                    (self.discord_id, None)
-                } else {
-                    (self.discord_id, Some(self.discord_username))
-                })
-                .facebook(if self.facebook.trim().is_empty() {
-                    None
-                } else {
-                    Some(self.facebook.trim().to_string())
-                }),
-            )
+            User {
+                id: self.email.to_lowercase(),
+                full_name: self.name.trim().to_string(),
+                ..Default::default()
+            }
+            .enrollments_empty_payment(enrolled_modules)
+            .discord(if self.discord_username.is_empty() {
+                (self.discord_id, None)
+            } else {
+                (self.discord_id, Some(self.discord_username))
+            })
+            .facebook(if self.facebook.trim().is_empty() {
+                None
+            } else {
+                Some(self.facebook.trim().to_string())
+            })
         }
     }
 
@@ -122,7 +120,7 @@ FROM Students
         // SQLite DB
         let from = connect_to_file().await?;
 
-        let users: Vec<(String, User)> = list_students(&from)
+        let users: Vec<User> = list_students(&from)
             .await?
             .into_iter()
             // .filter(|s| s.discord_id.is_some())
@@ -135,9 +133,9 @@ FROM Students
 
         let mut create = vec![];
 
-        users.iter().enumerate().for_each(|(idx, (id, student))| {
+        users.iter().enumerate().for_each(|(idx, student)| {
             eprintln!("Got student #{}: {:#?}", idx + 1, student.full_name);
-            create.push(to.create_user(id, student, STUDENT_COLLECTION_NAME));
+            create.push(to.create_user(&student.id, student, STUDENT_COLLECTION_NAME));
         });
 
         futures::future::join_all(create).await;

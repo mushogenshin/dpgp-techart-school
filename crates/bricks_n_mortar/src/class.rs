@@ -2,11 +2,12 @@ use super::*;
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct Class {
+    pub id: String,
     /// Nice name of the class.
     name: String,
     description: String,
     location: String,
-    category: Vec<Category>,
+    categories: Vec<Category>,
     // /// Each `String` refers to a `Class` ID.
     // prerequisites: Vec<String>,
     /// This refers to each [`User::full_name`] in the "instructors" collection.
@@ -17,11 +18,16 @@ pub struct Class {
 }
 
 impl Class {
-    pub fn with_categories(cat: &[&str]) -> Self {
+    pub fn new(id: &str) -> Self {
         Self {
-            category: cat.iter().map(|c| Category::from(*c)).collect(),
+            id: id.to_string(),
             ..Default::default()
         }
+    }
+
+    pub fn categories(mut self, cat: &[&str]) -> Self {
+        self.categories = cat.iter().map(|c| Category::from(*c)).collect();
+        self
     }
 
     pub fn location(mut self, loc: &str) -> Self {
