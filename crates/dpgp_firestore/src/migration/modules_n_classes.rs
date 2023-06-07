@@ -5,286 +5,218 @@ mod tests {
     #[tokio::test]
     async fn make_all_modules() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         let modules = [
-            (
-                "HAA01_all",
-                LearningModule::with_duration_and_start_args("8w", 2016, 12, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA01", 1)),
-            ),
-            (
-                "HAA02_all",
-                LearningModule::with_duration_and_start_args("8w", 2017, 4, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA02", 1)),
-            ),
-            (
-                "HAA03_all", // VNG
-                LearningModule::with_duration_and_start_args("12w", 2017, 5, 30)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA03", 1)),
-            ),
-            (
-                "HAA04_all", // BlueR
-                LearningModule::with_duration_and_start_args("8w", 2017, 7, 1)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA04", 1)),
-            ),
-            (
-                "HAA05_all", // Hanoi
-                LearningModule::with_duration_and_start_args("2w", 2017, 10, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy for Artists")
-                    .parent_class(("HAA05", 1)),
-            ),
-            (
-                "HAA06_all",
-                LearningModule::with_duration_and_start_args("8w", 2017, 11, 10)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA06", 1)),
-            ),
-            (
-                "HAA07_all",
-                LearningModule::with_duration_and_start_args("8w", 2018, 3, 1)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA07", 1)),
-            ),
-            (
-                "HAA08_all", // SPARX*
-                LearningModule::with_duration_and_start_args("4w", 2018, 7, 1)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Basics of Human Anatomy")
-                    .parent_class(("HAA08", 1)),
-            ),
-            (
-                "HAA09_all", // Fast-track
-                LearningModule::with_duration_and_start_args("2w", 2018, 9, 29)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA09", 1)),
-            ),
-            (
-                "DPRG_2018_all",
-                LearningModule::with_duration_and_start_args("8w", 2018, 9, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Introduction to Rigging in Maya")
-                    .parent_class(("DPRG_2018", 1)),
-            ),
-            (
-                "HAA10_all",
-                LearningModule::with_duration_and_start_args("8w", 2018, 10, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA10", 1)),
-            ),
-            (
-                "DFS01_all",
-                LearningModule::with_duration_and_start_args("12w", 2019, 3, 20)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Figure Sculpting in ZBrush")
-                    .parent_class(("DFS01", 1)),
-            ),
-            (
-                "HAA11_all",
-                LearningModule::with_duration_and_start_args("8w", 2019, 6, 1)
-                    .unwrap()
-                    // online
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA11", 1)),
-            ),
-            (
-                "HAA12_all", // Fast-track
-                LearningModule::with_duration_and_start_args("4w", 2019, 10, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA12", 1)),
-            ),
-            (
-                "ZBL3_2019_all",
-                LearningModule::with_duration_and_start_args("12w", 2019, 11, 30)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Introduction to ZBrush")
-                    .parent_class(("ZBL3_2019", 1)),
-            ),
-            (
-                "MAPY_2019_all",
-                LearningModule::with_duration_and_start_args("6w", 2019, 12, 1)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Introduction to Python Scripting in Maya")
-                    .parent_class(("MAPY_2019", 1)),
-            ),
-            (
-                "HAA13_all", // COVID-19
-                LearningModule::with_duration_and_start_args("16w", 2020, 5, 20)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA13", 1)),
-            ),
-            (
-                "ZBL3_2020_all",
-                LearningModule::with_duration_and_start_args("10w", 2020, 7, 1)
-                    .unwrap()
-                    // online
-                    .description("Introduction to ZBrush")
-                    .parent_class(("ZBL3_2020", 1)),
-            ),
-            (
-                "HAA14_all",
-                LearningModule::with_duration_and_start_args("16w", 2020, 10, 1)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA14", 1)),
-            ),
-            (
-                "MAPY_2020_all",
-                LearningModule::with_duration_and_start_args("10w", 2020, 10, 1)
-                    .unwrap()
-                    // online
-                    .description("In-Depth Python Scripting in Maya")
-                    .parent_class(("MAPY_2020", 1)),
-            ),
-            (
-                "HAA15_all", // Fast-track
-                LearningModule::with_duration_and_start_args("3w", 2020, 12, 15)
-                    .unwrap()
-                    .format(LearningFormat::Offline)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA15", 1)),
-            ),
-            (
-                "HAA16_all",
-                LearningModule::with_duration_and_start_args("12w", 2021, 3, 10)
-                    .unwrap()
-                    // online
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA16", 1)),
-            ),
-            (
-                "HAA17_all",
-                LearningModule::with_duration_and_start_args("16w", 2021, 10, 1)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA17", 1)),
-            ),
-            (
-                "HAA18_all",
-                LearningModule::with_duration_and_start_args("16w", 2022, 3, 1)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Anatomy In-Depth")
-                    .parent_class(("HAA18", 1)),
-            ),
-            (
-                "HAA19_all", // Fast-track
-                LearningModule::with_duration_and_start_args("4w", 2022, 12, 2)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Anatomy for Artists")
-                    .parent_class(("HAA19", 1)),
-            ),
-            (
-                "PY101_2023_all",
-                LearningModule::with_duration_and_start_args("12w", 2023, 3, 19)
-                    .unwrap()
-                    // online
-                    .description("Python Programming 101")
-                    .parent_class(("PY101_2023", 1)),
-            ),
-            (
-                "DPRG_2023_all",
-                LearningModule::with_duration_and_start_args("12w", 2023, 3, 18)
-                    .unwrap()
-                    // online
-                    .description("Introduction to Rigging in Maya")
-                    .parent_class(("DPRG_2023", 1)),
-            ),
-            (
-                "HAA20_mod1",
-                LearningModule::with_duration_and_start_args("4w", 2023, 2, 18)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Human Skeleton & Bony Landmarks")
-                    .parent_class(("HAA20", 1)),
-            ),
-            (
-                "HAA20_mod2",
-                LearningModule::with_duration_and_start_args("4w", 2023, 3, 24)
-                    .unwrap()
-                    // online
-                    .description("Muscles of the Torso, Upper Arms & Upper Legs")
-                    .parent_class(("HAA20", 2)),
-            ),
-            (
-                "HAA20_mod3",
-                LearningModule::with_duration_and_start_args("4w", 2023, 5, 13)
-                    .unwrap()
-                    // online
-                    .description("Gesture Drawing")
-                    .parent_class(("HAA20", 3)),
-            ),
-            (
-                "HAA20_mod4",
-                LearningModule::with_duration_and_start_args("4w", 2023, 6, 17)
-                    .unwrap()
-                    // online
-                    .description("Muscles of the Lower Arms & Lower Legs")
-                    .parent_class(("HAA20", 4)),
-            ),
-            (
-                "FAP01_trackA",
-                LearningModule::with_duration_and_start_args("6w", 2023, 3, 5)
-                    .unwrap()
-                    .format(LearningFormat::Hybrid)
-                    .description("Skull Structure & Facial Features")
-                    .parent_class(("FAP01", 1)),
-            ),
-            (
-                "FAP01_trackB",
-                LearningModule::with_duration_and_start_args("8w", 2023, 7, 9)
-                    .unwrap()
-                    // online
-                    .description("Fundamentals of Portraiture")
-                    .parent_class(("FAP01", 2)),
-            ),
-            (
-                "FAP01_trackC",
-                LearningModule::with_duration_and_start_args("8w", 2023, 8, 20)
-                    .unwrap()
-                    // online
-                    .description("Facial Expression")
-                    .parent_class(("FAP01", 3)),
-            ),
+            LearningModule::new("HAA01_all")
+                .duration_and_start("8w", 2016, 12, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA01", 1)),
+            LearningModule::new("HAA02_all")
+                .duration_and_start("8w", 2017, 4, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA02", 1)),
+            LearningModule::new("HAA03_all")
+                .duration_and_start("12w", 2017, 5, 30)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA03", 1)),
+            LearningModule::new("HAA04_all")
+                .duration_and_start("8w", 2017, 7, 1)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA04", 1)),
+            LearningModule::new("HAA05_all")
+                .duration_and_start("2w", 2017, 10, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy for Artists")
+                .parent_class(("HAA05", 1)),
+            LearningModule::new("HAA06_all")
+                .duration_and_start("8w", 2017, 11, 10)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA06", 1)),
+            LearningModule::new("HAA07_all")
+                .duration_and_start("8w", 2018, 3, 1)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA07", 1)),
+            LearningModule::new("HAA08_all")
+                .duration_and_start("4w", 2018, 7, 1)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Basics of Human Anatomy")
+                .parent_class(("HAA08", 1)),
+            LearningModule::new("HAA09_all")
+                .duration_and_start("2w", 2018, 9, 29)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA09", 1)),
+            LearningModule::new("DPRG_2018_all")
+                .duration_and_start("8w", 2018, 9, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Introduction to Rigging in Maya")
+                .parent_class(("DPRG_2018", 1)),
+            LearningModule::new("HAA10_all")
+                .duration_and_start("8w", 2018, 10, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA10", 1)),
+            LearningModule::new("DFS01_all")
+                .duration_and_start("12w", 2019, 3, 20)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Figure Sculpting in ZBrush")
+                .parent_class(("DFS01", 1)),
+            LearningModule::new("HAA11_all")
+                .duration_and_start("8w", 2019, 6, 1)
+                .unwrap()
+                // online
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA11", 1)),
+            LearningModule::new("HAA12_all")
+                .duration_and_start("4w", 2019, 10, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA12", 1)),
+            LearningModule::new("ZBL3_2019_all")
+                .duration_and_start("12w", 2019, 11, 30)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Introduction to ZBrush")
+                .parent_class(("ZBL3_2019", 1)),
+            LearningModule::new("MAPY_2019_all")
+                .duration_and_start("6w", 2019, 12, 1)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Introduction to Python Scripting in Maya")
+                .parent_class(("MAPY_2019", 1)),
+            LearningModule::new("HAA13_all")
+                .duration_and_start("16w", 2020, 5, 20)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA13", 1)),
+            LearningModule::new("ZBL3_2020_all")
+                .duration_and_start("10w", 2020, 7, 1)
+                .unwrap()
+                // online
+                .description("Introduction to ZBrush")
+                .parent_class(("ZBL3_2020", 1)),
+            LearningModule::new("HAA14_all")
+                .duration_and_start("16w", 2020, 10, 1)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA14", 1)),
+            LearningModule::new("MAPY_2020_all")
+                .duration_and_start("10w", 2020, 10, 1)
+                .unwrap()
+                // online
+                .description("In-Depth Python Scripting in Maya")
+                .parent_class(("MAPY_2020", 1)),
+            LearningModule::new("HAA15_all")
+                .duration_and_start("3w", 2020, 12, 15)
+                .unwrap()
+                .format(LearningFormat::Offline)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA15", 1)),
+            LearningModule::new("HAA16_all")
+                .duration_and_start("12w", 2021, 3, 10)
+                .unwrap()
+                // online
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA16", 1)),
+            LearningModule::new("HAA17_all")
+                .duration_and_start("16w", 2021, 10, 1)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA17", 1)),
+            LearningModule::new("HAA18_all")
+                .duration_and_start("16w", 2022, 3, 1)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Anatomy In-Depth")
+                .parent_class(("HAA18", 1)),
+            LearningModule::new("HAA19_all")
+                .duration_and_start("4w", 2022, 12, 2)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Anatomy for Artists")
+                .parent_class(("HAA19", 1)),
+            LearningModule::new("PY101_2023_all")
+                .duration_and_start("12w", 2023, 3, 19)
+                .unwrap()
+                // online
+                .description("Python Programming 101")
+                .parent_class(("PY101_2023", 1)),
+            LearningModule::new("DPRG_2023_all")
+                .duration_and_start("12w", 2023, 3, 18)
+                .unwrap()
+                // online
+                .description("Introduction to Rigging in Maya")
+                .parent_class(("DPRG_2023", 1)),
+            LearningModule::new("HAA20_mod1")
+                .duration_and_start("4w", 2023, 2, 18)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Human Skeleton & Bony Landmarks")
+                .parent_class(("HAA20", 1)),
+            LearningModule::new("HAA20_mod2")
+                .duration_and_start("4w", 2023, 3, 24)
+                .unwrap()
+                // online
+                .description("Muscles of the Torso, Upper Arms & Upper Legs")
+                .parent_class(("HAA20", 2)),
+            LearningModule::new("HAA20_mod3")
+                .duration_and_start("4w", 2023, 5, 13)
+                .unwrap()
+                // online
+                .description("Gesture Drawing")
+                .parent_class(("HAA20", 3)),
+            LearningModule::new("HAA20_mod4")
+                .duration_and_start("4w", 2023, 6, 17)
+                .unwrap()
+                // online
+                .description("Muscles of the Lower Arms & Lower Legs")
+                .parent_class(("HAA20", 4)),
+            LearningModule::new("FAP01_trackA")
+                .duration_and_start("6w", 2023, 3, 5)
+                .unwrap()
+                .format(LearningFormat::Hybrid)
+                .description("Skull Structure & Facial Features")
+                .parent_class(("FAP01", 1)),
+            LearningModule::new("FAP01_trackB")
+                .duration_and_start("8w", 2023, 7, 9)
+                .unwrap()
+                // online
+                .description("Fundamentals of Portraiture")
+                .parent_class(("FAP01", 2)),
+            LearningModule::new("FAP01_trackC")
+                .duration_and_start("8w", 2023, 8, 20)
+                .unwrap()
+                // online
+                .description("Facial Expression")
+                .parent_class(("FAP01", 3)),
         ];
 
         let db = connect().await?;
-
         let mut create = vec![];
 
-        modules.iter().for_each(|(id, module)| {
-            create.push(db.create_module(id, module));
+        modules.iter().for_each(|module| {
+            eprintln!("Got module: {:?}", module.id);
+            create.push(db.create_module(&module.id, module));
         });
 
         futures::future::join_all(create).await;
@@ -448,7 +380,6 @@ mod tests {
         ];
 
         let db = connect().await?;
-
         let mut create = vec![];
 
         classes.iter().for_each(|class| {

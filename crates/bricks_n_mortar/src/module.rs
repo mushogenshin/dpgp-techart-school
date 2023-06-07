@@ -2,6 +2,7 @@ use super::*;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct LearningModule {
+    pub id: String,
     pub description: String,
     pub listed_fee: Fee,
     /// The [`Class`]es which this `Module` belongs to.
@@ -14,6 +15,13 @@ pub struct LearningModule {
 }
 
 impl LearningModule {
+    pub fn new(id: &str) -> Self {
+        Self {
+            id: id.to_string(),
+            ..Default::default()
+        }
+    }
+
     pub fn with_date_range(start: NaiveDate, end: NaiveDate) -> Self {
         Self {
             starts_at: DateTime::from_utc(start.and_hms_opt(0, 0, 0).unwrap(), Utc),
@@ -22,26 +30,23 @@ impl LearningModule {
         }
     }
 
-    pub fn weeks_from(start: NaiveDate, weeks: u8) -> Self {
+    fn weeks_from(mut self, start: NaiveDate, weeks: u8) -> Self {
         let start = DateTime::from_utc(start.and_hms_opt(0, 0, 0).unwrap(), Utc);
-        Self {
-            ends_at: start + chrono::Duration::weeks(weeks as i64),
-            starts_at: start,
-            ..Default::default()
-        }
+        self.ends_at = start + chrono::Duration::weeks(weeks as i64);
+        self.starts_at = start;
+        self
     }
 
-    pub fn with_duration_and_start_args(
+    pub fn duration_and_start(
+        self,
         duration: &str,
         year: u16, // cannot be `u8`
         month: u8,
         day: u8,
     ) -> AnyResult<Self> {
-        Ok(LearningModule::weeks_from(
-            NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
-                .context("Invalid start date, expected year month day within proper range")?,
-            LearningModule::to_weeks(&duration)?,
-        ))
+        let start = NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
+            .context("Invalid start date, expected year month day within proper range")?;
+        Ok(self.weeks_from(start, LearningModule::to_weeks(&duration)?))
     }
 
     pub fn format(mut self, format: LearningFormat) -> Self {
@@ -79,6 +84,7 @@ impl Default for LearningModule {
     /// Makes a module with its end date 4 weeks from today.
     fn default() -> Self {
         Self {
+            id: String::new(),
             description: String::new(),
             listed_fee: Fee::default(),
             parent_classes: vec![],

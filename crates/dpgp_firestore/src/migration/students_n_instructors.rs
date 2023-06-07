@@ -130,7 +130,6 @@ FROM Students
 
         // Firestore DB
         let to = connect().await?;
-
         let mut create = vec![];
 
         users.iter().enumerate().for_each(|(idx, student)| {

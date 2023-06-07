@@ -59,7 +59,7 @@ async fn create_module_with_length(ctx: &Context, msg: &Message, mut args: Args)
         let module = db
             .create_module(
                 &module_id,
-                &LearningModule::with_duration_and_start_args(&duration, year, month, day)?,
+                &LearningModule::new(&module_id).duration_and_start(&duration, year, month, day)?,
             )
             .await;
 
