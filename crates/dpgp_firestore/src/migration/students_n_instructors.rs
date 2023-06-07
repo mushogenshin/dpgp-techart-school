@@ -5,6 +5,8 @@ mod tests {
     use anyhow::Result as AnyResult;
     use sqlx::sqlite::SqlitePool;
 
+    const STUDENT_COLLECTION_NAME: &str = "students_test";
+
     #[derive(Debug, Clone, PartialEq, Eq, Hash, sqlx::FromRow)]
     struct Student {
         #[sqlx(rename = "Name")]
@@ -73,9 +75,9 @@ mod tests {
                 .collect::<Vec<String>>();
 
             (
-                self.email,
+                self.email.to_lowercase(),
                 User {
-                    full_name: self.name,
+                    full_name: self.name.trim().to_string(),
                     ..Default::default()
                 }
                 .enrollment(enrolled_modules)
@@ -84,10 +86,10 @@ mod tests {
                 } else {
                     (self.discord_id, Some(self.discord_username))
                 })
-                .facebook(if self.facebook.is_empty() {
+                .facebook(if self.facebook.trim().is_empty() {
                     None
                 } else {
-                    Some(self.facebook)
+                    Some(self.facebook.trim().to_string())
                 }),
             )
         }
@@ -117,18 +119,32 @@ FROM Students
 
     #[tokio::test]
     async fn make_students() -> AnyResult<()> {
-        let db = connect_to_file().await?;
+        // SQLite DB
+        let from = connect_to_file().await?;
 
-        let users: Vec<(String, User)> = list_students(&db)
+        let users: Vec<(String, User)> = list_students(&from)
             .await?
             .into_iter()
-            // .filter(|s| s.discord_id.is_some())
+            .filter(|s| s.discord_id.is_some())
             .map(|s| s.into())
-            // .take(20)
+            .take(5)
             .collect();
 
-        eprintln!("{:#?}", users);
+        // Firestore DB
+        let to = connect().await?;
+
+        let mut create = vec![];
+
+        users.iter().for_each(|(id, student)| {
+            // eprintln!("Writing: {:#?}", student);
+            create.push(to.create_user(id, student, STUDENT_COLLECTION_NAME));
+        });
+
+        futures::future::join_all(create).await;
 
         Ok(())
     }
 }
+
+// 402125417273622528
+// 402125417273622500

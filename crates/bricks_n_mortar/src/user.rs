@@ -4,7 +4,7 @@ use super::*;
 /// This can act as either a student or an instructor.
 pub struct User {
     pub full_name: String,
-    pub username: String,
+    pub nickname: String,
     pub motto: String,
     /// Each `String` refers to the [`LearningModule`] ID.
     pub enrollment: Vec<String>,
