@@ -54,6 +54,7 @@ mod tests {
         Ok(pool)
     }
 
+    /// Straight out from the database.
     async fn list_students(pool: &SqlitePool) -> AnyResult<Vec<Student>> {
         let recs = sqlx::query_as::<_, Student>(
             r#"
@@ -71,9 +72,14 @@ FROM Students
     async fn make_students() -> AnyResult<()> {
         let db = connect_to_file().await?;
 
-        let students = list_students(&db).await?;
+        let users: Vec<(String, User)> = list_students(&db)
+            .await?
+            .into_iter()
+            // .filter(|s| s.discord_id.is_some())
+            .map(|s| s.into())
+            .collect();
 
-        eprintln!("{:#?}", students);
+        eprintln!("{:#?}", users);
 
         Ok(())
     }
