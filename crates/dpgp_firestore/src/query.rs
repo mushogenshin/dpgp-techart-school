@@ -100,7 +100,22 @@ impl ClassQuery for DpgpFirestore {
 
 #[async_trait]
 impl UserQuery for DpgpFirestore {
-    async fn user_by_exact_name(&self, name: &str) -> FirestoreResult<Option<User>> {
+    async fn create_user(&self, id: &str, user: &User, collection: &str) -> FirestoreResult<User> {
+        self.inner
+            .fluent()
+            .insert()
+            .into(collection)
+            .document_id(id)
+            .object(user)
+            .execute()
+            .await
+    }
+
+    async fn user_by_exact_name(
+        &self,
+        full_name: &str,
+        collection: &str,
+    ) -> FirestoreResult<Option<User>> {
         // Query as a stream our data
         let object_stream: BoxStream<User> = self
             .inner
@@ -108,11 +123,11 @@ impl UserQuery for DpgpFirestore {
             .select()
             // NOTE: field `id` is mandatory
             .fields(paths!(User::{full_name, enrollment, socials})) // Optionally select the fields needed
-            .from(STUDENT_COLLECTION_NAME)
+            .from(collection)
             .filter(|q| {
                 q.for_all([
                     // q.field(path!(User::some_num)).is_not_null(),
-                    q.field(path!(User::full_name)).eq(name),
+                    q.field(path!(User::full_name)).eq(full_name),
                     // // Sometimes you have optional filters
                     // Some("Test2")
                     //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),

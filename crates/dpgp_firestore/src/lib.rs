@@ -13,7 +13,6 @@ pub extern crate firestore;
 pub extern crate gcloud_sdk;
 
 const CLASS_COLLECTION_NAME: &str = "classes";
-const STUDENT_COLLECTION_NAME: &str = "students";
 // const PAYMENT_COLLECTION_NAME: &str = "rawPayments";
 const MODULE_COLLECTION_NAME: &str = "modules";
 
@@ -63,6 +62,13 @@ pub trait ClassQuery {
 
 #[async_trait]
 pub trait UserQuery {
+    /// Add a new [`User`] to the database.
+    async fn create_user(&self, id: &str, user: &User, collection: &str) -> FirestoreResult<User>;
+
     /// Get a [`User`] by its name.
-    async fn user_by_exact_name(&self, email: &str) -> FirestoreResult<Option<User>>;
+    async fn user_by_exact_name(
+        &self,
+        email: &str,
+        collection: &str,
+    ) -> FirestoreResult<Option<User>>;
 }

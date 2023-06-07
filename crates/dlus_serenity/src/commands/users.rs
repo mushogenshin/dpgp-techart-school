@@ -2,6 +2,8 @@ use super::*;
 #[cfg(feature = "firebase")]
 use dpgp_firestore::UserQuery;
 
+const STUDENT_COLLECTION_NAME: &str = "students";
+
 #[command]
 // // Limit all commands to be guild-restricted.
 // #[only_in(guilds)]
@@ -17,7 +19,7 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
         let data = ctx.data.read().await;
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
-        let students = db.user_by_exact_name(&query).await;
+        let students = db.user_by_exact_name(&query, STUDENT_COLLECTION_NAME).await;
 
         // displays the result of the query
         msg.reply(

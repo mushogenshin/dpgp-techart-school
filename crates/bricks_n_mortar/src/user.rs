@@ -11,14 +11,24 @@ pub struct User {
     pub socials: Vec<Social>,
 }
 
-// impl User {
-//     pub fn with_email(email: &str) -> Self {
-//         Self {
-//             email: email.to_string(),
-//             ..Default::default()
-//         }
-//     }
-// }
+impl User {
+    pub fn discord(mut self, discord: (Option<i64>, Option<String>)) -> Self {
+        if let Some(username) = discord.1 {
+            self.socials.push(Social::Discord {
+                user_id: discord.0,
+                username,
+            });
+        };
+        self
+    }
+
+    pub fn facebook(mut self, url: Option<String>) -> Self {
+        if let Some(profile_url) = url {
+            self.socials.push(Social::Facebook { profile_url }.into());
+        };
+        self
+    }
+}
 
 // #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 // pub struct Enrollment {
@@ -28,18 +38,14 @@ pub struct User {
 //     module: u8,
 // }
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct Social {
-    site: Site,
-    username: Option<String>,
-    user_id: Option<String>,     // DO NOT use number
-    profile_url: Option<String>, // e.g., Facebook
-}
-
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
-pub enum Site {
-    #[serde(rename = "facebook")]
-    Facebook,
-    #[serde(rename = "discord")]
-    Discord,
+pub enum Social {
+    Facebook {
+        profile_url: String,
+    },
+    Discord {
+        #[serde(skip_serializing_if = "Option::is_none")]
+        user_id: Option<i64>,
+        username: String,
+    },
 }

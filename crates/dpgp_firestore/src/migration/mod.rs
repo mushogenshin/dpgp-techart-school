@@ -1,9 +1,12 @@
 mod modules_n_classes;
+
 #[cfg(feature = "sqlite")]
 mod students_n_instructors;
 
+#[cfg(test)]
 use super::*;
 
+#[cfg(test)]
 /// Create a database instance.
 async fn connect() -> FirestoreResult<DpgpFirestore> {
     const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";

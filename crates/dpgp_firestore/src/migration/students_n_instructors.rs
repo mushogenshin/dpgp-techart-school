@@ -24,6 +24,28 @@ mod tests {
         facebook: String,
     }
 
+    impl Into<(String, User)> for Student {
+        fn into(self) -> (String, User) {
+            (
+                self.email,
+                User {
+                    full_name: self.name,
+                    ..Default::default()
+                }
+                .discord(if self.discord_username.is_empty() {
+                    (self.discord_id, None)
+                } else {
+                    (self.discord_id, Some(self.discord_username))
+                })
+                .facebook(if self.facebook.is_empty() {
+                    None
+                } else {
+                    Some(self.facebook)
+                }),
+            )
+        }
+    }
+
     async fn connect_to_file() -> AnyResult<SqlitePool> {
         let pool =
             SqlitePool::connect("/Users/mushogenshin/projects/dlus-py-bot/db/DPGP_Registration.db")
