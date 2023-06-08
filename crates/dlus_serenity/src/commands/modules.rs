@@ -3,10 +3,10 @@ use super::*;
 use dpgp_firestore::ModuleQuery;
 
 #[command]
-// // Limit all commands to be guild-restricted.
-// #[only_in(guilds)]
-// // Allow only administrators to call this:
-// #[required_permissions("ADMINISTRATOR")]
+// Limit all commands to be guild-restricted.
+#[only_in(guilds)]
+// Allow only administrators to call this:
+#[required_permissions("ADMINISTRATOR")]
 #[aliases("m", "mod")]
 #[sub_commands(create_module_with_length, link_parent_class)]
 /// Upper command queries a [`Module`] by its ID.
@@ -22,17 +22,18 @@ pub async fn module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
         let module = db.module_by_id(&module_id).await;
 
         // displays the result of the query
-        msg.reply(
-            &ctx.http,
-            match module {
-                Ok(Some(module)) => {
-                    format!(":crystal_ball: Found: {:?}", module)
-                }
-                Ok(None) => format!("No module found with ID: {}", module_id),
-                Err(e) => format!(":grey_question: Query error: {:?}", e),
-            },
-        )
-        .await?;
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match module {
+                    Ok(Some(module)) => {
+                        format!(":crystal_ball: Found: {:?}", module)
+                    }
+                    Ok(None) => format!("No module found with ID: {}", module_id),
+                    Err(e) => format!(":grey_question: Query error: {:?}", e),
+                },
+            )
+            .await?;
     }
 
     Ok(())
@@ -63,16 +64,17 @@ async fn create_module_with_length(ctx: &Context, msg: &Message, mut args: Args)
             .await;
 
         // displays the result of the action
-        msg.reply(
-            &ctx.http,
-            match module {
-                Ok(module) => {
-                    format!(":mirror_ball: Created: {:?}", module)
-                }
-                Err(e) => format!(":x: Creation error: {:?}", e),
-            },
-        )
-        .await?;
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match module {
+                    Ok(module) => {
+                        format!(":mirror_ball: Created: {:?}", module)
+                    }
+                    Err(e) => format!(":x: Creation error: {:?}", e),
+                },
+            )
+            .await?;
     }
 
     Ok(())
@@ -95,16 +97,17 @@ async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> Comm
         let updated = db.link_module_to_class(&module_id, &class_id, order).await;
 
         // displays the result of the action
-        msg.reply(
-            &ctx.http,
-            match updated {
-                Ok(module) => {
-                    format!(":white_check_mark: Updated: {:?}", module)
-                }
-                Err(e) => format!(":exclamation: Update error: {:?}", e),
-            },
-        )
-        .await?;
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match updated {
+                    Ok(module) => {
+                        format!(":white_check_mark: Updated: {:?}", module)
+                    }
+                    Err(e) => format!(":exclamation: Update error: {:?}", e),
+                },
+            )
+            .await?;
     }
 
     Ok(())

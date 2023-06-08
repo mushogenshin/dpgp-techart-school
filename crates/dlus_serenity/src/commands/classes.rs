@@ -3,10 +3,10 @@ use super::*;
 use dpgp_firestore::ClassQuery;
 
 #[command]
-// // Limit all commands to be guild-restricted.
-// #[only_in(guilds)]
-// // Allow only administrators to call this:
-// #[required_permissions("ADMINISTRATOR")]
+// Limit all commands to be guild-restricted.
+#[only_in(guilds)]
+// Allow only administrators to call this:
+#[required_permissions("ADMINISTRATOR")]
 #[aliases("c", "cls")]
 #[sub_commands(create_class_with_categories)]
 /// Upper command queries a [`Class`] by its ID.
@@ -21,17 +21,18 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
         let class = db.class_by_id(&class_id).await;
 
         // displays the result of the query
-        msg.reply(
-            &ctx.http,
-            match class {
-                Ok(Some(class)) => {
-                    format!(":crystal_ball: Found: {:?}", class)
-                }
-                Ok(None) => format!("No class found with ID: {}", class_id),
-                Err(e) => format!(":grey_question: Query error: {:?}", e),
-            },
-        )
-        .await?;
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match class {
+                    Ok(Some(class)) => {
+                        format!(":crystal_ball: Found: {:?}", class)
+                    }
+                    Ok(None) => format!("No class found with ID: {}", class_id),
+                    Err(e) => format!(":grey_question: Query error: {:?}", e),
+                },
+            )
+            .await?;
     }
     Ok(())
 }
@@ -66,16 +67,17 @@ async fn create_class_with_categories(
             .await;
 
         // displays the result of the action
-        msg.reply(
-            &ctx.http,
-            match class {
-                Ok(class) => {
-                    format!(":mirror_ball: Created: {:?}", class)
-                }
-                Err(e) => format!(":x: Creation error: {:?}", e),
-            },
-        )
-        .await?;
+        msg.channel_id
+            .say(
+                &ctx.http,
+                match class {
+                    Ok(class) => {
+                        format!(":mirror_ball: Created: {:?}", class)
+                    }
+                    Err(e) => format!(":x: Creation error: {:?}", e),
+                },
+            )
+            .await?;
     }
 
     Ok(())
