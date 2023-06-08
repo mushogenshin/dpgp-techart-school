@@ -148,7 +148,7 @@ FROM Students
 
         let result = db
             .update_discord(
-                "3d.nguyenanh@gmail.com",
+                "Nguyễn Đức Anh",
                 Discord {
                     user_id: Some("12345".to_string()),
                     username: "unknown".to_string(),

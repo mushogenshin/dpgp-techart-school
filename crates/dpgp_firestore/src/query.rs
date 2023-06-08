@@ -160,16 +160,16 @@ impl UserQuery for DpgpFirestore {
 
     async fn update_discord(
         &self,
-        id: &str,
-        discord: Discord,
+        full_name: &str,
+        updated: Discord,
         collection: &str,
     ) -> FirestoreResult<User> {
         let current = self
-            .user_by_id(id, collection)
+            .user_by_exact_name(full_name, collection)
             .await?
             .context(format!(
-                "No user found with ID: {} in collection: {}",
-                id, collection
+                "No user found with name: {} in collection: {}",
+                full_name, collection
             ))
             .map_err(|e| data_not_found_error(e))?;
 
@@ -178,9 +178,9 @@ impl UserQuery for DpgpFirestore {
             .update()
             .fields(paths!(User::{discord})) // Update only specified fields
             .in_col(collection)
-            .document_id(id)
+            .document_id(&current.email)
             .object(&User {
-                discord: Some(discord),
+                discord: Some(updated),
                 ..current
             })
             .execute()
