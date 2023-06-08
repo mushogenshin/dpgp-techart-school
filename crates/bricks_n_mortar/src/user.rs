@@ -61,6 +61,6 @@ impl Enrollment {
 pub struct Discord {
     #[serde(skip_serializing_if = "Option::is_none")]
     /// Using `String` as Firestore weirdly clamps `i64`.
-    user_id: Option<String>,
-    username: String,
+    pub user_id: Option<String>,
+    pub username: String,
 }

@@ -111,6 +111,17 @@ impl UserQuery for DpgpFirestore {
             .await
     }
 
+    /// Get a [`User`] by its ID.
+    async fn user_by_id(&self, id: &str, collection: &str) -> FirestoreResult<Option<User>> {
+        self.inner
+            .fluent()
+            .select()
+            .by_id_in(collection)
+            .obj()
+            .one(id)
+            .await
+    }
+
     async fn user_by_exact_name(
         &self,
         full_name: &str,
@@ -145,6 +156,35 @@ impl UserQuery for DpgpFirestore {
         let users = object_stream.collect::<Vec<User>>().await;
 
         Ok(users.into_iter().next())
+    }
+
+    async fn update_discord(
+        &self,
+        id: &str,
+        discord: Discord,
+        collection: &str,
+    ) -> FirestoreResult<User> {
+        let current = self
+            .user_by_id(id, collection)
+            .await?
+            .context(format!(
+                "No user found with ID: {} in collection: {}",
+                id, collection
+            ))
+            .map_err(|e| data_not_found_error(e))?;
+
+        self.inner
+            .fluent()
+            .update()
+            .fields(paths!(User::{discord})) // Update only specified fields
+            .in_col(collection)
+            .document_id(id)
+            .object(&User {
+                discord: Some(discord),
+                ..current
+            })
+            .execute()
+            .await
     }
 }
 

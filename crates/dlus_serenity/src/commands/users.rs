@@ -10,7 +10,7 @@ const STUDENT_COLLECTION_NAME: &str = "students";
 // // Allow only administrators to call this:
 // #[required_permissions("ADMINISTRATOR")]
 #[aliases("s", "stu")]
-// #[sub_commands(new)]
+#[sub_commands(pair_to_discord)]
 /// Upper command queries a [`User`] as student by their full name.
 /// USAGE: `~student <full_name in quotes>`
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -40,5 +40,45 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
         )
         .await?;
     }
+    Ok(())
+}
+
+#[command]
+#[aliases("p", "pair")]
+/// USAGE: `~student pair <@discord_mention> <full_name in quotes>`
+async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    // msg.mentions.iter().for_each(|mention| {
+    //     info!("Mention: {:?}", mention);
+    //     // User {
+    //     //     id: UserId(378242536256569355),
+    //     //     avatar: None,
+    //     //     bot: false,
+    //     //     discriminator: 1109,
+    //     //     name: "tnbao91",
+    //     //     public_flags: Some((empty)),
+    //     //     banner: None,
+    //     //     accent_colour: None,
+    //     // }
+    // });
+
+    // args.iter::<String>().for_each(|arg| {
+    //     info!("Arg: {:?}", arg);
+    // });
+
+    let discord_mention = msg.mentions.first().context("No user mentioned")?;
+
+    // the Discord mention also constitutes itself into the args
+    args.advance();
+    let student_full_name = args.quoted().single::<String>()?;
+
+    msg.reply(
+        &ctx.http,
+        format!(
+            "TODO: pair \"{}\" with {:?}",
+            student_full_name, discord_mention
+        ),
+    )
+    .await?;
+
     Ok(())
 }
