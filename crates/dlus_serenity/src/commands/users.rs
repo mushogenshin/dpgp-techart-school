@@ -2,9 +2,19 @@ use super::*;
 #[cfg(feature = "firebase")]
 use dpgp_firestore::UserQuery;
 
+use regex::Regex;
+use serenity::model::user::User;
+
 const STUDENT_COLLECTION_NAME: &str = "students";
 
-/// Get the first [`Discord`] mention in a [`Message`].
+fn into_discord_minimal(user: &User) -> Discord {
+    Discord {
+        user_id: Some(user.id.0.to_string()),
+        username: user.name.clone(),
+    }
+}
+
+/// Get the first [`Discord`] mention in a [`Message`], mutating the [`Args`] if found.
 fn first_mention_opt(msg: &Message, args: &mut Args) -> Option<Discord> {
     msg.mentions.first().map(|user| {
         // User {
@@ -23,10 +33,7 @@ fn first_mention_opt(msg: &Message, args: &mut Args) -> Option<Discord> {
         // therefore we must advance once
         args.advance();
 
-        Discord {
-            user_id: Some(user.id.0.to_string()),
-            username: user.name.clone(),
-        }
+        into_discord_minimal(user)
     })
 }
 
@@ -39,6 +46,31 @@ fn first_user_lookup(msg: &Message, args: &mut Args) -> Option<UserLookup> {
             .single::<String>()
             .ok()
             .map(|s| s.as_str().into()))
+}
+
+/// Get all the mentions in the [`Message`].
+fn all_user_lookups(msg: &Message, args: &mut Args) -> Vec<UserLookup> {
+    let mut mentions = msg.mentions.iter().map(|user| into_discord_minimal(user));
+    let regex = Regex::new(r"<@\d*>").unwrap();
+
+    let mut lookups = vec![];
+
+    args.iter::<String>()
+        .filter_map(|arg| arg.ok())
+        .for_each(|arg| {
+            if regex.is_match(&arg) {
+                // indeed a mention
+                // NOTE: be safe here, as the received `mentions` have collapsed duplicates
+                mentions.next().map(|user| {
+                    lookups.push(UserLookup::Discord(user));
+                });
+            } else {
+                // assuming an email or a full name
+                lookups.push(arg.as_str().into());
+            };
+        });
+
+    lookups
 }
 
 #[command]
@@ -121,9 +153,10 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 #[command("register")]
 #[aliases("r", "reg")]
 async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let lookup = first_user_lookup(msg, &mut args).context("No user lookup provided")?;
+    let module = args.single::<String>()?;
+    let students = all_user_lookups(msg, &mut args);
 
-    info!("Registering module for: {}", lookup);
+    info!("Registering module {} for: {:?}", module, students);
 
     Ok(())
 }

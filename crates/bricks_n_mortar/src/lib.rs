@@ -8,6 +8,7 @@ pub use user::*;
 
 pub extern crate anyhow;
 pub extern crate chrono;
+pub extern crate regex;
 
 use anyhow::{Context, Result as AnyResult};
 use chrono::{DateTime, NaiveDate, Utc};
