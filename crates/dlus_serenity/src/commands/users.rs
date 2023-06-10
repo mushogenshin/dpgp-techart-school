@@ -1,6 +1,6 @@
 use super::*;
 #[cfg(feature = "firebase")]
-use dpgp_firestore::UserQuery;
+use dpgp_firestore::{futures, UserQuery};
 
 use regex::Regex;
 use serenity::model::user::User;
@@ -66,6 +66,7 @@ fn all_user_lookups(msg: &Message, args: &mut Args) -> Vec<UserLookup> {
                 });
             } else {
                 // assuming an email or a full name
+                info!("Converting arg: {}", arg);
                 lookups.push(arg.as_str().into());
             };
         });
@@ -153,10 +154,33 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 #[command("register")]
 #[aliases("r", "reg")]
 async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let module = args.single::<String>()?;
+    let module = args.quoted().single::<String>()?;
     let students = all_user_lookups(msg, &mut args);
 
-    info!("Registering module {} for: {:?}", module, students);
+    #[cfg(feature = "firebase")]
+    {
+        let data = ctx.data.read().await;
+        let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
+
+        students.iter().for_each(|s| {
+            info!("Registering module {} for: {}", module, s);
+        });
+        let enrollment = Enrollment::no_payment_id(module);
+
+        let mut registers = vec![];
+
+        students.iter().for_each(|student| {
+            registers.push(db.add_enrollment(student, &enrollment, STUDENT_COLLECTION_NAME));
+        });
+
+        let results = futures::future::join_all(registers).await;
+
+        // TODO: report failed registrations
+
+        msg.channel_id
+            .say(&ctx.http, ":white_check_mark: Completed registration")
+            .await?;
+    }
 
     Ok(())
 }

@@ -187,7 +187,7 @@ FROM Students
         let result = db
             .add_enrollment(
                 &UserLookup::Email("seb.iu.meo@gmail.com".to_string()),
-                Enrollment::no_payment_id("HAA20_mod2".to_string()),
+                &Enrollment::no_payment_id("HAA20_mod2".to_string()),
                 STUDENT_COLLECTION_NAME,
             )
             .await;

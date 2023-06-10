@@ -210,7 +210,7 @@ impl UserQuery for DpgpFirestore {
     async fn add_enrollment(
         &self,
         lookup: &UserLookup,
-        add: Enrollment,
+        add: &Enrollment,
         collection: &str,
     ) -> FirestoreResult<User> {
         let current = self.find_user(lookup, collection).await?;
@@ -227,7 +227,7 @@ impl UserQuery for DpgpFirestore {
                 .object(&User {
                     enrollments: {
                         let mut enrollments = current.enrollments.clone();
-                        enrollments.push(add);
+                        enrollments.push(add.to_owned());
                         enrollments
                     },
                     ..current

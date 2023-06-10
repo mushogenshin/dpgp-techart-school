@@ -71,7 +71,9 @@ impl From<&str> for UserLookup {
         if re.is_match(input) {
             Self::Email(input.to_string())
         } else {
-            Self::FullName(input.to_string())
+            // due to `serenity`'s `Args`'s strange interaction between `quoted()`
+            // and `iter()` methods, we must remove the quotes ourselves
+            Self::FullName(input.replace("\"", "").to_string())
         }
     }
 }
@@ -81,7 +83,7 @@ impl std::fmt::Display for UserLookup {
         match self {
             UserLookup::Email(email) => write!(f, "{}", email),
             UserLookup::FullName(full_name) => write!(f, "{}", full_name),
-            UserLookup::Discord(inner) => write!(f, "Discord user \"{}\"", inner.username),
+            UserLookup::Discord(discord) => write!(f, "{}", discord),
         }
     }
 }
@@ -99,6 +101,16 @@ impl Discord {
         Self {
             user_id: None,
             username,
+        }
+    }
+}
+
+impl std::fmt::Display for Discord {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(user_id) = &self.user_id {
+            write!(f, "Discord user {} <@{}>", self.username, user_id)
+        } else {
+            write!(f, "Discord user {}", self.username)
         }
     }
 }

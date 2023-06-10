@@ -10,6 +10,7 @@ use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 use gcloud_sdk::TokenSourceType;
 
 pub extern crate firestore;
+pub extern crate futures;
 pub extern crate gcloud_sdk;
 
 const CLASS_COLLECTION_NAME: &str = "classes";
@@ -79,7 +80,7 @@ pub trait UserQuery {
     async fn add_enrollment(
         &self,
         lookup: &UserLookup,
-        add: Enrollment,
+        add: &Enrollment,
         collection: &str,
     ) -> FirestoreResult<User>;
 }
