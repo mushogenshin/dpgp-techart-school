@@ -147,7 +147,7 @@ FROM Students
         let db = connect().await?;
 
         let result = db
-            .update_discord(
+            .update_discord_user(
                 "Nguyễn Đức Anh",
                 Discord {
                     user_id: Some("12345".to_string()),

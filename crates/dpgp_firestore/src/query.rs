@@ -158,7 +158,7 @@ impl UserQuery for DpgpFirestore {
         Ok(users.into_iter().next())
     }
 
-    async fn update_discord(
+    async fn update_discord_user(
         &self,
         full_name: &str,
         updated: Discord,

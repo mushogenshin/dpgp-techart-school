@@ -75,8 +75,8 @@ pub trait UserQuery {
         collection: &str,
     ) -> FirestoreResult<Option<User>>;
 
-    /// Update a [`User`] with a Discord ID and username using its full name.
-    async fn update_discord(
+    /// Update a [`User`] with a Discord ID and username using the user's full name.
+    async fn update_discord_user(
         &self,
         full_name: &str,
         updated: Discord,

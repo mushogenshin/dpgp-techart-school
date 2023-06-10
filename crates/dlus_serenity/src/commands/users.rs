@@ -78,7 +78,7 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
         let student = db
-            .update_discord(
+            .update_discord_user(
                 &student_full_name,
                 Discord {
                     user_id: Some(discord_mention.id.0.to_string()),
@@ -93,7 +93,10 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
                 &ctx.http,
                 match student {
                     Ok(_) => {
-                        format!(":white_check_mark: Updated for: `{}`", discord_mention.name)
+                        format!(
+                            ":white_check_mark: Updated Discord UserID for: `{}`",
+                            discord_mention.name
+                        )
                     }
                     Err(e) => format!(":exclamation: Update error: {:?}", e),
                 },

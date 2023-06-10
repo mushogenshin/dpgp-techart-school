@@ -14,6 +14,12 @@ pub struct User {
     pub discord: Option<Discord>,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+pub enum UserLookup {
+    Email(String),
+    FullName(String),
+}
+
 impl User {
     pub fn enrollments_empty_payment(mut self, modules: Vec<String>) -> Self {
         self.enrollments.extend(
