@@ -68,11 +68,18 @@ pub trait UserQuery {
     /// Get a [`User`] either by its ID or full name.
     async fn user(&self, lookup: &UserLookup, collection: &str) -> FirestoreResult<Option<User>>;
 
-    /// Update a [`User`] with a Discord ID and username using a [`UserLookup`].
+    /// Update a [`User`] with a Discord ID and username.
     async fn update_discord_user(
         &self,
         lookup: &UserLookup,
         updated: Discord,
+        collection: &str,
+    ) -> FirestoreResult<User>;
+
+    async fn add_enrollment(
+        &self,
+        lookup: &UserLookup,
+        add: Enrollment,
         collection: &str,
     ) -> FirestoreResult<User>;
 }

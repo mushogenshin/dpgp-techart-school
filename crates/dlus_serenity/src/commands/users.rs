@@ -10,12 +10,12 @@ const STUDENT_COLLECTION_NAME: &str = "students";
 // Allow only administrators to call this.
 #[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 #[aliases("s", "stu")]
-#[sub_commands(pair_to_discord)]
+#[sub_commands(pair_to_discord, register_module)]
 /// Upper command queries a [`User`] as student by a "lookup" -- either by email or by full name.
 /// USAGE: `~student <email>`, or
 /// USAGE: `~student <full_name in quotes>`
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let lookup = args.quoted().single::<String>()?.as_str().into();
+    let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
 
     #[cfg(feature = "firebase")]
     {
@@ -64,7 +64,7 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
     let discord_mention = msg.mentions.first().context("No user mentioned")?;
 
     args.advance(); // the Discord mention also constitutes itself into the args
-    let lookup = args.quoted().single::<String>()?.as_str().into();
+    let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
 
     #[cfg(feature = "firebase")]
     {
@@ -98,5 +98,17 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
             .await?;
     }
 
+    Ok(())
+}
+
+#[command("register")]
+#[aliases("r", "reg")]
+async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    // args.iter::<String>().for_each(|arg| {
+    //     info!("Arg: {:?}", arg);
+    //     "<@378242536256569355>"
+    // });
+
+    // let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
     Ok(())
 }

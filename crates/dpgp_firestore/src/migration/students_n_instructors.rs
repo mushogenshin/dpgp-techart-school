@@ -143,7 +143,7 @@ FROM Students
     }
 
     #[tokio::test]
-    async fn update_discord() -> AnyResult<()> {
+    async fn pair_discord() -> AnyResult<()> {
         let db = connect().await?;
 
         let result = db
@@ -153,6 +153,23 @@ FROM Students
                     user_id: Some("12345".to_string()),
                     username: "unknown".to_string(),
                 },
+                STUDENT_COLLECTION_NAME,
+            )
+            .await;
+
+        assert!(result.is_ok());
+
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn add_module() -> AnyResult<()> {
+        let db = connect().await?;
+
+        let result = db
+            .add_enrollment(
+                &UserLookup::Email("seb.iu.meo@gmail.com".to_string()),
+                Enrollment::no_payment_id("HAA20_mod2".to_string()),
                 STUDENT_COLLECTION_NAME,
             )
             .await;

@@ -52,6 +52,16 @@ impl DpgpFirestore {
 
         Ok(users.into_iter().next())
     }
+
+    async fn find_user(&self, lookup: &UserLookup, collection: &str) -> FirestoreResult<User> {
+        self.user(&lookup, collection)
+            .await?
+            .context(format!(
+                "No user found with lookup: {} in collection: {}",
+                lookup, collection
+            ))
+            .map_err(|e| data_not_found_error(e))
+    }
 }
 
 #[async_trait]
@@ -169,14 +179,7 @@ impl UserQuery for DpgpFirestore {
         updated: Discord,
         collection: &str,
     ) -> FirestoreResult<User> {
-        let current = self
-            .user(&lookup, collection)
-            .await?
-            .context(format!(
-                "No user found with lookup: {} in collection: {}",
-                lookup, collection
-            ))
-            .map_err(|e| data_not_found_error(e))?;
+        let current = self.find_user(lookup, collection).await?;
 
         self.inner
             .fluent()
@@ -190,6 +193,39 @@ impl UserQuery for DpgpFirestore {
             })
             .execute()
             .await
+    }
+
+    async fn add_enrollment(
+        &self,
+        lookup: &UserLookup,
+        add: Enrollment,
+        collection: &str,
+    ) -> FirestoreResult<User> {
+        let current = self.find_user(lookup, collection).await?;
+
+        // TODO: check if the enrollment already exists **by module name**,
+        // and whether an update -- i.e. with payment ID -- is needed
+        if !current.enrollments.contains(&add) {
+            self.inner
+                .fluent()
+                .update()
+                .fields(paths!(User::{enrollments}))
+                .in_col(collection)
+                .document_id(&current.email)
+                .object(&User {
+                    enrollments: {
+                        let mut enrollments = current.enrollments.clone();
+                        enrollments.push(add);
+                        enrollments
+                    },
+                    ..current
+                })
+                .execute()
+                .await
+        } else {
+            // nothing to do
+            Ok(current)
+        }
     }
 }
 

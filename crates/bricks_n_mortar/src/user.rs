@@ -15,32 +15,6 @@ pub struct User {
     pub discord: Option<Discord>,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
-pub enum UserLookup {
-    Email(String),
-    FullName(String),
-}
-
-impl From<&str> for UserLookup {
-    fn from(input: &str) -> Self {
-        let re = Regex::new(r"\w*@\w*\.\w*").unwrap();
-        if re.is_match(input) {
-            Self::Email(input.to_string())
-        } else {
-            Self::FullName(input.to_string())
-        }
-    }
-}
-
-impl std::fmt::Display for UserLookup {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            UserLookup::Email(email) => write!(f, "{}", email),
-            UserLookup::FullName(full_name) => write!(f, "{}", full_name),
-        }
-    }
-}
-
 impl User {
     pub fn enrollments_empty_payment(mut self, modules: Vec<String>) -> Self {
         self.enrollments.extend(
@@ -67,7 +41,7 @@ impl User {
     }
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
 pub struct Enrollment {
     /// The `String` refers to the [`LearningModule`] ID.
     module: String,
@@ -80,6 +54,32 @@ impl Enrollment {
         Self {
             module,
             ..Default::default()
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+pub enum UserLookup {
+    Email(String),
+    FullName(String),
+}
+
+impl From<&str> for UserLookup {
+    fn from(input: &str) -> Self {
+        let re = Regex::new(r"\w*@\w*\.\w*").unwrap();
+        if re.is_match(input) {
+            Self::Email(input.to_string())
+        } else {
+            Self::FullName(input.to_string())
+        }
+    }
+}
+
+impl std::fmt::Display for UserLookup {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            UserLookup::Email(email) => write!(f, "{}", email),
+            UserLookup::FullName(full_name) => write!(f, "{}", full_name),
         }
     }
 }
