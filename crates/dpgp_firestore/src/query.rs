@@ -3,6 +3,7 @@ use super::*;
 use firestore::errors::{
     FirestoreDataNotFoundError, FirestoreError, FirestoreErrorPublicGenericDetails,
 };
+use firestore::select_builder::FirestoreSelectDocBuilder;
 use firestore::*;
 use futures::stream::BoxStream;
 use futures::StreamExt;
@@ -17,6 +18,16 @@ impl DpgpFirestore {
         Self { inner: db }
     }
 
+    fn select_user_doc(&self, collection: &str) -> FirestoreSelectDocBuilder<FirestoreDb> {
+        self.inner
+            .fluent()
+            .select()
+            .fields(
+                paths!(User::{full_name, email, nickname, motto, enrollments, facebook, discord }),
+            ) // the API does not allow to miss any field
+            .from(collection)
+    }
+
     async fn user_by_exact_name(
         &self,
         full_name: &str,
@@ -24,26 +35,26 @@ impl DpgpFirestore {
     ) -> FirestoreResult<Option<User>> {
         // Query as a stream our data
         let object_stream: BoxStream<User> = self
-            .inner
-            .fluent()
-            .select()
-            .fields(
-                paths!(User::{full_name, email, nickname, motto, enrollments, facebook, discord }),
-            ) // the API does not allow to miss any field
-            .from(collection)
-            .filter(|q| {
-                q.for_all([
-                    // q.field(path!(User::some_num)).is_not_null(),
-                    q.field(path!(User::full_name)).eq(full_name),
-                    // // Sometimes you have optional filters
-                    // Some("Test2")
-                    //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
-                ])
-            })
-            // .order_by([(
-            //     path!(User::some_num),
-            //     FirestoreQueryDirection::Descending,
-            // )])
+            .select_user_doc(collection)
+            .filter(|q| q.for_all([q.field(path!(User::full_name)).eq(full_name)]))
+            .obj() // Reading documents as structures using Serde gRPC deserializer
+            .stream_query()
+            .await?;
+
+        let users = object_stream.collect::<Vec<User>>().await;
+
+        Ok(users.into_iter().next())
+    }
+
+    async fn user_by_discord(
+        &self,
+        discord: &Discord,
+        collection: &str,
+    ) -> FirestoreResult<Option<User>> {
+        // Query as a stream our data
+        let object_stream: BoxStream<User> = self
+            .select_user_doc(collection)
+            .filter(|q| q.for_all([q.field(path!(User::discord)).eq(Some(discord))]))
             .obj() // Reading documents as structures using Serde gRPC deserializer
             .stream_query()
             .await?;
@@ -170,6 +181,7 @@ impl UserQuery for DpgpFirestore {
                     .await
             }
             UserLookup::FullName(full_name) => self.user_by_exact_name(full_name, collection).await,
+            UserLookup::Discord(discord) => self.user_by_discord(discord, collection).await,
         }
     }
 

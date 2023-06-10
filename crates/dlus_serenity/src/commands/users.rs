@@ -4,6 +4,43 @@ use dpgp_firestore::UserQuery;
 
 const STUDENT_COLLECTION_NAME: &str = "students";
 
+/// Get the first [`Discord`] mention in a [`Message`].
+fn first_mention_opt(msg: &Message, args: &mut Args) -> Option<Discord> {
+    msg.mentions.first().map(|user| {
+        // User {
+        //     id: UserId(378242536256569355),
+        //     avatar: None,
+        //     bot: false,
+        //     discriminator: 1109,
+        //     name: "tnbao91",
+        //     public_flags: Some((empty)),
+        //     banner: None,
+        //     accent_colour: None,
+        // }
+
+        // the Discord mention also constitutes itself into the `args`, e.g.:
+        // "<@378242536256569355>"
+        // therefore we must advance once
+        args.advance();
+
+        Discord {
+            user_id: Some(user.id.0.to_string()),
+            username: user.name.clone(),
+        }
+    })
+}
+
+/// Get the first [`UserLookup`] in a [`Message`].
+fn first_user_lookup(msg: &Message, args: &mut Args) -> Option<UserLookup> {
+    first_mention_opt(msg, args)
+        .map(|user| UserLookup::Discord(user))
+        .or(args
+            .quoted()
+            .single::<String>()
+            .ok()
+            .map(|s| s.as_str().into()))
+}
+
 #[command]
 // Limit all commands to be guild-restricted.
 #[cfg_attr(feature = "admin_only", only_in(guilds))]
@@ -15,7 +52,7 @@ const STUDENT_COLLECTION_NAME: &str = "students";
 /// USAGE: `~student <email>`, or
 /// USAGE: `~student <full_name in quotes>`
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
+    let lookup = first_user_lookup(msg, &mut args).context("No user lookup provided")?;
 
     #[cfg(feature = "firebase")]
     {
@@ -45,25 +82,12 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
 
 #[command]
 #[aliases("p", "pair")]
-/// USAGE: `~student pair <@discord_mention> <full_name in quotes>`
+/// USAGE: `~student pair <@discord_mention> <user lookup: by email or full name>`
 async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    // msg.mentions.iter().for_each(|mention| {
-    //     info!("Mention: {:?}", mention);
-    //     // User {
-    //     //     id: UserId(378242536256569355),
-    //     //     avatar: None,
-    //     //     bot: false,
-    //     //     discriminator: 1109,
-    //     //     name: "tnbao91",
-    //     //     public_flags: Some((empty)),
-    //     //     banner: None,
-    //     //     accent_colour: None,
-    //     // }
-    // });
+    let mention = first_mention_opt(msg, &mut args).context("No user mentioned")?;
 
-    let discord_mention = msg.mentions.first().context("No user mentioned")?;
-
-    args.advance(); // the Discord mention also constitutes itself into the args
+    // NOTE: should only support lookup from email or full name
+    // TODO: prevent user from mentioning two users while using this command
     let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
 
     #[cfg(feature = "firebase")]
@@ -72,14 +96,7 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
         let student = db
-            .update_discord_user(
-                &lookup,
-                Discord {
-                    user_id: Some(discord_mention.id.0.to_string()),
-                    username: discord_mention.name.clone(),
-                },
-                STUDENT_COLLECTION_NAME,
-            )
+            .update_discord_user(&lookup, mention.clone(), STUDENT_COLLECTION_NAME)
             .await;
 
         msg.channel_id
@@ -88,8 +105,8 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
                 match student {
                     Ok(_) => {
                         format!(
-                            ":white_check_mark: Updated Discord UserID for: `{}`",
-                            discord_mention.name
+                            ":white_check_mark: Updated DB pairing for: `{}`",
+                            mention.username
                         )
                     }
                     Err(e) => format!(":exclamation: Update error: {:?}", e),
@@ -104,11 +121,9 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 #[command("register")]
 #[aliases("r", "reg")]
 async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    // args.iter::<String>().for_each(|arg| {
-    //     info!("Arg: {:?}", arg);
-    //     "<@378242536256569355>"
-    // });
+    let lookup = first_user_lookup(msg, &mut args).context("No user lookup provided")?;
 
-    // let lookup: UserLookup = args.quoted().single::<String>()?.as_str().into();
+    info!("Registering module for: {}", lookup);
+
     Ok(())
 }

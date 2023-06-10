@@ -62,6 +62,7 @@ impl Enrollment {
 pub enum UserLookup {
     Email(String),
     FullName(String),
+    Discord(Discord),
 }
 
 impl From<&str> for UserLookup {
@@ -80,6 +81,7 @@ impl std::fmt::Display for UserLookup {
         match self {
             UserLookup::Email(email) => write!(f, "{}", email),
             UserLookup::FullName(full_name) => write!(f, "{}", full_name),
+            UserLookup::Discord(inner) => write!(f, "Discord user \"{}\"", inner.username),
         }
     }
 }
@@ -90,6 +92,15 @@ pub struct Discord {
     /// Using `String` as Firestore weirdly clamps `i64`.
     pub user_id: Option<String>,
     pub username: String,
+}
+
+impl Discord {
+    pub fn username_only(username: String) -> Self {
+        Self {
+            user_id: None,
+            username,
+        }
+    }
 }
 
 #[cfg(test)]

@@ -163,6 +163,24 @@ FROM Students
     }
 
     #[tokio::test]
+    async fn lookup_by_discord() -> AnyResult<()> {
+        let db = connect().await?;
+
+        let result = db
+            .user(
+                &UserLookup::Discord(Discord::username_only("Dexter Nguyen".to_string())),
+                STUDENT_COLLECTION_NAME,
+            )
+            .await;
+
+        assert!(result.is_ok());
+
+        eprintln!("Got user: {:#?}", result?);
+
+        Ok(())
+    }
+
+    #[tokio::test]
     async fn add_module() -> AnyResult<()> {
         let db = connect().await?;
 
