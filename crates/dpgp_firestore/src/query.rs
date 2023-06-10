@@ -165,16 +165,16 @@ impl UserQuery for DpgpFirestore {
 
     async fn update_discord_user(
         &self,
-        full_name: &str,
+        lookup: &UserLookup,
         updated: Discord,
         collection: &str,
     ) -> FirestoreResult<User> {
         let current = self
-            .user_by_exact_name(full_name, collection)
+            .user(&lookup, collection)
             .await?
             .context(format!(
-                "No user found with name: {} in collection: {}",
-                full_name, collection
+                "No user found with lookup: {} in collection: {}",
+                lookup, collection
             ))
             .map_err(|e| data_not_found_error(e))?;
 

@@ -148,7 +148,7 @@ FROM Students
 
         let result = db
             .update_discord_user(
-                "Nguyễn Đức Anh",
+                &UserLookup::FullName("Nguyễn Đức Anh".to_string()),
                 Discord {
                     user_id: Some("12345".to_string()),
                     username: "unknown".to_string(),

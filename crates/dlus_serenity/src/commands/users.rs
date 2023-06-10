@@ -61,15 +61,10 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
     //     // }
     // });
 
-    // args.iter::<String>().for_each(|arg| {
-    //     info!("Arg: {:?}", arg);
-    // });
-
     let discord_mention = msg.mentions.first().context("No user mentioned")?;
 
-    // the Discord mention also constitutes itself into the args
-    args.advance();
-    let student_full_name = args.quoted().single::<String>()?;
+    args.advance(); // the Discord mention also constitutes itself into the args
+    let lookup = args.quoted().single::<String>()?.as_str().into();
 
     #[cfg(feature = "firebase")]
     {
@@ -78,7 +73,7 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 
         let student = db
             .update_discord_user(
-                &student_full_name,
+                &lookup,
                 Discord {
                     user_id: Some(discord_mention.id.0.to_string()),
                     username: discord_mention.name.clone(),
