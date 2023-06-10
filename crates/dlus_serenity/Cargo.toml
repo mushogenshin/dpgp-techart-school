@@ -9,9 +9,10 @@ edition = "2021"
 [lib]
 
 [features]
-# default = []
 default = ["firebase"]
+production = ["firebase", "admin_only"]
 firebase = ["dpgp-firestore"]
+admin_only = []
 
 [dependencies]
 bricks-n-mortar = { path = "../bricks_n_mortar" }
@@ -24,3 +25,4 @@ dotenv = "0.15.0"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
+# default = []

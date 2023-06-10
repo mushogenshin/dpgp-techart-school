@@ -16,6 +16,42 @@ impl DpgpFirestore {
     pub fn with_db(db: FirestoreDb) -> Self {
         Self { inner: db }
     }
+
+    async fn user_by_exact_name(
+        &self,
+        full_name: &str,
+        collection: &str,
+    ) -> FirestoreResult<Option<User>> {
+        // Query as a stream our data
+        let object_stream: BoxStream<User> = self
+            .inner
+            .fluent()
+            .select()
+            .fields(
+                paths!(User::{full_name, email, nickname, motto, enrollments, facebook, discord }),
+            ) // the API does not allow to miss any field
+            .from(collection)
+            .filter(|q| {
+                q.for_all([
+                    // q.field(path!(User::some_num)).is_not_null(),
+                    q.field(path!(User::full_name)).eq(full_name),
+                    // // Sometimes you have optional filters
+                    // Some("Test2")
+                    //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
+                ])
+            })
+            // .order_by([(
+            //     path!(User::some_num),
+            //     FirestoreQueryDirection::Descending,
+            // )])
+            .obj() // Reading documents as structures using Serde gRPC deserializer
+            .stream_query()
+            .await?;
+
+        let users = object_stream.collect::<Vec<User>>().await;
+
+        Ok(users.into_iter().next())
+    }
 }
 
 #[async_trait]
@@ -111,51 +147,20 @@ impl UserQuery for DpgpFirestore {
             .await
     }
 
-    /// Get a [`User`] by its ID.
-    async fn user_by_id(&self, id: &str, collection: &str) -> FirestoreResult<Option<User>> {
-        self.inner
-            .fluent()
-            .select()
-            .by_id_in(collection)
-            .obj()
-            .one(id)
-            .await
-    }
-
-    async fn user_by_exact_name(
-        &self,
-        full_name: &str,
-        collection: &str,
-    ) -> FirestoreResult<Option<User>> {
-        // Query as a stream our data
-        let object_stream: BoxStream<User> = self
-            .inner
-            .fluent()
-            .select()
-            .fields(
-                paths!(User::{full_name, email, nickname, motto, enrollments, facebook, discord }),
-            ) // the API does not allow to miss any field
-            .from(collection)
-            .filter(|q| {
-                q.for_all([
-                    // q.field(path!(User::some_num)).is_not_null(),
-                    q.field(path!(User::full_name)).eq(full_name),
-                    // // Sometimes you have optional filters
-                    // Some("Test2")
-                    //     .and_then(|value| q.field(path!(User::one_more_string)).eq(value)),
-                ])
-            })
-            // .order_by([(
-            //     path!(User::some_num),
-            //     FirestoreQueryDirection::Descending,
-            // )])
-            .obj() // Reading documents as structures using Serde gRPC deserializer
-            .stream_query()
-            .await?;
-
-        let users = object_stream.collect::<Vec<User>>().await;
-
-        Ok(users.into_iter().next())
+    /// Get a [`User`] either by its email or full name.
+    async fn user(&self, lookup: &UserLookup, collection: &str) -> FirestoreResult<Option<User>> {
+        match lookup {
+            UserLookup::Email(email) => {
+                self.inner
+                    .fluent()
+                    .select()
+                    .by_id_in(collection)
+                    .obj()
+                    .one(email)
+                    .await
+            }
+            UserLookup::FullName(full_name) => self.user_by_exact_name(full_name, collection).await,
+        }
     }
 
     async fn update_discord_user(

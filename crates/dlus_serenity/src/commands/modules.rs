@@ -4,9 +4,9 @@ use dpgp_firestore::ModuleQuery;
 
 #[command]
 // Limit all commands to be guild-restricted.
-#[only_in(guilds)]
-// Allow only administrators to call this:
-#[required_permissions("ADMINISTRATOR")]
+#[cfg_attr(feature = "admin_only", only_in(guilds))]
+// Allow only administrators to call this.
+#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 #[aliases("m", "mod")]
 #[sub_commands(create_module_with_length, link_parent_class)]
 /// Upper command queries a [`Module`] by its ID.

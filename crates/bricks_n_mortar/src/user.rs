@@ -1,4 +1,5 @@
 use super::*;
+use regex::Regex;
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 /// This can act as either a student or an instructor.
@@ -18,6 +19,26 @@ pub struct User {
 pub enum UserLookup {
     Email(String),
     FullName(String),
+}
+
+impl From<&str> for UserLookup {
+    fn from(input: &str) -> Self {
+        let re = Regex::new(r"\w*@\w*\.\w*").unwrap();
+        if re.is_match(input) {
+            Self::Email(input.to_string())
+        } else {
+            Self::FullName(input.to_string())
+        }
+    }
+}
+
+impl std::fmt::Display for UserLookup {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            UserLookup::Email(email) => write!(f, "{}", email),
+            UserLookup::FullName(full_name) => write!(f, "{}", full_name),
+        }
+    }
 }
 
 impl User {
@@ -69,4 +90,24 @@ pub struct Discord {
     /// Using `String` as Firestore weirdly clamps `i64`.
     pub user_id: Option<String>,
     pub username: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn lookup_from_str() {
+        let email = "abc@def.com";
+        assert_eq!(UserLookup::Email(email.to_string()), email.into());
+
+        let name = "abc def";
+        assert_eq!(UserLookup::FullName(name.to_string()), name.into());
+
+        let name = "abc@def";
+        assert_eq!(UserLookup::FullName(name.to_string()), name.into());
+
+        let name = "abc def.com";
+        assert_eq!(UserLookup::FullName(name.to_string()), name.into());
+    }
 }

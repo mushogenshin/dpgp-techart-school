@@ -6,24 +6,23 @@ const STUDENT_COLLECTION_NAME: &str = "students";
 
 #[command]
 // Limit all commands to be guild-restricted.
-#[only_in(guilds)]
-// Allow only administrators to call this:
-#[required_permissions("ADMINISTRATOR")]
+#[cfg_attr(feature = "admin_only", only_in(guilds))]
+// Allow only administrators to call this.
+#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 #[aliases("s", "stu")]
 #[sub_commands(pair_to_discord)]
-/// Upper command queries a [`User`] as student by their full name.
+/// Upper command queries a [`User`] as student by a "lookup" -- either by email or by full name.
+/// USAGE: `~student <email>`, or
 /// USAGE: `~student <full_name in quotes>`
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let student_full_name = args.quoted().single::<String>()?;
+    let lookup = args.quoted().single::<String>()?.as_str().into();
 
     #[cfg(feature = "firebase")]
     {
         let data = ctx.data.read().await;
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
-        let student = db
-            .user_by_exact_name(&student_full_name, STUDENT_COLLECTION_NAME)
-            .await;
+        let student = db.user(&lookup, STUDENT_COLLECTION_NAME).await;
 
         // displays the result of the query
         msg.channel_id
@@ -34,7 +33,7 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
                         format!(":crystal_ball: Found: {:?}", student)
                     }
                     Ok(None) => {
-                        format!("No student found with full name: {}", student_full_name)
+                        format!("No student found with lookup: {}", lookup)
                     }
                     Err(e) => format!(":grey_question: Query error: {:?}", e),
                 },

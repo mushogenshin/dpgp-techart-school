@@ -1,5 +1,9 @@
+production:
+	cargo run --features production
+
 dlus:
-	cargo run
+	# testing with firestore
+	cargo run 
 
 dlus-no-fs:
 	# without firestore

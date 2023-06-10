@@ -65,15 +65,8 @@ pub trait UserQuery {
     /// Add a new [`User`] to the database.
     async fn create_user(&self, id: &str, user: &User, collection: &str) -> FirestoreResult<User>;
 
-    /// Get a [`User`] by its ID.
-    async fn user_by_id(&self, id: &str, collection: &str) -> FirestoreResult<Option<User>>;
-
-    /// Get a [`User`] by its name.
-    async fn user_by_exact_name(
-        &self,
-        full_name: &str,
-        collection: &str,
-    ) -> FirestoreResult<Option<User>>;
+    /// Get a [`User`] either by its ID or full name.
+    async fn user(&self, lookup: &UserLookup, collection: &str) -> FirestoreResult<Option<User>>;
 
     /// Update a [`User`] with a Discord ID and username using the user's full name.
     async fn update_discord_user(
