@@ -8,6 +8,8 @@ pub struct LearningModule {
     /// The [`Class`]es which this `Module` belongs to.
     pub parent_classes: Vec<ModuleOrder>,
     pub format: LearningFormat,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub folder_label: Option<String>,
     pub duration: DurationInWeeks,
     #[serde(with = "firestore::serialize_as_timestamp")]
     pub starts_at: DateTime<Utc>,
@@ -29,6 +31,11 @@ impl LearningModule {
             ends_at: DateTime::from_utc(end.and_hms_opt(23, 59, 59).unwrap(), Utc),
             ..Default::default()
         }
+    }
+
+    pub fn folder_label(mut self, label: &str) -> Self {
+        self.folder_label = Some(label.to_string());
+        self
     }
 
     /// Offset the start week with regard to all modules that came before, e.g.,
@@ -101,6 +108,7 @@ impl Default for LearningModule {
             listed_fee: Fee::default(),
             parent_classes: vec![],
             format: LearningFormat::default(),
+            folder_label: None,
             duration: DurationInWeeks::default(),
             starts_at: Utc::now(),
             ends_at: Utc::now() + chrono::Duration::weeks(4),

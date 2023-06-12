@@ -172,48 +172,55 @@ mod tests {
                 .unwrap()
                 .format(LearningFormat::Hybrid)
                 .description("Human Skeleton & Bony Landmarks")
-                .parent_class(("HAA20", 1)),
+                .parent_class(("HAA20", 1))
+                .folder_label("MOD 1"),
             LearningModule::new("HAA20_mod2")
                 .duration_and_start("4w", 2023, 3, 24)
                 .unwrap()
                 // online
                 .weeks_offset(4)
                 .description("Muscles of the Torso, Upper Arms & Upper Legs")
-                .parent_class(("HAA20", 2)),
+                .parent_class(("HAA20", 2))
+                .folder_label("MOD 2"),
             LearningModule::new("HAA20_mod3")
                 .duration_and_start("4w", 2023, 5, 13)
                 .unwrap()
                 // online
                 .weeks_offset(8)
                 .description("Gesture Drawing")
-                .parent_class(("HAA20", 3)),
+                .parent_class(("HAA20", 3))
+                .folder_label("MOD 3"),
             LearningModule::new("HAA20_mod4")
                 .duration_and_start("4w", 2023, 6, 17)
                 .unwrap()
                 // online
                 .weeks_offset(12)
                 .description("Muscles of the Lower Arms & Lower Legs")
-                .parent_class(("HAA20", 4)),
+                .parent_class(("HAA20", 4))
+                .folder_label("MOD 4"),
             LearningModule::new("FAP01_trackA")
                 .duration_and_start("6w", 2023, 3, 5)
                 .unwrap()
                 .format(LearningFormat::Hybrid)
                 .description("Skull Structure & Facial Features")
-                .parent_class(("FAP01", 1)),
+                .parent_class(("FAP01", 1))
+                .folder_label("TRACK A"),
             LearningModule::new("FAP01_trackB")
                 .duration_and_start("8w", 2023, 7, 9)
                 .unwrap()
                 // online
                 .weeks_offset(6)
                 .description("Fundamentals of Portraiture")
-                .parent_class(("FAP01", 2)),
+                .parent_class(("FAP01", 2))
+                .folder_label("TRACK B"),
             LearningModule::new("FAP01_trackC")
                 .duration_and_start("8w", 2023, 8, 20)
                 .unwrap()
                 // online
                 .weeks_offset(14)
                 .description("Facial Expression")
-                .parent_class(("FAP01", 3)),
+                .parent_class(("FAP01", 3))
+                .folder_label("TRACK C"),
         ];
 
         let db = connect().await?;
