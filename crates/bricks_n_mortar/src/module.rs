@@ -8,6 +8,7 @@ pub struct LearningModule {
     /// The [`Class`]es which this `Module` belongs to.
     pub parent_classes: Vec<ModuleOrder>,
     pub format: LearningFormat,
+    pub duration: DurationInWeeks,
     #[serde(with = "firestore::serialize_as_timestamp")]
     pub starts_at: DateTime<Utc>,
     #[serde(with = "firestore::serialize_as_timestamp")]
@@ -30,13 +31,24 @@ impl LearningModule {
         }
     }
 
+    /// Offset the start week with regard to all modules that came before, e.g.,
+    /// if the offset (sum duration of all previous modules) = 12,
+    /// then "Week 13" is the first week of this module.
+    pub fn weeks_offset(mut self, offset: u8) -> Self {
+        self.duration.offset = offset;
+        self
+    }
+
     fn weeks_from(mut self, start: NaiveDate, weeks: u8) -> Self {
+        self.duration.weeks = weeks;
+
         let start = DateTime::from_utc(start.and_hms_opt(0, 0, 0).unwrap(), Utc);
         self.ends_at = start + chrono::Duration::weeks(weeks as i64);
         self.starts_at = start;
         self
     }
 
+    /// Duration in weeks, and start date.
     pub fn duration_and_start(
         self,
         duration: &str,
@@ -89,6 +101,7 @@ impl Default for LearningModule {
             listed_fee: Fee::default(),
             parent_classes: vec![],
             format: LearningFormat::default(),
+            duration: DurationInWeeks::default(),
             starts_at: Utc::now(),
             ends_at: Utc::now() + chrono::Duration::weeks(4),
         }
@@ -140,5 +153,21 @@ impl ModuleOrder {
 impl From<(&str, u8)> for ModuleOrder {
     fn from(value: (&str, u8)) -> Self {
         Self::new(value.0, value.1)
+    }
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct DurationInWeeks {
+    weeks: u8,
+    /// Used to offset the start week, e.g., "Week 5" as the first week of this module.
+    offset: u8,
+}
+
+impl Default for DurationInWeeks {
+    fn default() -> Self {
+        Self {
+            weeks: 4,
+            offset: 0,
+        }
     }
 }
