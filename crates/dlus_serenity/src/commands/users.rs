@@ -1,6 +1,6 @@
 use super::*;
 #[cfg(feature = "firebase")]
-use dpgp_firestore::{futures, UserQuery};
+use dpgp_firestore::UserQuery;
 
 use regex::Regex;
 use serenity::model::user::User;

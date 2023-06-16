@@ -10,7 +10,6 @@ use firestore::{FirestoreDb, FirestoreDbOptions, FirestoreResult};
 use gcloud_sdk::TokenSourceType;
 
 pub extern crate firestore;
-pub extern crate futures;
 pub extern crate gcloud_sdk;
 
 const CLASS_COLLECTION_NAME: &str = "classes";

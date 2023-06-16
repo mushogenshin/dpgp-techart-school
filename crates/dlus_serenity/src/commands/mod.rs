@@ -11,6 +11,7 @@ use bricks_n_mortar::*;
 
 use serenity::{
     framework::standard::{macros::command, Args, CommandResult},
+    json::JsonMap,
     model::prelude::*,
     prelude::*,
 };
