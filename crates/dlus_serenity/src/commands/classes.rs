@@ -3,13 +3,10 @@ use super::*;
 use dpgp_firestore::ClassQuery;
 
 #[command]
-// Limit all commands to be guild-restricted.
-#[cfg_attr(feature = "admin_only", only_in(guilds))]
-// Allow only administrators to call this.
-#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 #[aliases("c", "cls")]
 #[sub_commands(create_class_with_categories)]
 /// Upper command queries a [`Class`] by its ID.
+/// This view/query action is allowed for non-admin users and for outside of guilds.
 pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let class_id = args.single::<String>()?;
 
@@ -28,7 +25,7 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
                     Ok(Some(class)) => {
                         format!(":crystal_ball: Found: {:?}", class)
                     }
-                    Ok(None) => format!("No class found with ID: {}", class_id),
+                    Ok(None) => format!(":grey_exclamation: No class found with ID: {}", class_id),
                     Err(e) => format!(":grey_question: Query error: {:?}", e),
                 },
             )
@@ -39,6 +36,10 @@ pub async fn class(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
 
 #[command("new")]
 #[aliases("n")]
+// Limit all commands to be guild-restricted.
+#[cfg_attr(feature = "admin_only", only_in(guilds))]
+// Allow only administrators to call this.
+#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 /// USAGE: `~class new <id> <categories>`
 /// Subcommand for creating a [`Class`].
 async fn create_class_with_categories(

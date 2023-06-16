@@ -6,7 +6,7 @@ pub mod modules;
 pub mod users;
 
 use super::*;
-use anyhow::Context as AnyhowContext;
+use anyhow::{anyhow, Context as AnyhowContext, Result as AnyResult};
 use bricks_n_mortar::*;
 
 use serenity::{

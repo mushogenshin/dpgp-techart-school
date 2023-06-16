@@ -9,7 +9,6 @@ use db::DpgpQuery;
 #[cfg(feature = "firebase")]
 pub use dpgp_firestore::{gcloud_sdk::TokenSourceType, DpgpFirestore, GCPProjectAndToken};
 
-#[allow(unused_imports)]
 use log::{error, info, warn};
 use serenity::{
     client::Client,

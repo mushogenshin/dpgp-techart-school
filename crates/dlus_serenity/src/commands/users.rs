@@ -75,15 +75,13 @@ fn all_user_lookups(msg: &Message, args: &mut Args) -> Vec<UserLookup> {
 }
 
 #[command]
-// Limit all commands to be guild-restricted.
-#[cfg_attr(feature = "admin_only", only_in(guilds))]
-// Allow only administrators to call this.
-#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 #[aliases("s", "stu")]
 #[sub_commands(pair_to_discord, register_module)]
-/// Upper command queries a [`User`] as student by a "lookup" -- either by email or by full name.
+/// Upper command queries a [`User`] as student by a "lookup".
 /// USAGE: `~student <email>`, or
-/// USAGE: `~student <full_name in quotes>`
+/// USAGE: `~student <full_name in quotes>`, or
+/// USAGE: `~student <discord mention>`
+/// This view/query action is allowed for non-admin users and for outside of guilds.
 pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let lookup = first_user_lookup(msg, &mut args).context("No user lookup provided")?;
 
@@ -115,6 +113,10 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
 
 #[command]
 #[aliases("p", "pair")]
+// Limit all commands to be guild-restricted.
+#[cfg_attr(feature = "admin_only", only_in(guilds))]
+// Allow only administrators to call this.
+#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 /// USAGE: `~student pair <@discord_mention> <user lookup: by email or full name>`
 async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let mention = first_mention_opt(msg, &mut args).context("No user mentioned")?;
@@ -153,6 +155,10 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 
 #[command("register")]
 #[aliases("r", "reg")]
+// Limit all commands to be guild-restricted.
+#[cfg_attr(feature = "admin_only", only_in(guilds))]
+// Allow only administrators to call this.
+#[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let module = args.quoted().single::<String>()?;
     let students = all_user_lookups(msg, &mut args);
@@ -173,9 +179,8 @@ async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> Comman
             registers.push(db.add_enrollment(student, &enrollment, STUDENT_COLLECTION_NAME));
         });
 
-        let results = futures::future::join_all(registers).await;
-
         // TODO: report failed registrations
+        let _results = futures::future::join_all(registers).await;
 
         msg.channel_id
             .say(&ctx.http, ":white_check_mark: Completed registration")
