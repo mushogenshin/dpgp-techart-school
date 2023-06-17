@@ -2,7 +2,7 @@ use super::*;
 
 use serde_json::json;
 use serenity::model::channel::{PermissionOverwrite, PermissionOverwriteType};
-use serenity::model::id::UserId;
+use serenity::model::id::RoleId;
 use serenity::model::permissions::Permissions;
 
 #[command]
@@ -52,20 +52,66 @@ pub async fn create_module_channels(ctx: &Context, msg: &Message, mut args: Args
     let module = args.single::<String>()?.to_lowercase();
     let guild = current_guild(ctx, msg).await?;
 
-    // first we must create a common category for the channels
+    let everyone = guild
+        .roles
+        .get(&RoleId(guild.id.0))
+        .context(format!(
+            "@everyone role ({}) missing in {}",
+            guild.id, guild.name,
+        ))
+        .map_err(|e| {
+            error!("{}", e);
+            e
+        })?;
+
+    // first we create a dedicated role for the category
+    let new_role = guild
+        .create_role(&ctx.http, |r| {
+            r.name(format!("{}-{}", class, module))
+                .hoist(true)
+                .mentionable(true)
+                .permissions(Permissions::empty())
+                .colour(15277667) // LuminousVividPink
+        })
+        .await?;
+
+    let mut allow = PRESET_TEXT
+        | Permissions::SEND_MESSAGES_IN_THREADS
+        | Permissions::CREATE_PUBLIC_THREADS
+        | Permissions::CREATE_PRIVATE_THREADS
+        | Permissions::USE_EXTERNAL_STICKERS;
+    allow.toggle(Permissions::CREATE_INSTANT_INVITE);
+    allow.toggle(Permissions::MENTION_EVERYONE);
+    allow.toggle(Permissions::SEND_TTS_MESSAGES);
+
+    let permissions = vec![
+        PermissionOverwrite {
+            allow: Permissions::empty(),
+            deny: Permissions::VIEW_CHANNEL,
+            kind: PermissionOverwriteType::Role(everyone.id),
+        },
+        PermissionOverwrite {
+            allow: allow,
+            deny: PRESET_VOICE,
+            kind: PermissionOverwriteType::Role(new_role.id),
+        },
+    ];
+
+    // then we must create a common category for the channels
     let category = guild
         .create_channel(&ctx.http, |c| {
             c.name(format!("{}-{}", class, module).to_uppercase())
                 .kind(ChannelType::Category)
+                .permissions(permissions)
                 .position(0)
         })
-        .await?;
+        .await;
 
-    let permissions = vec![PermissionOverwrite {
-        allow: Permissions::VIEW_CHANNEL,
-        deny: Permissions::SEND_TTS_MESSAGES,
-        kind: PermissionOverwriteType::Member(UserId(1234)),
-    }];
+    if let Err(e) = &category {
+        error!("Error creating category: {}", e);
+    };
+
+    let category = category?;
 
     let channels = vec![
         (format!("📺{}-{}-general", class, module), "Link Google Meet lớp học :computer: + các thông báo chung :loudspeaker:... sẽ được post ở đây"),
