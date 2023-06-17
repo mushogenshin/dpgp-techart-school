@@ -18,8 +18,7 @@ admin_only = []
 bricks-n-mortar = { path = "../bricks_n_mortar" }
 dpgp-firestore = { path = "../dpgp_firestore", optional = true }
 
-# serde = { version = "1.0.163", features = ["derive"] }
-serenity = { version = "0.11.5", features = ["model"] }
+serenity = "0.11.5"
 log = "0.4.17"
 dotenv = "0.15.0"
 serde_json = "1.0.75"
@@ -27,4 +26,3 @@ tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 futures = "0.3.28"
 tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
-# default = []

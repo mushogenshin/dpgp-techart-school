@@ -1,5 +1,9 @@
 use super::*;
+
 use serde_json::json;
+use serenity::model::channel::{PermissionOverwrite, PermissionOverwriteType};
+use serenity::model::id::UserId;
+use serenity::model::permissions::Permissions;
 
 #[command]
 #[aliases("chan")]
@@ -8,9 +12,19 @@ use serde_json::json;
 /// USAGE: `~channel <name>`
 pub async fn channel(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let channel_name = args.single::<String>()?;
-    let guild = guild_id(msg)?;
+    let guild = current_guild(ctx, msg).await?;
 
-    let channel = get_channel_by_name(ctx, &guild, &channel_name).await;
+    let channel = guild
+        .channels(&ctx.http)
+        .await
+        .map_err(|e| anyhow!("Error getting channels: {}", e))
+        .and_then(|channels| {
+            channels
+                .into_values()
+                .find(|channel| channel.name == channel_name)
+                .ok_or_else(|| anyhow!("No channel found with name: {}", channel_name))
+        });
+
     msg.channel_id
         .say(
             &ctx.http,
@@ -47,6 +61,12 @@ pub async fn create_module_channels(ctx: &Context, msg: &Message, mut args: Args
         })
         .await?;
 
+    let permissions = vec![PermissionOverwrite {
+        allow: Permissions::VIEW_CHANNEL,
+        deny: Permissions::SEND_TTS_MESSAGES,
+        kind: PermissionOverwriteType::Member(UserId(1234)),
+    }];
+
     let channels = vec![
         (format!("📺{}-{}-general", class, module), "Link Google Meet lớp học :computer: + các thông báo chung :loudspeaker:... sẽ được post ở đây"),
         (format!("💢{}-{}-wip-sharing", class, module), "Post WIPs lên đây nghen bà con :art:! Sôi nổi lên nào :relieved:"),
@@ -55,53 +75,39 @@ pub async fn create_module_channels(ctx: &Context, msg: &Message, mut args: Args
     ];
 
     let mut create = vec![];
-    channels.iter().for_each(|map| {
-        create.push(
-            guild
-                .create_channel(&ctx.http, |c| {
-                    c.name(&map.0)
-                        .topic(&map.1)
-                        .kind(ChannelType::Text)
-                        .category(category.id)
-                })
-                .boxed(),
-        );
-    });
+    channels
+        .iter()
+        .enumerate()
+        .for_each(|(idx, (name, topic))| {
+            create.push(
+                guild
+                    .create_channel(&ctx.http, move |c| {
+                        c.name(name)
+                            .topic(topic)
+                            .kind(ChannelType::Text)
+                            .category(category.id)
+                            .position(idx as u32)
+                    })
+                    .boxed(),
+            );
+        });
 
     let _results = futures::future::join_all(create).await;
 
     Ok(())
 }
 
-fn guild_id(msg: &Message) -> AnyResult<GuildId> {
-    msg.guild_id
-        .ok_or_else(|| anyhow!("No Guild ID found"))
-        .map_err(|e| {
-            error!("This command must be sent within a guild: {}", e);
-            e
-        })
-}
-
 async fn current_guild(ctx: &Context, msg: &Message) -> AnyResult<PartialGuild> {
     ctx.http
-        .get_guild(guild_id(msg)?.0)
+        .get_guild(
+            msg.guild_id
+                .ok_or_else(|| anyhow!("No Guild ID found"))
+                .map_err(|e| {
+                    error!("This command must be sent within a guild: {}", e);
+                    e
+                })?
+                .0,
+        )
         .await
         .map_err(|e| anyhow!("Error getting guild: {}", e))
-}
-
-async fn get_channel_by_name(
-    ctx: &Context,
-    guild_id: &GuildId,
-    channel_name: &str,
-) -> AnyResult<GuildChannel> {
-    ctx.http
-        .get_channels(guild_id.0)
-        .await
-        .map_err(|e| anyhow!("Error getting channels: {}", e))
-        .and_then(|channels| {
-            channels
-                .into_iter()
-                .find(|channel| channel.name == channel_name)
-                .ok_or_else(|| anyhow!("No channel found with name: {}", channel_name))
-        })
 }
