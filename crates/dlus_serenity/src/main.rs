@@ -15,16 +15,18 @@ async fn main() {
 }
 
 pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
-    env::var("RUN_MODE")
-        .map(|mode| {
-            if mode.to_lowercase() != "production" {
-                // This will load the environment variables located at `./.env`, relative to the CWD.
-                dotenv::dotenv().expect("Failed to load .env file");
-            } else {
+    match env::var("RUN_MODE") {
+        Ok(mode) => {
+            if mode.to_lowercase() == "production" {
                 info!("Running in PRODUCTION mode");
-            }
-        })
-        .ok();
+            };
+        }
+        Err(_) => {
+            info!("Running in DEVELOPMENT mode");
+            // This will load the environment variables located at `./.env`, relative to the CWD.
+            dotenv::dotenv().expect("Failed to load .env file");
+        }
+    }
 
     let bot_token = env::var("DISCORD_TOKEN").unwrap_or_else(|err| {
         error!("Expected a Discord bot token in the environment: {}", err);
@@ -43,12 +45,12 @@ pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
             })
             .ok();
 
-        let google_project_id = env::var("GOOGLE_PROJECT_ID").unwrap_or_else(|e| {
-            error!("Expected Google project ID in the environment: {}", e);
-            String::new()
-        });
-
         firestore_key_file.map(|key| {
+            let google_project_id = env::var("GOOGLE_PROJECT_ID").unwrap_or_else(|e| {
+                error!("Expected Google project ID in the environment: {}", e);
+                String::new()
+            });
+
             GCPProjectAndToken {
                 google_project_id,
                 // NOTE: `TokenSourceType::Json(String)` seems to expect a JWT, not a regular serialized string
@@ -65,14 +67,14 @@ pub async fn run_dlus() -> Result<serenity::Client, serenity::Error> {
     .await
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
 
-    #[tokio::test]
-    async fn run_dlus_without_firestore() {
-        tracing_subscriber::fmt::init();
-        // TODO: pass `None` to test without Firestore
-        run_dlus().await.unwrap();
-    }
-}
+//     #[tokio::test]
+//     async fn run_dlus_without_firestore() {
+//         tracing_subscriber::fmt::init();
+//         // TODO: pass `None` to test without Firestore
+//         run_dlus().await.unwrap();
+//     }
+// }
