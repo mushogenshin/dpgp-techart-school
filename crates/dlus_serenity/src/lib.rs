@@ -6,6 +6,8 @@ mod db;
 #[cfg(feature = "firebase")]
 use db::DpgpQuery;
 
+use std::io;
+
 #[cfg(feature = "firebase")]
 pub use dpgp_firestore::{gcloud_sdk::TokenSourceType, DpgpFirestore, GCPProjectAndToken};
 
@@ -43,17 +45,23 @@ pub async fn init_bot(
     let http = Http::new(bot_token);
 
     // Fetch the bot's owners and id
-    let (owners, _bot_id) = match http.get_current_application_info().await {
-        Ok(info) => {
+    let (owners, _bot_id) = http
+        .get_current_application_info()
+        .await
+        .map(|info| {
             info!("Discord application owner is {}", info.owner.name);
 
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
             (owners, info.id)
-        }
-        Err(why) => panic!("Could not access Discord application info: {:?}", why),
-    };
+        })
+        .map_err(|e| {
+            SerenityError::Io(io::Error::new(
+                io::ErrorKind::Other,
+                format!("Could not access Discord application info: {}", e),
+            ))
+        })?;
 
     // Create the framework
     let framework = StandardFramework::new()

@@ -1,5 +1,5 @@
 production:
-	cargo run --features production
+	cargo run --features production --release
 
 dlus:
 	# testing with firestore
