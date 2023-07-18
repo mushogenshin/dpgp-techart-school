@@ -1,5 +1,5 @@
 production:
-	cargo run --features production --release
+	RUN_MODE=production cargo run --features admin_only --release
 
 dlus:
 	# testing with firestore

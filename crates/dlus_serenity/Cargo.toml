@@ -10,7 +10,6 @@ edition = "2021"
 
 [features]
 default = ["firebase"]
-production = ["firebase", "admin_only"]
 firebase = ["dpgp-firestore"]
 admin_only = []
 
