@@ -1,0 +1,10 @@
+target/**
+
+# security
+**/.env
+**/tmp
+
+# disable nightly
+rust-toolchain.toml
+
+!tmp/key.json
