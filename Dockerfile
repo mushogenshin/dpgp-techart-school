@@ -10,7 +10,7 @@ COPY . .
 RUN cargo build --features admin_only --release
 
 # Second stage
-FROM alpine:latest as runtime
+FROM debian:stable-slim as runtime
 ENV DEBIAN_FRONTEND=noninteractive
 # RUN	apt-get -y update && \
 #     apt-get -y install libgtk-3-dev && \
@@ -26,10 +26,10 @@ COPY --from=builder /app/target/release/dlus-serenity /usr/local/bin/dlus/
 
 # Also when running the Hunter-related executable we must provide the second argument 
 # of the config root.
-ENTRYPOINT \
+# ENTRYPOINT \
 # ln -s -f /lib/x86_64-linux-gnu/libssl.so.3 /usr/lib/libssl.so.1.1 && \
 # ln -s -f /lib/x86_64-linux-gnu/libcrypto.so.3 /usr/lib/libcrypto.so.1.1 && \
-/usr/local/bin/dlus/dlus-serenity
+# /usr/local/bin/dlus/dlus-serenity
 
-# # if we want to keep the container running
-# CMD ["tail", "-f", "/dev/null"]
+# if we want to keep the container running
+CMD ["tail", "-f", "/dev/null"]

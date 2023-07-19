@@ -1,3 +1,7 @@
+image:
+	docker rmi -f dlus-serenity && \
+	docker build -t dlus-serenity .
+
 production:
 	RUN_MODE=production cargo run --features admin_only --release
 

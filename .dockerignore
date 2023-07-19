@@ -2,7 +2,7 @@ target/**
 
 # security
 **/.env
-**/tmp
+tmp
 
 # disable nightly
 rust-toolchain.toml
