@@ -5,6 +5,7 @@ target/**
 tmp
 
 # disable nightly
+.cargo
 rust-toolchain.toml
 
 !tmp/key.json
