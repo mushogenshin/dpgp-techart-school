@@ -2,8 +2,6 @@ image:
 	docker rm -f dpgp-dlus && docker rmi -f dlus-serenity && \
 	docker build -t dlus-serenity . && \
 	docker run -d --name dpgp-dlus \
-	-p 8080:8080 \
-	-e FIRESTORE_EMULATOR_HOST=localhost:8080 \
 	-e FIRESTORE_KEY_FILE=/usr/local/bin/dlus/key.json \
 	-e GOOGLE_PROJECT_ID=musho-genshin \
 	dlus-serenity
