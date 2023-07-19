@@ -11,9 +11,15 @@ pub struct LearningModule {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub folder_label: Option<String>,
     pub duration: DurationInWeeks,
-    #[serde(with = "firestore::serialize_as_timestamp")]
+    #[cfg_attr(
+        feature = "firebase",
+        serde(with = "firestore::serialize_as_timestamp")
+    )]
     pub starts_at: DateTime<Utc>,
-    #[serde(with = "firestore::serialize_as_timestamp")]
+    #[cfg_attr(
+        feature = "firebase",
+        serde(with = "firestore::serialize_as_timestamp")
+    )]
     pub ends_at: DateTime<Utc>,
 }
 

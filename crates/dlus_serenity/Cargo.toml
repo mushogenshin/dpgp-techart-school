@@ -4,12 +4,9 @@ version = "0.1.0"
 description = "A Discord bot for Dẫu Phải Giải-Phẫu school"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
 
 [features]
-default = ["firebase"]
 firebase = ["dpgp-firestore"]
 admin_only = []
 
