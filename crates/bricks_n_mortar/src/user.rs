@@ -1,7 +1,7 @@
 use super::*;
 use regex::Regex;
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Clone, Default, Deserialize, Serialize)]
 /// This can act as either a student or an instructor.
 pub struct User {
     pub email: String,
@@ -13,6 +13,20 @@ pub struct User {
     pub facebook: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub discord: Option<Discord>,
+}
+
+impl std::fmt::Debug for User {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("User")
+            .field("email", &self.email)
+            .field("full_name", &self.full_name)
+            // .field("nickname", &self.nickname)
+            // .field("motto", &self.motto)
+            .field("enrollments", &self.enrollments)
+            .field("facebook", &self.facebook.as_ref().map(|url| url.trim()))
+            .field("discord", &self.discord)
+            .finish()
+    }
 }
 
 impl User {

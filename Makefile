@@ -4,11 +4,11 @@ image:
 	docker run -d --name dpgp-dlus dlus-serenity
 
 production:
-	RUN_MODE=production cargo run --features admin_only --release
+	RUN_MODE=production cargo run --features firebase admin_only --release
 
 dlus:
 	# testing with firestore
-	cargo run 
+	cargo run --features firebase
 
 # dlus-no-fs:
 # 	# without firestore

@@ -98,7 +98,7 @@ pub async fn student(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
                 &ctx.http,
                 match student {
                     Ok(Some(student)) => {
-                        format!(":crystal_ball: Found: {:?}", student)
+                        format!(":crystal_ball: Found: {:#?}", student)
                     }
                     Ok(None) => {
                         format!("No student found with lookup: {}", lookup)
