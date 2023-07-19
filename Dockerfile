@@ -17,7 +17,7 @@ ENV RUN_MODE=production
 COPY --from=builder /app/tmp/. /usr/local/bin/dlus/
 COPY --from=builder /app/target/debug/dlus-serenity /usr/local/bin/dlus/
 
-# ENTRYPOINT /usr/local/bin/dlus/dlus-serenity
+ENTRYPOINT /usr/local/bin/dlus/dlus-serenity
 
-# if we want to keep the container running
-CMD ["tail", "-f", "/dev/null"]
+# # if we want to keep the container running
+# CMD ["tail", "-f", "/dev/null"]
