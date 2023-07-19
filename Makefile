@@ -1,6 +1,7 @@
 image:
-	docker rmi -f dlus-serenity && \
-	docker build -t dlus-serenity .
+	docker rm -f dpgp-dlus && docker rmi -f dlus-serenity && \
+	docker build -t dlus-serenity . && \
+	docker run -d --name dpgp-dlus dlus-serenity
 
 production:
 	RUN_MODE=production cargo run --features admin_only --release
