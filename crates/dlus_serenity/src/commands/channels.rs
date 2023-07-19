@@ -125,17 +125,13 @@ pub async fn create_module_channels(ctx: &Context, msg: &Message, mut args: Args
         .iter()
         .enumerate()
         .for_each(|(idx, (name, topic))| {
-            create.push(
-                guild
-                    .create_channel(&ctx.http, move |c| {
-                        c.name(name)
-                            .topic(topic)
-                            .kind(ChannelType::Text)
-                            .category(category.id)
-                            .position(idx as u32)
-                    })
-                    .boxed(),
-            );
+            create.push(guild.create_channel(&ctx.http, move |c| {
+                c.name(name)
+                    .topic(topic)
+                    .kind(ChannelType::Text)
+                    .category(category.id)
+                    .position(idx as u32)
+            }));
         });
 
     let _results = futures::future::join_all(create).await;
