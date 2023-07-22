@@ -1,9 +1,1 @@
-/target
-/Cargo.lock
-
 **/.DS_Store
-
-.env
-/key.json
-
-_docker_builds

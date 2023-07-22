@@ -1,11 +1,13 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		},
-		{
-			"path": "../../../development/FrontendMasters-React-Firebase"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../../../development/FrontendMasters-React-Firebase"
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true
+  }
 }

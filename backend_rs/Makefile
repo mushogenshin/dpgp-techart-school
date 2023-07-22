@@ -11,5 +11,5 @@ production:
 
 dlus-image:
 	docker rm -f dpgp-dlus && docker rmi -f dlus-serenity && \
-	docker build -t dlus-serenity -f Dockerfile.DLUS . && \
+	docker build -t dlus-serenity . && \
 	docker run -d --name dpgp-dlus dlus-serenity
