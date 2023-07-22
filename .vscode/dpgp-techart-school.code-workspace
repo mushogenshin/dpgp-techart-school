@@ -4,10 +4,7 @@
 			"path": ".."
 		},
 		{
-			"path": "../../../development/serenity"
-		},
-		{
-			"path": "../../../development/firestore-rs"
+			"path": "../../../development/FrontendMasters-React-Firebase"
 		}
 	],
 	"settings": {}
