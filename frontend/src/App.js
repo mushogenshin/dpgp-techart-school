@@ -1,5 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { ProjectFirestore, ProjectAuth } from "./firebase_config";
+import { collection, addDoc } from "firebase/firestore";
+// import { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+// try {
+//   const docRef = await addDoc(collection(ProjectFirestore, "blehh"), {
+//     first: "Ada",
+//     last: "Lovelaceeee",
+//     born: 1815,
+//   });
+//   console.log("Document written with ID: ", docRef.id);
+// } catch (e) {
+//   console.error("Error adding document: ", e);
+// }
 
 function App() {
   return (
