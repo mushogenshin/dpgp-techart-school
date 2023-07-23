@@ -1,36 +1,29 @@
-import { ProjectFirestore, ProjectAuth } from "./firebase_config";
-import { collection, addDoc } from "firebase/firestore";
-// import { useEffect } from "react";
+import { db } from "./firebase_config";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-// try {
-//   const docRef = await addDoc(collection(ProjectFirestore, "blehh"), {
-//     first: "Ada",
-//     last: "Lovelaceeee",
-//     born: 1815,
-//   });
-//   console.log("Document written with ID: ", docRef.id);
-// } catch (e) {
-//   console.error("Error adding document: ", e);
-// }
-
 function App() {
+  const [classes, setClasses] = useState([]);
+
+  const getClasses = async () => {
+    const querySnapshot = await getDocs(collection(db, "classes"));
+    // querySnapshot.forEach((doc) => {
+    //   console.log(`${doc.id} => ${doc.data()}`);
+    // });
+    setClasses(querySnapshot.docs.map((doc) => doc.data()));
+  };
+
+  // useEffect(() => {
+  //   getClasses();
+  // }, []);
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>DPGP TechArt School</p>
       </header>
     </div>
   );
