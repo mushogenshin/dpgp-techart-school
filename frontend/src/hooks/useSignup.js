@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useAuthContext } from "./useAuthContext";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const { dispatch } = useAuthContext();
 
   const signup = async (email, password) => {
     // firstly, clear errors for every signup
@@ -19,7 +21,8 @@ export const useSignup = () => {
         throw new Error("Could not complete the signup");
       }
 
-      console.log(res.user);
+      // dispatch login action
+      dispatch({ type: "LOGIN", payload: res.user });
 
       setIsPending(false);
       setError(null);

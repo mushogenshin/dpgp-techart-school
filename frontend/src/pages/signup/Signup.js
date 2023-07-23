@@ -27,7 +27,7 @@ export default function Signup() {
         />
       </label>
       <label>
-        <span>Mật khẩu:</span>
+        <span>Password:</span>
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -35,7 +35,7 @@ export default function Signup() {
         />
       </label>
       {/* prevent multiple requests during pending */}
-      {!isPending && <button className="btn">Đăng ký</button>}
+      {!isPending && <button className="btn">Register</button>}
       {isPending && (
         <button className="btn" disabled>
           Loading

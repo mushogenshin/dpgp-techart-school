@@ -1,13 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Signup from "./pages/signup/Signup";
+import Navbar from "./components/Navbar";
 import Home from "./pages/home/Home";
-import "./App.css";
+import Signup from "./pages/signup/Signup";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />}></Route>
           <Route path="/signup" element={<Signup />} />
