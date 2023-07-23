@@ -20,11 +20,10 @@ export const useLogout = () => {
       // dispatch logout action
       dispatch({ type: "LOGOUT" });
 
+      // update the state
       setIsPending(false);
       setError(null);
     } catch (err) {
-      console.log(err);
-      // handle errors
       setError(err.message);
       setIsPending(false);
     }
