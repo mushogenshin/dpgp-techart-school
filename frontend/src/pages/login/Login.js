@@ -34,11 +34,12 @@ export default function Login() {
         />
       </label>
       {/* prevent multiple requests during pending */}
-      {!isPending && <button className="btn">Login</button>}
-      {isPending && (
+      {isPending ? (
         <button className="btn" disabled>
           Loading
         </button>
+      ) : (
+        <button className="btn">Login</button>
       )}
       {error && <p>{error}</p>}
     </form>

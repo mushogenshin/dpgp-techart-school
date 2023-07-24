@@ -35,11 +35,12 @@ export default function Signup() {
         />
       </label>
       {/* prevent multiple requests during pending */}
-      {!isPending && <button className="btn">Register</button>}
-      {isPending && (
+      {isPending ? (
         <button className="btn" disabled>
           Loading
         </button>
+      ) : (
+        <button className="btn">Register</button>
       )}
       {error && <p>{error}</p>}
     </form>
