@@ -44,19 +44,19 @@ export default function Home() {
       Chúng ta không cần sợ mang danh "Artist không ra Artist" ngay cả khi theo
       đuổi TechArt. Cũng như ta không việc gì phải xấu hổ khi chọn theo học
       "những lớp có cảm giác quá kỹ thuật" để phục vụ cho hành trình nghệ thuật
-      của mình cả. Trái lại, những người còn giữ ám ảnh "Tech versus Art" mới
-      chính là những người có tư duy hạn hẹp đó chứ: Sử dụng nhuần nhuyễn kỹ
-      thuật để chuyên chở cảm xúc, đó chẳng phải là điều các bậc thầy trong ẩm
-      thực, thời trang, hội hoạ, điêu khắc, kiến trúc, thơ ca, âm nhạc, kịch
-      nghệ, nhiếp ảnh, điện ảnh, VFX, comics, v.v. đã làm từ bấy lâu trong lịch
-      sử nhân loại hay sao?
+      của mình cả. Trái lại, những người còn giữ ám ảnh "Tech versus Art" (nghệ
+      thuật đối lập với kỹ thuật hay công nghệ) mới chính là những người có tư
+      duy hạn hẹp đó chứ: Sử dụng nhuần nhuyễn kỹ thuật để chuyên chở cảm xúc,
+      đó chẳng phải là điều các bậc thầy trong ẩm thực, thời trang, hội hoạ,
+      điêu khắc, kiến trúc, thơ ca, âm nhạc, kịch nghệ, nhiếp ảnh, điện ảnh,
+      VFX, comics, v.v. đã làm từ bấy lâu trong lịch sử nhân loại hay sao?
       <br />
       <br />
       "Dẫu Phải Giải Phẫu" hy vọng gợi ra cho các bạn những hành trình tuy cam
       go nhưng nhiều phần thưởng và lợi ích cho những ai bền chí kiên định. Đó
-      là chuyến phiêu lưu mà đứa trẻ nhỏ bên trong từng người chúng ta luốn hào
-      hứng đòi hỏi được đikhông sáng tạo, tìm hiểu thế giới, những sự phấn khởi
-      và lòng vui thú thiên bẩm nếu không bị đè bẹp bởi các thế lực khác.
+      là chuyến phiêu lưu mà đứa trẻ nhỏ bên trong từng người chúng ta luôn hào
+      hứng đòi hỏi được đi: vẽ, sáng tạo, tìm hiểu thế giới, là những sự phấn
+      khởi và lòng vui thú thiên bẩm nếu không bị đè bẹp bởi các thế lực khác.
     </div>
   );
 }
