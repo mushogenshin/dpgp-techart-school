@@ -1,5 +1,5 @@
 import { db } from "../firebase_config";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export const useCollection = (collectionName) => {
@@ -7,7 +7,7 @@ export const useCollection = (collectionName) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let q = query(collection(db, collectionName));
+    let q = collection(db, collectionName);
     const unsub = onSnapshot(
       q,
       (querySnapshot) => {
