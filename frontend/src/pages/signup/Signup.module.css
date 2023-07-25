@@ -1,19 +1,26 @@
 .signup-form {
-    max-width: 360px;
-    margin: 60px auto;
-    padding: 20px;
-  }
-  .signup-form label {
-    display: block;
-    margin: 30px auto;
-  }
-  .signup-form span {
-    display: block;
-    margin-bottom: 6px;
-  }
-  .signup-form input {
-    padding: 8px 6px;
-    font-size: 1em;
-    color: #777;
-    width: 100%;
-  }
+  max-width: 560px;
+  margin: 60px auto;
+  padding: 20px;
+}
+.signup-form label {
+  display: block;
+  margin: 30px auto;
+}
+.signup-form span {
+  display: block;
+  margin-bottom: 6px;
+}
+.signup-form input {
+  max-width: 360px;
+  padding: 8px 6px;
+  font-size: 1em;
+  color: #777;
+  width: 100%;
+}
+.signup-form a  {
+  color: rgb(96, 244, 123)
+}
+.signup-form a:visited  {
+  color: rgb(96, 244, 123)
+}

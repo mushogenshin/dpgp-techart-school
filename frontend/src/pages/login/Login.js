@@ -17,6 +17,10 @@ export default function Login() {
   return (
     <form onSubmit={handleSubmit} className={styles["login-form"]}>
       <h2>Đăng Nhập</h2>
+      <small>
+        Nhập địa chỉ email mà bạn đã dùng để đăng kí với Dẫu Phải Giải Phẫu
+        trong quá khứ
+      </small>
       <label>
         <span>Email:</span>
         <input
