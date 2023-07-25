@@ -1,13 +1,15 @@
 import React from "react";
 import logo from "../../logo.svg";
 
+import styles from "./Home.module.css";
+
 export default function Home() {
   return (
-    <div>
+    <div className={styles.home}>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      SALE MESSAGE HERE...
+      Welcome!
     </div>
   );
 }

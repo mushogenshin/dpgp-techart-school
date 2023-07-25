@@ -4,6 +4,8 @@ import { db } from "../../firebase_config";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
+import styles from "./Courses.module.css";
+
 export default function Courses() {
   //   we avoid using `useCollection` hook to prevent unnecessary reloads
   //   NOTE: this is not updated in real-time
@@ -22,7 +24,7 @@ export default function Courses() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.courses}>
       <h2>ALL COURSES</h2>
       {error && <p>{error}</p>}
       {courses && <CourseList courses={courses} />}

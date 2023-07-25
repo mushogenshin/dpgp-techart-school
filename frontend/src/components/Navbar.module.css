@@ -1,14 +1,14 @@
 .navbar {
-    width: 100%;
-    /* background: #effaf0; */
-    padding: 20px 10px;
-    box-sizing: border-box;
+    background: #3f0328;
+    padding: 20px;
 }
 .navbar ul {
     display: flex;
-    margin: 0 auto;
-    max-width: 960px;
+    margin: 0;
+    padding: 0;
+    /* max-width: 1024px; */
     align-items: center;
+    list-style-type: none;
 }
 .title {
     margin-right: auto;
@@ -17,17 +17,9 @@
     font-size: 1.2em;
 }
 .navbar button, .navbar a {
-    margin-left: 16px;
+    margin-left: 10px;
 }
 .navbar a {
     color: white;
     text-decoration: none;
-}
-
-ul, li, p, h1, h2, h3, h4 {
-    margin: 0;
-    padding: 0;
-}
-ul {
-    list-style-type: none;
 }

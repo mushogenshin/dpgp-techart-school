@@ -1,3 +1,8 @@
+* {
+  position: relative;
+  box-sizing: border-box;
+}
+
 body {
   color: rgb(227, 227, 227);
   background: linear-gradient(176deg,rgb(18,24,27) 50%,rgb(32,39,55) 100%);
@@ -16,7 +21,8 @@ code {
 }
 
 .App {
-  text-align: center;
+  width: 100%;
+  padding: 0;
 }
 
 .App-logo {
