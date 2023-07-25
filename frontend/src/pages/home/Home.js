@@ -21,12 +21,12 @@ export default function Home() {
       duy: là tổng kết những gì ta hiểu về sự vật, hiện tượng, và thế giới; và
       khát khao lẫn tiềm tàng sáng tạo của một người hoạ sĩ thời hiện đại còn có
       thể biểu đạt qua rất nhiều hình thái khác: bao gồm những bộ môn nằm trong
-      chữ "Tech" còn lại của TechArt.
+      chữ "Tech" bên trong "TechArt".
       <br />
       <br />
       Đó là lý do mà xuất thân từ bộ môn giải phẫu, cũng như cách nhân loại từ
       đó đã có thời kỳ Phục Hưng và Cách mạng Khoa học và Công nghiệp, nay "Dẫu
-      Phải Giải Phẫu" cảm thấy một sự phát triễn vô cùng tự nhiên: sau hành
+      Phải Giải Phẫu" cảm thấy một sự phát triển vô cùng tự nhiên: sau hành
       trình 8 năm với hơn 500 học viên, chúng ta sẽ không chỉ dừng lại ở
       Anatomy, mà cả một chân trời (sau khi hiểu rõ trước tiên về bộ máy cơ thể
       con người) nay đã mở ra: không chỉ là Animation, Rigging, lập trình, nhưng
@@ -37,7 +37,7 @@ export default function Home() {
       "Dẫu Phải Giải Phẫu" từ đó thân mời các bạn cùng dấn bước, vẫn thoải mái
       hăng say với nghề vẽ, nhưng cũng không hề sợ hãi những bộ môn kỹ thuật
       khác, bởi vì vẽ từ đầu đã là một cách để thông qua đó ta hiểu thế giới, và
-      người đam mê vẽ là người đã được "thiên phú" cho trí tò mò, lòng say mê
+      người đam mê vẽ là người đã được "thiên phú" với trí tò mò, lòng say mê
       tìm hiểu, là những phẩm chất cực kì quý báu trong thời đại hôm nay.
       <br />
       <br />
@@ -45,10 +45,18 @@ export default function Home() {
       đuổi TechArt. Cũng như ta không việc gì phải xấu hổ khi chọn theo học
       "những lớp có cảm giác quá kỹ thuật" để phục vụ cho hành trình nghệ thuật
       của mình cả. Trái lại, những người còn giữ ám ảnh "Tech versus Art" mới
-      chính là những người có tư duy hạn hẹp. Sử dụng nhuần nhuyễn kỹ thuật để
-      chuyên chở cảm xúc, đó chẳng phải là điều các bậc thầy trong ẩm thực, thời
-      trang, hội hoạ, điêu khắc, kiến trúc, thơ ca, âm nhạc, kịch nghệ, nhiếp
-      ảnh, điện ảnh, VFX, comics, v.v. đã làm từ bấy lâu hay sao?
+      chính là những người có tư duy hạn hẹp đó chứ: Sử dụng nhuần nhuyễn kỹ
+      thuật để chuyên chở cảm xúc, đó chẳng phải là điều các bậc thầy trong ẩm
+      thực, thời trang, hội hoạ, điêu khắc, kiến trúc, thơ ca, âm nhạc, kịch
+      nghệ, nhiếp ảnh, điện ảnh, VFX, comics, v.v. đã làm từ bấy lâu trong lịch
+      sử nhân loại hay sao?
+      <br />
+      <br />
+      "Dẫu Phải Giải Phẫu" hy vọng gợi ra cho các bạn những hành trình tuy cam
+      go nhưng nhiều phần thưởng và lợi ích cho những ai bền chí kiên định. Đó
+      là chuyến phiêu lưu mà đứa trẻ nhỏ bên trong từng người chúng ta luốn hào
+      hứng đòi hỏi được đikhông sáng tạo, tìm hiểu thế giới, những sự phấn khởi
+      và lòng vui thú thiên bẩm nếu không bị đè bẹp bởi các thế lực khác.
     </div>
   );
 }
