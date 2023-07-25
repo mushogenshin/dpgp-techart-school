@@ -1,25 +1,23 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useLogout } from "../hooks/useLogout";
 
 // styles
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-  const { logout } = useLogout();
   const { user } = useAuthContext();
 
   return (
     <nav className={styles.navbar}>
       <ul>
-        <li className={styles.title}>DPGP TechArt</li>
+        <li className={styles.title}>
+          <Link to="/">DPGP TechArt</Link>
+        </li>
+        <Link to="/courses">Courses</Link>
         {user ? (
           <>
-            <span>Hello, {user.email}</span>
             <li>
-              <button className="btn" onClick={logout}>
-                Logout
-              </button>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
           </>
         ) : (
