@@ -1,16 +1,15 @@
 import React from "react";
-import ClassList from "../../components/ClassList";
+import CourseList from "../../components/CourseList";
 import { useCollection } from "../../hooks/useCollection";
 
 export default function Courses() {
-  //   TODO: prevent reload
   const { documents, error } = useCollection("classes");
 
   return (
     <div>
-      <h3>ALL COURSES</h3>
+      <h2>ALL COURSES</h2>
       {error && <p>{error}</p>}
-      {documents && <ClassList classes={documents} />}
+      {documents && <CourseList courses={documents} />}
     </div>
   );
 }
