@@ -11,8 +11,8 @@ export default function Home() {
       </header>
       Bắt đầu nguyên thuỷ với các lớp dạy Anatomy về cơ thể người, đến nay "Dẫu
       Phải Giải Phẫu" đã mở rộng sang rất nhiều bộ môn khác nhau, và tuy gom
-      chung dưới cái tên bao trùm "Technical Art", các lớp Art của DPGP xưa nay
-      vẫn tập trung vào khía cạnh thẩm mỹ và kỹ năng hội hoạ căn bản, không khác
+      chung dưới cái tên bao trùm "Technical Art", các bạn học viên đều có thể vững chãi tin rằng những lớp Art của DPGP xưa nay
+      và trong tương lai vẫn tập trung vào khía cạnh thẩm mỹ và kỹ năng hội hoạ căn bản, nội dung được xây dựng bởi Artists và dành cho Artists, không khác
       gì các chương trình mỹ thuật chính thống.
       <br />
       <br />
