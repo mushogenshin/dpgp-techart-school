@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-export const useLogin = () => {
+export const usePasswordLogin = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const { dispatch } = useAuthContext();
@@ -11,14 +11,14 @@ export const useLogin = () => {
     // firstly, clear errors for every login
     setError(null);
     setIsPending(true);
-    const auth = getAuth();
 
-    // log the user in
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      // log the user in using email and password
+      const auth = getAuth();
+      const result = await signInWithEmailAndPassword(auth, email, password);
 
       // dispatch login action
-      dispatch({ type: "LOGIN", payload: res.user });
+      dispatch({ type: "LOGIN", payload: result.user });
 
       // update the state
       setIsPending(false);

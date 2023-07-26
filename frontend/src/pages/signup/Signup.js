@@ -48,7 +48,7 @@ export default function Signup() {
           Loading
         </button>
       ) : (
-        <button className="btn">Register</button>
+        <button className="btn">Ghi Danh</button>
       )}
       {error && <p>{error}</p>}
     </form>

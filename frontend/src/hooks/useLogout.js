@@ -11,10 +11,10 @@ export const useLogout = () => {
     // firstly, clear errors for every logout
     setError(null);
     setIsPending(true);
-    const auth = getAuth();
 
-    // sign the user out
     try {
+      // sign the user out
+      const auth = getAuth();
       await signOut(auth);
 
       // dispatch logout action

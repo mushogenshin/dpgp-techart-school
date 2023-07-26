@@ -19,7 +19,7 @@ export default function Courses() {
     };
 
     getCourses()
-      .then((res) => setCourses(res))
+      .then((result) => setCourses(result))
       .catch((err) => setError(err));
   }, []);
 

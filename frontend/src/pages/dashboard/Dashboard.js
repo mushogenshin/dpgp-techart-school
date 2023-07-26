@@ -10,14 +10,15 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
+      <h3>Signed In</h3>
       <p>Account Email: {user.email}</p>
       <div>
         <button className="btn" onClick={logout}>
-          Logout
+          Sign Out
         </button>
       </div>
       <br />
-      <div>Thank You for being a member!</div>
+      <div>Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu : )</div>
     </div>
   );
 }

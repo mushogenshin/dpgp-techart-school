@@ -11,18 +11,22 @@ export const useSignup = () => {
     // firstly, clear errors for every signup
     setError(null);
     setIsPending(true);
-    const auth = getAuth();
 
     try {
       // signup the user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const auth = getAuth();
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      if (!res) {
+      if (!result) {
         throw new Error("Could not complete the signup");
       }
 
       // dispatch login action
-      dispatch({ type: "LOGIN", payload: res.user });
+      dispatch({ type: "LOGIN", payload: result.user });
 
       // update the state
       setIsPending(false);

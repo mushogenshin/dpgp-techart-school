@@ -28,9 +28,9 @@ function App() {
             />
             <Route
               path="/login"
-              // redirect to home if user is logged in
+              // redirect to dashboard if user is logged in
               element={
-                user ? <Navigate to="/courses" replace={true} /> : <Login />
+                user ? <Navigate to="/dashboard" replace={true} /> : <Login />
               }
             />
             <Route
