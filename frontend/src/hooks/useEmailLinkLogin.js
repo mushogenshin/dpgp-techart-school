@@ -2,7 +2,8 @@ import { useState } from "react";
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 
 const actionCodeSettings = {
-  url: "http://localhost:3000/login",
+  // url: "http://localhost:3000/finishLogin",
+  url: "https://school.dauphaigiaiphau.wtf/finishLogin",
   handleCodeInApp: true,
   iOS: {
     bundleId: "com.dauphaigiaiphau.ios",

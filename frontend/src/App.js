@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/home/Home";
 import Signup from "./pages/signup/Signup";
 import Login from "./pages/login/Login";
+import FinishLogin from "./pages/login/FinishLogin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Courses from "./pages/courses/Courses";
 
@@ -31,6 +32,17 @@ function App() {
               // redirect to dashboard if user is logged in
               element={
                 user ? <Navigate to="/dashboard" replace={true} /> : <Login />
+              }
+            />
+            <Route
+              path="/finishLogin"
+              // redirect to dashboard if user is logged in
+              element={
+                user ? (
+                  <Navigate to="/dashboard" replace={true} />
+                ) : (
+                  <FinishLogin />
+                )
               }
             />
             <Route
