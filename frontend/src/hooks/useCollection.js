@@ -1,13 +1,15 @@
 import { db } from "../firebase_config";
-import { collection, onSnapshot } from "firebase/firestore";
+import { query, collection, onSnapshot, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-export const useCollection = (collectionName) => {
+export const useCollection = (collectionName, docsLimit) => {
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let q = collection(db, collectionName);
+    let q = docsLimit
+      ? query(collection(db, collectionName), limit(docsLimit))
+      : collection(db, collectionName);
     const unsub = onSnapshot(
       q,
       (querySnapshot) => {
