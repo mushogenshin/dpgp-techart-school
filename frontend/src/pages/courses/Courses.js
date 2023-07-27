@@ -1,25 +1,9 @@
-import { db } from "../../firebase_config";
-import { collection, getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
-
+import { useContext } from "react";
+import { CoursesContext } from "../../context/CoursesContext";
 import styles from "./Courses.module.css";
 
 export default function Courses() {
-  //   we avoid using `useCollection` hook to prevent unnecessary reloads
-  //   NOTE: this is not updated in real-time
-  const [courses, setCourses] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const getCourses = async () => {
-      const querySnapshot = await getDocs(collection(db, "classes"));
-      return querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    };
-
-    getCourses()
-      .then((result) => setCourses(result))
-      .catch((err) => setError(err));
-  }, []);
+  const { courses, error } = useContext(CoursesContext);
 
   return (
     <div className={styles.courses}>

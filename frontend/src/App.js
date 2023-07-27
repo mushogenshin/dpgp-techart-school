@@ -1,3 +1,4 @@
+import { db } from "./firebase_config";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 

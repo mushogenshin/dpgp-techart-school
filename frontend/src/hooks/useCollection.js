@@ -3,7 +3,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export const useCollection = (collectionName) => {
-  const [documents, setDocuments] = useState(null);
+  const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
