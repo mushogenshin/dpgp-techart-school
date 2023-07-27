@@ -1,5 +1,3 @@
-import React from "react";
-import CourseList from "../../components/CourseList";
 import { db } from "../../firebase_config";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
@@ -27,7 +25,11 @@ export default function Courses() {
     <div className={styles.courses}>
       <h2>ALL COURSES</h2>
       {error && <p>{error}</p>}
-      {courses && <CourseList courses={courses} />}
+      {courses.map((cls) => (
+        <li key={cls.id}>
+          {cls.name} ({cls.id})
+        </li>
+      ))}
     </div>
   );
 }
