@@ -14,7 +14,8 @@ pub struct Class {
     instructors: Vec<String>,
     /// This refers to each [`User::full_name`] in the "instructors" collection.
     assistants: Vec<String>,
-    study_groups: Vec<StudyGroup>,
+    modules: Vec<String>,
+    // study_groups: Vec<StudyGroup>,
 }
 
 impl Class {
@@ -47,6 +48,11 @@ impl Class {
 
     pub fn assistant(mut self, name: &str) -> Self {
         self.assistants.push(name.to_string());
+        self
+    }
+
+    pub fn module(mut self, module: &str) -> Self {
+        self.modules.push(module.to_string());
         self
     }
 }
