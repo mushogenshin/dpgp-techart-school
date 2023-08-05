@@ -39,7 +39,12 @@ export default function Login() {
       {error && <p>{error}</p>}
       {linkSent && (
         <p>
-          Check email và bấm vào link bên trong email vừa nhận được để login
+          <small>
+            Đã gửi Login link!
+            <br />
+            Vui lòng check email và bấm vào link bên trong email vừa nhận được
+            để login
+          </small>
         </p>
       )}
     </form>

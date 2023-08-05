@@ -3,3 +3,24 @@
     margin: 20px auto;
     padding: 20px;
 }
+
+.courses h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.courses a {
+    text-decoration: none;
+    color: #d9de8a;
+    font-size: 1.5em;
+    line-height: 1.5;
+}
+
+.courses_id {
+    font-size: 0.6em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 7px;
+    color: rgb(36, 20, 20);
+    background: #dd8ade;
+}

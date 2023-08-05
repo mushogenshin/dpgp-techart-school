@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Signup from "./pages/signup/Signup";
 import Login from "./pages/login/Login";
 import FinishLogin from "./pages/login/FinishLogin";
+import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Courses from "./pages/courses/Courses";
 
@@ -20,26 +21,26 @@ function App() {
           <Navbar />
           <Routes>
             {/* unguarded Home page */}
-            <Route exact path="/" element={<Home />}></Route>
+            <Route exact path="/" element={<Home />} />
             <Route
-              path="/signup"
-              // redirect to home if user is logged in
+              path="signup"
               element={
+                // redirect to home if user is logged in
                 user ? <Navigate to="/courses" replace={true} /> : <Signup />
               }
             />
             <Route
-              path="/login"
-              // redirect to dashboard if user is logged in
+              path="login"
               element={
+                // redirect to dashboard if user is logged in
                 user ? <Navigate to="/dashboard" replace={true} /> : <Login />
               }
             />
             <Route
-              path="/finishLogin"
-              // redirect to dashboard if user is logged in
+              path="finishLogin"
               element={
                 user ? (
+                  // redirect to dashboard if user is logged in
                   <Navigate to="/dashboard" replace={true} />
                 ) : (
                   <FinishLogin />
@@ -47,14 +48,15 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="dashboard"
               element={
                 // prompt user to login if not logged in
                 user ? <Dashboard /> : <Navigate to="/login" replace={true} />
               }
-            ></Route>
+            />
             {/* Unguarded Courses page */}
-            <Route path="/courses" element={<Courses />}></Route>
+            <Route path="courses" element={<Courses />} />
+            <Route path="courses/:id" element={<CourseDetail />} />
           </Routes>
         </BrowserRouter>
       )}

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 
+const url =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://school.dauphaigiaiphau.wtf";
+
 const actionCodeSettings = {
-  // url: "http://localhost:3000/finishLogin",
-  url: "https://school.dauphaigiaiphau.wtf/finishLogin",
+  url: `${url}/finishLogin`,
   handleCodeInApp: true,
   iOS: {
     bundleId: "com.dauphaigiaiphau.ios",
