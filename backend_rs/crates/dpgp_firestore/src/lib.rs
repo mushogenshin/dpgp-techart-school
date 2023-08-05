@@ -42,13 +42,13 @@ pub trait ModuleQuery {
     /// Get a [`LearningModule`] by its ID.
     async fn module_by_id(&self, id: &str) -> FirestoreResult<Option<LearningModule>>;
 
-    /// Set a parent [`Class`] to a [`LearningModule`].
-    async fn link_module_to_class(
-        &self,
-        module_id: &str,
-        class_id: &str,
-        order: u8,
-    ) -> FirestoreResult<LearningModule>;
+    // /// Set a parent [`Class`] to a [`LearningModule`].
+    // async fn link_module_to_class(
+    //     &self,
+    //     module_id: &str,
+    //     class_id: &str,
+    //     order: u8,
+    // ) -> FirestoreResult<LearningModule>;
 }
 
 #[async_trait]

@@ -102,33 +102,33 @@ impl ModuleQuery for DpgpFirestore {
             .await
     }
 
-    async fn link_module_to_class(
-        &self,
-        module_id: &str,
-        class_id: &str,
-        order: u8,
-    ) -> FirestoreResult<LearningModule> {
-        let current = self
-            .module_by_id(module_id)
-            .await?
-            .context(format!("No module found with ID: {}", module_id))
-            .map_err(|e| data_not_found_error(e))?;
-        let mut parent_classes = current.parent_classes.clone();
-        parent_classes.push(ModuleOrder::new(class_id, order));
+    // async fn link_module_to_class(
+    //     &self,
+    //     module_id: &str,
+    //     class_id: &str,
+    //     order: u8,
+    // ) -> FirestoreResult<LearningModule> {
+    //     let current = self
+    //         .module_by_id(module_id)
+    //         .await?
+    //         .context(format!("No module found with ID: {}", module_id))
+    //         .map_err(|e| data_not_found_error(e))?;
+    //     let mut parent_classes = current.parent_classes.clone();
+    //     parent_classes.push(ModuleOrder::new(class_id, order));
 
-        self.inner
-            .fluent()
-            .update()
-            .fields(paths!(LearningModule::{parent_classes})) // Update only specified fields
-            .in_col(MODULE_COLLECTION_NAME)
-            .document_id(module_id)
-            .object(&LearningModule {
-                parent_classes,
-                ..current.clone()
-            })
-            .execute()
-            .await
-    }
+    //     self.inner
+    //         .fluent()
+    //         .update()
+    //         .fields(paths!(LearningModule::{parent_classes})) // Update only specified fields
+    //         .in_col(MODULE_COLLECTION_NAME)
+    //         .document_id(module_id)
+    //         .object(&LearningModule {
+    //             parent_classes,
+    //             ..current.clone()
+    //         })
+    //         .execute()
+    //         .await
+    // }
 }
 
 #[async_trait]

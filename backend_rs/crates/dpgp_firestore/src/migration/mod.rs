@@ -9,7 +9,8 @@ use super::*;
 #[cfg(test)]
 /// Create a database instance.
 async fn connect() -> FirestoreResult<DpgpFirestore> {
-    const TOKEN_FILE_PATH: &str = "/Users/mushogenshin/projects/dpgp-techart-school/tmp/key.json";
+    const TOKEN_FILE_PATH: &str =
+        "/Users/mushogenshin/projects/dpgp-techart-school/backend_rs/key.json";
     const PROJECT_ID: &str = "musho-genshin";
 
     client_from_token(GCPProjectAndToken {

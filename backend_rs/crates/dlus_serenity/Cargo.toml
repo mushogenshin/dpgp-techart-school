@@ -7,7 +7,7 @@ edition = "2021"
 [lib]
 
 [features]
-# default = ["firebase"]
+default = ["firebase"]
 firebase = ["dpgp-firestore"]
 admin_only = []
 

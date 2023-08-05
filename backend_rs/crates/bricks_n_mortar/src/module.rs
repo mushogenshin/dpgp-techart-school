@@ -5,8 +5,6 @@ pub struct LearningModule {
     pub id: String,
     pub description: String,
     pub listed_fee: Fee,
-    /// The [`Class`]es which this `Module` belongs to.
-    pub parent_classes: Vec<ModuleOrder>,
     pub format: LearningFormat,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub folder_label: Option<String>,
@@ -79,10 +77,10 @@ impl LearningModule {
         self
     }
 
-    pub fn parent_class(mut self, parent: (&str, u8)) -> Self {
-        self.parent_classes.push(ModuleOrder::from(parent));
-        self
-    }
+    // pub fn parent_class(mut self, parent: (&str, u8)) -> Self {
+    //     self.parent_classes.push(ModuleOrder::from(parent));
+    //     self
+    // }
 
     pub fn description(mut self, desc: &str) -> Self {
         self.description = desc.to_string();
@@ -112,7 +110,7 @@ impl Default for LearningModule {
             id: String::new(),
             description: String::new(),
             listed_fee: Fee::default(),
-            parent_classes: vec![],
+            // parent_classes: vec![],
             format: LearningFormat::default(),
             folder_label: None,
             duration: DurationInWeeks::default(),

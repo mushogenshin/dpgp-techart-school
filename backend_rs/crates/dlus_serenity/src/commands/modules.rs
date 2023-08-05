@@ -101,20 +101,20 @@ async fn link_parent_class(ctx: &Context, msg: &Message, mut args: Args) -> Comm
         let data = ctx.data.read().await;
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
-        let updated = db.link_module_to_class(&module_id, &class_id, order).await;
+        // let updated = db.link_module_to_class(&module_id, &class_id, order).await;
 
-        // displays the result of the action
-        msg.channel_id
-            .say(
-                &ctx.http,
-                match updated {
-                    Ok(module) => {
-                        format!(":white_check_mark: Updated: {:?}", module)
-                    }
-                    Err(e) => format!(":exclamation: Update error: {:?}", e),
-                },
-            )
-            .await?;
+        // // displays the result of the action
+        // msg.channel_id
+        //     .say(
+        //         &ctx.http,
+        //         match updated {
+        //             Ok(module) => {
+        //                 format!(":white_check_mark: Updated: {:?}", module)
+        //             }
+        //             Err(e) => format!(":exclamation: Update error: {:?}", e),
+        //         },
+        //     )
+        //     .await?;
     }
 
     Ok(())
