@@ -1,53 +1,42 @@
 import { db } from "../../firebase_config";
-import { query, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function CourseDetail() {
+export default function CourseDetail({}) {
   const { id } = useParams();
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    let ref = collection(db, "modules");
+    const classRef = doc(db, "classes", id);
 
-    getDocs(ref).then((querySnapshot) => {
-      const results = [];
-      querySnapshot.forEach((doc) => {
-        const matches = doc
-          .data()
-          .parent_classes.some((parent_class) => parent_class.class_id === id);
+    getDoc(classRef).then(async (classSnapshot) => {
+      const modulePromises = classSnapshot.data().modules.map((mod_id) => {
+        const moduleRef = doc(db, "modules", mod_id);
 
-        if (matches) {
-          const match = { ...doc.data(), id: doc.id };
-          match.starts_at = match.starts_at.toDate();
-          match.ends_at = match.ends_at.toDate();
-          results.push(match);
-        }
+        return getDoc(moduleRef).then((moduleSnapshot) => {
+          const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
+          // mod.starts_at = mod.starts_at.toDate();
+          // mod.ends_at = mod.ends_at.toDate();
+          return mod;
+        });
       });
 
-      results.sort((a, b) => {
-        const orderA =
-          a.parent_classes.find((pc) => pc.class_id === id)?.order || 0;
-        const orderB =
-          b.parent_classes.find((pc) => pc.class_id === id)?.order || 0;
-        return orderA - orderB;
-      });
-
+      const results = await Promise.all(modulePromises);
       setModules(results);
     });
   }, [id]);
-
   return (
     <div>
       {modules.map((m) => (
         <li key={m.id}>
           Module: {m.description}
-          <br />
+          {/* <br />
           <small>
             starts: {m.starts_at.toLocaleString()}
             <br />
             ends: {m.ends_at.toLocaleString()}
-          </small>
+          </small> */}
         </li>
       ))}
     </div>
