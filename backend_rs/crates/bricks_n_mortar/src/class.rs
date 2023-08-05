@@ -2,7 +2,6 @@ use super::*;
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 pub struct Class {
-    pub id: String,
     /// Nice name of the class.
     name: String,
     description: String,
@@ -19,13 +18,6 @@ pub struct Class {
 }
 
 impl Class {
-    pub fn new(id: &str) -> Self {
-        Self {
-            id: id.to_string(),
-            ..Default::default()
-        }
-    }
-
     pub fn categories(mut self, cat: &[&str]) -> Self {
         self.categories = cat.iter().map(|c| Category::from(*c)).collect();
         self

@@ -2,7 +2,6 @@ use super::*;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct LearningModule {
-    pub id: String,
     pub description: String,
     pub listed_fee: Fee,
     pub format: LearningFormat,
@@ -22,13 +21,6 @@ pub struct LearningModule {
 }
 
 impl LearningModule {
-    pub fn new(id: &str) -> Self {
-        Self {
-            id: id.to_string(),
-            ..Default::default()
-        }
-    }
-
     pub fn with_date_range(start: NaiveDate, end: NaiveDate) -> Self {
         Self {
             starts_at: DateTime::from_utc(start.and_hms_opt(0, 0, 0).unwrap(), Utc),
@@ -107,7 +99,6 @@ impl Default for LearningModule {
     /// Makes a module with its end date 4 weeks from today.
     fn default() -> Self {
         Self {
-            id: String::new(),
             description: String::new(),
             listed_fee: Fee::default(),
             // parent_classes: vec![],
