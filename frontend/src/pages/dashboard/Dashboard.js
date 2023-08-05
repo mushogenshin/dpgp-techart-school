@@ -16,25 +16,7 @@ export default function Dashboard() {
         </button>
       </div>
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu : )</div>
+      <div>Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu 🚀</div>
     </div>
   );
 }
