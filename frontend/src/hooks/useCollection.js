@@ -7,11 +7,11 @@ export const useCollection = (collectionName, docsLimit) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let q = docsLimit
+    let ref = docsLimit
       ? query(collection(db, collectionName), limit(docsLimit))
       : collection(db, collectionName);
     const unsub = onSnapshot(
-      q,
+      ref,
       (querySnapshot) => {
         const results = [];
         querySnapshot.forEach((doc) => {

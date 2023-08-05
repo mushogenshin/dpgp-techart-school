@@ -4,7 +4,7 @@ import { useCollection } from "../hooks/useCollection";
 export const CoursesContext = createContext();
 
 export const CoursesContextProvider = ({ children }) => {
-  const { documents, error } = useCollection("classes", 5);
+  const { documents, error } = useCollection("classes");
 
   return (
     <CoursesContext.Provider value={{ courses: documents, error }}>

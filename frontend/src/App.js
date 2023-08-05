@@ -1,4 +1,3 @@
-import { db } from "./firebase_config";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -20,8 +19,12 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            {/* unguarded Home page */}
-            <Route exact path="/" element={<Home />} />
+            <Route
+              exact
+              path="/"
+              // Unguarded Home page
+              element={<Home />}
+            />
             <Route
               path="signup"
               element={
@@ -54,9 +57,22 @@ function App() {
                 user ? <Dashboard /> : <Navigate to="/login" replace={true} />
               }
             />
-            {/* Unguarded Courses page */}
-            <Route path="courses" element={<Courses />} />
-            <Route path="courses/:id" element={<CourseDetail />} />
+            <Route
+              path="courses"
+              //  Unguarded Courses page
+              element={<Courses />}
+            />
+            <Route
+              path="courses/:id"
+              element={
+                // prompt user to login if not logged in
+                user ? (
+                  <CourseDetail />
+                ) : (
+                  <Navigate to="/login" replace={true} />
+                )
+              }
+            />
           </Routes>
         </BrowserRouter>
       )}
