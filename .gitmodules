@@ -1,0 +1,3 @@
+[submodule "cloud_fn"]
+	path = cloud_fn
+	url = git@gitlab.com:tnbao91/condecu_dpgp_techart_school_cloud_functions.git
