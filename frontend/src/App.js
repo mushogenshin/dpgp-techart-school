@@ -28,8 +28,8 @@ function App() {
             <Route
               path="signup"
               element={
-                // redirect to home if user is logged in
-                user ? <Navigate to="/courses" replace={true} /> : <Signup />
+                // redirect to dashboard if user is logged in
+                user ? <Navigate to="/dashboard" replace={true} /> : <Signup />
               }
             />
             <Route
@@ -43,8 +43,8 @@ function App() {
               path="finishLogin"
               element={
                 user ? (
-                  // redirect to dashboard if user is logged in
-                  <Navigate to="/dashboard" replace={true} />
+                  // redirect to courses if user is logged in
+                  <Navigate to="/courses" replace={true} />
                 ) : (
                   <FinishLogin />
                 )

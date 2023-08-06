@@ -9,14 +9,39 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
-      <p>Account Email: {user.email}</p>
+      <p>
+        Đã đang đăng nhập 🙌.
+        <br />
+        <small>Account Email: {user.email}</small>
+      </p>
       <div>
         <button className="btn" onClick={logout}>
           Sign Out
         </button>
       </div>
+      <h2>Các khoá học đã ghi danh:</h2>
+      TODO...
       <br />
-      <div>Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu 🚀</div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <footer>Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu 🚀</footer>
     </div>
   );
 }
