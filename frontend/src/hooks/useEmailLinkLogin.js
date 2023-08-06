@@ -17,7 +17,7 @@ const actionCodeSettings = {
     installApp: true,
     minimumVersion: "12",
   },
-  dynamicLinkDomain: "hoan.page.link",
+  dynamicLinkDomain: "dpgp.page.link",
 };
 
 export const useEmailLinkLogin = () => {
