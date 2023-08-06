@@ -18,3 +18,9 @@
     color: #777;
     width: 100%;
 }
+.login-form a  {
+  color: rgb(96, 244, 123)
+}
+.login-form a:visited  {
+  color: rgb(96, 244, 123)
+}

@@ -3,7 +3,6 @@ import { useAuthContext } from "./hooks/useAuthContext";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/home/Home";
-import Signup from "./pages/signup/Signup";
 import Login from "./pages/login/Login";
 import FinishLogin from "./pages/login/FinishLogin";
 import CourseDetail from "./pages/courseDetail/CourseDetail";
@@ -24,13 +23,6 @@ function App() {
               path="/"
               // Unguarded Home page
               element={<Home />}
-            />
-            <Route
-              path="signup"
-              element={
-                // redirect to dashboard if user is logged in
-                user ? <Navigate to="/dashboard" replace={true} /> : <Signup />
-              }
             />
             <Route
               path="login"
