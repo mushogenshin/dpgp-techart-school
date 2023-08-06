@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function LearningModule({ mod }) {
   return (
     // be sure to check if mod is undefined before trying to access its properties

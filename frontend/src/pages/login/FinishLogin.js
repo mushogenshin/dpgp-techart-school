@@ -48,5 +48,14 @@ export default function FinishLogin() {
     }
   }, [dispatch, navigate]);
 
-  return <div>{verifyError && <p>{verifyError}</p>}</div>;
+  return (
+    <div>
+      {verifyError && (
+        <p>
+          Bị lỗi rồi, vui lòng thử đăng nhập lại 😰
+          {verifyError}
+        </p>
+      )}
+    </div>
+  );
 }

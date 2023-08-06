@@ -18,12 +18,7 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route
-              exact
-              path="/"
-              // Unguarded Home page
-              element={<Home />}
-            />
+            <Route exact path="/" element={<Home />} />
             <Route
               path="login"
               element={
@@ -57,12 +52,8 @@ function App() {
             <Route
               path="courses/:id"
               element={
-                // prompt user to login if not logged in
-                user ? (
-                  <CourseDetail />
-                ) : (
-                  <Navigate to="/login" replace={true} />
-                )
+                // Unguarded CourseDetail page
+                <CourseDetail />
               }
             />
           </Routes>
