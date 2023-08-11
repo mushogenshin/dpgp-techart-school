@@ -79,7 +79,7 @@ pub trait UserQuery {
     async fn add_enrollment(
         &self,
         lookup: &UserLookup,
-        add: &Enrollment,
+        add: &String,
         collection: &str,
     ) -> FirestoreResult<User>;
 }

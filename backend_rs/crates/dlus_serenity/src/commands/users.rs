@@ -160,7 +160,7 @@ async fn pair_to_discord(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 // Allow only administrators to call this.
 #[cfg_attr(feature = "admin_only", required_permissions("ADMINISTRATOR"))]
 async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let module = args.quoted().single::<String>()?;
+    let enrollment = args.quoted().single::<String>()?;
     let students = all_user_lookups(msg, &mut args);
 
     #[cfg(feature = "firebase")]
@@ -169,9 +169,8 @@ async fn register_module(ctx: &Context, msg: &Message, mut args: Args) -> Comman
         let db = data.get::<DpgpQuery>().context(NO_DPGP_FIRESTORE_ERR)?;
 
         students.iter().for_each(|s| {
-            info!("Registering module {} for: {}", module, s);
+            info!("Registering module {} for: {}", enrollment, s);
         });
-        let enrollment = Enrollment::no_payment_id(module);
 
         let mut registers = vec![];
 

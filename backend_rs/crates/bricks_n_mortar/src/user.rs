@@ -5,12 +5,18 @@ use regex::Regex;
 /// This can act as either a student or an instructor.
 pub struct User {
     pub email: String,
+
     pub full_name: String,
+
     pub nickname: String,
+
     pub motto: String,
-    pub enrollments: Vec<Enrollment>,
+
+    pub enrollments: Vec<String>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub facebook: Option<String>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub discord: Option<Discord>,
 }
@@ -32,9 +38,8 @@ impl std::fmt::Debug for User {
 impl User {
     pub fn enrollments_empty_payment(mut self, modules: Vec<String>) -> Self {
         self.enrollments.extend(
-            modules
-                .into_iter()
-                .map(|module| Enrollment::no_payment_id(module)),
+            modules, // .into_iter()
+                    // .map(|module| Enrollment::no_payment_id(module)),
         );
         self
     }

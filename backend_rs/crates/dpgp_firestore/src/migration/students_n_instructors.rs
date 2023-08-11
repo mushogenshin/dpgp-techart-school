@@ -11,16 +11,20 @@ mod tests {
     struct Student {
         #[sqlx(rename = "Name")]
         name: String,
+
         #[sqlx(rename = "Email")]
         email: String,
+
         #[sqlx(rename = "Class")]
         class_str: String,
 
         #[sqlx(rename = "Discord_UserID")]
         discord_id: Option<i64>,
+
         #[sqlx(rename = "Discord_Username")]
         /// This can be `EMPTY` instead of `NULL`.
         discord_username: String,
+
         #[sqlx(rename = "Facebook")]
         /// This can be `EMPTY` instead of `NULL`.
         facebook: String,

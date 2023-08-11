@@ -62,7 +62,7 @@ async fn create_class_with_categories(
         let class = db
             .create_class(
                 &class_id,
-                &Class::new(&class_id)
+                &Class::default()
                     .categories(&categories.iter().map(|s| s.as_str()).collect::<Vec<&str>>()),
             )
             .await;

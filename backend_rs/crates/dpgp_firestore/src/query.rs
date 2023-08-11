@@ -210,14 +210,14 @@ impl UserQuery for DpgpFirestore {
     async fn add_enrollment(
         &self,
         lookup: &UserLookup,
-        add: &Enrollment,
+        add: &String,
         collection: &str,
     ) -> FirestoreResult<User> {
         let current = self.find_user(lookup, collection).await?;
 
         // TODO: check if the enrollment already exists **by module name**,
         // and whether an update -- i.e. with payment ID -- is needed
-        if !current.enrollments.contains(&add) {
+        if !current.enrollments.contains(add) {
             self.inner
                 .fluent()
                 .update()
