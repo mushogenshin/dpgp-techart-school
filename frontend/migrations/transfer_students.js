@@ -23,19 +23,28 @@ const destinationApp = admin.initializeApp(
 const sourceDb = sourceApp.firestore();
 const destinationDb = destinationApp.firestore();
 
-async function copyCollection(collectionName) {
-  const snapshot = await sourceDb.collection(collectionName).get();
+async function copyCollection(srcColl, dstColl) {
+  const snapshot = await sourceDb.collection(srcColl).get();
+  // NOTE: if you want to limit the number of documents copied, use this instead:
+  // const snapshot = await sourceDb.collection(srcColl).limit(10).get();
   const writeBatch = destinationDb.batch();
 
   snapshot.docs.forEach((doc) => {
-    const docRef = destinationDb.collection(collectionName).doc();
-    writeBatch.set(docRef, doc.data());
+    const docRef = destinationDb.collection(dstColl).doc(doc.id);
+    const student = doc.data();
+
+    // map over the student's enrollments and return only the module IDs
+    let enrollments = [];
+    if (Array.isArray(student.enrollments)) {
+      enrollments = student.enrollments.map((enrollment) => enrollment.module);
+    }
+    writeBatch.set(docRef, { ...student, enrollments });
   });
 
   return writeBatch.commit();
 }
 
 // Usage
-copyCollection("students").then(() =>
+copyCollection("students", "enrollments_migration").then(() =>
   console.log("Collection copied successfully")
 );
