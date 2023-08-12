@@ -8,13 +8,13 @@ export const AuthContext = createContext();
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log("Reducing LOGIN");
+      console.log("Dispatching LOGIN");
       return { ...state, user: action.payload };
     case "LOGOUT":
-      console.log("Reducing LOGOUT");
+      console.log("Dispatching LOGOUT");
       return { ...state, user: null, enrollments: null };
     case "SET_ENROLLMENTS":
-      console.log("Reducing SET_ENROLLMENTS");
+      console.log("Dispatching SET_ENROLLMENTS");
       return { ...state, enrollments: action.payload };
     default:
       return state;

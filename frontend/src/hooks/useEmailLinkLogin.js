@@ -35,7 +35,6 @@ export const useEmailLinkLogin = () => {
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
         setIsPending(false);
-        setError(null);
         setLinkSent(true);
         window.localStorage.setItem("emailForSignIn", email);
       })

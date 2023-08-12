@@ -8,7 +8,7 @@ export default function Courses() {
 
   return (
     <div className={styles.courses}>
-      <h2>ALL COURSES</h2>
+      <h2>Các khoá đã dạy</h2>
       {error && <p>{error}</p>}
       {courses.map((cls) => (
         <li key={cls.id}>

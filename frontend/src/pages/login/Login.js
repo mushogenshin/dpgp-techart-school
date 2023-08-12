@@ -31,7 +31,7 @@ export default function Login() {
       {/* prevent multiple requests during pending */}
       {isPending ? (
         <button className="btn" disabled>
-          Loading
+          Sending Link...
         </button>
       ) : (
         <button className="btn">Gửi Login link</button>

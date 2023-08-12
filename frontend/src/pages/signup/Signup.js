@@ -44,7 +44,7 @@ export default function Signup() {
       {/* prevent multiple requests during pending */}
       {isPending ? (
         <button className="btn" disabled>
-          Loading
+          Signing Up...
         </button>
       ) : (
         <button className="btn">Ghi Danh</button>

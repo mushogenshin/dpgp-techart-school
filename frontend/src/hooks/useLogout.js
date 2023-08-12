@@ -22,7 +22,6 @@ export const useLogout = () => {
 
       // update the state
       setIsPending(false);
-      setError(null);
     } catch (err) {
       setError(err.message);
       setIsPending(false);
