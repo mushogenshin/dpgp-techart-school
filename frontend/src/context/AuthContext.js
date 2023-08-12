@@ -1,7 +1,7 @@
 import { createContext, useReducer, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebase_config";
-import { onSnapshot, query, collection, where } from "firebase/firestore";
+import { onSnapshot, doc, query, collection, where } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -35,22 +35,21 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         dispatch({ type: "LOGIN", payload: user });
 
-        // const studentDocRef = query(
-        //   collection(db, "enrollments_migration"),
-        //   where("email", "==", user.email)
-        // );
+        const enrollmentRef = doc(db, "enrollments_migration", user.email);
 
-        // unsubFirestore = onSnapshot(studentDocRef, (querySnapshot) => {
-        //   if (!querySnapshot.empty) {
-        //     const data = querySnapshot.docs[0].data();
-        //     const enrollments = data.enrollments;
+        unsubFirestore = onSnapshot(enrollmentRef, (docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            const enrollments = data.enrollments;
 
-        //     dispatch({ type: "SET_ENROLLMENTS", payload: enrollments });
-        //   }
-        // });
+            dispatch({ type: "SET_ENROLLMENTS", payload: enrollments });
+          } else {
+            // User didn't have any enrollments prior to migration
+          }
+        });
 
         return () => {
-          // unsubFirestore();
+          unsubFirestore();
           unsubAuth();
         };
       } else {

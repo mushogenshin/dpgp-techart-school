@@ -3,3 +3,25 @@
     margin: 40px auto;
     padding: 20px;
 }
+
+.block {
+    margin-bottom: 100px;
+}
+
+.dashboard h2 {
+    line-height: 0.35em;
+}
+
+.migrated {
+    color: rgb(138, 255, 165);
+    background: rgb(150, 158, 32);
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: 3em;
+}
+
+.migration-non-existent {
+    color: white;
+    background: rgb(129, 82, 201);
+    padding: 10px;
+}
