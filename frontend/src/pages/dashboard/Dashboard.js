@@ -12,11 +12,19 @@ export default function Dashboard() {
       <div className={styles.block}>
         <h2>🙌 Đã đang đăng nhập</h2>
         <p>Account Email: {user.email}</p>
+        <button className="btn" onClick={logout}>
+          Sign Out
+        </button>
       </div>
 
       <div className={styles.block}>
-        <button className="btn" onClick={logout}>
-          Sign Out
+        <h2>🌋 Ráp hồ sơ cũ</h2>
+        <p>
+          Từ tháng 8/2023, DPGP đang chuyển sang hệ thống website mới, và sẽ cần
+          bạn nối kết với các dữ liệu cũ bằng cách nhấn nút "Migrate" bên dưới.
+        </p>
+        <button className="btn" onClick={() => {}}>
+          Migrate
         </button>
       </div>
 

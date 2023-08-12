@@ -2,10 +2,11 @@
     max-width: 720px;
     margin: 40px auto;
     padding: 20px;
+    line-height: 1.5em;
 }
 
 .block {
-    margin-bottom: 100px;
+    margin-bottom: 90px;
 }
 
 .dashboard h2 {
@@ -13,8 +14,9 @@
 }
 
 .migrated {
-    color: rgb(138, 255, 165);
-    background: rgb(150, 158, 32);
+    color: rgb(7, 118, 59);
+    background: rgb(187, 197, 60);
+    border-radius: 20px;
     font-weight: bold;
     font-size: 1.3em;
     line-height: 3em;
