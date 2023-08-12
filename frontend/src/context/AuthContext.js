@@ -8,13 +8,14 @@ export const AuthContext = createContext();
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
+      console.log("Reducing LOGIN");
       return { ...state, user: action.payload };
     case "LOGOUT":
-      return { ...state, user: null, enrollments: [] };
-    case "AUTH_IS_READY":
-      return { ...state, authIsReady: true, user: action.payload };
+      console.log("Reducing LOGOUT");
+      return { ...state, user: null, enrollments: null };
     case "SET_ENROLLMENTS":
-      return { ...state, authIsReady: true, enrollments: action.payload };
+      console.log("Reducing SET_ENROLLMENTS");
+      return { ...state, enrollments: action.payload };
     default:
       return state;
   }
@@ -23,8 +24,7 @@ const authReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
-    authIsReady: false,
-    enrollments: [],
+    enrollments: null,
   });
 
   useEffect(() => {
@@ -35,22 +35,22 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         dispatch({ type: "LOGIN", payload: user });
 
-        const studentDocRef = query(
-          collection(db, "students"),
-          where("email", "==", user.email)
-        );
+        // const studentDocRef = query(
+        //   collection(db, "enrollments_migration"),
+        //   where("email", "==", user.email)
+        // );
 
-        unsubFirestore = onSnapshot(studentDocRef, (querySnapshot) => {
-          if (!querySnapshot.empty) {
-            const data = querySnapshot.docs[0].data();
-            const enrollments = data.enrollments;
+        // unsubFirestore = onSnapshot(studentDocRef, (querySnapshot) => {
+        //   if (!querySnapshot.empty) {
+        //     const data = querySnapshot.docs[0].data();
+        //     const enrollments = data.enrollments;
 
-            dispatch({ type: "SET_ENROLLMENTS", payload: enrollments });
-          }
-        });
+        //     dispatch({ type: "SET_ENROLLMENTS", payload: enrollments });
+        //   }
+        // });
 
         return () => {
-          unsubFirestore();
+          // unsubFirestore();
           unsubAuth();
         };
       } else {
@@ -60,9 +60,6 @@ export const AuthContextProvider = ({ children }) => {
 
         dispatch({ type: "LOGOUT" });
       }
-
-      // Notify that auth is ready
-      dispatch({ type: "AUTH_IS_READY", payload: user });
     });
 
     return () => {

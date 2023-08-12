@@ -10,55 +10,53 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Courses from "./pages/courses/Courses";
 
 function App() {
-  const { authIsReady, user } = useAuthContext();
+  const { user } = useAuthContext();
 
   return (
     <div className="App">
-      {authIsReady && (
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route
-              path="login"
-              element={
-                // redirect to dashboard if user is logged in
-                user ? <Navigate to="/dashboard" replace={true} /> : <Login />
-              }
-            />
-            <Route
-              path="finishLogin"
-              element={
-                user ? (
-                  // redirect to courses if user is logged in
-                  <Navigate to="/courses" replace={true} />
-                ) : (
-                  <FinishLogin />
-                )
-              }
-            />
-            <Route
-              path="dashboard"
-              element={
-                // prompt user to login if not logged in
-                user ? <Dashboard /> : <Navigate to="/login" replace={true} />
-              }
-            />
-            <Route
-              path="courses"
-              //  Unguarded Courses page
-              element={<Courses />}
-            />
-            <Route
-              path="courses/:id"
-              element={
-                // Unguarded CourseDetail page
-                <CourseDetail />
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      )}
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route
+            path="login"
+            element={
+              // redirect to dashboard if user is logged in
+              user ? <Navigate to="/dashboard" replace={true} /> : <Login />
+            }
+          />
+          <Route
+            path="finishLogin"
+            element={
+              user ? (
+                // redirect to courses if user is logged in
+                <Navigate to="/courses" replace={true} />
+              ) : (
+                <FinishLogin />
+              )
+            }
+          />
+          <Route
+            path="dashboard"
+            element={
+              // prompt user to login if not logged in
+              user ? <Dashboard /> : <Navigate to="/login" replace={true} />
+            }
+          />
+          <Route
+            path="courses"
+            //  Unguarded Courses page
+            element={<Courses />}
+          />
+          <Route
+            path="courses/:id"
+            element={
+              // Unguarded CourseDetail page
+              <CourseDetail />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
