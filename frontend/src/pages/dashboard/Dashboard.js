@@ -5,9 +5,9 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
-  const { user, enrollments } = useAuthContext();
+  const { user, history, migrated } = useAuthContext();
   const { logout, isPending: isLogoutPending } = useLogout();
-  const { migrate, isPending: isMigratePending, succeeded } = useMigrate();
+  const { migrate, isPending: isMigratePending } = useMigrate();
 
   return (
     <div className={styles.dashboard}>
@@ -26,25 +26,38 @@ export default function Dashboard() {
       </div>
 
       <div className={styles.block}>
-        <h2>🌋 Ráp hồ sơ cũ</h2>
-        <p>
-          DPGP đang chuyển sang hệ thống website mới từ tháng 8/2023. Do đó, nếu
-          muốn xem được đầy đủ các khoá đã ghi danh, bạn sẽ cần nối kết với các
-          dữ liệu cũ bằng cách nhấn nút "Migrate" bên dưới. Chỉ cần làm một lần
-          duy nhất.
-        </p>
-        {isMigratePending ? (
-          <button className="btn" disabled>
-            Migrating...
-          </button>
-        ) : (
-          <button className="btn" onClick={migrate}>
-            Migrate
-          </button>
-        )}
-        {succeeded && (
+        {history ? (
           <div>
-            <small>Đã ráp thành công hồ sơ cũ!</small>
+            {/* Cựu Học viên */}
+            <h2>🌋 Ráp hồ sơ cũ</h2>
+            {migrated && <div>Dữ liệu ghi danh cũ đều đã được di dời xong</div>}
+          </div>
+        ) : (
+          <div>
+            {/* Tân Học viên */}
+            <h2>🎢 Chuyển hệ thống mới</h2>
+            {migrated && <div>Đã chuyển hệ thống mới thành công!</div>}
+          </div>
+        )}
+
+        {!migrated && (
+          <div>
+            <p>
+              DPGP đang chuyển sang hệ thống website mới từ tháng 8/2023. Do đó,
+              để muốn xem được đầy đủ các khoá đã ghi danh, bạn sẽ cần nối kết
+              với các dữ liệu cũ bằng cách nhấn nút "Migrate" bên dưới. Chỉ cần
+              làm một lần duy nhất.
+            </p>
+
+            {isMigratePending ? (
+              <button className="btn" disabled>
+                Migrating...
+              </button>
+            ) : (
+              <button className="btn" onClick={migrate}>
+                Migrate
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -53,9 +66,9 @@ export default function Dashboard() {
         <h2>🥅 Các khoá học cũ đã ghi danh:</h2>
         <p>(trước khi DPGP chuyển sang hệ thống mới tháng 8/2023)</p>
 
-        {enrollments ? (
+        {history ? (
           <ol className={styles.migrated}>
-            {enrollments.map((mod) => (
+            {history.map((mod) => (
               <li key={mod}>{mod}</li>
             ))}
           </ol>

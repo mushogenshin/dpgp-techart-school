@@ -4,7 +4,7 @@ import { db } from "../firebase_config";
 import { doc, runTransaction } from "firebase/firestore";
 
 export const useMigrate = () => {
-  const { user, enrollments } = useAuthContext();
+  const { user, history } = useAuthContext();
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
@@ -23,7 +23,7 @@ export const useMigrate = () => {
       if (!userDoc.exists()) {
         const userData = {
           email: user.email,
-          enrollments: enrollments ? enrollments : [],
+          enrollments: history ? history : [],
         };
         transaction.set(userRef, userData);
       }
