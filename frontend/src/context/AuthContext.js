@@ -12,13 +12,13 @@ const authReducer = (state, action) => {
       return { ...state, user: action.payload };
     case "LOGOUT":
       console.log("Dispatching LOGOUT");
-      return { ...state, user: null, history: null, migrated: false };
+      return { ...state, user: null, history: null, conformed: false };
     case "SET_HISTORY":
       console.log("Dispatching SET_HISTORY");
       return { ...state, history: action.payload };
-    case "SET_MIGRATED":
-      console.log("Dispatching SET_MIGRATED");
-      return { ...state, migrated: action.payload };
+    case "SET_CONFORMED":
+      console.log("Dispatching SET_CONFORMED");
+      return { ...state, conformed: action.payload };
     default:
       return state;
   }
@@ -28,13 +28,13 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     history: null,
-    migrated: false,
+    conformed: false,
   });
 
   useEffect(() => {
     const auth = getAuth();
     let unsubHistory;
-    let unsubMigrated;
+    let unsubUser;
 
     const unsubAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -48,14 +48,14 @@ export const AuthContextProvider = ({ children }) => {
           dispatch({ type: "SET_HISTORY", payload: history });
         });
 
-        const migratedRef = doc(db, "users", user.uid);
-        unsubMigrated = onSnapshot(migratedRef, (docSnapshot) => {
-          dispatch({ type: "SET_MIGRATED", payload: docSnapshot.exists() });
+        const userRef = doc(db, "users", user.uid);
+        unsubUser = onSnapshot(userRef, (docSnapshot) => {
+          dispatch({ type: "SET_CONFORMED", payload: docSnapshot.exists() });
         });
 
         return () => {
           unsubHistory();
-          unsubMigrated();
+          unsubUser();
           unsubAuth();
         };
       } else {
@@ -63,8 +63,8 @@ export const AuthContextProvider = ({ children }) => {
           unsubHistory();
         }
 
-        if (unsubMigrated) {
-          unsubMigrated();
+        if (unsubUser) {
+          unsubUser();
         }
 
         dispatch({ type: "LOGOUT" });
