@@ -34,6 +34,7 @@ export const useEmailLinkLogin = () => {
     const auth = getAuth();
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
+        setError(null);
         setIsPending(false);
         setLinkSent(true);
         // console.log(

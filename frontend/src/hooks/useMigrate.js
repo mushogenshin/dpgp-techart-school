@@ -30,6 +30,7 @@ export const useMigrate = () => {
       }
     })
       .then(() => {
+        setError(null);
         setIsPending(false);
         setSucceeded(true);
       })

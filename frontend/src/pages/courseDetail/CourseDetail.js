@@ -17,31 +17,34 @@ export default function CourseDetail() {
       const moduleIds = classSnapshot.data().modules;
       const results = [];
 
-      // query all module documents simultaneously by their IDs
-      await Promise.all(
-        moduleIds.map(async (mod_id) => {
-          const moduleRef = doc(db, "modules", mod_id);
-          const moduleSnapshot = await getDoc(moduleRef);
+      if (moduleIds) {
+        // query all module documents simultaneously by their IDs
+        await Promise.all(
+          moduleIds.map(async (mod_id) => {
+            const moduleRef = doc(db, "modules", mod_id);
+            const moduleSnapshot = await getDoc(moduleRef);
 
-          const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
-          mod.starts_at = mod.starts_at.toDate();
-          mod.ends_at = mod.ends_at.toDate();
+            const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
+            mod.starts_at = mod.starts_at.toDate();
+            mod.ends_at = mod.ends_at.toDate();
 
-          results.push(mod);
-        })
-      );
+            results.push(mod);
+          })
+        );
+      } else {
+        console.warn("No modules found for this class.");
+      }
 
       setModules(results);
     });
   }, [id]);
+
   return (
-    modules.length > 0 && (
-      <div className={styles["course-detail"]}>
-        <CourseMetadata id={id} />
-        <hr></hr>
-        <Carousel modules={modules} />
-      </div>
-    )
+    <div className={styles["course-detail"]}>
+      <CourseMetadata id={id} />
+      <hr></hr>
+      {modules.length > 0 && <Carousel modules={modules} />}
+    </div>
   );
 }
 

@@ -21,8 +21,8 @@ export const usePasswordLogin = () => {
       dispatch({ type: "LOGIN", payload: result.user });
 
       // update the state
-      setIsPending(false);
       setError(null);
+      setIsPending(false);
     } catch (err) {
       setError(err.message);
       setIsPending(false);
