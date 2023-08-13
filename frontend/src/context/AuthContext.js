@@ -33,10 +33,12 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const auth = getAuth();
+
+    // unsubscribe functions
     let unsubHistory;
     let unsubUser;
 
-    const unsubAuth = onAuthStateChanged(auth, (user) => {
+    const handleAuthStateChange = (user) => {
       if (user) {
         dispatch({ type: "LOGIN", payload: user });
 
@@ -56,20 +58,15 @@ export const AuthContextProvider = ({ children }) => {
         return () => {
           unsubHistory();
           unsubUser();
-          unsubAuth();
         };
       } else {
-        if (unsubHistory) {
-          unsubHistory();
-        }
-
-        if (unsubUser) {
-          unsubUser();
-        }
-
+        if (unsubHistory) unsubHistory();
+        if (unsubUser) unsubUser();
         dispatch({ type: "LOGOUT" });
       }
-    });
+    };
+
+    const unsubAuth = onAuthStateChanged(auth, handleAuthStateChange);
 
     return () => {
       unsubAuth();

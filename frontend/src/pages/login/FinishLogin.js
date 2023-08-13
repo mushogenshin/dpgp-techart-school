@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+import styles from "./Login.module.css";
+
 export default function FinishLogin() {
   const [verifyError, setVerifyError] = useState(null);
   const { dispatch } = useAuthContext();
@@ -20,7 +22,10 @@ export default function FinishLogin() {
       if (!email) {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
-        email = window.prompt("Please provide your email for confirmation");
+        email = window.prompt("Nhập địa chỉ email dùng để đăng nhập");
+        console.log(
+          `Using input email address "${email}" for sign-in verification`
+        );
       }
 
       signInWithEmailLink(auth, email, window.location.href)
@@ -49,12 +54,24 @@ export default function FinishLogin() {
   }, [dispatch, navigate]);
 
   return (
-    <div>
+    <div className={styles["finish-login"]}>
       {verifyError && (
-        <p>
-          Bị lỗi rồi, vui lòng thử đăng nhập lại 😰
-          {verifyError}
-        </p>
+        <div>
+          <p>
+            Bị lỗi rồi 😰: <span className={styles.error}>{verifyError}</span>
+          </p>
+          <p>
+            Lỗi này có thể do:
+            <ol>
+              <li>link đã hết hạn</li>
+              <li>
+                bấm yêu cầu gửi link từ thiết bị A nhưng sau đó lại mở link ở
+                thiết bị B
+              </li>
+            </ol>
+          </p>
+          Vui lòng thử đăng nhập lại
+        </div>
       )}
     </div>
   );

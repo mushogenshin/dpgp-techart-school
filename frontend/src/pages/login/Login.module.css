@@ -24,3 +24,16 @@
 .login-form a:visited  {
   color: rgb(96, 244, 123)
 }
+
+.finish-login {
+  max-width: 1024px;
+  margin: 60px auto;
+  padding: 20px;
+  font-size: 1.3em;
+  line-height: 2em;
+  
+}
+
+.finish-login li, .error {
+  color: rgb(254, 92, 92);
+}

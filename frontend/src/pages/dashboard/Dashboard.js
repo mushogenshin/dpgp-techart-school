@@ -48,13 +48,15 @@ function MigrateStatus({ history, conformed }) {
         <div>
           {/* Cựu Học viên */}
           <h2>🌋 Ráp hồ sơ cũ</h2>
-          {conformed && <div>Dữ liệu ghi danh cũ đều đã được di dời xong</div>}
+          {conformed && (
+            <div>Dữ liệu ghi danh cũ đều đã được di dời xong 👌</div>
+          )}
         </div>
       ) : (
         <div>
           {/* Tân Học viên */}
           <h2>🎢 Chuyển hệ thống mới</h2>
-          {conformed && <div>Đã chuyển hệ thống mới thành công!</div>}
+          {conformed && <div>Đã chuyển hệ thống mới thành công 👌</div>}
         </div>
       )}
 
