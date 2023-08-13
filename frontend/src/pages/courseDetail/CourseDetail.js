@@ -38,6 +38,7 @@ export default function CourseDetail() {
     modules.length > 0 && (
       <div className={styles["course-detail"]}>
         <CourseMetadata id={id} />
+        <hr></hr>
         <Carousel modules={modules} />
       </div>
     )

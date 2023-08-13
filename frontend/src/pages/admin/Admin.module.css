@@ -1,0 +1,23 @@
+.admin {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 1.5em;
+    color: rgb(240, 173, 198);
+}
+
+.admin label {
+  display: block;
+  margin: 30px auto;
+}
+.admin span, small {
+  display: block;
+  margin-bottom: 6px;
+}
+.admin input {
+  max-width: 360px;
+  padding: 8px 6px;
+  font-size: 1em;
+  color: #777;
+  width: 100%;
+}
