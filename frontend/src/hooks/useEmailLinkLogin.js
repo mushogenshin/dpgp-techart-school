@@ -36,9 +36,9 @@ export const useEmailLinkLogin = () => {
       .then(() => {
         setIsPending(false);
         setLinkSent(true);
-        console.log(
-          `Storing email address "${email}" for sign-in verification`
-        );
+        // console.log(
+        //   `Storing email address "${email}" for sign-in verification`
+        // );
         window.localStorage.setItem("emailForSignIn", email);
       })
       .catch((err) => {

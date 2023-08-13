@@ -1,9 +1,25 @@
 .course-detail {
     max-width: 1024px;  
+    padding: 0 40px;
 }
 
-.carousel {
- padding: 0 40px;
+.course-detail .location  {
+    color: rgb(148, 111, 116);
+}
+
+.people h3, .title {
+    color: rgb(143, 106, 57);
+    font-size: 0.95em;
+    padding: 3px;
+    margin: 0;
+}
+
+.people li, .person {
+    color: rgb(193, 169, 124);
+    list-style-type: none;
+    font-size: 0.8em;
+    padding: 3px;
+    margin: 0;
 }
 
 .carousel ul {
@@ -27,4 +43,9 @@
     border-width: 2px;
     font-weight: bold;
     color: rgb(38, 231, 106);
+}
+
+.carousel .hint {
+color: rgb(164, 100, 109);
+
 }

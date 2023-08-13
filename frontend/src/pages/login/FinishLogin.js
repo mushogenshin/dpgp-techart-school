@@ -23,9 +23,9 @@ export default function FinishLogin() {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
         email = window.prompt("Nhập địa chỉ email dùng để đăng nhập");
-        console.log(
-          `Using input email address "${email}" for sign-in verification`
-        );
+        // console.log(
+        //   `Using input email address "${email}" for sign-in verification`
+        // );
       }
 
       signInWithEmailLink(auth, email, window.location.href)
