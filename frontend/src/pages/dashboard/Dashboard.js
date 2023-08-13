@@ -27,15 +27,9 @@ function LoginStatus({ user }) {
     <div className={styles.block}>
       <h2>🙌 Đã đang đăng nhập</h2>
       <p>Account Email: {user.email}</p>
-      {isLogoutPending ? (
-        <button className="btn" disabled>
-          Signing Out...
-        </button>
-      ) : (
-        <button className="btn" onClick={logout}>
-          Sign Out
-        </button>
-      )}
+      <button onClick={logout} className="btn" disabled={isLogoutPending}>
+        {isLogoutPending ? "Signing Out..." : "Sign Out"}
+      </button>
     </div>
   );
 }
@@ -69,15 +63,9 @@ function MigrateStatus({ history, conformed }) {
             một lần duy nhất.
           </p>
 
-          {isMigratePending ? (
-            <button className="btn" disabled>
-              Migrating...
-            </button>
-          ) : (
-            <button className="btn" onClick={migrate}>
-              Migrate
-            </button>
-          )}
+          <button onClick={migrate} className="btn" disabled={isMigratePending}>
+            {isMigratePending ? "Migrating..." : "Migrate"}
+          </button>
         </div>
       )}
     </div>

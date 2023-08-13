@@ -22,9 +22,9 @@ export const usePasswordLogin = () => {
 
       // update the state
       setError(null);
-      setIsPending(false);
     } catch (err) {
       setError(err.message);
+    } finally {
       setIsPending(false);
     }
   };

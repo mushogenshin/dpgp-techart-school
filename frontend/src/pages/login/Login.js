@@ -34,7 +34,9 @@ export default function Login() {
           Sending Link...
         </button>
       ) : (
-        <button className="btn">Gửi Login link</button>
+        <button type="submit" className="btn">
+          Gửi Login link
+        </button>
       )}
       {error && <p>{error}</p>}
       {linkSent && (

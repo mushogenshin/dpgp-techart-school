@@ -42,13 +42,9 @@ export default function Signup() {
         />
       </label>
       {/* prevent multiple requests during pending */}
-      {isPending ? (
-        <button className="btn" disabled>
-          Signing Up...
-        </button>
-      ) : (
-        <button className="btn">Ghi Danh</button>
-      )}
+      <button type="submit" className="btn" disabled={isPending}>
+        {isPending ? "Signing Up..." : "Ghi Danh"}
+      </button>
       {error && <p>{error}</p>}
     </form>
   );
