@@ -1,28 +1,43 @@
 .admin {
     max-width: 720px;
-    margin: 40px auto;
+    margin: 40px auto 0 auto;
     padding: 20px;
     line-height: 1.5em;
-    color: rgb(240, 173, 198);
+    color: rgb(255, 144, 184);
 }
 
 .admin label {
-  display: block;
-  margin: 30px auto;
+    font-weight: bold;
+    display: block;
+    margin: 30px auto 5px auto;
+    padding: 0;
 }
+
+.admin .hint {
+    color: rgb(104, 101, 207);
+}
+
 .admin span, small {
-  display: block;
-  margin-bottom: 6px;
+    display: block;
+    margin-bottom: 6px;
 }
-.admin input {
-  max-width: 360px;
-  padding: 8px 6px;
-  font-size: 1em;
-  color: #777;
-  width: 100%;
+
+.admin input, textarea {
+    max-width: 360px;
+    padding: 0;
+    margin-bottom: 5px;
+    font-size: 1em;
+    color: #777;
+    width: 100%;
 }
 
 .admin .error {
     color: rgb(255, 70, 70);
-    font-size: 1.3em;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.admin .forbidden {
+    color: rgb(17, 255, 176);
+    font-size: 2em;
 }

@@ -3,11 +3,40 @@
 
 import { useState } from "react";
 import { useGrantAccess } from "../../hooks/useGrantAccess";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-export default function GrantAccess() {
+import styles from "./Admin.module.css";
+
+export default function Admin() {
+  const { elevatedRole } = useAuthContext();
+
+  return (
+    <div className={styles.admin}>
+      Your role: {elevatedRole.toUpperCase()}
+      <hr></hr>
+      {["admin", "helper"].includes(elevatedRole) ? (
+        <div className={styles.admin}>
+          <GrantAccess />
+        </div>
+      ) : (
+        <div className={styles.forbidden}>🥹 Access Denied</div>
+      )}
+    </div>
+  );
+}
+
+function GrantAccess() {
   const [emails, setEmails] = useState("");
   const [modules, setModules] = useState("");
   const { error, isPending, grantAccess } = useGrantAccess();
+
+  const handleModulesInput = (event) => {
+    const sanitizedModules = event.target.value
+      .replace(/[^\w\s,]/gi, "") // sanitize for special characters
+      .replace(/[^\x00-\x7F]/g, ""); // remove non-ASCII characters
+
+    setModules(sanitizedModules);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,47 +44,48 @@ export default function GrantAccess() {
       return email.trim().replace(/[^a-zA-Z0-9@._\-]/g, "");
     });
 
-    const sanitizedModules = modules
-      .replace(/[^\w\s,]/gi, "") // sanitize for special characters
-      .replace(/[^\x00-\x7F]/g, "") // remove non-ASCII characters
-      .trim(); // remove leading/trailing whitespace
-
-    const moduleArray = sanitizedModules
-      .split(",")
-      .map((module) => module.trim());
+    const moduleArray = modules.split(",").map((mod) => mod.trim());
 
     grantAccess(emailArray, moduleArray);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.admin} onSubmit={handleSubmit}>
+      <h2>🥊 Cấp quyền học viên</h2>
       <div>
-        <label htmlFor="emails">Emails:</label>
+        <label htmlFor="emails">Email học viên:</label>
         <textarea
           id="emails"
           name="emails"
           value={emails}
+          rows={5}
           onChange={(event) => {
             setEmails(event.target.value);
           }}
         />
+        <small className={styles.hint}>
+          (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên <br />
+          <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
+        </small>
       </div>
       <div>
-        <label htmlFor="modules">Modules:</label>
+        <label htmlFor="modules">Được xem các modules:</label>
         <input
           type="text"
           id="modules"
           name="modules"
           value={modules}
-          onChange={(event) => {
-            setModules(event.target.value);
-          }}
+          onChange={handleModulesInput}
         />
+        <small className={styles.hint}>
+          (phân cách bằng dấu phẩy, sẽ cộng thêm vào danh sách hiện tại, <br />
+          và tự động bỏ qua các đăng kí trùng lặp)
+        </small>
       </div>
       <button type="submit" className="btn" disabled={isPending}>
-        {isPending ? "Granting..." : "Grant Access"}
+        {isPending ? "Granting..." : "Cho phép"}
       </button>
-      {error && <div>{error}</div>}
+      {error && <div className={styles.error}>{error}</div>}
     </form>
   );
 }

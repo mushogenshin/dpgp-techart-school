@@ -47,7 +47,12 @@ function App() {
           <Route
             path="admin"
             element={
-              elevatedRole ? <Admin /> : <Navigate to="/login" replace={true} />
+              // prompt user to login if not logged in, and not shown if not elevated role
+              user && elevatedRole ? (
+                <Admin />
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
             }
           />
           <Route
