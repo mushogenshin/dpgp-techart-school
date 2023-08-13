@@ -5,7 +5,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-  const { user } = useAuthContext();
+  const { user, elevatedRole } = useAuthContext();
 
   return (
     <nav className={styles.navbar}>
@@ -13,6 +13,7 @@ export default function Navbar() {
         <li className={styles.title}>
           <Link to="/">DPGP TechArt</Link>
         </li>
+        {elevatedRole && <Link to="/admin">Admin</Link>}
         <Link to="/courses">Courses</Link>
         {user ? (
           <>

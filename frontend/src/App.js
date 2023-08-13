@@ -7,10 +7,11 @@ import Login from "./pages/login/Login";
 import FinishLogin from "./pages/login/FinishLogin";
 import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
+import Admin from "./pages/admin/Admin";
 import Courses from "./pages/courses/Courses";
 
 function App() {
-  const { user } = useAuthContext();
+  const { user, elevatedRole } = useAuthContext();
 
   return (
     <div className="App">
@@ -41,6 +42,12 @@ function App() {
             element={
               // prompt user to login if not logged in
               user ? <Dashboard /> : <Navigate to="/login" replace={true} />
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              elevatedRole ? <Admin /> : <Navigate to="/login" replace={true} />
             }
           />
           <Route

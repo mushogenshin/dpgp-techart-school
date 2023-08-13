@@ -8,17 +8,21 @@ export const AuthContext = createContext();
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log("Dispatching LOGIN");
       return { ...state, user: action.payload };
     case "LOGOUT":
-      console.log("Dispatching LOGOUT");
-      return { ...state, user: null, history: null, conformed: false };
+      return {
+        ...state,
+        user: null,
+        history: null,
+        conformed: false,
+        elevatedRole: null,
+      };
     case "SET_HISTORY":
-      console.log("Dispatching SET_HISTORY");
       return { ...state, history: action.payload };
     case "SET_CONFORMED":
-      console.log("Dispatching SET_CONFORMED");
       return { ...state, conformed: action.payload };
+    case "SET_ADMIN":
+      return { ...state, elevatedRole: action.payload };
     default:
       return state;
   }
@@ -29,6 +33,7 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
     history: null,
     conformed: false,
+    elevatedRole: null,
   });
 
   useEffect(() => {
@@ -37,6 +42,7 @@ export const AuthContextProvider = ({ children }) => {
     // unsubscribe functions
     let unsubHistory;
     let unsubUser;
+    let unsubAdmin;
 
     const handleAuthStateChange = (user) => {
       if (user) {
@@ -55,13 +61,26 @@ export const AuthContextProvider = ({ children }) => {
           dispatch({ type: "SET_CONFORMED", payload: docSnapshot.exists() });
         });
 
+        const adminRef = doc(db, "admins", user.uid);
+        unsubAdmin = onSnapshot(adminRef, (docSnapshot) => {
+          const elevatedRole = docSnapshot.exists()
+            ? docSnapshot.data().role
+            : null;
+          dispatch({
+            type: "SET_ADMIN",
+            payload: elevatedRole,
+          });
+        });
+
         return () => {
           unsubHistory();
           unsubUser();
+          unsubAdmin();
         };
       } else {
         if (unsubHistory) unsubHistory();
         if (unsubUser) unsubUser();
+        if (unsubAdmin) unsubAdmin();
         dispatch({ type: "LOGOUT" });
       }
     };
