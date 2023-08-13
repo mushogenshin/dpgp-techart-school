@@ -2,7 +2,9 @@
 // NOTE: this is accessible to all elevated roles (admin, collaborator, etc)
 
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useGrantAccess } from "../../hooks/useGrantAccess";
+
 import styles from "./Admin.module.css";
 
 export default function Admin() {
@@ -20,8 +22,14 @@ export default function Admin() {
 function GrantAccess() {
   const [email, setEmail] = useState("");
   const [modules, setModules] = useState([]);
+  const { grantAccess, error } = useGrantAccess();
 
-  const handleModuleChange = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    grantAccess(email, modules);
+  };
+
+  const handleModuleInput = (e) => {
     const sanitizedString = e.target.value
       .replace(/[^\w\s,]/gi, "") // sanitize for special characters
       .replace(/[^\x00-\x7F]/g, "") // remove non-ASCII characters
@@ -35,7 +43,7 @@ function GrantAccess() {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <h2>🥊 Cấp quyền học viên</h2>
       <label>
         <span>Email học viên:</span>
@@ -47,7 +55,7 @@ function GrantAccess() {
       </label>
       <label>
         <span>Được xem các modules:</span>
-        <input onChange={handleModuleChange} value={modules.join(", ")} />
+        <input onChange={handleModuleInput} value={modules.join(", ")} />
         <small>
           (phân cách bằng dấu phẩy, sẽ cộng thêm vào danh sách hiện tại,
           <br />
@@ -55,6 +63,7 @@ function GrantAccess() {
         </small>
       </label>
       <button className="btn">Cho Phép</button>
+      {error && <p className={styles.error}>{error}</p>}
     </form>
   );
 }

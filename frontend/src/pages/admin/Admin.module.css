@@ -21,3 +21,8 @@
   color: #777;
   width: 100%;
 }
+
+.admin .error {
+    color: rgb(255, 70, 70);
+    font-size: 1.3em;
+}
