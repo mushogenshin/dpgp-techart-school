@@ -53,6 +53,7 @@ function GrantAccess() {
   return (
     <form className={styles.admin} onSubmit={handleSubmit}>
       <h2>🥊 Cấp quyền học viên</h2>
+
       <div>
         <label htmlFor="emails">Email học viên:</label>
         <textarea
@@ -69,6 +70,7 @@ function GrantAccess() {
           <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
         </small>
       </div>
+
       <div>
         <label htmlFor="modules">Được xem các modules:</label>
         <input
@@ -83,10 +85,13 @@ function GrantAccess() {
           và tự động bỏ qua các đăng kí trùng lặp)
         </small>
       </div>
+
       <button type="submit" className="btn" disabled={isPending}>
         {isPending ? "Granting..." : "Cho phép"}
       </button>
+
       {error && <div className={styles.error}>{error}</div>}
+
       {successList.length > 0 && (
         <div className={styles.success}>
           <hr></hr>

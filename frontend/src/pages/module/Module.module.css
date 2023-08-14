@@ -4,3 +4,15 @@
     padding: 3px;
     margin: 0;
 }
+
+.mod .prompt {
+    color: rgb(140, 91, 247);
+}
+
+.mod a {
+  color: rgb(252, 110, 63)
+}
+
+.mod a:visited  {
+  color: rgb(210, 72, 26)
+}

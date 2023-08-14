@@ -47,16 +47,44 @@ export default function CourseDetail() {
       <CourseMetadata cls_id={cls_id} />
       <hr></hr>
       {isPending ? (
-        <h2>Đợi xíu nha...</h2>
+        <h2>Đợi xíu nha, đang tải 😙...</h2>
       ) : (
         <div>
           {modules.length > 0 ? (
             <Carousel modules={modules} />
           ) : (
-            <h2>Khóa học này trống trơn, không tìm thấy modules nào.</h2>
+            <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function Carousel({ modules }) {
+  const { purchased } = useAuthContext();
+  const [index, setIndex] = useState(0);
+
+  const isPurchased = purchased && purchased.includes(modules[index].id);
+
+  return (
+    <div className={styles.carousel}>
+      <ul>
+        {modules.map((mod, i) => (
+          <li
+            key={i}
+            onClick={() => setIndex(i)}
+            className={index === i ? styles.active : {}}
+          >
+            {mod.id}
+          </li>
+        ))}
+      </ul>
+      {modules.length > 1 && (
+        <small className={styles.hint}>Module #{index + 1}:</small>
+      )}
+
+      <LearningModule mod={modules[index]} isPurchased={isPurchased} />
     </div>
   );
 }
@@ -96,7 +124,7 @@ function People({ title, people }) {
           <div>
             {people.length > 0 && (
               <p>
-                <span className={styles.title}>{title}:</span>
+                <span className={styles.title}>{title}: </span>
                 <span className={styles.person}>{people}</span>
               </p>
             )}
@@ -104,33 +132,5 @@ function People({ title, people }) {
         )}
       </div>
     )
-  );
-}
-
-function Carousel({ modules }) {
-  const { purchased } = useAuthContext();
-  const [index, setIndex] = useState(0);
-
-  const isPurchased = purchased && purchased.includes(modules[index].id);
-
-  return (
-    <div className={styles.carousel}>
-      <ul>
-        {modules.map((mod, i) => (
-          <li
-            key={i}
-            onClick={() => setIndex(i)}
-            className={index === i ? styles.active : {}}
-          >
-            {mod.id}
-          </li>
-        ))}
-      </ul>
-      {modules.length > 1 && (
-        <small className={styles.hint}>Module #{index + 1}:</small>
-      )}
-
-      <LearningModule mod={modules[index]} isPurchased={isPurchased} />
-    </div>
   );
 }

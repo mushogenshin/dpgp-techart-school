@@ -69,6 +69,17 @@ code {
   cursor: pointer;
   font-size: 1em;
 }
+
+.btn:hover:not(:disabled) {
+  background: #32d99f;
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn:hover {
   background: #32d99f;
   color: #fff;

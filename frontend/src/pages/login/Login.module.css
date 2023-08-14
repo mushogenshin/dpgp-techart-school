@@ -3,14 +3,24 @@
     margin: 60px auto;
     padding: 20px;
 }
+
 .login-form label {
     display: block;
     margin: 30px auto;
 }
+
 .login-form span {
     display: block;
     margin-bottom: 6px;
 }
+
+.login-form li {
+  color: gray;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  margin-bottom: 10px;
+}
+
 .login-form input {
     max-width: 360px;
     padding: 8px 6px;
@@ -18,11 +28,19 @@
     color: #777;
     width: 100%;
 }
+
 .login-form a  {
   color: rgb(96, 244, 123)
 }
+
 .login-form a:visited  {
   color: rgb(96, 244, 123)
+}
+
+.login-form .sent {
+  color: rgb(248, 107, 255);
+  line-height: 2em;
+  font-size: 0.8em;
 }
 
 .finish-login {
