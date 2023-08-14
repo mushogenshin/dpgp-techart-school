@@ -28,7 +28,7 @@ export default function Admin() {
 function GrantAccess() {
   const [emails, setEmails] = useState("");
   const [modules, setModules] = useState("");
-  const { error, isPending, grantAccess } = useGrantAccess();
+  const { grantAccess, error, isPending, successList } = useGrantAccess();
 
   const handleModulesInput = (event) => {
     const sanitizedModules = event.target.value
@@ -40,9 +40,10 @@ function GrantAccess() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const emailArray = emails.split(",").map((email) => {
-      return email.trim().replace(/[^a-zA-Z0-9@._\-]/g, "");
-    });
+    const emailArray = emails
+      .split(",")
+      .map((email) => email.trim().replace(/[^a-zA-Z0-9@._\-]/g, ""))
+      .filter((email) => email !== "");
 
     const moduleArray = modules.split(",").map((mod) => mod.trim());
 
@@ -86,6 +87,17 @@ function GrantAccess() {
         {isPending ? "Granting..." : "Cho phép"}
       </button>
       {error && <div className={styles.error}>{error}</div>}
+      {successList.length > 0 && (
+        <div className={styles.success}>
+          <hr></hr>
+          <h3>Đã cấp quyền xong:</h3>
+          <ul>
+            {successList.map((email) => (
+              <li key={email}>{email}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </form>
   );
 }

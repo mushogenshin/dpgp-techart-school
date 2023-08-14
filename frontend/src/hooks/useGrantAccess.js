@@ -11,11 +11,13 @@ import {
 export const useGrantAccess = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const [successList, setSuccessList] = useState([]);
 
   const grantAccess = async (emails, modules) => {
     // firstly, clear errors for every signup
     setError(null);
     setIsPending(true);
+    setSuccessList([]);
 
     try {
       // get the user documents for each email address
@@ -40,6 +42,8 @@ export const useGrantAccess = () => {
             const newEnrollmentsArray = Array.from(newEnrollments);
             return updateDoc(userDoc.ref, {
               enrollments: newEnrollmentsArray,
+            }).then(() => {
+              setSuccessList((prevList) => [...prevList, emails[index]]);
             });
           } else {
             failedEmails.push(emails[index]);
@@ -53,15 +57,13 @@ export const useGrantAccess = () => {
           ", "
         )}`;
         setError(errorMessage);
-      } else {
-        setError(null);
       }
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsPending(false);
     }
-
-    setIsPending(false);
   };
 
-  return { error, isPending, grantAccess };
+  return { grantAccess, error, isPending, successList };
 };

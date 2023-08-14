@@ -41,3 +41,7 @@
     color: rgb(17, 255, 176);
     font-size: 2em;
 }
+
+.admin .success {
+    color: rgb(151, 255, 123);
+}
