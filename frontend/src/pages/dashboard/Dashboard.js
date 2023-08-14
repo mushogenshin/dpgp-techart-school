@@ -5,7 +5,11 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
-  const { user, history, conformed } = useAuthContext();
+  const {
+    user,
+    pre_2023_07_history: history,
+    post_2023_07_conformed: conformed,
+  } = useAuthContext();
 
   return (
     <div className={styles.dashboard}>

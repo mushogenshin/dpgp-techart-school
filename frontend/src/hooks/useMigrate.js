@@ -4,7 +4,7 @@ import { db } from "../firebase_config";
 import { doc, runTransaction } from "firebase/firestore";
 
 export const useMigrate = () => {
-  const { user, history } = useAuthContext();
+  const { user, pre_2023_07_history: history } = useAuthContext();
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [succeeded, setSucceeded] = useState(false);

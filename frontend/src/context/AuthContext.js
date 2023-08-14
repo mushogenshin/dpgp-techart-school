@@ -13,14 +13,17 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: null,
-        history: null,
-        conformed: false,
+        pre_2023_07_history: null,
+        post_2023_07_conformed: false,
+        purchased: null,
         elevatedRole: null,
       };
     case "SET_HISTORY":
-      return { ...state, history: action.payload };
+      return { ...state, pre_2023_07_history: action.payload };
     case "SET_CONFORMED":
-      return { ...state, conformed: action.payload };
+      return { ...state, post_2023_07_conformed: action.payload };
+    case "SET_PURCHASED":
+      return { ...state, purchased: action.payload };
     case "SET_ADMIN":
       return { ...state, elevatedRole: action.payload };
     default:
@@ -31,8 +34,9 @@ const authReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
-    history: null,
-    conformed: false,
+    pre_2023_07_history: null,
+    post_2023_07_conformed: false,
+    purchased: null,
     elevatedRole: null,
   });
 
@@ -53,12 +57,24 @@ export const AuthContextProvider = ({ children }) => {
           const history = docSnapshot.exists()
             ? docSnapshot.data().enrollments
             : null;
-          dispatch({ type: "SET_HISTORY", payload: history });
+          dispatch({
+            type: "SET_HISTORY",
+            payload: history,
+          });
         });
 
         const userRef = doc(db, "users", user.uid);
         unsubUser = onSnapshot(userRef, (docSnapshot) => {
-          dispatch({ type: "SET_CONFORMED", payload: docSnapshot.exists() });
+          const conformed = docSnapshot.exists();
+          const purchased = conformed ? docSnapshot.data().enrollments : null;
+          dispatch({
+            type: "SET_CONFORMED",
+            payload: conformed,
+          });
+          dispatch({
+            type: "SET_PURCHASED",
+            payload: purchased,
+          });
         });
 
         const adminRef = doc(db, "admins", user.uid);

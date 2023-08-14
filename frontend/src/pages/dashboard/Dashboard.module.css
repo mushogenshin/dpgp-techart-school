@@ -1,29 +1,29 @@
 .dashboard {
-    max-width: 720px;
-    margin: 40px auto;
-    padding: 20px;
-    line-height: 1.5em;
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 20px;
+  line-height: 1.5em;
 }
 
 .block {
-    margin-bottom: 90px;
+  margin-bottom: 90px;
 }
 
 .dashboard h2 {
-    line-height: 0.35em;
+  line-height: 0.35em;
 }
 
 .conformed {
-    color: rgb(14, 14, 169);
-    background: rgb(187, 197, 60);
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 1.3em;
-    line-height: 3em;
+  color: rgb(14, 14, 169);
+  background: rgb(187, 197, 60);
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.3em;
+  line-height: 3em;
 }
 
 .migration-non-existent {
-    color: white;
-    background: rgb(129, 82, 201);
-    padding: 10px;
+  color: white;
+  background: rgb(129, 82, 201);
+  padding: 10px;
 }
