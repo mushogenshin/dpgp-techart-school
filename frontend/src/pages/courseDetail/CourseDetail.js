@@ -44,8 +44,6 @@ export default function CourseDetail() {
     });
   }, [cls_id]);
 
-  console.log(modules);
-
   return (
     <div className={styles["course-detail"]}>
       <CourseMetadata cls_id={cls_id} />

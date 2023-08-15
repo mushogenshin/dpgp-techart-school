@@ -1,3 +1,5 @@
+import { db } from "../../firebase_config";
+import { collection, doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 import styles from "./Module.module.css";
@@ -8,18 +10,32 @@ export default function LearningModule({ mod, purchased }) {
   const [unitType, setUnitType] = useState("");
 
   useEffect(() => {
-    if (purchased && mod.units) {
-      setIsPending(true);
-      const results = ["A", "B", "C", "D", "E", "F", "G", "H"];
+    const fetchUnits = async () => {
+      if (purchased && mod.units) {
+        console.log("Fetching", mod.units);
 
-      // TODO: fetch units of this module
+        setIsPending(true);
+        const contentsRef = collection(db, "contents");
 
-      setUnits(results);
-      setUnitType(mod.unit_type || "unknown unit type");
-      setIsPending(false);
-    }
+        try {
+          const snapshots = await Promise.all(
+            mod.units.map(
+              async (unitId) => await getDoc(doc(contentsRef, unitId))
+            )
+          );
+          const results = snapshots.map((snapshot) => snapshot.data());
+          setUnits(results);
+          setUnitType(mod.unit_type || "unknown unit type");
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsPending(false);
+        }
+      }
+    };
+
+    fetchUnits();
   }, [purchased, mod]);
-
   if (!purchased) {
     return (
       <h3>
@@ -50,7 +66,7 @@ function Carousel({ mod_id, units, unitType }) {
     localStorage.setItem(`activeUnitIndex_${mod_id}`, active);
   }, [active]);
 
-  // console.log(units);
+  console.log(units);
 
   return (
     <div className={styles.carousel}>
@@ -61,7 +77,8 @@ function Carousel({ mod_id, units, unitType }) {
             onClick={() => setActive(index)}
             className={active === index ? styles.active : {}}
           >
-            {unit}
+            {/* {unit} */}
+            HUHU
           </li>
         ))}
       </ul>
