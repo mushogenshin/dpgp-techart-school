@@ -44,16 +44,19 @@ export default function CourseDetail() {
     });
   }, [cls_id]);
 
+  console.log(modules);
+
   return (
     <div className={styles["course-detail"]}>
       <CourseMetadata cls_id={cls_id} />
       <hr></hr>
+
       {isPending ? (
         <h2>Đợi xíu nha 😙...</h2>
       ) : (
         <div>
           {modules.length > 0 ? (
-            <Carousel modules={modules} />
+            <Carousel cls_id={cls_id} modules={modules} />
           ) : (
             <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
           )}
@@ -63,17 +66,17 @@ export default function CourseDetail() {
   );
 }
 
-function Carousel({ modules }) {
+function Carousel({ cls_id, modules }) {
   const { user, purchased } = useAuthContext();
   const [active, setActive] = useState(
-    parseInt(localStorage.getItem("activeModuleIndex")) || 0
+    parseInt(localStorage.getItem(`activeModuleIndex_${cls_id}`)) || 0
   );
 
   const isPurchased = purchased && purchased.includes(modules[active].id);
 
   useEffect(() => {
-    localStorage.setItem("activeModuleIndex", active);
-  }, [active]);
+    localStorage.setItem(`activeModuleIndex_${cls_id}`, active);
+  }, [active, cls_id]);
 
   return (
     <div className={styles.carousel}>

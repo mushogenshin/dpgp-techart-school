@@ -4,15 +4,18 @@ import styles from "./Module.module.css";
 
 export default function LearningModule({ mod, purchased }) {
   const [isPending, setIsPending] = useState(false);
-  const [contents, setContents] = useState(null);
+  const [units, setUnits] = useState([]);
+  const [unitType, setUnitType] = useState("");
 
   useEffect(() => {
-    if (purchased && mod.contents) {
+    if (purchased && mod.units) {
       setIsPending(true);
+      const results = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-      console.log("TODO: fetch contents of this module");
-      // TODO: remember to setContents
+      // TODO: fetch units of this module
 
+      setUnits(results);
+      setUnitType(mod.unit_type || "unknown unit type");
       setIsPending(false);
     }
   }, [purchased, mod]);
@@ -29,39 +32,44 @@ export default function LearningModule({ mod, purchased }) {
     <p>Đang tải nội dung bài giảng ⏱️ ...</p>
   ) : (
     <div className={styles.mod}>
-      {contents && <Carousel contents={contents} />}
+      {units.length > 0 ? (
+        <Carousel mod_id={mod.id} units={units} unitType={unitType} />
+      ) : (
+        <h3>😳 Module này trống trơn, không tìm thấy nội dung nào.</h3>
+      )}
     </div>
   );
 }
 
-function Carousel({ contents }) {
+function Carousel({ mod_id, units, unitType }) {
   const [active, setActive] = useState(
-    parseInt(localStorage.getItem("activeUnitIndex")) || 0
+    parseInt(localStorage.getItem(`activeUnitIndex_${mod_id}`)) || 0
   );
 
   useEffect(() => {
-    localStorage.setItem("activeUnitIndex", active);
+    localStorage.setItem(`activeUnitIndex_${mod_id}`, active);
   }, [active]);
 
-  console.log(contents);
+  // console.log(units);
 
   return (
     <div className={styles.carousel}>
-      CAROUSEL
-      {/* <ul>
-        {contents.map((mod, index) => (
+      <ul>
+        {units.map((unit, index) => (
           <li
             key={index}
             onClick={() => setActive(index)}
             className={active === index ? styles.active : {}}
           >
-            {mod.id}
+            {unit}
           </li>
         ))}
       </ul>
-      {contents.length > 1 && (
-        <small className={styles.hint}>Week #{active + 1}:</small>
-      )} */}
+      {units.length > 1 && (
+        <small className={styles.hint}>
+          {unitType.toUpperCase()} #{active + 1}:
+        </small>
+      )}
       {/* <LearningModule mod={weeks[active]} /> */}
     </div>
   );
