@@ -1,44 +1,68 @@
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useEffect, useState } from "react";
 
 import styles from "./Module.module.css";
 
-export default function LearningModule({ mod, isPurchased }) {
-  const { user } = useAuthContext();
+export default function LearningModule({ mod, purchased }) {
+  const [isPending, setIsPending] = useState(false);
+  const [contents, setContents] = useState(null);
+
+  useEffect(() => {
+    if (purchased && mod.contents) {
+      setIsPending(true);
+
+      console.log("TODO: fetch contents of this module");
+      // TODO: remember to setContents
+
+      setIsPending(false);
+    }
+  }, [purchased, mod]);
+
+  if (!purchased) {
+    return (
+      <h3>
+        📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {mod.id})
+      </h3>
+    );
+  }
+
+  return isPending ? (
+    <p>Đang tải nội dung bài giảng ⏱️ ...</p>
+  ) : (
+    <div className={styles.mod}>
+      {contents && <Carousel contents={contents} />}
+    </div>
+  );
+}
+
+function Carousel({ contents }) {
+  const [active, setActive] = useState(
+    parseInt(localStorage.getItem("activeUnitIndex")) || 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("activeUnitIndex", active);
+  }, [active]);
+
+  console.log(contents);
 
   return (
-    // NOTE: we may want to check if mod is undefined before trying to access its properties
-    <div className={styles.mod}>
-      <h2>{mod.description}</h2>
-
-      <p className={styles.desc}>Hình thức: {mod.format}</p>
-      <p className={styles.desc}>
-        Bắt đầu: {mod.starts_at.toLocaleDateString()}
-      </p>
-      <p className={styles.desc}>
-        Kết thúc: {mod.ends_at.toLocaleDateString()}
-      </p>
-
-      <hr></hr>
-      {user ? (
-        <div>
-          {isPurchased ? (
-            <div>
-              OK bạn đã mua module này rồi, hãy xem video bài giảng ở đây
-            </div>
-          ) : (
-            <h3>
-              📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉{" "}
-              {mod.id})
-            </h3>
-          )}
-        </div>
-      ) : (
-        <h3 className={styles.prompt}>
-          🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí +
-          toàn bộ modules đã mua
-        </h3>
-      )}
+    <div className={styles.carousel}>
+      CAROUSEL
+      {/* <ul>
+        {contents.map((mod, index) => (
+          <li
+            key={index}
+            onClick={() => setActive(index)}
+            className={active === index ? styles.active : {}}
+          >
+            {mod.id}
+          </li>
+        ))}
+      </ul>
+      {contents.length > 1 && (
+        <small className={styles.hint}>Week #{active + 1}:</small>
+      )} */}
+      {/* <LearningModule mod={weeks[active]} /> */}
     </div>
   );
 }

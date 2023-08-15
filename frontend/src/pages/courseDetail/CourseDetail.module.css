@@ -10,6 +10,18 @@
     line-height: 0.3em;
 }
 
+.course-detail .prompt {
+    color: rgb(140, 91, 247);
+}
+
+.course-detail .prompt a {
+  color: rgb(252, 110, 63)
+}
+
+.course-detail .prompt a:visited  {
+  color: rgb(210, 72, 26)
+}
+
 .people h3, .title {
     color: rgb(143, 106, 57);
     font-size: 0.95em;
@@ -51,6 +63,6 @@
 }
 
 .carousel .hint {
-color: rgb(164, 100, 109);
-
+    color: rgb(164, 100, 109);
 }
+

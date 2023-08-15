@@ -1,10 +1,12 @@
 import { db } from "../../firebase_config";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LearningModule from "../module/Module";
+import ModuleMetadata from "../module/ModuleMetadata";
 
 import styles from "./CourseDetail.module.css";
 
@@ -47,7 +49,7 @@ export default function CourseDetail() {
       <CourseMetadata cls_id={cls_id} />
       <hr></hr>
       {isPending ? (
-        <h2>Đợi xíu nha, đang tải 😙...</h2>
+        <h2>Đợi xíu nha 😙...</h2>
       ) : (
         <div>
           {modules.length > 0 ? (
@@ -62,29 +64,45 @@ export default function CourseDetail() {
 }
 
 function Carousel({ modules }) {
-  const { purchased } = useAuthContext();
-  const [index, setIndex] = useState(0);
+  const { user, purchased } = useAuthContext();
+  const [active, setActive] = useState(
+    parseInt(localStorage.getItem("activeModuleIndex")) || 0
+  );
 
-  const isPurchased = purchased && purchased.includes(modules[index].id);
+  const isPurchased = purchased && purchased.includes(modules[active].id);
+
+  useEffect(() => {
+    localStorage.setItem("activeModuleIndex", active);
+  }, [active]);
 
   return (
     <div className={styles.carousel}>
       <ul>
-        {modules.map((mod, i) => (
+        {modules.map((mod, index) => (
           <li
-            key={i}
-            onClick={() => setIndex(i)}
-            className={index === i ? styles.active : {}}
+            key={index}
+            onClick={() => setActive(index)}
+            className={active === index ? styles.active : {}}
           >
             {mod.id}
           </li>
         ))}
       </ul>
       {modules.length > 1 && (
-        <small className={styles.hint}>Module #{index + 1}:</small>
+        <small className={styles.hint}>Module #{active + 1}:</small>
       )}
+      {/* showing the metadata regardless of signin or purchase state */}
+      <ModuleMetadata mod={modules[active]} />
+      <hr></hr>
 
-      <LearningModule mod={modules[index]} isPurchased={isPurchased} />
+      {user ? (
+        <LearningModule mod={modules[active]} purchased={isPurchased} />
+      ) : (
+        <h3 className={styles.prompt}>
+          🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí +
+          toàn bộ modules đã mua
+        </h3>
+      )}
     </div>
   );
 }

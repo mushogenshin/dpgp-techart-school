@@ -14,7 +14,7 @@ export default function Admin() {
     <div className={styles.admin}>
       Your role: {elevatedRole.toUpperCase()}
       <hr></hr>
-      {["admin", "helper"].includes(elevatedRole) ? (
+      {["admin", "collaborator"].includes(elevatedRole) ? (
         <div className={styles.admin}>
           <GrantAccess />
         </div>

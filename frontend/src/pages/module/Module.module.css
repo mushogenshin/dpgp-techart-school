@@ -5,14 +5,30 @@
     margin: 0;
 }
 
-.mod .prompt {
-    color: rgb(140, 91, 247);
+.carousel ul {
+  /* font-size: 1em; */
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  color: gray;
 }
 
-.mod a {
-  color: rgb(252, 110, 63)
+.carousel li{
+  cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  margin: 0 20px;
+  padding: 5px 10px;
 }
 
-.mod a:visited  {
-  color: rgb(210, 72, 26)
+.carousel .active {
+  border-width: 2px;
+  font-weight: bold;
+  color: rgb(38, 231, 106);
 }
+
+.carousel .hint {
+  color: rgb(164, 100, 109);
+}
+
