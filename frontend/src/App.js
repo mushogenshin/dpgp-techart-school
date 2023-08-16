@@ -9,6 +9,7 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import Courses from "./pages/courses/Courses";
+import NotFound from "./components/NotFound";
 
 function App() {
   const { user, elevatedRole } = useAuthContext();
@@ -67,6 +68,7 @@ function App() {
               <CourseDetail />
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

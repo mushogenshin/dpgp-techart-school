@@ -4,7 +4,7 @@ import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 const url =
   window.location.hostname === "localhost"
     ? "http://localhost:3000"
-    : "https://dpgp-techart.web.app/"; // "https://school.dauphaigiaiphau.wtf"
+    : "https://dpgp-techart.firebaseapp.com"; // "https://school.dauphaigiaiphau.wtf"
 
 const actionCodeSettings = {
   url: `${url}/finishLogin`,
