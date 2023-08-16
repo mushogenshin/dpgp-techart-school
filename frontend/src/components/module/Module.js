@@ -1,6 +1,7 @@
 import { db } from "../../firebase_config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import Unit from "../unit/Unit";
 
 import styles from "./Module.module.css";
 
@@ -43,10 +44,10 @@ export default function LearningModule({ mod, purchased }) {
           }
         );
       } else {
-        setIsPending(false); // nothing to fetch
+        setIsPending(false); // empty units, nothing to fetch
       }
     } else {
-      setIsPending(false); // nothing to do
+      setIsPending(false); // not purchased or empty module, nothing to do
     }
 
     return () => {
@@ -87,7 +88,6 @@ function Carousel({ mod_id, units }) {
   }, [active, mod_id]);
 
   const handleUnitChange = (index) => {
-    console.log("Switching to unit", units[index]);
     setActive(index);
   };
 
@@ -100,11 +100,12 @@ function Carousel({ mod_id, units }) {
             onClick={() => handleUnitChange(index)}
             className={active === index ? styles.active : {}}
           >
-            {unit.name}
+            {unit.name || `Unit ${index + 1}`}
           </li>
         ))}
       </ul>
-      {/* <LearningModule mod={weeks[active]} /> */}
+
+      <Unit contents={units[active].contents} />
     </div>
   );
 }
