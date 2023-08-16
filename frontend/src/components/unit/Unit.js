@@ -16,8 +16,8 @@ export default function Unit({ contents }) {
                   src={lesson.data}
                   width="640"
                   height="360"
-                  frameborder="0"
-                  allowfullscreen
+                  frameBorder="0"
+                  allowFullScreen
                   title={`Video ${index}`}
                 ></iframe>
               ) : null}

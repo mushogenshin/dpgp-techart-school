@@ -2,13 +2,13 @@ import { useState } from "react";
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 
 const url =
-  window.location.hostname === "localhost"
-    ? "http://localhost:3000"
-    : window.location.hostname === "dpgp-techart.firebaseapp.com"
+  window.location.hostname === "dpgp-techart.firebaseapp.com"
     ? "https://dpgp-techart.firebaseapp.com"
     : window.location.hostname === "dpgp-techart.web.app"
     ? "https://dpgp-techart.web.app"
-    : "";
+    : window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "unexpectedhostname";
 
 const actionCodeSettings = {
   url: `${url}/finishLogin`,
