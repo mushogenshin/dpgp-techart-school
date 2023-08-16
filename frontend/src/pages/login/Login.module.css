@@ -37,6 +37,11 @@
   color: rgb(96, 244, 123)
 }
 
+.login-form ::selection {
+  color: black;
+  background: rgb(96, 244, 123);
+}
+
 .login-form .sent {
   color: rgb(248, 107, 255);
   line-height: 2em;
