@@ -27,6 +27,16 @@ export const useMigrate = () => {
           enrollments: history ? history : [],
         };
         transaction.set(userRef, userData);
+      } else {
+        const userData = userDoc.data();
+        const enrollments = userData.enrollments || [];
+        const mergedEnrollments = history
+          ? [...enrollments, ...history]
+          : enrollments;
+        const mergedEnrollmentSet = [...new Set(mergedEnrollments)];
+        transaction.update(userRef, {
+          enrollments: mergedEnrollmentSet,
+        });
       }
     })
       .then(() => {

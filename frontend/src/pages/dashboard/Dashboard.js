@@ -47,18 +47,18 @@ function MigrateStatus({ history, conformed }) {
           {/* Cựu Học viên */}
           <h2>🌋 Ráp hồ sơ cũ</h2>
           {conformed && (
-            <div>Dữ liệu ghi danh cũ đều đã được di dời xong 👌</div>
+            <div>Dữ liệu ghi danh cũ đều đã được di dời xong 👌.</div>
           )}
         </div>
       ) : (
         <div>
           {/* Tân Học viên */}
           <h2>🎢 Chuyển hệ thống mới</h2>
-          {conformed && <div>Đã chuyển hệ thống mới thành công 👌</div>}
+          {conformed && <div>Đã chuyển hệ thống mới thành công 👌.</div>}
         </div>
       )}
 
-      {!conformed && (
+      {!conformed ? (
         <div>
           <p>
             DPGP đang chuyển sang hệ thống website mới từ tháng 8/2023. Do đó,
@@ -69,6 +69,17 @@ function MigrateStatus({ history, conformed }) {
 
           <button onClick={migrate} className="btn" disabled={isMigratePending}>
             {isMigratePending ? "Migrating..." : "Migrate"}
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p>
+            Tuy nhiên nếu thấy có thiếu sót, vui lòng liên lạc admin và sau khi
+            admin sửa chữa hồ sơ, bạn có thể chạy lại khâu "Migrate" bằng nút
+            "Rerun" bên dưới:
+          </p>
+          <button onClick={migrate} className="btn" disabled={isMigratePending}>
+            {isMigratePending ? "Migrating..." : "Rerun"}
           </button>
         </div>
       )}
