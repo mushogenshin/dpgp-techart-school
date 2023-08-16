@@ -17,10 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npm run copy",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "copy": "cp src/firebase_config.js build/"
+    "deploy": "npm run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [
