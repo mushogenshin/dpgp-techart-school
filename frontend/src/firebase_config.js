@@ -3,13 +3,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration
 const config = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  apiKey: "AIzaSyCsnQ3U3Cz3f5mv31NXLgxUtruQCIujEt8",
+  authDomain: "dpgp-techart.firebaseapp.com",
+  projectId: "dpgp-techart",
+  storageBucket: "dpgp-techart.appspot.com",
+  messagingSenderId: "224532426867",
+  appId: "1:224532426867:web:eafd8876307b18c48fba06",
+  measurementId: "G-6WXJM0P8D6",
 };
 
 const app = initializeApp(config);
