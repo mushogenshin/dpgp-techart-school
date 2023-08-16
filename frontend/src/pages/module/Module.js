@@ -1,5 +1,5 @@
 import { db } from "../../firebase_config";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 import styles from "./Module.module.css";
@@ -10,40 +10,41 @@ export default function LearningModule({ mod, purchased }) {
   const [unitType, setUnitType] = useState("");
 
   useEffect(() => {
-    const fetchUnits = async () => {
-      if (purchased && mod.units) {
-        console.log("Fetching", mod.units);
+    if (!purchased) {
+      return;
+    }
 
-        setIsPending(true);
-        const contentsRef = collection(db, "contents");
+    const contentIDs = mod.units.flatMap((unit) => unit.contents);
 
-        try {
-          const results = [];
-          for (const unit of mod.units) {
-            const snapshots = await Promise.all(
-              unit.contents.map(
-                async (contentId) => await getDoc(doc(contentsRef, contentId))
-              )
-            );
-            const unitData = {
-              contents: snapshots.map((snapshot) => {
-                return { ...snapshot.data(), id: snapshot.id };
-              }),
-            };
-            results.push(unitData);
-          }
-          setUnits(results);
-          setUnitType(mod.unit_type || "unknown unit type");
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsPending(false);
-        }
+    if (contentIDs.length === 0) {
+      return;
+    }
+
+    console.log("Fetching content IDs", contentIDs);
+
+    const unsubscribe = onSnapshot(
+      query(collection(db, "contents"), where("__name__", "in", contentIDs)),
+      (snapshot) => {
+        const results = mod.units.map((unit) => {
+          const contents = snapshot.docs
+            .filter((doc) => unit.contents.includes(doc.id))
+            .map((doc) => ({ ...doc.data(), id: doc.id }));
+          return { contents };
+        });
+
+        setUnits(results);
+      },
+      (error) => {
+        console.log(error);
       }
-    };
+    );
 
-    fetchUnits();
+    setUnitType(mod.unit_type || "unknown unit type");
+    setIsPending(false);
+
+    return () => unsubscribe();
   }, [purchased, mod]);
+
   if (!purchased) {
     return (
       <h3>
@@ -72,9 +73,7 @@ function Carousel({ mod_id, units, unitType }) {
 
   useEffect(() => {
     localStorage.setItem(`activeUnitIndex_${mod_id}`, active);
-  }, [active]);
-
-  console.log(units);
+  }, [active, mod_id]);
 
   return (
     <div className={styles.carousel}>
