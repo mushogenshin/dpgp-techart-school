@@ -18,6 +18,7 @@ export default function Unit({ contents }) {
                   height="360"
                   frameborder="0"
                   allowfullscreen
+                  title={`Video ${index}`}
                 ></iframe>
               ) : null}
             </div>
