@@ -7,42 +7,53 @@ import styles from "./Module.module.css";
 export default function LearningModule({ mod, purchased }) {
   const [isPending, setIsPending] = useState(false);
   const [units, setUnits] = useState([]);
-  const [unitType, setUnitType] = useState("");
 
   useEffect(() => {
-    if (!purchased) {
-      return;
-    }
+    setIsPending(true);
+    setUnits([]);
 
-    const contentIDs = mod.units.flatMap((unit) => unit.contents);
+    let contentIDs = [];
+    let unsubscribe;
 
-    if (contentIDs.length === 0) {
-      return;
-    }
+    if (purchased && mod.units) {
+      contentIDs = mod.units.flatMap((unit) => unit.contents);
 
-    console.log("Fetching content IDs", contentIDs);
+      if (contentIDs.length > 0) {
+        console.log(`Fetching content IDs for mod ${mod.id}`);
 
-    const unsubscribe = onSnapshot(
-      query(collection(db, "contents"), where("__name__", "in", contentIDs)),
-      (snapshot) => {
-        const results = mod.units.map((unit) => {
-          const contents = snapshot.docs
-            .filter((doc) => unit.contents.includes(doc.id))
-            .map((doc) => ({ ...doc.data(), id: doc.id }));
-          return { contents };
-        });
+        unsubscribe = onSnapshot(
+          query(
+            collection(db, "contents"),
+            where("__name__", "in", contentIDs)
+          ),
+          (snapshot) => {
+            const results = mod.units.map((unit) => {
+              const contents = snapshot.docs
+                .filter((doc) => unit.contents.includes(doc.id))
+                .map((doc) => ({ ...doc.data(), id: doc.id }));
+              return { ...unit, contents };
+            });
 
-        setUnits(results);
-      },
-      (error) => {
-        console.log(error);
+            setIsPending(false);
+            setUnits(results);
+          },
+          (error) => {
+            console.log(error.message);
+            setIsPending(false);
+          }
+        );
+      } else {
+        setIsPending(false); // nothing to fetch
       }
-    );
+    } else {
+      setIsPending(false); // nothing to do
+    }
 
-    setUnitType(mod.unit_type || "unknown unit type");
-    setIsPending(false);
-
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [purchased, mod]);
 
   if (!purchased) {
@@ -58,7 +69,7 @@ export default function LearningModule({ mod, purchased }) {
   ) : (
     <div className={styles.mod}>
       {units.length > 0 ? (
-        <Carousel mod_id={mod.id} units={units} unitType={unitType} />
+        <Carousel mod_id={mod.id} units={units} />
       ) : (
         <h3>😳 Module này trống trơn, không tìm thấy nội dung nào.</h3>
       )}
@@ -66,7 +77,7 @@ export default function LearningModule({ mod, purchased }) {
   );
 }
 
-function Carousel({ mod_id, units, unitType }) {
+function Carousel({ mod_id, units }) {
   const [active, setActive] = useState(
     parseInt(localStorage.getItem(`activeUnitIndex_${mod_id}`)) || 0
   );
@@ -75,25 +86,24 @@ function Carousel({ mod_id, units, unitType }) {
     localStorage.setItem(`activeUnitIndex_${mod_id}`, active);
   }, [active, mod_id]);
 
+  const handleUnitChange = (index) => {
+    console.log("Switching to unit", units[index]);
+    setActive(index);
+  };
+
   return (
     <div className={styles.carousel}>
       <ul>
         {units.map((unit, index) => (
           <li
             key={index}
-            onClick={() => setActive(index)}
+            onClick={() => handleUnitChange(index)}
             className={active === index ? styles.active : {}}
           >
-            {/* {unit} */}
-            HUHU
+            {unit.name}
           </li>
         ))}
       </ul>
-      {units.length > 1 && (
-        <small className={styles.hint}>
-          {unitType.toUpperCase()} #{active + 1}:
-        </small>
-      )}
       {/* <LearningModule mod={weeks[active]} /> */}
     </div>
   );
