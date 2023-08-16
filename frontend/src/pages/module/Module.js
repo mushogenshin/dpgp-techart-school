@@ -18,12 +18,20 @@ export default function LearningModule({ mod, purchased }) {
         const contentsRef = collection(db, "contents");
 
         try {
-          const snapshots = await Promise.all(
-            mod.units.map(
-              async (unitId) => await getDoc(doc(contentsRef, unitId))
-            )
-          );
-          const results = snapshots.map((snapshot) => snapshot.data());
+          const results = [];
+          for (const unit of mod.units) {
+            const snapshots = await Promise.all(
+              unit.contents.map(
+                async (contentId) => await getDoc(doc(contentsRef, contentId))
+              )
+            );
+            const unitData = {
+              contents: snapshots.map((snapshot) => {
+                return { ...snapshot.data(), id: snapshot.id };
+              }),
+            };
+            results.push(unitData);
+          }
           setUnits(results);
           setUnitType(mod.unit_type || "unknown unit type");
         } catch (error) {
