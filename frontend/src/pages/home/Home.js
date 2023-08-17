@@ -6,7 +6,11 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <div className="App-logo-row">
+          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" />
+        </div>
       </header>
       <p>
         Bắt đầu nguyên thuỷ với các lớp dạy Anatomy về cơ thể người, đến nay

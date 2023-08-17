@@ -1,6 +1,19 @@
+/* 
+* {
+    background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%);
+} */
+
 .home {
     max-width: 720px;
     margin: 20px auto;
     padding: 20px;
     line-height: 1.5;
+    color:rgb(185, 185, 218);
+    font-family: 'Montserrat'
+    
+}
+
+.home ::selection {
+    color: rgb(255, 233, 93);
+    background-color: rgb(221, 68, 7);
 }

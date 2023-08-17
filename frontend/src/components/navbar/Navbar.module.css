@@ -1,5 +1,5 @@
 .navbar {
-    background: #3f0328;
+    background: #373745;
     padding: 20px;
 }
 .navbar ul {
@@ -13,13 +13,18 @@
 .title {
     margin-right: auto;
     font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 0.75em;
+    letter-spacing: 1.5px;
+    font-size: .6em;
 }
 .navbar button, .navbar a {
     margin-left: 15px;
 }
 .navbar a {
-    color: white;
+    color: rgb(50, 238, 109);
     text-decoration: none;
+    font-size: 1.4em;
+    font-weight: bolder;
+}
+.navbar a:hover {
+    color:rgb(243, 83, 20);
 }

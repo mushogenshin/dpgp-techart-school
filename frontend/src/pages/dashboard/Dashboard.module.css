@@ -2,7 +2,9 @@
   max-width: 720px;
   margin: 40px auto;
   padding: 20px;
-  line-height: 1.5em;
+  line-height: 1em;
+  color: rgb(107, 116, 165);
+  font-size: .8em;
 }
 
 .block {
@@ -11,11 +13,12 @@
 
 .dashboard h2 {
   line-height: 0.35em;
+  font-size: 1.5em;
 }
 
 .conformed {
-  color: rgb(14, 14, 169);
-  background: rgb(187, 197, 60);
+  color: rgb(97, 74, 61);
+  /*background: rgb(236, 93, 53);*/
   border-radius: 20px;
   font-weight: bold;
   font-size: 1.3em;
