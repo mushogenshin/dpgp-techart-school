@@ -6,6 +6,28 @@
     color: rgb(255, 144, 184);
 }
 
+.admin .section {
+    border: 1px solid rgb(255, 206, 45);
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.admin .collapsible {
+    color: white;
+    background-color: transparent;
+    border: 1px solid rgb(215, 87, 87);
+    padding: 0 30px;
+    margin: 0;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.collapsible:hover {
+    background: rgb(120, 41, 41);
+    color: #fff;
+  }
+
 .admin label {
     font-weight: bold;
     display: block;

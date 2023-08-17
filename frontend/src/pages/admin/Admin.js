@@ -26,6 +26,7 @@ export default function Admin() {
 }
 
 function GrantAccess() {
+  const [collapsed, setCollapsed] = useState(true);
   const [emails, setEmails] = useState("");
   const [modules, setModules] = useState("");
   const { grantAccess, error, isPending, successList } = useGrantAccess();
@@ -50,59 +51,75 @@ function GrantAccess() {
     grantAccess(emailArray, moduleArray);
   };
 
+  const label = `${collapsed ? "👉" : "👇"} Cấp quyền học viên`;
+
   return (
-    <form className={styles.admin} onSubmit={handleSubmit}>
-      <h2>🥊 Cấp quyền học viên</h2>
-
-      <div>
-        <label htmlFor="emails">Email học viên:</label>
-        <textarea
-          id="emails"
-          name="emails"
-          value={emails}
-          rows={5}
-          onChange={(event) => {
-            setEmails(event.target.value);
-          }}
-        />
-        <small className={styles.hint}>
-          (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên <br />
-          <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
-        </small>
-      </div>
-
-      <div>
-        <label htmlFor="modules">Được xem các modules:</label>
-        <input
-          type="text"
-          id="modules"
-          name="modules"
-          value={modules}
-          onChange={handleModulesInput}
-        />
-        <small className={styles.hint}>
-          (phân cách bằng dấu phẩy, sẽ cộng thêm vào danh sách hiện tại, <br />
-          và tự động bỏ qua các đăng kí trùng lặp)
-        </small>
-      </div>
-
-      <button type="submit" className="btn" disabled={isPending}>
-        {isPending ? "Granting..." : "Cho phép"}
+    <div>
+      <button
+        className={styles.collapsible}
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <h2>{label}</h2>
       </button>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {!collapsed && (
+        <form
+          className={collapsed ? "" : styles.section}
+          onSubmit={handleSubmit}
+        >
+          <div>
+            <label htmlFor="emails">Email học viên:</label>
+            <textarea
+              id="emails"
+              name="emails"
+              value={emails}
+              rows={5}
+              onChange={(event) => {
+                setEmails(event.target.value);
+              }}
+            />
+            <small className={styles.hint}>
+              (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên{" "}
+              <br />
+              <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
+            </small>
+          </div>
 
-      {successList.length > 0 && (
-        <div className={styles.success}>
-          <hr></hr>
-          <h3>Đã cấp quyền xong:</h3>
-          <ul>
-            {successList.map((email) => (
-              <li key={email}>{email}</li>
-            ))}
-          </ul>
-        </div>
+          <div>
+            <label htmlFor="modules">Được xem các modules:</label>
+            <input
+              type="text"
+              id="modules"
+              name="modules"
+              value={modules}
+              onChange={handleModulesInput}
+            />
+            <small className={styles.hint}>
+              (phân cách bằng dấu phẩy, sẽ cộng thêm vào danh sách hiện tại,{" "}
+              <br />
+              và tự động bỏ qua các đăng kí trùng lặp)
+            </small>
+          </div>
+
+          <button type="submit" className="btn" disabled={isPending}>
+            {isPending ? "Granting..." : "Cho phép"}
+          </button>
+
+          {error && <div className={styles.error}>{error}</div>}
+
+          {successList.length > 0 && (
+            <div className={styles.success}>
+              <hr></hr>
+              <h3>Đã cấp quyền xong:</h3>
+              <ul>
+                {successList.map((email) => (
+                  <li key={email}>{email}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </form>
       )}
-    </form>
+    </div>
   );
 }

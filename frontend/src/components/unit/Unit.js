@@ -15,6 +15,7 @@ export default function Unit({ contents, unlocked }) {
                     <ReactMarkdown>{lesson.data}</ReactMarkdown>
                   ) : lesson.type === "video" ? (
                     <div
+                      // Vimeo embed styling
                       style={{ padding: "56.25% 0 0 0", position: "relative" }}
                     >
                       <iframe
