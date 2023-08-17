@@ -62,7 +62,7 @@ function App() {
             element={<Courses />}
           />
           <Route
-            path="courses/:cls_id"
+            path="courses/:courseId"
             element={
               // Unguarded CourseDetail page
               <CourseDetail />

@@ -12,14 +12,23 @@ export default function Unit({ contents }) {
               {lesson.type === "text" ? (
                 <ReactMarkdown>{lesson.data}</ReactMarkdown>
               ) : lesson.type === "video" ? (
-                <iframe
-                  src={lesson.data}
-                  width="640"
-                  height="360"
-                  frameBorder="0"
-                  allowFullScreen
-                  title={`Video ${index}`}
-                ></iframe>
+                <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                  <iframe
+                    src={`${lesson.data}?badge=0&amp;autopause=0&amp`}
+                    width="640"
+                    height="360"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      left: "0",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    title={`Video ${index}`}
+                  ></iframe>
+                </div>
               ) : null}
             </div>
           ))}
