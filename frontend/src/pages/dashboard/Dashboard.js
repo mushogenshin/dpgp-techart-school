@@ -96,8 +96,15 @@ function History({ history }) {
 
   useEffect(() => {
     if (history) {
+      const courseIds = new Set();
       const coursesWithModule = history.flatMap((modId) =>
-        courses.filter((course) => course.modules.includes(modId))
+        courses.filter((course) => {
+          if (course.modules.includes(modId) && !courseIds.has(course.id)) {
+            courseIds.add(course.id);
+            return true;
+          }
+          return false;
+        })
       );
       setCoursesWithModule(coursesWithModule);
     } else {
