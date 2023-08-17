@@ -23,7 +23,6 @@ export const useMigrate = () => {
       if (!userDoc.exists()) {
         const userData = {
           email: user.email,
-          enrollment_period: history ? "pre-2023-07" : "post-2023-07",
           enrollments: history ? history : [],
         };
         transaction.set(userRef, userData);

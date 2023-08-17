@@ -95,8 +95,8 @@ function History({ history }) {
 
       {history ? (
         <ol className={styles.conformed}>
-          {history.map((mod) => (
-            <li key={mod}>{mod}</li>
+          {history.map((modId) => (
+            <li key={modId}>{modId}</li>
           ))}
         </ol>
       ) : (

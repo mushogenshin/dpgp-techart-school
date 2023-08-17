@@ -70,7 +70,7 @@ export default function LearningModule({ mod, purchased }) {
   ) : (
     <div className={styles.mod}>
       {units.length > 0 ? (
-        <Carousel mod_id={mod.id} units={units} />
+        <Carousel moduleId={mod.id} units={units} />
       ) : (
         <h3>😳 Module này trống trơn, không tìm thấy nội dung nào.</h3>
       )}
@@ -78,14 +78,14 @@ export default function LearningModule({ mod, purchased }) {
   );
 }
 
-function Carousel({ mod_id, units }) {
+function Carousel({ moduleId, units }) {
   const [active, setActive] = useState(
-    parseInt(localStorage.getItem(`activeUnitIndex_${mod_id}`)) || 0
+    parseInt(localStorage.getItem(`activeUnitIndex_${moduleId}`)) || 0
   );
 
   useEffect(() => {
-    localStorage.setItem(`activeUnitIndex_${mod_id}`, active);
-  }, [active, mod_id]);
+    localStorage.setItem(`activeUnitIndex_${moduleId}`, active);
+  }, [active, moduleId]);
 
   const handleUnitChange = (index) => {
     setActive(index);

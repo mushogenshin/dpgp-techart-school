@@ -11,13 +11,13 @@ import ModuleMetadata from "../../components/module/ModuleMetadata";
 import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
-  const { cls_id } = useParams();
+  const { courseId } = useParams();
   const [isPending, setIsPending] = useState(false);
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
     setIsPending(true);
-    const classRef = doc(db, "classes", cls_id);
+    const classRef = doc(db, "classes", courseId);
 
     getDoc(classRef).then(async (classSnapshot) => {
       const moduleIds = classSnapshot.data().modules;
@@ -28,8 +28,8 @@ export default function CourseDetail() {
 
         // query all module documents simultaneously by their IDs
         await Promise.all(
-          moduleIds.map(async (mod_id) => {
-            const moduleRef = doc(db, "modules", mod_id);
+          moduleIds.map(async (moduleId) => {
+            const moduleRef = doc(db, "modules", moduleId);
             const moduleSnapshot = await getDoc(moduleRef);
 
             const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
@@ -69,11 +69,11 @@ export default function CourseDetail() {
         };
       }
     });
-  }, [cls_id]);
+  }, [courseId]);
 
   return (
     <div className={styles["course-detail"]}>
-      <CourseMetadata cls_id={cls_id} />
+      <CourseMetadata courseId={courseId} />
       <hr></hr>
 
       {isPending ? (
@@ -81,7 +81,7 @@ export default function CourseDetail() {
       ) : (
         <div>
           {modules.length > 0 ? (
-            <Carousel cls_id={cls_id} modules={modules} />
+            <Carousel courseId={courseId} modules={modules} />
           ) : (
             <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
           )}
@@ -91,17 +91,17 @@ export default function CourseDetail() {
   );
 }
 
-function Carousel({ cls_id, modules }) {
+function Carousel({ courseId, modules }) {
   const { user, purchased } = useAuthContext();
   const [active, setActive] = useState(
-    parseInt(localStorage.getItem(`activeModuleIndex_${cls_id}`)) || 0
+    parseInt(localStorage.getItem(`activeModuleIndex_${courseId}`)) || 0
   );
 
   const isPurchased = purchased && purchased.includes(modules[active].id);
 
   useEffect(() => {
-    localStorage.setItem(`activeModuleIndex_${cls_id}`, active);
-  }, [active, cls_id]);
+    localStorage.setItem(`activeModuleIndex_${courseId}`, active);
+  }, [active, courseId]);
 
   return (
     <div className={styles.carousel}>
@@ -135,9 +135,9 @@ function Carousel({ cls_id, modules }) {
   );
 }
 
-function CourseMetadata({ cls_id }) {
+function CourseMetadata({ courseId }) {
   const { courses } = useContext(CoursesContext);
-  const cls = courses.find((cls) => cls.id === cls_id);
+  const cls = courses.find((cls) => cls.id === courseId);
 
   return (
     // if user accesses this page directly, cls may not be fetched completely yet,
