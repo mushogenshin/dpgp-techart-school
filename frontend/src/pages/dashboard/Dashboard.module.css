@@ -25,6 +25,24 @@
   line-height: 3em;
 }
 
+.conformed a {
+  text-decoration: none;
+  color: aquamarine;
+}
+
+.conformed a:visited {
+  color: rgb(19, 191, 133);
+}
+
+.courses_id {
+    font-size: 0.6em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 7px;
+    color: rgb(36, 20, 20);
+    background: #baf043;
+}
+
 .migration-non-existent {
   color: white;
   background: rgb(129, 82, 201);

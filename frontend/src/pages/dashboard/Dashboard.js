@@ -1,6 +1,9 @@
+import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { useLogout } from "../../hooks/useLogout";
 import { useMigrate } from "../../hooks/useMigrate";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { CoursesContext } from "../../context/CoursesContext";
 
 import styles from "./Dashboard.module.css";
 
@@ -88,6 +91,20 @@ function MigrateStatus({ history, conformed }) {
 }
 
 function History({ history }) {
+  const { courses } = useContext(CoursesContext);
+  const [coursesWithModule, setCoursesWithModule] = useState([]);
+
+  useEffect(() => {
+    if (history) {
+      const coursesWithModule = history.flatMap((modId) =>
+        courses.filter((course) => course.modules.includes(modId))
+      );
+      setCoursesWithModule(coursesWithModule);
+    } else {
+      setCoursesWithModule([]);
+    }
+  }, [history, courses]);
+
   return (
     <div className={styles.block}>
       <h2>🥅 Các khoá học cũ đã ghi danh:</h2>
@@ -95,8 +112,12 @@ function History({ history }) {
 
       {history ? (
         <ol className={styles.conformed}>
-          {history.map((modId) => (
-            <li key={modId}>{modId}</li>
+          {coursesWithModule.map((cls) => (
+            <li key={cls.id}>
+              <Link to={`/courses/${cls.id}`}>
+                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+              </Link>
+            </li>
           ))}
         </ol>
       ) : (
