@@ -5,7 +5,7 @@ import { useParams, Link } from "react-router-dom";
 
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import LearningModule from "../../components/module/Module";
+import LearningModule from "../../components/module/LearningModule";
 import ModuleMetadata from "../../components/module/ModuleMetadata";
 
 import styles from "./CourseDetail.module.css";
