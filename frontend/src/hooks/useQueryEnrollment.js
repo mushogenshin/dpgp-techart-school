@@ -8,7 +8,11 @@ export const useQueryEnrollment = () => {
   const [isPending, setIsPending] = useState(false);
 
   const queryEnrollment = (moduleId) => {
+    // firstly, clear errors for every signup
+    setError(null);
     setIsPending(true);
+    setEnrollments([]);
+
     const usersRef = query(
       collection(db, "users"),
       where("enrollments", "array-contains", moduleId)
@@ -21,6 +25,7 @@ export const useQueryEnrollment = () => {
           ...doc.data(),
         }));
         setEnrollments(newEnrollments);
+        setError(null);
         setIsPending(false);
       },
       (error) => {

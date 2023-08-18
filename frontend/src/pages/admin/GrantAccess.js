@@ -24,7 +24,10 @@ export default function GrantAccess() {
       .map((email) => email.trim().replace(/[^a-zA-Z0-9@._\-]/g, ""))
       .filter((email) => email !== "");
 
-    const moduleArray = modules.split(",").map((mod) => mod.trim());
+    const moduleArray = modules
+      .split(",")
+      .map((mod) => mod.trim())
+      .filter((mod) => mod !== "");
 
     grantAccess(emailArray, moduleArray, target);
   };

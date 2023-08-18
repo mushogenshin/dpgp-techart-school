@@ -20,7 +20,6 @@ export default function QueryEnrollment() {
   const handleSubmit = (event) => {
     event.preventDefault();
     queryEnrollment(moduleId);
-    console.log("Enrollments", enrollments);
   };
 
   const label = `${collapsed ? "👉" : "👇"} Tra tham dự`;
@@ -36,7 +35,7 @@ export default function QueryEnrollment() {
 
       {!collapsed && (
         <form className={collapsed ? "" : styles.section}>
-          <label htmlFor="moduleId">Module:</label>
+          <label htmlFor="moduleId">Theo module:</label>
           <input
             type="text"
             id="moduleId"
@@ -53,6 +52,20 @@ export default function QueryEnrollment() {
           >
             {isPending ? "Querying..." : "Tra"}
           </button>
+
+          {error && <div className={styles.error}>{error}</div>}
+
+          {enrollments.length > 0 && (
+            <div className={styles.success}>
+              <hr></hr>
+              <h3>Danh sách tham dự:</h3>
+              <ul>
+                {enrollments.map((user) => (
+                  <li key={user.id}>{user.email}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </form>
       )}
     </div>

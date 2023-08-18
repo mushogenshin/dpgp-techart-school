@@ -64,6 +64,8 @@ export const useGrantAccess = () => {
           ", "
         )}`;
         setError(errorMessage);
+      } else {
+        setError(null);
       }
     } catch (error) {
       setError(error.message);
