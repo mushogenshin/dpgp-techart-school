@@ -13,17 +13,17 @@
     border-radius: 5px;
 }
 
-.admin .collapsible {
+.admin .collapsibleHeader {
     color: white;
     background-color: transparent;
     border: 1px solid rgb(215, 87, 87);
     padding: 0 30px;
-    margin: 0;
+    margin: 5px;
     border-radius: 30px;
     cursor: pointer;
 }
 
-.collapsible:hover {
+.collapsibleHeader:hover {
     background: rgb(120, 41, 41);
     color: #fff;
   }
