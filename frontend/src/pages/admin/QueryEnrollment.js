@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useQueryEnrollment } from "../../hooks/useQueryEnrollment";
+import { useQueryEnrolledUsers } from "../../hooks/useQueryEnrollment";
 
 import styles from "./Admin.module.css";
 
 export default function QueryEnrollment() {
   const [collapsed, setCollapsed] = useState(true);
   const [moduleId, setModuleId] = useState("");
-  const { queryEnrollment, error, isPending, enrollments } =
-    useQueryEnrollment();
+  const { queryEnrolledUsers, error, isPending, users } =
+    useQueryEnrolledUsers();
 
   const handleModuleIdInput = (event) => {
     const sanitizedModuleId = event.target.value
@@ -19,7 +19,7 @@ export default function QueryEnrollment() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    queryEnrollment(moduleId);
+    queryEnrolledUsers(moduleId);
   };
 
   const label = `${collapsed ? "👉" : "👇"} Tra tham dự`;
@@ -55,12 +55,12 @@ export default function QueryEnrollment() {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          {enrollments.length > 0 && (
+          {users.length > 0 && (
             <div className={styles.success}>
               <hr></hr>
               <h3>Danh sách tham dự:</h3>
               <ul>
-                {enrollments.map((user) => (
+                {users.map((user) => (
                   <li key={user.id}>{user.email}</li>
                 ))}
               </ul>

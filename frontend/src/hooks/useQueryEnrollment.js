@@ -2,16 +2,16 @@ import { useState } from "react";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase_config";
 
-export const useQueryEnrollment = () => {
-  const [enrollments, setEnrollments] = useState([]);
+export const useQueryEnrolledUsers = () => {
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
-  const queryEnrollment = (moduleId) => {
+  const queryEnrolledUsers = (moduleId) => {
     // firstly, clear errors for every signup
     setError(null);
     setIsPending(true);
-    setEnrollments([]);
+    setUsers([]);
 
     const usersRef = query(
       collection(db, "users"),
@@ -24,7 +24,7 @@ export const useQueryEnrollment = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setEnrollments(newEnrollments);
+        setUsers(newEnrollments);
         setError(null);
         setIsPending(false);
       },
@@ -37,5 +37,5 @@ export const useQueryEnrollment = () => {
     return unsubscribe;
   };
 
-  return { queryEnrollment, error, isPending, enrollments };
+  return { queryEnrolledUsers, error, isPending, users };
 };
