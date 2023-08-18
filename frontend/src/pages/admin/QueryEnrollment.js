@@ -15,7 +15,13 @@ export default function QueryEnrollment() {
         <h2>{label}</h2>
       </button>
 
-      {!collapsed && <h1>QueryEnrollment</h1>}
+      {!collapsed && (
+        <form className={collapsed ? "" : styles.section}>
+          <div>
+            <h1>Query Enrollment</h1>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

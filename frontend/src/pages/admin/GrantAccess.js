@@ -17,7 +17,7 @@ export default function GrantAccess() {
     setModules(sanitizedModules);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, target) => {
     event.preventDefault();
     const emailArray = emails
       .split(",")
@@ -26,7 +26,7 @@ export default function GrantAccess() {
 
     const moduleArray = modules.split(",").map((mod) => mod.trim());
 
-    grantAccess(emailArray, moduleArray);
+    grantAccess(emailArray, moduleArray, target);
   };
 
   const label = `${collapsed ? "👉" : "👇"} Cấp quyền học viên`;
@@ -41,10 +41,7 @@ export default function GrantAccess() {
       </button>
 
       {!collapsed && (
-        <form
-          className={collapsed ? "" : styles.section}
-          onSubmit={handleSubmit}
-        >
+        <form className={collapsed ? "" : styles.section}>
           <div>
             <label htmlFor="emails">Email học viên:</label>
             <textarea
@@ -64,7 +61,7 @@ export default function GrantAccess() {
           </div>
 
           <div>
-            <label htmlFor="modules">Cho xem các modules:</label>
+            <label htmlFor="modules">Các modules:</label>
             <input
               type="text"
               id="modules"
@@ -73,14 +70,29 @@ export default function GrantAccess() {
               onChange={handleModulesInput}
             />
             <small className={styles.hint}>
-              (phân cách bằng dấu phẩy, sẽ cộng thêm vào danh sách hiện tại,{" "}
+              (phân cách bằng dấu phẩy)
               <br />
-              và tự động bỏ qua các đăng kí trùng lặp)
+              (lệnh "Cho Phép" sẽ cộng thêm vào danh sách hiện tại, và tự động
+              bỏ qua các đăng kí trùng lặp)
             </small>
           </div>
 
-          <button type="submit" className="btn" disabled={isPending}>
+          <button
+            type="submit"
+            className="btn"
+            onClick={(event) => handleSubmit(event, true)}
+            disabled={isPending}
+          >
             {isPending ? "Granting..." : "Cho phép"}
+          </button>
+
+          <button
+            type="submit"
+            className="btn"
+            onClick={(event) => handleSubmit(event, false)}
+            disabled={isPending}
+          >
+            {isPending ? "Removing..." : "Không cho phép"}
           </button>
 
           {error && <div className={styles.error}>{error}</div>}
@@ -88,7 +100,7 @@ export default function GrantAccess() {
           {successList.length > 0 && (
             <div className={styles.success}>
               <hr></hr>
-              <h3>Đã cấp quyền xong:</h3>
+              <h3>Đã update access xong cho:</h3>
               <ul>
                 {successList.map((email) => (
                   <li key={email}>{email}</li>
