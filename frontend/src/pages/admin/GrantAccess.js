@@ -42,40 +42,36 @@ export default function GrantAccess() {
 
       {!collapsed && (
         <form className={collapsed ? "" : styles.section}>
-          <div>
-            <label htmlFor="emails">Email học viên:</label>
-            <textarea
-              id="emails"
-              name="emails"
-              value={emails}
-              rows={5}
-              onChange={(event) => {
-                setEmails(event.target.value);
-              }}
-            />
-            <small className={styles.hint}>
-              (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên{" "}
-              <br />
-              <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
-            </small>
-          </div>
+          <label htmlFor="emails">Email học viên:</label>
+          <textarea
+            id="emails"
+            name="emails"
+            value={emails}
+            rows={5}
+            onChange={(event) => {
+              setEmails(event.target.value);
+            }}
+          />
+          <small className={styles.hint}>
+            (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên{" "}
+            <br />
+            <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
+          </small>
 
-          <div>
-            <label htmlFor="modules">Các modules:</label>
-            <input
-              type="text"
-              id="modules"
-              name="modules"
-              value={modules}
-              onChange={handleModulesInput}
-            />
-            <small className={styles.hint}>
-              (phân cách bằng dấu phẩy)
-              <br />
-              (lệnh "Cho Phép" sẽ cộng thêm vào danh sách hiện tại, và tự động
-              bỏ qua các đăng kí trùng lặp)
-            </small>
-          </div>
+          <label htmlFor="modules">Các modules:</label>
+          <input
+            type="text"
+            id="modules"
+            name="modules"
+            value={modules}
+            onChange={handleModulesInput}
+          />
+          <small className={styles.hint}>
+            (phân cách bằng dấu phẩy)
+            <br />
+            (lệnh "Cho Phép" sẽ cộng thêm vào danh sách hiện tại, và tự động bỏ
+            qua các đăng kí trùng lặp)
+          </small>
 
           <button
             type="submit"
