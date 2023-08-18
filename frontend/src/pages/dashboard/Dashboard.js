@@ -97,7 +97,8 @@ function History({ history }) {
   useEffect(() => {
     if (history) {
       const courseIds = new Set();
-      const coursesWithModule = history.flatMap((modId) =>
+      const historyEnrollments = history.enrollments || [];
+      const coursesWithModule = historyEnrollments.flatMap((modId) =>
         courses.filter((course) => {
           if (course.modules.includes(modId) && !courseIds.has(course.id)) {
             courseIds.add(course.id);

@@ -23,18 +23,28 @@ export const useMigrate = () => {
       if (!userDoc.exists()) {
         const userData = {
           email: user.email,
-          enrollments: history ? history : [],
+          ...Object.fromEntries(
+            Object.entries(history).filter(
+              ([_, value]) => value !== null && value !== ""
+            )
+          ),
         };
         transaction.set(userRef, userData);
       } else {
         const userData = userDoc.data();
         const enrollments = userData.enrollments || [];
-        const mergedEnrollments = history
-          ? [...enrollments, ...history]
+        const mergedEnrollments = history.enrollments
+          ? [...enrollments, ...history.enrollments]
           : enrollments;
         const mergedEnrollmentSet = [...new Set(mergedEnrollments)];
         transaction.update(userRef, {
           enrollments: mergedEnrollmentSet,
+          ...Object.fromEntries(
+            Object.entries(history).filter(
+              ([key, value]) =>
+                value !== null && value !== "" && key !== "email"
+            )
+          ),
         });
       }
     })
