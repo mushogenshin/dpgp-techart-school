@@ -12,18 +12,17 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courseId } = useParams();
   const { courses } = useContext(CoursesContext);
+  const { courseId } = useParams();
 
   const [isPending, setIsPending] = useState(false);
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    // if courseId is not valid, redirect to 404 page
-    if (!courses.find((cls) => cls.id === courseId)) {
-      navigate("/404");
-      return;
-    }
+    // if (!courses.find((cls) => cls.id === courseId)) {
+    //   navigate("/404");
+    //   return;
+    // }
 
     setIsPending(true);
     const classRef = doc(db, "classes", courseId);

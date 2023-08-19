@@ -16,19 +16,16 @@ export default function Unit({ groupedContents, unlocked }) {
                 <div key={index}>
                   GROUP #{index + 1}
                   {grp.map((block, index) => (
-                    <div key={index}>- block #{index + 1}</div>
+                    <div key={index}>
+                      {block.type === "text" ? (
+                        <ReactMarkdown>{block.data}</ReactMarkdown>
+                      ) : block.type === "video" ? (
+                        <Vimeo id={block.data} />
+                      ) : null}
+                    </div>
                   ))}
                 </div>
               ))}
-              {/* {grp.lessons.map((block, index) => (
-                <div key={index}>
-                  {block.type === "text" ? (
-                    <ReactMarkdown>{block.data}</ReactMarkdown>
-                  ) : block.type === "video" ? (
-                    <Vimeo id={block.data} />
-                  ) : null}
-                </div>
-              ))} */}
             </div>
           ))}
         </div>
