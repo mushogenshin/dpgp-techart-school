@@ -1,3 +1,4 @@
+import Vimeo from "../../components/vimeo";
 import logo from "../../logo.svg";
 
 import styles from "./Home.module.css";
@@ -5,6 +6,7 @@ import styles from "./Home.module.css";
 export default function Home() {
   return (
     <div className={styles.home}>
+      <Vimeo id="339689303" />
       <header className="App-header">
         <div className="App-logo-row">
           <img src={logo} className="App-logo" alt="logo" />
@@ -36,7 +38,7 @@ export default function Home() {
         hành trình 8 năm với hơn 500 học viên, chúng ta sẽ không chỉ dừng lại ở
         Anatomy, mà sau khi hiểu rõ trước tiên về bộ máy cơ thể con người, cả
         một chân trời nay đã mở ra: không chỉ là Animation, Rigging, lập trình,
-        nhưng là khả năng và nỗ lực tìm hiểu tường tận những thứ mà chúng ta
+        nhưng còn là khả năng và nỗ lực tìm hiểu tường tận những thứ mà chúng ta
         mong muốn, là óc tư duy phân tích, là kỹ năng tổng hợp vấn đề.
       </p>
       <p>

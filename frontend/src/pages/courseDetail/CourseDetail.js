@@ -1,21 +1,30 @@
 import { db } from "../../firebase_config";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import LearningModule from "../../components/module/Module";
+import LearningModule from "../../components/module/LearningModule";
 import ModuleMetadata from "../../components/module/ModuleMetadata";
 
 import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
+  const navigate = useNavigate();
   const { courseId } = useParams();
+  const { courses } = useContext(CoursesContext);
+
   const [isPending, setIsPending] = useState(false);
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
+    // if courseId is not valid, redirect to 404 page
+    if (!courses.find((cls) => cls.id === courseId)) {
+      navigate("/404");
+      return;
+    }
+
     setIsPending(true);
     const classRef = doc(db, "classes", courseId);
 
@@ -69,7 +78,7 @@ export default function CourseDetail() {
         };
       }
     });
-  }, [courseId]);
+  }, [courseId, navigate]);
 
   return (
     <div className={styles["course-detail"]}>

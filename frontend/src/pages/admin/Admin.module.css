@@ -6,10 +6,32 @@
     color: rgb(255, 144, 184);
 }
 
+.admin .section {
+    border: 1px solid rgb(255, 206, 45);
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.admin .collapsibleHeader {
+    color: white;
+    background-color: transparent;
+    border: 1px solid rgb(215, 87, 87);
+    padding: 0 30px;
+    margin: 5px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.collapsibleHeader:hover {
+    background: rgb(120, 41, 41);
+    color: #fff;
+  }
+
 .admin label {
     font-weight: bold;
     display: block;
-    margin: 30px auto 5px auto;
+    margin: 10px auto 0 auto;
     padding: 0;
 }
 
@@ -22,10 +44,10 @@
     margin-bottom: 6px;
 }
 
-.admin input, textarea {
+.admin input, textarea, select {
     max-width: 360px;
     padding: 0;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     font-size: 1em;
     color: #777;
     width: 100%;

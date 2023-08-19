@@ -13,7 +13,7 @@ export const useGrantAccess = () => {
   const [isPending, setIsPending] = useState(false);
   const [successList, setSuccessList] = useState([]);
 
-  const grantAccess = async (emails, modules) => {
+  const grantAccess = async (emails, modules, target) => {
     // firstly, clear errors for every signup
     setError(null);
     setIsPending(true);
@@ -38,7 +38,14 @@ export const useGrantAccess = () => {
           const userDoc = docs.docs[0];
           if (userDoc) {
             const enrollments = userDoc.data().enrollments || [];
-            const newEnrollments = new Set([...enrollments, ...modules]);
+            let newEnrollments;
+            if (target) {
+              newEnrollments = new Set([...enrollments, ...modules]);
+            } else {
+              newEnrollments = new Set(
+                [...enrollments].filter((mod) => !modules.includes(mod))
+              );
+            }
             const newEnrollmentsArray = Array.from(newEnrollments);
             return updateDoc(userDoc.ref, {
               enrollments: newEnrollmentsArray,
@@ -57,6 +64,8 @@ export const useGrantAccess = () => {
           ", "
         )}`;
         setError(errorMessage);
+      } else {
+        setError(null);
       }
     } catch (error) {
       setError(error.message);

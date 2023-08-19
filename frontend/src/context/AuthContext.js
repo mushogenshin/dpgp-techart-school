@@ -54,12 +54,9 @@ export const AuthContextProvider = ({ children }) => {
 
         const historyRef = doc(db, "enrollments_migration", user.email);
         unsubHistory = onSnapshot(historyRef, (docSnapshot) => {
-          const history = docSnapshot.exists()
-            ? docSnapshot.data().enrollments
-            : null;
           dispatch({
             type: "SET_HISTORY",
-            payload: history,
+            payload: docSnapshot.data(),
           });
         });
 

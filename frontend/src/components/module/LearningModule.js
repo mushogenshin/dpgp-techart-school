@@ -105,7 +105,10 @@ function Carousel({ moduleId, units }) {
         ))}
       </ul>
 
-      <Unit contents={units[active].contents} />
+      <Unit
+        contents={units[active].contents}
+        unlocked={units[active].unlocked || false}
+      />
     </div>
   );
 }

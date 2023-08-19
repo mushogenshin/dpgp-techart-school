@@ -28,7 +28,7 @@ export default function Login() {
       <ul>
         <li>
           Cựu học viên: nhập địa chỉ email mà bạn đã dùng khi ghi danh với Dẫu
-          Phải Giải Phẫu (anatomy, gesture, sculpting, rigging, coding) trong
+          Phải Giải Phẫu (gesture, anatomy, sculpting, rigging, coding) trong
           quá khứ
         </li>
         <li>
