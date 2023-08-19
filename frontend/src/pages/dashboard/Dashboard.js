@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { CoursesContext } from "../../context/CoursesContext";
 import { useLogout } from "../../hooks/useLogout";
 import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
 import { useMigrate } from "../../hooks/useMigrate";
