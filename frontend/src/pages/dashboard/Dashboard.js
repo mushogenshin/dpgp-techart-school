@@ -50,14 +50,14 @@ function MigrateStatus({ history, conformed }) {
           {/* Cựu Học viên */}
           <h2>🌋 Ráp hồ sơ cũ</h2>
           {conformed && (
-            <div>Dữ liệu ghi danh cũ đều đã được di dời xong 👌.</div>
+            <div>Dữ liệu ghi danh cũ đều đã được di dời xong 👌</div>
           )}
         </div>
       ) : (
         <div>
           {/* Tân Học viên */}
           <h2>🎢 Chuyển hệ thống mới</h2>
-          {conformed && <div>Đã chuyển hệ thống mới thành công 👌.</div>}
+          {conformed && <div>Đã chuyển hệ thống mới thành công 👌</div>}
         </div>
       )}
 
@@ -75,16 +75,24 @@ function MigrateStatus({ history, conformed }) {
           </button>
         </div>
       ) : (
-        <div>
-          <p>
-            Tuy nhiên nếu thấy có thiếu sót, vui lòng liên lạc admin và sau khi
-            admin sửa chữa hồ sơ, bạn có thể chạy lại khâu "Migrate" bằng nút
-            "Rerun" bên dưới:
-          </p>
-          <button onClick={migrate} className="btn" disabled={isMigratePending}>
-            {isMigratePending ? "Migrating..." : "Rerun"}
-          </button>
-        </div>
+        // user has already migrated, but we only allow them to rerun if they
+        // have a history
+        history && (
+          <div>
+            <p>
+              Tuy nhiên nếu thấy có thiếu sót, vui lòng liên lạc admin và{" "}
+              <b>sau khi admin sửa chữa hồ sơ</b>, bạn có thể chạy lại khâu{" "}
+              <em>Migrate</em> bằng nút "Rerun" bên dưới:
+            </p>
+            <button
+              onClick={migrate}
+              className="btn"
+              disabled={isMigratePending}
+            >
+              {isMigratePending ? "Migrating..." : "Rerun"}
+            </button>
+          </div>
+        )
       )}
     </div>
   );
@@ -118,7 +126,7 @@ function History({ history }) {
       <h2>🥅 Các khoá học cũ đã ghi danh:</h2>
       <p>(trước khi DPGP chuyển sang hệ thống mới tháng 8/2023)</p>
 
-      {history ? (
+      {history && coursesWithModule.length > 0 ? (
         <ol className={styles.conformed}>
           {coursesWithModule.map((cls) => (
             <li key={cls.id}>

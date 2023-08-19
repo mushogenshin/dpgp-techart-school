@@ -21,14 +21,18 @@ export const useMigrate = () => {
 
       // If user does not exist, create the user
       if (!userDoc.exists()) {
-        const userData = {
-          email: user.email,
-          ...Object.fromEntries(
-            Object.entries(history).filter(
-              ([_, value]) => value !== null && value !== ""
-            )
-          ),
-        };
+        const userData = history
+          ? {
+              email: user.email,
+              ...Object.fromEntries(
+                Object.entries(history).filter(
+                  ([_, value]) => value !== null && value !== ""
+                )
+              ),
+            }
+          : {
+              email: user.email,
+            };
         transaction.set(userRef, userData);
       } else {
         const userData = userDoc.data();
@@ -37,15 +41,20 @@ export const useMigrate = () => {
           ? [...enrollments, ...history.enrollments]
           : enrollments;
         const mergedEnrollmentSet = [...new Set(mergedEnrollments)];
-        transaction.update(userRef, {
-          enrollments: mergedEnrollmentSet,
-          ...Object.fromEntries(
-            Object.entries(history).filter(
-              ([key, value]) =>
-                value !== null && value !== "" && key !== "email"
-            )
-          ),
-        });
+        const userUpdate = history
+          ? {
+              enrollments: mergedEnrollmentSet,
+              ...Object.fromEntries(
+                Object.entries(history).filter(
+                  ([key, value]) =>
+                    value !== null && value !== "" && key !== "email"
+                )
+              ),
+            }
+          : {
+              enrollments: mergedEnrollmentSet,
+            };
+        transaction.update(userRef, userUpdate);
       }
     })
       .then(() => {
