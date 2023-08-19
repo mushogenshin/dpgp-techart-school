@@ -13,7 +13,9 @@ import styles from "./CourseDetail.module.css";
 export default function CourseDetail() {
   const navigate = useNavigate();
   const { courses } = useContext(CoursesContext);
-  const { courseId } = useParams();
+  const { courseId, moduleId, unitId, contentId } = useParams();
+
+  console.log(courseId, moduleId, unitId, contentId);
 
   const [isPending, setIsPending] = useState(false);
   const [modules, setModules] = useState([]);

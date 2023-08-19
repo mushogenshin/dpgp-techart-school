@@ -62,7 +62,14 @@ function App() {
             element={<Courses />}
           />
           <Route
-            path="courses/:courseId"
+            path="courses/:courseId/*"
+            element={
+              // Unguarded CourseDetail page
+              <CourseDetail />
+            }
+          />
+          <Route
+            path="courses/:courseId/:moduleId/:unitId/:contentId"
             element={
               // Unguarded CourseDetail page
               <CourseDetail />
