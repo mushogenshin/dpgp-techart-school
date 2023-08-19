@@ -1,8 +1,9 @@
 .mod .desc {
-    color: rgb(108, 72, 34);
+    color: rgb(154, 98, 39);
     font-size: 0.8em;
     padding: 3px;
     margin: 0;
+    font-family: 'Montserrat';
 }
 
 .carousel ul {

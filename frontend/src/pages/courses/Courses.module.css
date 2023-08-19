@@ -2,20 +2,24 @@
     max-width: 1024px;
     margin: 20px auto;
     padding: 20px;
+    font-size: 1.5em;
+    font-family: 'Montserrat';
+    font-weight: bolder;
+    color: rgb(225, 70, 18);
 }
 
 .courses ::selection {
     color: rgb(208, 202, 41);
-    background-color: rgb(177, 15, 99);
+    background-color: rgb(221, 68, 7);
 }
 
-.courses .title {
+/* .courses .title {
     font-size: 1em;
     margin-bottom: 20px;
     font-family: 'Montserrat';
     font-weight: bolder;
-    color:rgb(225, 70, 18)
-}
+    color:rgb(225, 70, 18);
+} */
 
 .courses .hint {
     font-size: .6em;
@@ -29,8 +33,9 @@
 
 .courses a {
     text-decoration: none;
-    color: #9494ae;
-    font-size: .7em;
+    /* color: #9494ae; */
+    color: rgb(19, 191, 133);
+    font-size: .6em;
     font-family: 'Lexend';
     line-height: 1.5;
 }
@@ -44,7 +49,3 @@
     background: #baf043;
 }
 
-.courses_id ::selection {
-    color: rgb(208, 202, 41);
-    background-color: rgb(177, 15, 99);
-}

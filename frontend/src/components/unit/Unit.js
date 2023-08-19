@@ -1,11 +1,13 @@
 import ReactMarkdown from "react-markdown";
 import Vimeo from "../vimeo";
 
+import styles from "./Unit.module.css";
+
 export default function Unit({ contents, unlocked }) {
   console.log("Switching to unit", contents);
 
   return (
-    <div>
+    <div className={styles.unit}>
       {unlocked ? (
         <div>
           {contents.map((content) => (

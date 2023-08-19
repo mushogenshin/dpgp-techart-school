@@ -1,13 +1,15 @@
 .course-detail {
-    max-width: 1024px;  
+    /* max-width: 320px;   */
     padding: 0 40px;
 }
 
 .course-detail .location  {
-    color: rgb(148, 111, 116);
+    color: #946f74;
     margin: 10px 0 0 0;
     padding: 0;
     line-height: 0.3em;
+    font-family: 'Montserrat';
+    line-height: 1.2em;
 }
 
 .course-detail .prompt {
@@ -23,7 +25,7 @@
 }
 
 .people h3, .title {
-    color: rgb(203, 203, 203);
+    color: rgb(177, 158, 225);
     font-size: 0.7em;
     font-weight: bolder;
     padding: 3px 0;
@@ -32,12 +34,13 @@
 }
 
 .people li, .person {
-    color: rgb(238, 238, 238);
+    color: rgb(195, 195, 195);
     list-style-type: none;
     font-size: 0.8em;
     padding: 3px 0;
     margin: 0;
     line-height: 0.7em;
+    font-family: 'Montserrat';
 }
 
 .carousel ul {
@@ -45,29 +48,42 @@
     display: flex;
     align-items: center;
     list-style-type: none;
-    color: rgb(180, 180, 180);
+    color: rgb(204, 204, 204);
+    font-size: .8em;
+    font-weight: 800;
     
 }
 
 .carousel li{
     cursor: pointer;
     border-style: solid;
-    border-width: 1px;
+    border-width: 5px;
     border-radius: 10px;
     margin: 0 20px;
     padding: 5px 10px;
-    background-color: rgb(162, 150, 135);
+    background-color: rgb(167, 155, 139);
 }
 
 .carousel .active {
-    border-width: 6px;
-    border-color: rgb(241, 255, 51);
+    border-width: 10px;
+    font-size: .9em;
+    border-color: rgb(255, 134, 78);
     font-weight: bold;
-    color: rgb(20, 22, 21);
-    background-color: rgb(52, 255, 52);
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 72, 55);
 }
 
 .carousel .hint {
-    color: rgb(225, 182, 188);
+    color: rgb(162, 34, 51);
+    font-family: 'Lexend';
 }
 
+h2 {
+    color:  rgb(255, 65, 40);
+    font-size: 3em;
+}
+
+h3 {
+    color:  rgb(162, 135, 139);
+    font-size: .7em; 
+}

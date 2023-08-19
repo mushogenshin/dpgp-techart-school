@@ -2,9 +2,10 @@
   max-width: 720px;
   margin: 40px auto;
   padding: 20px;
-  line-height: 1em;
+  line-height: 1.6em;
   color: rgb(107, 116, 165);
   font-size: .8em;
+  font-family: 'Montserrat';
 }
 
 .block {

@@ -70,12 +70,12 @@ code {
 }
 
 .btn {
-  background: rgb(255, 252, 62);
-  border: 6px solid rgb(254, 112, 56);
+  background: rgb(255, 136, 56);
+  border: 6px solid rgb(255, 45, 25);
   padding: 3px 12px;
   margin: 0 5px;
   border-radius: 14px;
-  color: #715fd9;
+  color: #fdff91;
   font-weight: bold;
   cursor: pointer;
   font-size: 1em;
