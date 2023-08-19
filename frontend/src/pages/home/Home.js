@@ -1,3 +1,4 @@
+import Vimeo from "../../components/vimeo";
 import logo from "../../logo.svg";
 
 import styles from "./Home.module.css";
@@ -5,6 +6,7 @@ import styles from "./Home.module.css";
 export default function Home() {
   return (
     <div className={styles.home}>
+      <Vimeo id="339689303" />
       <header className="App-header">
         <div className="App-logo-row">
           <img src={logo} className="App-logo" alt="logo" />
