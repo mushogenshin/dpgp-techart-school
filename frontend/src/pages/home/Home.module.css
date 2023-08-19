@@ -3,14 +3,24 @@
     background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%);
 } */
 
-.home {
-    max-width: 720px;
+.home {  
+    max-width: 1024px;
     margin: 20px auto;
     padding: 20px;
     line-height: 1.5;
     color:rgb(185, 185, 218);
-    font-family: 'Montserrat'
-    
+    font-family: 'Montserrat'    
+}
+
+.manifesto {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.featured {
 }
 
 .home ::selection {
