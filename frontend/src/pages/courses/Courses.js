@@ -28,7 +28,7 @@ function Purchased() {
 
   return (
     <div>
-      <h2>Các khoá đã mua</h2>
+      <p>Các khoá đã mua</p>
       {courses.length > 0 ? (
         <ol>
           {courses.map((cls) => (
@@ -58,7 +58,7 @@ function All() {
   const { courses, error } = useContext(CoursesContext);
   return (
     <div>
-      <h2>Các khoá đã dạy</h2>
+      <p>Các khoá đã dạy</p>
       {error && <p>{error}</p>}
       <ul>
         {courses.map((cls) => (
