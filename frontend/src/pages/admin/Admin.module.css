@@ -31,7 +31,7 @@
 .admin label {
     font-weight: bold;
     display: block;
-    margin: 30px auto 5px auto;
+    margin: 10px auto 0 auto;
     padding: 0;
 }
 
@@ -44,10 +44,10 @@
     margin-bottom: 6px;
 }
 
-.admin input, textarea {
+.admin input, textarea, select {
     max-width: 360px;
     padding: 0;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     font-size: 1em;
     color: #777;
     width: 100%;
