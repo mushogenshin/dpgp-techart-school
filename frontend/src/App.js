@@ -61,19 +61,15 @@ function App() {
             //  Unguarded Courses page
             element={<Courses />}
           />
+          <Route path="course/:courseId" element={<CourseDetail />} />
+          <Route path="course/:courseId/:moduleId" element={<CourseDetail />} />
           <Route
-            path="courses/:courseId/*"
-            element={
-              // Unguarded CourseDetail page
-              <CourseDetail />
-            }
+            path="course/:courseId/:moduleId/:unitId"
+            element={<CourseDetail />}
           />
           <Route
-            path="courses/:courseId/:moduleId/:unitId/:contentId"
-            element={
-              // Unguarded CourseDetail page
-              <CourseDetail />
-            }
+            path="course/:courseId/:moduleId/:unitId/:contentId"
+            element={<CourseDetail />}
           />
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />

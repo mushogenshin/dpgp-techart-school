@@ -12,78 +12,81 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courses } = useContext(CoursesContext);
   const { courseId, moduleId, unitId, contentId } = useParams();
-
   console.log(courseId, moduleId, unitId, contentId);
+
+  const { courses: allCourses } = useContext(CoursesContext);
+  const currCourse = allCourses.find((cls) => cls.id === courseId);
+  const currModuleIds = currCourse ? currCourse.modules : [];
+
+  const routeActiveModule = (buttonId) => {
+    navigate(`/course/${courseId}/${buttonId}`);
+  };
 
   const [isPending, setIsPending] = useState(false);
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    // if (!courses.find((cls) => cls.id === courseId)) {
-    //   navigate("/404");
-    //   return;
-    // }
+    if (!currCourse) {
+      navigate("/404");
+      return;
+    }
 
-    setIsPending(true);
-    const classRef = doc(db, "classes", courseId);
-
-    getDoc(classRef).then(async (classSnapshot) => {
-      const moduleIds = classSnapshot.data().modules;
-      const results = [];
-
-      if (moduleIds) {
-        const unsubscribes = [];
-
-        // query all module documents simultaneously by their IDs
-        await Promise.all(
-          moduleIds.map(async (moduleId) => {
-            const moduleRef = doc(db, "modules", moduleId);
-            const moduleSnapshot = await getDoc(moduleRef);
-
-            const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
-            mod.starts_at = mod.starts_at.toDate();
-            mod.ends_at = mod.ends_at.toDate();
-
-            // listen for real-time updates to the module document
-            const unsub = onSnapshot(moduleRef, (doc) => {
-              if (doc.exists()) {
-                const updatedMod = { ...doc.data(), id: doc.id };
-                updatedMod.starts_at = updatedMod.starts_at.toDate();
-                updatedMod.ends_at = updatedMod.ends_at.toDate();
-
-                const index = results.findIndex(
-                  (result) => result.id === doc.id
-                );
-                if (index !== -1) {
-                  results[index] = updatedMod;
-                  setModules([...results]);
-                }
-              } else {
-                console.log("No such module document!");
-              }
-            });
-
-            unsubscribes.push(unsub);
-            results.push(mod);
-          })
-        );
-
-        setIsPending(false);
-        setModules(results);
-
-        // return a cleanup function that unsubscribes from all listeners
-        return () => {
-          unsubscribes.forEach((unsubscribe) => unsubscribe());
-        };
-      }
-    });
+    // setIsPending(true);
+    // const classRef = doc(db, "classes", courseId);
+    // getDoc(classRef).then(async (classSnapshot) => {
+    //   const moduleIds = classSnapshot.data().modules;
+    //   const results = [];
+    //   if (moduleIds) {
+    //     const unsubscribes = [];
+    //     // query all module documents simultaneously by their IDs
+    //     await Promise.all(
+    //       moduleIds.map(async (moduleId) => {
+    //         const moduleRef = doc(db, "modules", moduleId);
+    //         const moduleSnapshot = await getDoc(moduleRef);
+    //         const mod = { ...moduleSnapshot.data(), id: moduleSnapshot.id };
+    //         mod.starts_at = mod.starts_at.toDate();
+    //         mod.ends_at = mod.ends_at.toDate();
+    //         // listen for real-time updates to the module document
+    //         const unsub = onSnapshot(moduleRef, (doc) => {
+    //           if (doc.exists()) {
+    //             const updatedMod = { ...doc.data(), id: doc.id };
+    //             updatedMod.starts_at = updatedMod.starts_at.toDate();
+    //             updatedMod.ends_at = updatedMod.ends_at.toDate();
+    //             const index = results.findIndex(
+    //               (result) => result.id === doc.id
+    //             );
+    //             if (index !== -1) {
+    //               results[index] = updatedMod;
+    //               setModules([...results]);
+    //             }
+    //           } else {
+    //             console.log("No such module document!");
+    //           }
+    //         });
+    //         unsubscribes.push(unsub);
+    //         results.push(mod);
+    //       })
+    //     );
+    //     setIsPending(false);
+    //     setModules(results);
+    //     // return a cleanup function that unsubscribes from all listeners
+    //     return () => {
+    //       unsubscribes.forEach((unsubscribe) => unsubscribe());
+    //     };
+    //   }
+    // });
   }, [courseId, navigate]);
 
   return (
     <div className={styles["course-detail"]}>
-      <CourseMetadata courseId={courseId} />
+      TODO
+      {currModuleIds.map((mod) => (
+        <button key={mod} onClick={() => routeActiveModule(mod)}>
+          A
+        </button>
+      ))}
+      {/* <CourseMetadata courseId={courseId} />
       <hr></hr>
 
       {isPending ? (
@@ -96,7 +99,7 @@ export default function CourseDetail() {
             <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
