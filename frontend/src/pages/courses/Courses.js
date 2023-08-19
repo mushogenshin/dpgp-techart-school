@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { CoursesContext } from "../../context/CoursesContext";
 import { Link } from "react-router-dom";
+import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
 import styles from "./Courses.module.css";
 
 export default function Courses() {
@@ -22,13 +23,22 @@ function Purchased() {
     post_2023_07_conformed: conformed,
   } = useAuthContext();
 
+  const courses = useMapModulesToCourses(purchased || []);
   const action = history ? "ráp hồ sơ cũ" : "chuyển hệ thống mới";
 
   return (
     <div>
       <h2>Các khoá đã mua</h2>
-      {purchased ? (
-        <p>TODO</p>
+      {courses.length > 0 ? (
+        <ol>
+          {courses.map((cls) => (
+            <li key={cls.id}>
+              <Link to={`/courses/${cls.id}`}>
+                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
       ) : (
         <div>
           Chưa có khoá nào cả
@@ -50,13 +60,15 @@ function All() {
     <div>
       <h2>Các khoá đã dạy</h2>
       {error && <p>{error}</p>}
-      {courses.map((cls) => (
-        <li key={cls.id}>
-          <Link to={`/courses/${cls.id}`}>
-            {cls.name} <span className={styles.courses_id}>{cls.id}</span>
-          </Link>
-        </li>
-      ))}
+      <ul>
+        {courses.map((cls) => (
+          <li key={cls.id}>
+            <Link to={`/courses/${cls.id}`}>
+              {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

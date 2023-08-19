@@ -1,11 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { CoursesContext } from "../context/CoursesContext";
 
 export const useMapModulesToCourses = (moduleIds) => {
-  const [coursesFromModules, setCoursesFromModules] = useState([]);
   const { courses: allCourses } = useContext(CoursesContext);
 
-  useEffect(() => {
+  const combineCourses = () => {
     const courseIds = new Set();
     const combinedCourses = moduleIds.flatMap((modId) =>
       allCourses.filter((course) => {
@@ -16,8 +15,8 @@ export const useMapModulesToCourses = (moduleIds) => {
         return false;
       })
     );
-    setCoursesFromModules(combinedCourses);
-  }, [allCourses, moduleIds]);
+    return combinedCourses;
+  };
 
-  return coursesFromModules;
+  return combineCourses();
 };
