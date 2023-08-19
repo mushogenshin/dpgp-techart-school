@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+import { CoursesContext } from "../../context/CoursesContext";
 import { useLogout } from "../../hooks/useLogout";
+import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
 import { useMigrate } from "../../hooks/useMigrate";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { CoursesContext } from "../../context/CoursesContext";
 
 import styles from "./Dashboard.module.css";
 
@@ -99,36 +100,17 @@ function MigrateStatus({ history, conformed }) {
 }
 
 function History({ history }) {
-  const { courses } = useContext(CoursesContext);
-  const [coursesWithModule, setCoursesWithModule] = useState([]);
-
-  useEffect(() => {
-    if (history) {
-      const courseIds = new Set();
-      const historyEnrollments = history.enrollments || [];
-      const coursesWithModule = historyEnrollments.flatMap((modId) =>
-        courses.filter((course) => {
-          if (course.modules.includes(modId) && !courseIds.has(course.id)) {
-            courseIds.add(course.id);
-            return true;
-          }
-          return false;
-        })
-      );
-      setCoursesWithModule(coursesWithModule);
-    } else {
-      setCoursesWithModule([]);
-    }
-  }, [history, courses]);
+  const historyEnrollments = history ? history.enrollments || [] : [];
+  const historyCourses = useMapModulesToCourses(historyEnrollments);
 
   return (
     <div className={styles.block}>
       <h2>🥅 Các khoá học cũ đã ghi danh:</h2>
       <p>(trước khi DPGP chuyển sang hệ thống mới tháng 8/2023)</p>
 
-      {history && coursesWithModule.length > 0 ? (
+      {history && historyCourses.length > 0 ? (
         <ol className={styles.conformed}>
-          {coursesWithModule.map((cls) => (
+          {historyCourses.map((cls) => (
             <li key={cls.id}>
               <Link to={`/courses/${cls.id}`}>
                 {cls.name} <span className={styles.courses_id}>{cls.id}</span>
