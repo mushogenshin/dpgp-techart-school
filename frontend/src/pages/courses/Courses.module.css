@@ -4,17 +4,23 @@
     padding: 20px;
 }
 
-.courses h2 {
-    font-size: .9em;
+.courses ::selection {
+    color: rgb(208, 202, 41);
+    background-color: rgb(177, 15, 99);
+}
+
+.courses .title {
+    font-size: 1em;
     margin-bottom: 20px;
     font-family: 'Montserrat';
+    font-weight: bolder;
     color:rgb(225, 70, 18)
 }
 
 .courses a {
     text-decoration: none;
     color: #9494ae;
-    font-size: .8em;
+    font-size: .7em;
     font-family: 'Lexend';
     line-height: 1.5;
 }
