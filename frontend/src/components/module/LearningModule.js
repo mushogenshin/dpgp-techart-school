@@ -31,7 +31,15 @@ export default function LearningModule({ mod, purchased }) {
             const results = mod.units.map((unit) => {
               const contents = snapshot.docs
                 .filter((doc) => unit.contents.includes(doc.id))
-                .map((doc) => ({ ...doc.data(), id: doc.id }));
+                .map((doc) => {
+                  const contentData = doc.data();
+                  const grouped = groupedLessons(contentData.lessons);
+                  return {
+                    ...contentData,
+                    id: doc.id,
+                    lessons: grouped,
+                  };
+                });
               return { ...unit, contents };
             });
 
@@ -106,9 +114,23 @@ function Carousel({ moduleId, units }) {
       </ul>
 
       <Unit
-        contents={units[active].contents}
+        groupedContents={units[active].contents || []}
         unlocked={units[active].unlocked || false}
       />
     </div>
+  );
+}
+
+function groupedLessons(lessons) {
+  return lessons.reduce(
+    (acc, curr) => {
+      if (curr.type === "separator") {
+        acc.push([]);
+      } else {
+        acc[acc.length - 1].push(curr);
+      }
+      return acc;
+    },
+    [[]]
   );
 }

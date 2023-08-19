@@ -3,16 +3,24 @@ import Vimeo from "../vimeo";
 
 import styles from "./Unit.module.css";
 
-export default function Unit({ contents, unlocked }) {
-  console.log("Switching to unit", contents);
+export default function Unit({ groupedContents, unlocked }) {
+  // console.log("Switching to unit", groupedContents);
 
   return (
     <div className={styles.unit}>
       {unlocked ? (
         <div>
-          {contents.map((content) => (
-            <div key={content.id}>
-              {content.lessons.map((block, index) => (
+          {groupedContents.map((content, index) => (
+            <div key={index}>
+              {content.lessons.map((grp, index) => (
+                <div key={index}>
+                  GROUP #{index + 1}
+                  {grp.map((block, index) => (
+                    <div key={index}>- block #{index + 1}</div>
+                  ))}
+                </div>
+              ))}
+              {/* {grp.lessons.map((block, index) => (
                 <div key={index}>
                   {block.type === "text" ? (
                     <ReactMarkdown>{block.data}</ReactMarkdown>
@@ -20,7 +28,7 @@ export default function Unit({ contents, unlocked }) {
                     <Vimeo id={block.data} />
                   ) : null}
                 </div>
-              ))}
+              ))} */}
             </div>
           ))}
         </div>
