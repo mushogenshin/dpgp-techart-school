@@ -12,10 +12,7 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
   const { purchased } = useAuthContext();
   const { unitId: unitParam } = useParams();
 
-  // the target unit ID is parsed from the unit ID param in the URL
-  const [targetUnitId, setTargetUnitId] = useState(unitParam);
   const [targetUnit, setTargetUnit] = useState(null);
-
   const [units, setUnits] = useState(null);
   const { mod, error, isPending } = useFetchModule(moduleId);
 
@@ -30,9 +27,6 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
 
     // wait for module to be fetched before setting units
     setUnits(mod && mod.units ? mod.units : []);
-
-    // update the target unit ID if the unit ID param in the URL changes
-    setTargetUnitId(unitParam);
 
     // update the target unit if the unit ID param in the URL changes
     setTargetUnit(
@@ -56,9 +50,9 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit units={units} activeUnit={targetUnitId} />
+          <ChooseUnit units={units} activeUnit={unitParam} />
 
-          {targetUnitId && (
+          {unitParam && (
             <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
           )}
         </div>

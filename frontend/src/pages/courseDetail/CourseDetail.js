@@ -11,9 +11,6 @@ export default function CourseDetail() {
   const navigate = useNavigate();
   const { courseId, modId: modParam } = useParams();
 
-  // the target module ID is parsed from the module ID param in the URL
-  const [targetModId, setTargetModId] = useState(modParam);
-
   const { courses: allCourses } = useContext(CoursesContext);
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
@@ -32,9 +29,6 @@ export default function CourseDetail() {
         setModules(courseLookup.modules || []);
       }
     }
-
-    // update the target module ID if the module ID param in the URL changes
-    setTargetModId(modParam);
   }, [allCourses, courseId, modParam, navigate]);
 
   return (
@@ -55,13 +49,13 @@ export default function CourseDetail() {
       <ChooseModule
         courseId={courseId}
         moduleIds={modules}
-        activeMod={targetModId}
+        activeMod={modParam}
       />
 
-      {targetModId && (
+      {modParam && (
         <GuardedModule
           courseId={courseId}
-          moduleId={targetModId}
+          moduleId={modParam}
           setShowSidebar={setShowSidebar}
         />
       )}

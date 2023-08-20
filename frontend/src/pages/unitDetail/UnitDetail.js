@@ -30,20 +30,18 @@ function GuardedUnit({ contentIds, unlocked }) {
 
   useEffect(() => {
     if (contents && lessonParam) {
-      // find the lesson with the specified content ID
+      // find the lesson with the specified lesson ID
       const lessons = contents.flatMap((content) => content.lessons);
-      // const contentLookup = contents.find(
-      //   (content) => content.id === lessonParam
-      // );
+      const lessonLookup = lessons.find((lesson) => lesson.id === lessonParam);
 
-      console.log("Contents:", contents);
-      console.log("Content param:", lessonParam);
-      console.log("Lessons:", lessons);
-
-      // if (!contentLookup) {
-      //   navigate("/404");
-      //   return;
-      // }
+      if (!lessonLookup) {
+        navigate("/404");
+        return;
+      } else {
+        setTargetLesson(lessonLookup);
+      }
+    } else {
+      setTargetLesson(null);
     }
   }, [contents, lessonParam, navigate]);
 
@@ -59,9 +57,7 @@ function GuardedUnit({ contentIds, unlocked }) {
               contents && (
                 <div>
                   <Sidebar contents={contents} />
-                  {/* {contents.map((content, index) => (
-                    <Content key={index} content={content} />
-                  ))} */}
+                  {targetLesson && <Lesson lesson={targetLesson} />}
                 </div>
               )
             )}
@@ -78,8 +74,6 @@ function GuardedUnit({ contentIds, unlocked }) {
   );
 }
 
-function Content({ content }) {
-  const { lessonId } = useParams();
-
-  return <div>TODO: show {lessonId}</div>;
+function Lesson({ lesson }) {
+  return <div>TODO: show Lesson {lesson.id}</div>;
 }
