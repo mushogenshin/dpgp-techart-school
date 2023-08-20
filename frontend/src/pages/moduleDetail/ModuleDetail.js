@@ -37,7 +37,9 @@ export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
       (mod && mod.units && mod.units.find((unit) => unit.id === unitParam)) ||
         null
     );
-  }, [mod, unitParam, navigate]);
+
+    setShowSidebar(unitParam ? true : false);
+  }, [mod, unitParam, navigate, setShowSidebar]);
 
   const isPurchased = purchased && purchased.includes(moduleId);
 

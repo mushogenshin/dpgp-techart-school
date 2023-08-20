@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import { useParams, useNavigate } from "react-router-dom";
-// import { db } from "../../firebase_config";
-// import { onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase_config";
+import { onSnapshot, query, collection, where } from "firebase/firestore";
 import Sidebar from "./Sidebar";
 
 import styles from "./Unit.module.css";
@@ -26,16 +26,55 @@ export default function UnitDetail({
 }
 
 function GuardedUnit({ contentIds, unlocked }) {
+  const [contents, setContents] = useState(null);
+
+  useEffect(() => {
+    let unsubscribe;
+
+    if (contentIds.length > 0 && unlocked) {
+      // fetch contents from content IDs
+      const contentRef = query(
+        collection(db, "contents"),
+        where("__name__", "in", contentIds)
+      );
+      unsubscribe = onSnapshot(
+        contentRef,
+        (snapshot) => {
+          const results = snapshot.docs.map((doc) => {
+            const contentData = doc.data();
+            return {
+              ...contentData,
+              id: doc.id,
+            };
+          });
+          setContents(results);
+        },
+        (error) => {
+          console.log(error.message);
+          setContents(null);
+        }
+      );
+    } else {
+      setContents(null);
+    }
+
+    return () => {
+      unsubscribe && unsubscribe();
+    };
+  }, [contentIds, unlocked]);
+
   return (
     <div className={styles["unit-content"]}>
       {contentIds.length > 0 ? (
         unlocked ? (
-          <div>
-            <Sidebar />
-            {contentIds.map((content, index) => (
-              <Content key={index} contentId={content} />
-            ))}
-          </div>
+          contents && (
+            <div>
+              <Sidebar contents={contents} />
+              {contents.map((content, index) => (
+                <Content key={index} content={content} />
+              ))}
+            </div>
+          )
         ) : (
           <h3>
             🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)
@@ -48,8 +87,6 @@ function GuardedUnit({ contentIds, unlocked }) {
   );
 }
 
-function Content({ contentId }) {
-  console.log("Content", contentId);
-
-  return <div>{contentId}</div>;
+function Content({ content }) {
+  return <div>TODO: {content.id}</div>;
 }
