@@ -24,20 +24,20 @@ export default function UnitDetail({ unit, setShowSidebar }) {
 
 function GuardedUnit({ contentIds, unlocked }) {
   const navigate = useNavigate();
-  const { contentId: contentParam } = useParams();
+  const { lessonId: lessonParam } = useParams();
   const { contents, error, isPending } = useFetchContents(contentIds, unlocked);
   const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
-    if (contents && contentParam) {
+    if (contents && lessonParam) {
       // find the lesson with the specified content ID
       const lessons = contents.flatMap((content) => content.lessons);
       // const contentLookup = contents.find(
-      //   (content) => content.id === contentParam
+      //   (content) => content.id === lessonParam
       // );
 
       console.log("Contents:", contents);
-      console.log("Content param:", contentParam);
+      console.log("Content param:", lessonParam);
       console.log("Lessons:", lessons);
 
       // if (!contentLookup) {
@@ -45,7 +45,7 @@ function GuardedUnit({ contentIds, unlocked }) {
       //   return;
       // }
     }
-  }, [contents, contentParam, navigate]);
+  }, [contents, lessonParam, navigate]);
 
   return (
     <div className={styles["unit-content"]}>
@@ -79,7 +79,7 @@ function GuardedUnit({ contentIds, unlocked }) {
 }
 
 function Content({ content }) {
-  const { contentId } = useParams();
+  const { lessonId } = useParams();
 
-  return <div>TODO: show {contentId}</div>;
+  return <div>TODO: show {lessonId}</div>;
 }

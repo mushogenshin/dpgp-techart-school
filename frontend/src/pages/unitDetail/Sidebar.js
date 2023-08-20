@@ -5,17 +5,17 @@ import { useEffect } from "react";
 
 export default function Sidebar({ contents }) {
   const navigate = useNavigate();
-  const { courseId, modId, unitId, contentId: contentParam } = useParams();
+  const { courseId, modId, unitId, lessonId: lessonParam } = useParams();
 
   // the target content ID is parsed from the content ID param in the URL
-  const [targetContentId, setTargetContentId] = useState(contentParam);
+  const [targetLessonId, setTargetLessonId] = useState(lessonParam);
 
   useEffect(() => {
     // update the target content ID if the content ID param in the URL changes
-    setTargetContentId(contentParam);
-  }, [contentParam, navigate]);
+    setTargetLessonId(lessonParam);
+  }, [lessonParam, navigate]);
 
-  const routeActiveContent = (target) => {
+  const routeActiveLesson = (target) => {
     navigate(`/course/${courseId}/${modId}/${unitId}/${target}`);
   };
 
@@ -26,22 +26,22 @@ export default function Sidebar({ contents }) {
         <Outline
           key={index}
           content={content}
-          active={targetContentId}
-          setActive={routeActiveContent}
+          activeLessonId={targetLessonId}
+          setActiveLessonId={routeActiveLesson}
         />
       ))}
     </div>
   );
 }
 
-function Outline({ content, active, setActive }) {
+function Outline({ content, activeLessonId, setActiveLessonId }) {
   return (
     <div>
       <h3>{content.name}</h3>
       <ul>
         {content.lessons.map((lesson, index) => {
           return (
-            <li key={index} onClick={() => setActive(lesson.id)}>
+            <li key={index} onClick={() => setActiveLessonId(lesson.id)}>
               {lesson.id}
             </li>
           );
