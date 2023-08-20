@@ -15,7 +15,7 @@ export default function CourseDetail() {
   const { courseId, moduleId, unitId, contentId } = useParams();
 
   const [modules, setModules] = useState(null);
-  // const [targetMod, setTargetMod] = useState(moduleId);
+  const [targetMod, setTargetMod] = useState(moduleId);
   // console.log(courseId, moduleId, unitId, contentId);
 
   const { courses: allCourses } = useContext(CoursesContext);
@@ -34,6 +34,8 @@ export default function CourseDetail() {
         setModules(currCourse.modules || []);
       }
     }
+
+    setTargetMod(moduleId);
 
     // setIsPending(true);
     // const classRef = doc(db, "classes", courseId);
@@ -86,7 +88,7 @@ export default function CourseDetail() {
       <SelectModule
         courseId={courseId}
         moduleIds={modules}
-        // targetMod={targetMod}
+        targetMod={targetMod}
       />
 
       {/* <CourseMetadata courseId={courseId} />
@@ -107,25 +109,32 @@ export default function CourseDetail() {
   );
 }
 
-function SelectModule({ courseId, moduleIds }) {
+function SelectModule({ courseId, moduleIds, targetMod }) {
   const navigate = useNavigate();
+  const [active, setActive] = useState(null);
 
   const routeActiveModule = (buttonId) => {
     navigate(`/course/${courseId}/${buttonId}`);
   };
 
-  // console.log("SELECTED MOD", targetMod);
+  console.log("Target module:", targetMod);
 
   return (
-    moduleIds && (
-      <div>
-        {moduleIds.map((mod) => (
-          <button key={mod} onClick={() => routeActiveModule(mod)}>
-            {mod}
-          </button>
-        ))}
-      </div>
-    )
+    <div className={styles.carousel}>
+      {moduleIds && (
+        <ul>
+          {moduleIds.map((mod) => (
+            <li
+              key={mod}
+              onClick={() => routeActiveModule(mod)}
+              className={active === mod ? styles.active : {}}
+            >
+              {mod}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 
