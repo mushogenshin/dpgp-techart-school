@@ -50,7 +50,7 @@ export default function CourseDetail() {
       />
 
       {targetModId && (
-        <ModulePreview courseId={courseId} moduleId={targetModId} />
+        <GuardedModule courseId={courseId} moduleId={targetModId} />
       )}
     </div>
   );
@@ -89,7 +89,7 @@ function ChooseModule({ courseId, moduleIds, activeMod }) {
   );
 }
 
-function ModulePreview({ courseId, moduleId }) {
+function GuardedModule({ courseId, moduleId }) {
   const { user } = useAuthContext();
 
   return user ? (
