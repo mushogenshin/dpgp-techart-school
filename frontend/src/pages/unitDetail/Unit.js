@@ -1,5 +1,5 @@
 import ReactMarkdown from "react-markdown";
-import Vimeo from "../vimeo";
+import Vimeo from "../../components/vimeo";
 
 import styles from "./Unit.module.css";
 

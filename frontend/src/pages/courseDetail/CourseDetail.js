@@ -42,7 +42,7 @@ export default function CourseDetail() {
     <div className={styles["course-detail"]}>
       <CourseMetadata course={currCourse} />
       <hr></hr>
-      {/* carousel-style clickable elements */}
+      {/* carousel-style clickable elements to select a Module */}
       <ChooseModule
         courseId={courseId}
         moduleIds={modules}

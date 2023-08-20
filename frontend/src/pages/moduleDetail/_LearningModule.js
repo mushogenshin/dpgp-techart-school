@@ -1,7 +1,7 @@
 import { db } from "../../firebase_config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import Unit from "../../components/unit/Unit";
+import Unit from "../unitDetail/Unit";
 
 import styles from "./Module.module.css";
 

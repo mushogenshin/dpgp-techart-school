@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetchModule } from "../../hooks/useFetchModule";
 import ModuleMetadata from "./ModuleMetadata";
+import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
@@ -41,12 +42,21 @@ export default function ModuleDetail({ courseId, moduleId }) {
       <hr></hr>
       {isPurchased ? (
         <div>
+          {/* carousel-style clickable elements to select a Unit */}
           <ChooseUnit
             courseId={courseId}
             moduleId={moduleId}
             units={units}
             activeUnit={targetUnit}
           />
+
+          {targetUnit && (
+            <UnitDetail
+              courseId={courseId}
+              moduleId={moduleId}
+              unitId={targetUnit}
+            />
+          )}
         </div>
       ) : (
         <h3>
@@ -54,11 +64,6 @@ export default function ModuleDetail({ courseId, moduleId }) {
           {moduleId})
         </h3>
       )}
-      {/* {modules.length > 0 ? (
-        <Carousel courseId={courseId} modules={modules} />
-      ) : (
-        <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
-      )} */}
     </div>
   );
 }
@@ -72,7 +77,7 @@ function ChooseUnit({ courseId, moduleId, units, activeUnit }) {
 
   return (
     <div className={styles.carousel}>
-      {units && (
+      {units.length > 0 ? (
         <ul>
           {units.map((unit, index) => (
             <li
@@ -84,6 +89,8 @@ function ChooseUnit({ courseId, moduleId, units, activeUnit }) {
             </li>
           ))}
         </ul>
+      ) : (
+        <h3>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h3>
       )}
     </div>
   );
