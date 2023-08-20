@@ -14,6 +14,7 @@ export default function CourseDetail() {
   const navigate = useNavigate();
   const { courseId, moduleId, unitId, contentId } = useParams();
 
+  const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
   const [targetMod, setTargetMod] = useState(moduleId);
   // console.log(courseId, moduleId, unitId, contentId);
@@ -26,12 +27,14 @@ export default function CourseDetail() {
   useEffect(() => {
     // we should wait for allCourses to be fetched before checking if courseId is valid
     if (allCourses) {
-      const currCourse = allCourses.find((cls) => cls.id === courseId);
-      if (!currCourse) {
+      const courseLookup = allCourses.find((cls) => cls.id === courseId);
+      setCurrCourse(courseLookup);
+
+      if (!courseLookup) {
         navigate("/404");
         return;
       } else {
-        setModules(currCourse.modules || []);
+        setModules(courseLookup.modules || []);
       }
     }
 
@@ -85,6 +88,8 @@ export default function CourseDetail() {
 
   return (
     <div className={styles["course-detail"]}>
+      <CourseMetadata course={currCourse} />
+      <hr></hr>
       <SelectModule
         courseId={courseId}
         moduleIds={modules}
@@ -92,7 +97,6 @@ export default function CourseDetail() {
       />
 
       {/* <CourseMetadata courseId={courseId} />
-      <hr></hr>
 
       {isPending ? (
         <h2>Đợi xíu nha 😙...</h2>
@@ -179,21 +183,16 @@ function Carousel({ courseId, modules }) {
   );
 }
 
-function CourseMetadata({ courseId }) {
-  const { courses } = useContext(CoursesContext);
-  const cls = courses.find((cls) => cls.id === courseId);
-
+function CourseMetadata({ course }) {
   return (
-    // if user accesses this page directly, cls may not be fetched completely yet,
-    // so we need to check if cls is undefined before trying to access its properties
-    cls && (
+    course && (
       <div>
-        {cls.location && (
-          <p className={styles.location}>Địa điểm: {cls.location}</p>
+        {course.location && (
+          <p className={styles.location}>Địa điểm: {course.location}</p>
         )}
 
-        <People title="Giảng viên" people={cls.instructors} />
-        <People title="Trợ giảng" people={cls.assistants} />
+        <People title="Giảng viên" people={course.instructors} />
+        <People title="Trợ giảng" people={course.assistants} />
       </div>
     )
   );
