@@ -16,6 +16,7 @@ export default function CourseDetail() {
 
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
+  // the target module is parsed from the moduleId in the URL
   const [targetMod, setTargetMod] = useState(moduleId);
   // console.log(courseId, moduleId, unitId, contentId);
 
@@ -90,11 +91,12 @@ export default function CourseDetail() {
     <div className={styles["course-detail"]}>
       <CourseMetadata course={currCourse} />
       <hr></hr>
-      <SelectModule
+      <ChooseModule
         courseId={courseId}
         moduleIds={modules}
         active={targetMod}
       />
+      {targetMod && <div>TODO: show selected module content</div>}
 
       {/* <CourseMetadata courseId={courseId} />
 
@@ -113,27 +115,34 @@ export default function CourseDetail() {
   );
 }
 
-function SelectModule({ courseId, moduleIds, active }) {
+function ChooseModule({ courseId, moduleIds, active }) {
   const navigate = useNavigate();
+  const [index, setIndex] = useState(null);
 
-  const routeActiveModule = (buttonId) => {
+  const routeActiveModule = (buttonId, i) => {
+    setIndex(i);
     navigate(`/course/${courseId}/${buttonId}`);
   };
 
   return (
     <div className={styles.carousel}>
       {moduleIds && (
-        <ul>
-          {moduleIds.map((mod) => (
-            <li
-              key={mod}
-              onClick={() => routeActiveModule(mod)}
-              className={active === mod ? styles.active : {}}
-            >
-              {mod}
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {moduleIds.map((mod, index) => (
+              <li
+                key={mod}
+                onClick={() => routeActiveModule(mod, index)}
+                className={active === mod ? styles.active : {}}
+              >
+                {mod}
+              </li>
+            ))}
+          </ul>
+          {moduleIds.length > 1 && index !== null && (
+            <small className={styles.hint}>Module #{index + 1}:</small>
+          )}
+        </div>
       )}
     </div>
   );
