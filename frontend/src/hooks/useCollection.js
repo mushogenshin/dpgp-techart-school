@@ -30,7 +30,7 @@ export const useCollection = (collectionName, docsLimit) => {
 
     // unsubscribe when component unmounts
     return () => unsub();
-  }, [collectionName]);
+  }, [collectionName, docsLimit]);
 
   return { documents, error };
 };

@@ -1,10 +1,12 @@
-import { db } from "../../firebase_config";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+// import { db } from "../../firebase_config";
+// import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import ModuleDetail from "../moduleDetail/ModuleDetail";
+
 import LearningModule from "../../components/module/LearningModule";
 import ModuleMetadata from "../../components/module/ModuleMetadata";
 
@@ -21,9 +23,6 @@ export default function CourseDetail() {
   // console.log(courseId, moduleId, unitId, contentId);
 
   const { courses: allCourses } = useContext(CoursesContext);
-
-  // const [isPending, setIsPending] = useState(false);
-  // const [modules, setModules] = useState([]);
 
   useEffect(() => {
     // we should wait for allCourses to be fetched before checking if courseId is valid
@@ -96,21 +95,11 @@ export default function CourseDetail() {
         moduleIds={modules}
         active={targetMod}
       />
-      {targetMod && <div>TODO: show selected module content</div>}
-
-      {/* <CourseMetadata courseId={courseId} />
-
-      {isPending ? (
-        <h2>Đợi xíu nha 😙...</h2>
-      ) : (
+      {targetMod && (
         <div>
-          {modules.length > 0 ? (
-            <Carousel courseId={courseId} modules={modules} />
-          ) : (
-            <h2>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h2>
-          )}
+          <ModuleDetail moduleId={targetMod} />
         </div>
-      )} */}
+      )}
     </div>
   );
 }
