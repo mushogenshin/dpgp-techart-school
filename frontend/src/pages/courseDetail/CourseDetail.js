@@ -1,5 +1,3 @@
-// import { db } from "../../firebase_config";
-// import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
@@ -7,8 +5,6 @@ import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import ModuleDetail from "../moduleDetail/ModuleDetail";
 import CourseMetadata from "./CourseMetadata";
-// import LearningModule from "../moduleDetail/LearningModule";
-// import ModuleMetadata from "../../components/module/ModuleMetadata";
 
 import styles from "./CourseDetail.module.css";
 
@@ -54,7 +50,7 @@ export default function CourseDetail() {
 
       {targetMod && (
         <div>
-          <ModuleDetail moduleId={targetMod} />
+          <GuardedModule moduleId={targetMod} />
         </div>
       )}
     </div>
@@ -94,46 +90,25 @@ function ChooseModule({ courseId, moduleIds, active }) {
   );
 }
 
-// function Carousel({ courseId, modules }) {
-//   const { user, purchased } = useAuthContext();
-//   const [active, setActive] = useState(
-//     parseInt(localStorage.getItem(`activeModuleIndex_${courseId}`)) || 0
-//   );
+function GuardedModule({ moduleId }) {
+  const { user, purchased } = useAuthContext();
+  const isPurchased = purchased && purchased.includes(moduleId);
 
-//   const isPurchased = purchased && purchased.includes(modules[active].id);
+  console.log("PURCHASED:", isPurchased);
 
-//   useEffect(() => {
-//     localStorage.setItem(`activeModuleIndex_${courseId}`, active);
-//   }, [active, courseId]);
-
-//   return (
-//     <div className={styles.carousel}>
-//       <ul>
-//         {modules.map((mod, index) => (
-//           <li
-//             key={index}
-//             onClick={() => setActive(index)}
-//             className={active === index ? styles.active : {}}
-//           >
-//             {mod.id}
-//           </li>
-//         ))}
-//       </ul>
-//       {modules.length > 1 && (
-//         <small className={styles.hint}>Module #{active + 1}:</small>
-//       )}
-//       {/* showing the metadata regardless of signin or purchase state */}
-//       <ModuleMetadata mod={modules[active]} />
-//       <hr></hr>
-
-//       {user ? (
-//         <LearningModule mod={modules[active]} purchased={isPurchased} />
-//       ) : (
-//         <h3 className={styles.prompt}>
-//           🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí +
-//           toàn bộ modules đã mua
-//         </h3>
-//       )}
-//     </div>
-//   );
-// }
+  return user ? (
+    isPurchased ? (
+      <ModuleDetail moduleId={moduleId} />
+    ) : (
+      <h3>
+        📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉{" "}
+        {moduleId})
+      </h3>
+    )
+  ) : (
+    <h3 className={styles.prompt}>
+      🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí + toàn
+      bộ modules đã mua
+    </h3>
+  );
+}
