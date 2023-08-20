@@ -7,15 +7,18 @@ export default function Sidebar({ contents }) {
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarHandle}></div>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
-      <p>A</p>
+      {contents.map((content, index) => {
+        return (
+          <div>
+            <h3 key={index}>{content.name}</h3>
+            <ul>
+              {content.lessons.map((lesson, index) => {
+                return <li key={index}>TODO</li>;
+              })}
+            </ul>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -59,7 +59,7 @@ function All() {
   return (
     <div>
       <p>Các khoá đã dạy</p>
-      {error && <p>{error}</p>}
+      {error && <h2>{error}</h2>}
       <ul>
         {courses &&
           courses.map((cls) => (

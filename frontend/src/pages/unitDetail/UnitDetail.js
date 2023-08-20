@@ -26,10 +26,14 @@ export default function UnitDetail({
 }
 
 function GuardedUnit({ contentIds, unlocked }) {
+  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
   const [contents, setContents] = useState(null);
 
   useEffect(() => {
     let unsubscribe;
+    setError(null);
+    setIsPending(true);
 
     if (contentIds.length > 0 && unlocked) {
       // fetch contents from content IDs
@@ -47,15 +51,20 @@ function GuardedUnit({ contentIds, unlocked }) {
               id: doc.id,
             };
           });
+          setError(null);
           setContents(results);
+          setIsPending(false);
         },
         (error) => {
-          console.log(error.message);
+          setError(error.message);
           setContents(null);
+          setIsPending(false);
         }
       );
     } else {
+      setError(null);
       setContents(null);
+      setIsPending(false);
     }
 
     return () => {
@@ -67,14 +76,21 @@ function GuardedUnit({ contentIds, unlocked }) {
     <div className={styles["unit-content"]}>
       {contentIds.length > 0 ? (
         unlocked ? (
-          contents && (
-            <div>
-              <Sidebar contents={contents} />
-              {contents.map((content, index) => (
-                <Content key={index} content={content} />
-              ))}
-            </div>
-          )
+          <div>
+            {error && <h2>😳 {error}</h2>}
+            {isPending ? (
+              <p>Đợi xíu nha 😙...</p>
+            ) : (
+              contents && (
+                <div>
+                  <Sidebar contents={contents} />
+                  {contents.map((content, index) => (
+                    <Content key={index} content={content} />
+                  ))}
+                </div>
+              )
+            )}
+          </div>
         ) : (
           <h3>
             🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)
@@ -88,5 +104,5 @@ function GuardedUnit({ contentIds, unlocked }) {
 }
 
 function Content({ content }) {
-  return <div>TODO: {content.id}</div>;
+  return <div>TODO: show {content.id}</div>;
 }
