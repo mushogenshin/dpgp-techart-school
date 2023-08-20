@@ -1,6 +1,7 @@
 .navbar {
     background: #373745;
     padding: 20px;
+    z-index: 1;
 }
 .navbar ul {
     display: flex;

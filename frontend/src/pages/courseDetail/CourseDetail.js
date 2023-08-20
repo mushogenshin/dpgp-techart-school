@@ -10,7 +10,7 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courseId, modId: modParam } = useParams();
+  const { courseId, modId: modParam, unitId } = useParams();
 
   // the target module ID is parsed from the module ID param in the URL
   const [targetModId, setTargetModId] = useState(modParam);
@@ -39,7 +39,17 @@ export default function CourseDetail() {
   }, [allCourses, courseId, modParam, navigate]);
 
   return (
-    <div className={styles["course-detail"]}>
+    <div
+      className={styles["course-detail"]}
+      style={
+        // spare some space for the sidebar when viewing a Unit
+        unitId
+          ? {
+              marginLeft: "300px",
+            }
+          : {}
+      }
+    >
       <CourseMetadata course={currCourse} />
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
