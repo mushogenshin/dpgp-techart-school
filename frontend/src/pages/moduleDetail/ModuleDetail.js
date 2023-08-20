@@ -7,24 +7,30 @@ import ModuleMetadata from "./ModuleMetadata";
 import styles from "./Module.module.css";
 
 export default function ModuleDetail({ courseId, moduleId }) {
+  const navigate = useNavigate();
   const { purchased } = useAuthContext();
-  const { unitId, contentId } = useParams();
-  const [units, setUnits] = useState(null);
+  const { unitId: unitParam, contentId } = useParams();
 
   // the target unit is parsed from the unit ID param in the URL
-  const [targetUnit, setTargetUnit] = useState(unitId);
+  const [targetUnit, setTargetUnit] = useState(unitParam);
 
-  //   console.log("ModuleDetail", unitId, contentId);
-
+  const [units, setUnits] = useState(null);
   const { mod, error, isPending } = useFetchModule(moduleId);
-  const isPurchased = purchased && purchased.includes(moduleId);
 
   useEffect(() => {
-    setUnits(mod && mod.units ? mod.units : []);
-    setTargetUnit(unitId);
-  }, [mod, unitId]);
+    if (mod && mod.units && unitParam) {
+      // check if unitParam is valid
+      if (!mod.units.find((unit) => unit.id === unitParam)) {
+        navigate("/404");
+        return;
+      }
+    }
 
-  console.log(mod);
+    setUnits(mod && mod.units ? mod.units : []);
+    setTargetUnit(unitParam);
+  }, [mod, unitParam, navigate]);
+
+  const isPurchased = purchased && purchased.includes(moduleId);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -39,7 +45,7 @@ export default function ModuleDetail({ courseId, moduleId }) {
             courseId={courseId}
             moduleId={moduleId}
             units={units}
-            active={targetUnit}
+            activeUnit={targetUnit}
           />
         </div>
       ) : (
@@ -57,12 +63,10 @@ export default function ModuleDetail({ courseId, moduleId }) {
   );
 }
 
-function ChooseUnit({ courseId, moduleId, units, active }) {
+function ChooseUnit({ courseId, moduleId, units, activeUnit }) {
   const navigate = useNavigate();
-  const [index, setIndex] = useState(null);
 
   const routeActiveUnit = (target, i) => {
-    setIndex(i);
     navigate(`/course/${courseId}/${moduleId}/${target}`);
   };
 
@@ -74,9 +78,9 @@ function ChooseUnit({ courseId, moduleId, units, active }) {
             <li
               key={index}
               onClick={() => routeActiveUnit(unit.id, index)}
-              className={active === unit.id ? styles.active : {}}
+              className={activeUnit === unit.id ? styles.active : {}}
             >
-              {unit.name}
+              {unit.name || `Unit ${index + 1}`}
             </li>
           ))}
         </ul>

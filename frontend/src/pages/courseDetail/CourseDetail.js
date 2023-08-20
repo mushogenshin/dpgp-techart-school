@@ -10,12 +10,13 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courseId, modId } = useParams();
+  const { courseId, modId: modParam } = useParams();
+
+  // the target module is parsed from the module ID param in the URL
+  const [targetMod, setTargetMod] = useState(modParam);
 
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
-  // the target module is parsed from the module ID param in the URL
-  const [targetMod, setTargetMod] = useState(modId);
 
   const { courses: allCourses } = useContext(CoursesContext);
 
@@ -34,8 +35,8 @@ export default function CourseDetail() {
     }
 
     // updates the target module if the module ID param in the URL changes
-    setTargetMod(modId);
-  }, [allCourses, courseId, modId, navigate]);
+    setTargetMod(modParam);
+  }, [allCourses, courseId, modParam, navigate]);
 
   return (
     <div className={styles["course-detail"]}>
@@ -45,7 +46,7 @@ export default function CourseDetail() {
       <ChooseModule
         courseId={courseId}
         moduleIds={modules}
-        active={targetMod}
+        activeMod={targetMod}
       />
 
       {targetMod && <ModulePreview courseId={courseId} moduleId={targetMod} />}
@@ -53,7 +54,7 @@ export default function CourseDetail() {
   );
 }
 
-function ChooseModule({ courseId, moduleIds, active }) {
+function ChooseModule({ courseId, moduleIds, activeMod }) {
   const navigate = useNavigate();
   const [index, setIndex] = useState(null);
 
@@ -71,7 +72,7 @@ function ChooseModule({ courseId, moduleIds, active }) {
               <li
                 key={index}
                 onClick={() => routeActiveModule(mod, index)}
-                className={active === mod ? styles.active : {}}
+                className={activeMod === mod ? styles.active : {}}
               >
                 {mod}
               </li>
