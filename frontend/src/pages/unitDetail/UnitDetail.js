@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFetchContents } from "../../hooks/useFetchContents";
 import Sidebar from "./Sidebar";
+import Lesson from "../lesson/Lesson";
 
 import styles from "./Unit.module.css";
 
@@ -72,8 +73,4 @@ function GuardedUnit({ contentIds, unlocked }) {
       )}
     </div>
   );
-}
-
-function Lesson({ lesson }) {
-  return <div>TODO: show Lesson {lesson.id}</div>;
 }

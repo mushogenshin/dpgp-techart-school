@@ -31,7 +31,11 @@ function Outline({ content, activeLessonId, setActiveLessonId }) {
       <ul>
         {content.lessons.map((lesson, index) => {
           return (
-            <li key={index} onClick={() => setActiveLessonId(lesson.id)}>
+            <li
+              key={index}
+              onClick={() => setActiveLessonId(lesson.id)}
+              className={activeLessonId === lesson.id ? styles.active : {}}
+            >
               {lesson.id}
             </li>
           );

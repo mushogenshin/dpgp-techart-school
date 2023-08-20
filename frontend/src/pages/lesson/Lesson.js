@@ -1,14 +1,15 @@
 import ReactMarkdown from "react-markdown";
 import Vimeo from "../../components/vimeo";
 
-import styles from "./Unit.module.css";
+import styles from "./Lesson.module.css";
 
-export default function Unit({ groupedContents, unlocked }) {
+export default function Lesson({ lesson }) {
   // console.log("Switching to unit", groupedContents);
 
   return (
-    <div className={styles.unit}>
-      {unlocked ? (
+    <div className={styles.lesson}>
+      TODO: show {lesson.id}
+      {/* {unlocked ? (
         <div>
           {groupedContents.map((content, index) => (
             <div key={index}>
@@ -33,7 +34,7 @@ export default function Unit({ groupedContents, unlocked }) {
         <div>
           🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)
         </div>
-      )}
+      )} */}
     </div>
   );
 }

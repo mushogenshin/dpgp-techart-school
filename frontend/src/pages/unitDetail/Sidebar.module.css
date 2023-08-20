@@ -19,9 +19,18 @@
   width: 10px;
   /* cursor: col-resize; */
   background-color: #c23e3e;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .sidebar li {
   cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  padding: 5px;
+}
+
+.sidebar .active {
+  color: yellow;
+  border: 1px solid white;
+  font-weight: bold;
 }
