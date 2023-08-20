@@ -6,27 +6,33 @@ import Sidebar from "./Sidebar";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({ courseId, moduleId, unit }) {
+export default function UnitDetail({
+  courseId,
+  moduleId,
+  unit,
+  setShowSidebar,
+}) {
   const unlocked = (unit && unit.unlocked) || false;
   const [contentIds, setContentIds] = useState(null);
 
   useEffect(() => {
     setContentIds(unit && unit.contents ? unit.contents : []);
-  }, [unit]);
+    setShowSidebar(contentIds && unlocked ? true : false);
+  }, [unit, contentIds, unlocked, setShowSidebar]);
 
   return (
-    contentIds && <GuardedUnit contents={contentIds} unlocked={unlocked} />
+    contentIds && <GuardedUnit contentIds={contentIds} unlocked={unlocked} />
   );
 }
 
-function GuardedUnit({ contents, unlocked }) {
+function GuardedUnit({ contentIds, unlocked }) {
   return (
     <div className={styles["unit-content"]}>
-      {contents.length > 0 ? (
+      {contentIds.length > 0 ? (
         unlocked ? (
           <div>
             <Sidebar />
-            {contents.map((content, index) => (
+            {contentIds.map((content, index) => (
               <Content key={index} contentId={content} />
             ))}
           </div>

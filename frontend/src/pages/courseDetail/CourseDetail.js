@@ -15,10 +15,10 @@ export default function CourseDetail() {
   // the target module ID is parsed from the module ID param in the URL
   const [targetModId, setTargetModId] = useState(modParam);
 
+  const { courses: allCourses } = useContext(CoursesContext);
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
-
-  const { courses: allCourses } = useContext(CoursesContext);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     // we should wait for allCourses to be fetched before checking if courseId is valid
@@ -43,7 +43,7 @@ export default function CourseDetail() {
       className={styles["course-detail"]}
       style={
         // spare some space for the sidebar when viewing a Unit
-        unitId
+        showSidebar
           ? {
               marginLeft: "var(--sidebar-width)",
             }
@@ -60,7 +60,11 @@ export default function CourseDetail() {
       />
 
       {targetModId && (
-        <GuardedModule courseId={courseId} moduleId={targetModId} />
+        <GuardedModule
+          courseId={courseId}
+          moduleId={targetModId}
+          setShowSidebar={setShowSidebar}
+        />
       )}
     </div>
   );
@@ -99,11 +103,15 @@ function ChooseModule({ courseId, moduleIds, activeMod }) {
   );
 }
 
-function GuardedModule({ courseId, moduleId }) {
+function GuardedModule({ courseId, moduleId, setShowSidebar }) {
   const { user } = useAuthContext();
 
   return user ? (
-    <ModuleDetail courseId={courseId} moduleId={moduleId} />
+    <ModuleDetail
+      courseId={courseId}
+      moduleId={moduleId}
+      setShowSidebar={setShowSidebar}
+    />
   ) : (
     <h3 className={styles.prompt}>
       🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí + toàn

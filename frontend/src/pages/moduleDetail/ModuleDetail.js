@@ -7,7 +7,7 @@ import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
-export default function ModuleDetail({ courseId, moduleId }) {
+export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
   const { unitId: unitParam } = useParams();
@@ -63,6 +63,7 @@ export default function ModuleDetail({ courseId, moduleId }) {
               courseId={courseId}
               moduleId={moduleId}
               unit={targetUnit}
+              setShowSidebar={setShowSidebar}
             />
           )}
         </div>
