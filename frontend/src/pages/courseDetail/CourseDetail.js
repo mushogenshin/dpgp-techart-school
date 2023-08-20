@@ -88,7 +88,7 @@ export default function CourseDetail() {
       <SelectModule
         courseId={courseId}
         moduleIds={modules}
-        targetMod={targetMod}
+        active={targetMod}
       />
 
       {/* <CourseMetadata courseId={courseId} />
@@ -109,15 +109,12 @@ export default function CourseDetail() {
   );
 }
 
-function SelectModule({ courseId, moduleIds, targetMod }) {
+function SelectModule({ courseId, moduleIds, active }) {
   const navigate = useNavigate();
-  const [active, setActive] = useState(null);
 
   const routeActiveModule = (buttonId) => {
     navigate(`/course/${courseId}/${buttonId}`);
   };
-
-  console.log("Target module:", targetMod);
 
   return (
     <div className={styles.carousel}>
