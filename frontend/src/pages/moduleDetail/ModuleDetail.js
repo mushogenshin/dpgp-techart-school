@@ -77,7 +77,7 @@ function ChooseUnit({ courseId, moduleId, units, activeUnit }) {
 
   return (
     <div className={styles.carousel}>
-      {units.length > 0 ? (
+      {units && units.length > 0 ? (
         <ul>
           {units.map((unit, index) => (
             <li
