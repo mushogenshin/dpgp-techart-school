@@ -13,23 +13,26 @@ import styles from "./CourseDetail.module.css";
 export default function CourseDetail() {
   const navigate = useNavigate();
   const { courseId, moduleId, unitId, contentId } = useParams();
-  console.log(courseId, moduleId, unitId, contentId);
+
+  const [modules, setModules] = useState(null);
+  // const [targetMod, setTargetMod] = useState(moduleId);
+  // console.log(courseId, moduleId, unitId, contentId);
 
   const { courses: allCourses } = useContext(CoursesContext);
-  const currCourse = allCourses.find((cls) => cls.id === courseId);
-  const currModuleIds = currCourse ? currCourse.modules : [];
 
-  const routeActiveModule = (buttonId) => {
-    navigate(`/course/${courseId}/${buttonId}`);
-  };
-
-  const [isPending, setIsPending] = useState(false);
-  const [modules, setModules] = useState([]);
+  // const [isPending, setIsPending] = useState(false);
+  // const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    if (!currCourse) {
-      navigate("/404");
-      return;
+    // we should wait for allCourses to be fetched before checking if courseId is valid
+    if (allCourses) {
+      const currCourse = allCourses.find((cls) => cls.id === courseId);
+      if (!currCourse) {
+        navigate("/404");
+        return;
+      } else {
+        setModules(currCourse.modules || []);
+      }
     }
 
     // setIsPending(true);
@@ -76,16 +79,16 @@ export default function CourseDetail() {
     //     };
     //   }
     // });
-  }, [courseId, navigate]);
+  }, [allCourses, courseId, navigate]);
 
   return (
     <div className={styles["course-detail"]}>
-      TODO
-      {currModuleIds.map((mod) => (
-        <button key={mod} onClick={() => routeActiveModule(mod)}>
-          A
-        </button>
-      ))}
+      <SelectModule
+        courseId={courseId}
+        moduleIds={modules}
+        // targetMod={targetMod}
+      />
+
       {/* <CourseMetadata courseId={courseId} />
       <hr></hr>
 
@@ -101,6 +104,28 @@ export default function CourseDetail() {
         </div>
       )} */}
     </div>
+  );
+}
+
+function SelectModule({ courseId, moduleIds }) {
+  const navigate = useNavigate();
+
+  const routeActiveModule = (buttonId) => {
+    navigate(`/course/${courseId}/${buttonId}`);
+  };
+
+  // console.log("SELECTED MOD", targetMod);
+
+  return (
+    moduleIds && (
+      <div>
+        {moduleIds.map((mod) => (
+          <button key={mod} onClick={() => routeActiveModule(mod)}>
+            {mod}
+          </button>
+        ))}
+      </div>
+    )
   );
 }
 

@@ -3,7 +3,7 @@ import { query, collection, onSnapshot, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export const useCollection = (collectionName, docsLimit) => {
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {

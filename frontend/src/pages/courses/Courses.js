@@ -61,13 +61,14 @@ function All() {
       <p>Các khoá đã dạy</p>
       {error && <p>{error}</p>}
       <ul>
-        {courses.map((cls) => (
-          <li key={cls.id}>
-            <Link to={`/course/${cls.id}`}>
-              {cls.name} <span className={styles.courses_id}>{cls.id}</span>
-            </Link>
-          </li>
-        ))}
+        {courses &&
+          courses.map((cls) => (
+            <li key={cls.id}>
+              <Link to={`/course/${cls.id}`}>
+                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+              </Link>
+            </li>
+          ))}
       </ul>
     </div>
   );
