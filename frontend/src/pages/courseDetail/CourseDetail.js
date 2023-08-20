@@ -3,19 +3,19 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import ModuleDetail from "../moduleDetail/ModuleDetail";
 import CourseMetadata from "./CourseMetadata";
+import ModuleDetail from "../moduleDetail/ModuleDetail";
 
 import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courseId, moduleId, unitId, contentId } = useParams();
+  const { courseId, modId } = useParams();
 
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
-  // the target module is parsed from the moduleId in the URL
-  const [targetMod, setTargetMod] = useState(moduleId);
+  // the target module is parsed from the module ID param in the URL
+  const [targetMod, setTargetMod] = useState(modId);
 
   const { courses: allCourses } = useContext(CoursesContext);
 
@@ -33,9 +33,9 @@ export default function CourseDetail() {
       }
     }
 
-    // updates the target module if the moduleId in the URL changes
-    setTargetMod(moduleId);
-  }, [allCourses, courseId, navigate]);
+    // updates the target module if the module ID param in the URL changes
+    setTargetMod(modId);
+  }, [allCourses, courseId, modId, navigate]);
 
   return (
     <div className={styles["course-detail"]}>
@@ -48,11 +48,7 @@ export default function CourseDetail() {
         active={targetMod}
       />
 
-      {targetMod && (
-        <div>
-          <GuardedModule moduleId={targetMod} />
-        </div>
-      )}
+      {targetMod && <ModulePreview courseId={courseId} moduleId={targetMod} />}
     </div>
   );
 }
@@ -61,9 +57,9 @@ function ChooseModule({ courseId, moduleIds, active }) {
   const navigate = useNavigate();
   const [index, setIndex] = useState(null);
 
-  const routeActiveModule = (buttonId, i) => {
+  const routeActiveModule = (target, i) => {
     setIndex(i);
-    navigate(`/course/${courseId}/${buttonId}`);
+    navigate(`/course/${courseId}/${target}`);
   };
 
   return (
@@ -73,7 +69,7 @@ function ChooseModule({ courseId, moduleIds, active }) {
           <ul>
             {moduleIds.map((mod, index) => (
               <li
-                key={mod}
+                key={index}
                 onClick={() => routeActiveModule(mod, index)}
                 className={active === mod ? styles.active : {}}
               >
@@ -90,21 +86,11 @@ function ChooseModule({ courseId, moduleIds, active }) {
   );
 }
 
-function GuardedModule({ moduleId }) {
-  const { user, purchased } = useAuthContext();
-  const isPurchased = purchased && purchased.includes(moduleId);
-
-  console.log("PURCHASED:", isPurchased);
+function ModulePreview({ courseId, moduleId }) {
+  const { user } = useAuthContext();
 
   return user ? (
-    isPurchased ? (
-      <ModuleDetail moduleId={moduleId} />
-    ) : (
-      <h3>
-        📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉{" "}
-        {moduleId})
-      </h3>
-    )
+    <ModuleDetail courseId={courseId} moduleId={moduleId} />
   ) : (
     <h3 className={styles.prompt}>
       🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí + toàn

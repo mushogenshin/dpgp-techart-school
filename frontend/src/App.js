@@ -62,13 +62,13 @@ function App() {
             element={<Courses />}
           />
           <Route path="course/:courseId" element={<CourseDetail />} />
-          <Route path="course/:courseId/:moduleId" element={<CourseDetail />} />
+          <Route path="course/:courseId/:modId" element={<CourseDetail />} />
           <Route
-            path="course/:courseId/:moduleId/:unitId"
+            path="course/:courseId/:modId/:unitId"
             element={<CourseDetail />}
           />
           <Route
-            path="course/:courseId/:moduleId/:unitId/:contentId"
+            path="course/:courseId/:modId/:unitId/:contentId"
             element={<CourseDetail />}
           />
           <Route path="404" element={<NotFound />} />

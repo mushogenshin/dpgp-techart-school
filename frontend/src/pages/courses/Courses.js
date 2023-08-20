@@ -40,10 +40,10 @@ function Purchased() {
           ))}
         </ol>
       ) : (
-        <div>
-          Chưa có khoá nào cả
+        <div className={styles.hint}>
+          <p>Chưa có khoá nào cả</p>
           {!conformed ? (
-            <p className={styles.hint}>
+            <p>
               👀 Bạn chưa thực hiện "Migrate" để{" "}
               <Link to="/dashboard">{action}</Link>
             </p>

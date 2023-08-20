@@ -13,6 +13,7 @@
     background-color: rgb(221, 68, 7);
 }
 
+
 /* .courses .title {
     font-size: 1em;
     margin-bottom: 20px;
@@ -22,6 +23,7 @@
 } */
 
 .courses .hint {
+    color: #ffea8b;
     font-size: .6em;
 }
 
