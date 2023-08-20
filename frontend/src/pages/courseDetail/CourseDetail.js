@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-
 import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import CourseMetadata from "./CourseMetadata";
@@ -10,7 +9,7 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
-  const { courseId, modId: modParam, unitId } = useParams();
+  const { courseId, modId: modParam } = useParams();
 
   // the target module ID is parsed from the module ID param in the URL
   const [targetModId, setTargetModId] = useState(modParam);
@@ -34,7 +33,7 @@ export default function CourseDetail() {
       }
     }
 
-    // updates the target module ID if the module ID param in the URL changes
+    // update the target module ID if the module ID param in the URL changes
     setTargetModId(modParam);
   }, [allCourses, courseId, modParam, navigate]);
 

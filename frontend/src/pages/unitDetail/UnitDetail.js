@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-// import { useParams, useNavigate } from "react-router-dom";
-import { db } from "../../firebase_config";
-import { onSnapshot, query, collection, where } from "firebase/firestore";
+import { useParams, useNavigate } from "react-router-dom";
+import { useFetchContents } from "../../hooks/useFetchContents";
 import Sidebar from "./Sidebar";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({
-  courseId,
-  moduleId,
-  unit,
-  setShowSidebar,
-}) {
+export default function UnitDetail({ unit, setShowSidebar }) {
   const unlocked = (unit && unit.unlocked) || false;
   const [contentIds, setContentIds] = useState(null);
 
   useEffect(() => {
+    // wait for unit to be fetched before setting contentIds
     setContentIds(unit && unit.contents ? unit.contents : []);
+
+    // only show sidebar if there are contents and the unit is unlocked
     setShowSidebar(contentIds && unlocked ? true : false);
   }, [unit, contentIds, unlocked, setShowSidebar]);
 
@@ -26,51 +23,29 @@ export default function UnitDetail({
 }
 
 function GuardedUnit({ contentIds, unlocked }) {
-  const [error, setError] = useState(null);
-  const [isPending, setIsPending] = useState(false);
-  const [contents, setContents] = useState(null);
+  const navigate = useNavigate();
+  const { contentId: contentParam } = useParams();
+  const { contents, error, isPending } = useFetchContents(contentIds, unlocked);
+  const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
-    let unsubscribe;
-    setError(null);
-    setIsPending(true);
+    if (contents && contentParam) {
+      // find the lesson with the specified content ID
+      const lessons = contents.flatMap((content) => content.lessons);
+      // const contentLookup = contents.find(
+      //   (content) => content.id === contentParam
+      // );
 
-    if (contentIds.length > 0 && unlocked) {
-      // fetch contents from content IDs
-      const contentRef = query(
-        collection(db, "contents"),
-        where("__name__", "in", contentIds)
-      );
-      unsubscribe = onSnapshot(
-        contentRef,
-        (snapshot) => {
-          const results = snapshot.docs.map((doc) => {
-            const contentData = doc.data();
-            return {
-              ...contentData,
-              id: doc.id,
-            };
-          });
-          setError(null);
-          setContents(results);
-          setIsPending(false);
-        },
-        (error) => {
-          setError(error.message);
-          setContents(null);
-          setIsPending(false);
-        }
-      );
-    } else {
-      setError(null);
-      setContents(null);
-      setIsPending(false);
+      console.log("Contents:", contents);
+      console.log("Content param:", contentParam);
+      console.log("Lessons:", lessons);
+
+      // if (!contentLookup) {
+      //   navigate("/404");
+      //   return;
+      // }
     }
-
-    return () => {
-      unsubscribe && unsubscribe();
-    };
-  }, [contentIds, unlocked]);
+  }, [contents, contentParam, navigate]);
 
   return (
     <div className={styles["unit-content"]}>
@@ -84,9 +59,9 @@ function GuardedUnit({ contentIds, unlocked }) {
               contents && (
                 <div>
                   <Sidebar contents={contents} />
-                  {contents.map((content, index) => (
+                  {/* {contents.map((content, index) => (
                     <Content key={index} content={content} />
-                  ))}
+                  ))} */}
                 </div>
               )
             )}
@@ -104,5 +79,7 @@ function GuardedUnit({ contentIds, unlocked }) {
 }
 
 function Content({ content }) {
-  return <div>TODO: show {content.id}</div>;
+  const { contentId } = useParams();
+
+  return <div>TODO: show {contentId}</div>;
 }

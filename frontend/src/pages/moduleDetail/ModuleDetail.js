@@ -7,7 +7,7 @@ import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
-export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
+export default function ModuleDetail({ moduleId, setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
   const { unitId: unitParam } = useParams();
@@ -28,16 +28,19 @@ export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
       }
     }
 
+    // wait for module to be fetched before setting units
     setUnits(mod && mod.units ? mod.units : []);
 
-    // updates the target unit ID if the unit ID param in the URL changes
+    // update the target unit ID if the unit ID param in the URL changes
     setTargetUnitId(unitParam);
 
+    // update the target unit if the unit ID param in the URL changes
     setTargetUnit(
       (mod && mod.units && mod.units.find((unit) => unit.id === unitParam)) ||
         null
     );
 
+    // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
   }, [mod, unitParam, navigate, setShowSidebar]);
 
@@ -53,20 +56,10 @@ export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit
-            courseId={courseId}
-            moduleId={moduleId}
-            units={units}
-            activeUnit={targetUnitId}
-          />
+          <ChooseUnit units={units} activeUnit={targetUnitId} />
 
           {targetUnitId && (
-            <UnitDetail
-              courseId={courseId}
-              moduleId={moduleId}
-              unit={targetUnit}
-              setShowSidebar={setShowSidebar}
-            />
+            <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
           )}
         </div>
       ) : (
@@ -79,11 +72,12 @@ export default function ModuleDetail({ courseId, moduleId, setShowSidebar }) {
   );
 }
 
-function ChooseUnit({ courseId, moduleId, units, activeUnit }) {
+function ChooseUnit({ units, activeUnit }) {
   const navigate = useNavigate();
+  const { courseId, modId } = useParams();
 
   const routeActiveUnit = (target, i) => {
-    navigate(`/course/${courseId}/${moduleId}/${target}`);
+    navigate(`/course/${courseId}/${modId}/${target}`);
   };
 
   return (
