@@ -10,10 +10,11 @@ import styles from "./Module.module.css";
 export default function ModuleDetail({ courseId, moduleId }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
-  const { unitId: unitParam, contentId } = useParams();
+  const { unitId: unitParam } = useParams();
 
-  // the target unit is parsed from the unit ID param in the URL
-  const [targetUnit, setTargetUnit] = useState(unitParam);
+  // the target unit ID is parsed from the unit ID param in the URL
+  const [targetUnitId, setTargetUnitId] = useState(unitParam);
+  const [targetUnit, setTargetUnit] = useState(null);
 
   const [units, setUnits] = useState(null);
   const { mod, error, isPending } = useFetchModule(moduleId);
@@ -28,7 +29,14 @@ export default function ModuleDetail({ courseId, moduleId }) {
     }
 
     setUnits(mod && mod.units ? mod.units : []);
-    setTargetUnit(unitParam);
+
+    // updates the target unit ID if the unit ID param in the URL changes
+    setTargetUnitId(unitParam);
+
+    setTargetUnit(
+      (mod && mod.units && mod.units.find((unit) => unit.id === unitParam)) ||
+        null
+    );
   }, [mod, unitParam, navigate]);
 
   const isPurchased = purchased && purchased.includes(moduleId);
@@ -47,14 +55,14 @@ export default function ModuleDetail({ courseId, moduleId }) {
             courseId={courseId}
             moduleId={moduleId}
             units={units}
-            activeUnit={targetUnit}
+            activeUnit={targetUnitId}
           />
 
-          {targetUnit && (
+          {targetUnitId && (
             <UnitDetail
               courseId={courseId}
               moduleId={moduleId}
-              unitId={targetUnit}
+              unit={targetUnit}
             />
           )}
         </div>

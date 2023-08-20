@@ -12,8 +12,8 @@ export default function CourseDetail() {
   const navigate = useNavigate();
   const { courseId, modId: modParam } = useParams();
 
-  // the target module is parsed from the module ID param in the URL
-  const [targetMod, setTargetMod] = useState(modParam);
+  // the target module ID is parsed from the module ID param in the URL
+  const [targetModId, setTargetModId] = useState(modParam);
 
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
@@ -34,8 +34,8 @@ export default function CourseDetail() {
       }
     }
 
-    // updates the target module if the module ID param in the URL changes
-    setTargetMod(modParam);
+    // updates the target module ID if the module ID param in the URL changes
+    setTargetModId(modParam);
   }, [allCourses, courseId, modParam, navigate]);
 
   return (
@@ -46,10 +46,12 @@ export default function CourseDetail() {
       <ChooseModule
         courseId={courseId}
         moduleIds={modules}
-        activeMod={targetMod}
+        activeMod={targetModId}
       />
 
-      {targetMod && <ModulePreview courseId={courseId} moduleId={targetMod} />}
+      {targetModId && (
+        <ModulePreview courseId={courseId} moduleId={targetModId} />
+      )}
     </div>
   );
 }

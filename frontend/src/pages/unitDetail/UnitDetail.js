@@ -3,12 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({ courseId, moduleId, unitId }) {
-  //
+export default function UnitDetail({ courseId, moduleId, unit }) {
+  useEffect(() => {
+    //
+  });
 
   return (
     <div>
-      TODO: show Unit {courseId} {moduleId} {unitId}
+      TODO: show Unit
+      {courseId} {moduleId} {unit.id}
     </div>
   );
 }
