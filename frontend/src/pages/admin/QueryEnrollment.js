@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useQueryEnrolledUsers } from "../../hooks/useQueryEnrollment";
+import { useQueryEnrolledStudents } from "../../hooks/useQueryEnrollment";
 
 import styles from "./Admin.module.css";
 
 export default function QueryEnrollment() {
   const [collapsed, setCollapsed] = useState(true);
   const [moduleId, setModuleId] = useState("");
-  const { queryEnrolledUsers, error, isPending, users } =
-    useQueryEnrolledUsers();
+  const { queryEnrolledUsers, error, isPending, students } =
+    useQueryEnrolledStudents();
 
   const handleModuleIdInput = (event) => {
     const sanitizedModuleId = event.target.value
@@ -55,13 +55,13 @@ export default function QueryEnrollment() {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          {users.length > 0 && (
+          {students.length > 0 && (
             <div className={styles.success}>
               <hr></hr>
               <h3>Danh sách tham dự:</h3>
               <ul>
-                {users.map((user) => (
-                  <li key={user.id}>{user.email}</li>
+                {students.map((student) => (
+                  <li key={student.id}>{student.email}</li>
                 ))}
               </ul>
             </div>

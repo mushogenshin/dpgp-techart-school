@@ -1,4 +1,5 @@
 import { useFetchModule } from "../../hooks/useFetchModule";
+import ModuleMetadata from "./ModuleMetadata";
 
 export default function ModuleDetail({ moduleId }) {
   const { mod, error, isPending } = useFetchModule(moduleId);
@@ -8,7 +9,8 @@ export default function ModuleDetail({ moduleId }) {
     <h2>Đợi xíu nha 😙...</h2>
   ) : (
     <div>
-      TODO: show
+      {error && <h2>😳 {error}</h2>}
+      {mod && <ModuleMetadata mod={mod} />}
       {/* {modules.length > 0 ? (
         <Carousel courseId={courseId} modules={modules} />
       ) : (

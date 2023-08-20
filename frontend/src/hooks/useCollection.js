@@ -23,7 +23,7 @@ export const useCollection = (collectionName, docsLimit) => {
         setError(null);
       },
       (error) => {
-        console.log(error);
+        setDocuments(null);
         setError(error.message);
       }
     );
