@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { db } from "../../firebase_config";
-import { onSnapshot } from "firebase/firestore";
+// import { useParams, useNavigate } from "react-router-dom";
+// import { db } from "../../firebase_config";
+// import { onSnapshot } from "firebase/firestore";
+import Sidebar from "./Sidebar";
 
 import styles from "./Unit.module.css";
 
@@ -23,9 +24,12 @@ function GuardedUnit({ contents, unlocked }) {
     <div className={styles["unit-content"]}>
       {contents.length > 0 ? (
         unlocked ? (
-          contents.map((content, index) => (
-            <Content key={index} contentId={content} />
-          ))
+          <div>
+            <Sidebar />
+            {contents.map((content, index) => (
+              <Content key={index} contentId={content} />
+            ))}
+          </div>
         ) : (
           <h3>
             🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)
@@ -41,42 +45,5 @@ function GuardedUnit({ contents, unlocked }) {
 function Content({ contentId }) {
   console.log("Content", contentId);
 
-  return (
-    <div>
-      {contentId}
-
-      <div class={styles.sidebar}>
-        {/* <h2>Menu</h2> */}
-        <ul>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 1</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 2</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 3</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 4</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 5</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 6</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 7</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 8</a>
-          </li>
-          <li>
-            <a href="#">Itemaaaaaaaaaaaaaaaaaaaaaaaa 9</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
+  return <div>{contentId}</div>;
 }

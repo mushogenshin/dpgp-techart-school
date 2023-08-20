@@ -1,8 +1,9 @@
 .navbar {
     background: #373745;
     padding: 20px;
-    z-index: 1;
+    z-index: 99;
 }
+
 .navbar ul {
     display: flex;
     margin: 0;
@@ -11,21 +12,25 @@
     align-items: center;
     list-style-type: none;
 }
+
 .title {
     margin-right: auto;
     font-weight: bold;
     letter-spacing: 1.5px;
     font-size: .6em;
 }
+
 .navbar button, .navbar a {
     margin-left: 15px;
 }
+
 .navbar a {
     color: rgb(50, 238, 109);
     text-decoration: none;
     font-size: 1.4em;
     font-weight: bolder;
 }
+
 .navbar a:hover {
     color:rgb(243, 83, 20);
 }

@@ -7,16 +7,20 @@
   box-sizing: border-box;
 }
 
+:root {
+  --sidebar-width: 300px;
+}
+
 body {
-  color: rgb(242, 246, 181);
-  /*background: linear-gradient(180deg,rgb(120, 123, 179) 20%,rgb(123, 186, 179) 100%);*/
-  background-color: #351a1a;
-  background-attachment: fixed;
-  margin: 0;
   font-family: 'Nunito', sans-serif;
   font-family: 'Nunito Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /*background: linear-gradient(180deg,rgb(120, 123, 179) 20%,rgb(123, 186, 179) 100%);*/
+  background-color: #351a1a;
+  background-attachment: fixed;
+  color: rgb(242, 246, 181);
+  margin: 0;
   font-size: 1.5em;
 }
 

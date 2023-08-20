@@ -45,7 +45,7 @@ export default function CourseDetail() {
         // spare some space for the sidebar when viewing a Unit
         unitId
           ? {
-              marginLeft: "300px",
+              marginLeft: "var(--sidebar-width)",
             }
           : {}
       }
