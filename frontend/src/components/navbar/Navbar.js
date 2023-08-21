@@ -13,6 +13,7 @@ export default function Navbar() {
           <Link to="/">DPGP TechArt</Link>
         </li>
         {elevatedRole && <Link to="/admin">Admin</Link>}
+        <Link to="/about">About</Link>
         <Link to="/courses">Courses</Link>
         {user ? (
           <>

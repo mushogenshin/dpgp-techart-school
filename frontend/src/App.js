@@ -3,6 +3,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 
 import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/home/Home";
+import About from "./pages/about/About";
 import Login from "./pages/login/Login";
 import FinishLogin from "./pages/login/FinishLogin";
 import CourseDetail from "./pages/courseDetail/CourseDetail";
@@ -20,6 +21,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route path="about" element={<About />} />
           <Route
             path="login"
             element={
