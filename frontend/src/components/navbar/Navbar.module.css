@@ -1,7 +1,10 @@
 .navbar {
     background: #373745;
     padding: 20px;
-    z-index: 99;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
 }
 
 .navbar ul {

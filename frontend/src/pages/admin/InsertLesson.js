@@ -23,7 +23,7 @@ export default function InsertLesson() {
         className={styles.collapsibleHeader}
         onClick={() => setCollapsed(!collapsed)}
       >
-        <h2>{label}</h2>
+        {label}
       </button>
 
       {!collapsed && (

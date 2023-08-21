@@ -1,25 +1,25 @@
 .admin {
     max-width: 720px;
     margin: 40px auto 0 auto;
-    padding: 20px;
     line-height: 1.5em;
     color: rgb(255, 144, 184);
 }
 
 .admin .section {
     border: 1px solid rgb(255, 206, 45);
-    margin: 20px auto;
+    margin: 0 auto 20px auto;
     padding: 15px;
     border-radius: 10px;
 }
 
 .admin .collapsibleHeader {
+    font-size: 14pt;
     color: white;
     background-color: transparent;
     border: 1px solid rgb(215, 87, 87);
     padding: 0 30px;
     margin: 5px;
-    border-radius: 30px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
