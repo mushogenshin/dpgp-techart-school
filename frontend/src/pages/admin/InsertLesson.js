@@ -28,10 +28,14 @@ export default function InsertLesson() {
     const docSnap = await getDoc(docRef);
     const lessons = docSnap.data().lessons || [];
 
-    // Insert the new element at the specified index
-    const pre = lessons.slice(0, lessonIndex);
-    const post = lessons.slice(lessonIndex);
-    const updated = [...pre, insertion, ...post];
+    // function to insert the new element at the specified index
+    const inserted = () => {
+      const pre = lessons.slice(0, lessonIndex);
+      const post = lessons.slice(lessonIndex);
+      return [...pre, insertion, ...post];
+    };
+
+    const updated = insertAtEnd ? [...lessons, insertion] : inserted();
 
     // Update with the modified array
     await updateDoc(docRef, {
