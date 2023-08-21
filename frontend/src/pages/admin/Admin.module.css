@@ -36,6 +36,12 @@
     padding: 0;
 }
 
+.admin .checkboxLabel {
+    display: inline;
+    cursor: pointer;
+    user-select: none;
+}
+
 .admin .hint {
     color: rgb(104, 101, 207);
 }

@@ -13,6 +13,7 @@ export default function InsertLesson() {
   const [contentId, setContentId] = useState("");
   const [lessonId, setLessonId] = useState("");
   const [lessonName, setLessonName] = useState("");
+  const [insertAtEnd, setInsertAtEnd] = useState(true);
   const [lessonIndex, setLessonIndex] = useState(0);
   const [blocks, setBlocks] = useState([{ type: "text", data: "" }]);
 
@@ -105,11 +106,29 @@ export default function InsertLesson() {
               onChange={(event) => setLessonName(event.target.value)}
             />
 
+            <div>
+              <input
+                type="checkbox"
+                id="insertAtEnd"
+                checked={insertAtEnd}
+                style={{
+                  width: "25px",
+                  height: "25px",
+                  margin: "20px 20px",
+                }}
+                onChange={(event) => setInsertAtEnd(event.target.checked)}
+              />
+              <label className={styles.checkboxLabel} htmlFor="insertAtEnd">
+                Cuối dãy
+              </label>
+            </div>
+
             <label htmlFor="lessonIndex">Thứ tự của Lesson:</label>
             <input
               type="number"
               id="lessonIndex"
               value={lessonIndex}
+              disabled={insertAtEnd}
               onChange={(event) => setLessonIndex(event.target.value)}
             />
 
