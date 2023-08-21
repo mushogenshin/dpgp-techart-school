@@ -57,7 +57,6 @@ export default function GrantAccess() {
           />
           <small className={styles.hint}>
             (phân cách bằng dấu phẩy, chỉ thực hiện được với những học viên{" "}
-            <br />
             <u>đã đăng nhập VÀ đã chuyển hệ thống</u>)
           </small>
 
@@ -70,10 +69,8 @@ export default function GrantAccess() {
             onChange={handleModulesInput}
           />
           <small className={styles.hint}>
-            (phân cách bằng dấu phẩy)
-            <br />
-            (lệnh "Cho Phép" sẽ cộng thêm vào danh sách hiện tại, và tự động bỏ
-            qua các đăng kí trùng lặp)
+            (phân cách bằng dấu phẩy; lệnh "Cho Phép" sẽ cộng thêm vào danh sách
+            hiện tại, và tự động bỏ qua các đăng kí trùng lặp)
           </small>
 
           <button

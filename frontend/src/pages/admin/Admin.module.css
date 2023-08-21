@@ -13,7 +13,7 @@
 }
 
 .admin .collapsibleHeader {
-    font-size: 14pt;
+    font-size: 13pt;
     color: white;
     background-color: transparent;
     border: 1px solid rgb(215, 87, 87);
@@ -42,15 +42,15 @@
 .admin span, small {
     display: block;
     margin-bottom: 6px;
+    font-size: 0.7em;
 }
 
 .admin input, textarea, select {
     max-width: 360px;
-    padding: 0;
-    margin-bottom: 20px;
-    font-size: 1em;
+    padding: 5px;
     color: #777;
     width: 100%;
+    border-radius: 7px;
 }
 
 .admin .error {
@@ -66,4 +66,41 @@
 
 .admin .success {
     color: rgb(151, 255, 123);
+}
+
+.block {
+    border: 1px solid rgb(128, 126, 121);
+    margin: 20px 80px 0 80px;
+    padding: 3px 30px;
+    border-radius: 20px;
+    text-align: right;
+}
+
+.block label {
+    color: rgb(130, 234, 201);
+    font-size: 0.6em;
+    display: inline-block;
+    margin: 0 30px;
+    padding: 0;
+}
+
+.block .remove {
+    color: white;
+    background: rgb(217, 67, 67);
+    padding: 3px 10px;
+    margin-bottom: 5px;
+    box-shadow: none;
+    border-radius: 5px;
+    border: none;
+
+}
+
+.add-block {
+    margin: 10px 100px;
+    padding: 5px 10px;
+    color: white;
+    background: rgb(59, 65, 155);
+    box-shadow: none;
+    border-radius: 5px;
+    border: none;
 }

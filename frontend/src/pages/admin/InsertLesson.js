@@ -6,7 +6,9 @@ export default function InsertLesson() {
   const [collapsed, setCollapsed] = useState(true);
   const [contentId, setContentId] = useState("");
   const [lessonIndex, setLessonIndex] = useState(0);
-  const [blocks, setBlocks] = useState([{ type: "", data: "" }]);
+  const [blocks, setBlocks] = useState([
+    { type: "text", data: "Some text or video embed ID..." },
+  ]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,7 +52,7 @@ export default function InsertLesson() {
 
           <div>
             <button type="submit" className="btn">
-              Chèn
+              Chèn Lesson
             </button>
           </div>
         </form>
@@ -61,7 +63,10 @@ export default function InsertLesson() {
 
 function BlockForm({ blocks, setBlocks }) {
   const handleAddBlock = () => {
-    setBlocks([...blocks, { type: "", data: "" }]);
+    setBlocks([
+      ...blocks,
+      { type: "text", data: "Some text or video embed ID..." },
+    ]);
   };
 
   const handleRemoveBlock = (index) => {
@@ -79,42 +84,55 @@ function BlockForm({ blocks, setBlocks }) {
   return (
     <form>
       {blocks.map((block, index) => (
-        <div key={index}>
-          <label htmlFor={`type-${index}`}>Type:</label>
-          <select
-            id={`type-${index}`}
-            value={block.type}
-            onChange={(event) =>
-              handleBlockChange(index, "type", event.target.value)
-            }
+        <div key={index} className={styles.block}>
+          {/* Block type */}
+          <div>
+            <label htmlFor={`block-type-${index}`}>Type:</label>
+            <select
+              id={`block-type-${index}`}
+              value={block.type}
+              onChange={(event) =>
+                handleBlockChange(index, "type", event.target.value)
+              }
+            >
+              <option value="">Select a type</option>
+              <option value="text">Text</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+
+          {/* Block data */}
+          <div>
+            <label htmlFor={`block-data-${index}`}>Data:</label>
+            <input
+              type="text"
+              id={`block-data-${index}`}
+              value={block.data}
+              onChange={(event) =>
+                handleBlockChange(index, "data", event.target.value)
+              }
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => handleRemoveBlock(index)}
+            className={styles.remove}
           >
-            <option value="">Select a type</option>
-            <option value="type1">Type 1</option>
-            <option value="type2">Type 2</option>
-            <option value="type3">Type 3</option>
-          </select>
-
-          <label htmlFor={`data-${index}`}>Data:</label>
-          <input
-            type="text"
-            id={`data-${index}`}
-            value={block.data}
-            onChange={(event) =>
-              handleBlockChange(index, "data", event.target.value)
-            }
-          />
-
-          <button type="button" onClick={() => handleRemoveBlock(index)}>
-            Remove Block
+            🗑️ Remove
           </button>
         </div>
       ))}
 
-      <button type="button" onClick={handleAddBlock}>
-        Add Block
-      </button>
-
-      <button type="submit">Submit</button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          type="button"
+          onClick={handleAddBlock}
+          className={styles["add-block"]}
+        >
+          ➕ Add Block
+        </button>
+      </div>
     </form>
   );
 }
