@@ -5,9 +5,8 @@ import styles from "./Admin.module.css";
 export default function InsertLesson() {
   const [collapsed, setCollapsed] = useState(true);
   const [contentId, setContentId] = useState("");
-  const [blockType, setBlockType] = useState("text");
-  const [blockData, setBlockData] = useState("");
-  const [blockIndex, setBlockIndex] = useState(0);
+  const [lessonIndex, setLessonIndex] = useState(0);
+  const [blocks, setBlocks] = useState([{ type: "", data: "" }]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,7 +14,7 @@ export default function InsertLesson() {
     // TODO: handle form submission
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Chèn nội dung`;
+  const label = `${collapsed ? "👉" : "👇"} Chèn nội dung Lesson`;
 
   return (
     <div>
@@ -39,31 +38,15 @@ export default function InsertLesson() {
             onChange={(event) => setContentId(event.target.value)}
           />
 
-          <label htmlFor="blockType">Loại:</label>
-          <select
-            id="blockType"
-            value={blockType}
-            onChange={(event) => setBlockType(event.target.value)}
-          >
-            <option value="text">Text</option>
-            <option value="video">Video</option>
-          </select>
-
-          <label htmlFor="blockData">Nội dung:</label>
-          <input
-            type="text"
-            id="blockData"
-            value={blockData}
-            onChange={(event) => setBlockData(event.target.value)}
-          />
-
-          <label htmlFor="blockIndex">Thứ tự:</label>
+          <label htmlFor="lessonIndex">Thứ tự của Lesson:</label>
           <input
             type="number"
-            id="blockIndex"
-            value={blockIndex}
-            onChange={(event) => setBlockIndex(event.target.value)}
+            id="lessonIndex"
+            value={lessonIndex}
+            onChange={(event) => setLessonIndex(event.target.value)}
           />
+
+          <BlockForm blocks={blocks} setBlocks={setBlocks} />
 
           <div>
             <button type="submit" className="btn">
@@ -73,5 +56,65 @@ export default function InsertLesson() {
         </form>
       )}
     </div>
+  );
+}
+
+function BlockForm({ blocks, setBlocks }) {
+  const handleAddBlock = () => {
+    setBlocks([...blocks, { type: "", data: "" }]);
+  };
+
+  const handleRemoveBlock = (index) => {
+    const newBlocks = [...blocks];
+    newBlocks.splice(index, 1);
+    setBlocks(newBlocks);
+  };
+
+  const handleBlockChange = (index, field, value) => {
+    const newBlocks = [...blocks];
+    newBlocks[index][field] = value;
+    setBlocks(newBlocks);
+  };
+
+  return (
+    <form>
+      {blocks.map((block, index) => (
+        <div key={index}>
+          <label htmlFor={`type-${index}`}>Type:</label>
+          <select
+            id={`type-${index}`}
+            value={block.type}
+            onChange={(event) =>
+              handleBlockChange(index, "type", event.target.value)
+            }
+          >
+            <option value="">Select a type</option>
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <option value="type3">Type 3</option>
+          </select>
+
+          <label htmlFor={`data-${index}`}>Data:</label>
+          <input
+            type="text"
+            id={`data-${index}`}
+            value={block.data}
+            onChange={(event) =>
+              handleBlockChange(index, "data", event.target.value)
+            }
+          />
+
+          <button type="button" onClick={() => handleRemoveBlock(index)}>
+            Remove Block
+          </button>
+        </div>
+      ))}
+
+      <button type="button" onClick={handleAddBlock}>
+        Add Block
+      </button>
+
+      <button type="submit">Submit</button>
+    </form>
   );
 }
