@@ -6,8 +6,13 @@ export default function InsertLesson() {
   const [collapsed, setCollapsed] = useState(true);
   const [contentId, setContentId] = useState("");
   const [lessonId, setLessonId] = useState("");
+  const [lessonName, setLessonName] = useState("");
   const [lessonIndex, setLessonIndex] = useState(0);
   const [blocks, setBlocks] = useState([{ type: "text", data: "" }]);
+
+  const sanitizeInput = (input) => {
+    return input.replace(/[^a-zA-Z0-9_-]/g, "");
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,7 +47,9 @@ export default function InsertLesson() {
             type="text"
             id="contentId"
             value={contentId}
-            onChange={(event) => setContentId(event.target.value)}
+            onChange={(event) =>
+              setContentId(sanitizeInput(event.target.value))
+            }
           />
 
           <label htmlFor="lessonId">Lesson ID:</label>
@@ -50,7 +57,15 @@ export default function InsertLesson() {
             type="text"
             id="lessonId"
             value={lessonId}
-            onChange={(event) => setLessonId(event.target.value)}
+            onChange={(event) => setLessonId(sanitizeInput(event.target.value))}
+          />
+
+          <label htmlFor="lessonName">Lesson Name:</label>
+          <input
+            type="text"
+            id="lessonName"
+            value={lessonName}
+            onChange={(event) => setLessonName(event.target.value)}
           />
 
           <label htmlFor="lessonIndex">Thứ tự của Lesson:</label>
