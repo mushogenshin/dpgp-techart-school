@@ -29,6 +29,7 @@
   }
 
 .admin label {
+    font-size: 0.8em;
     font-weight: bold;
     display: block;
     margin: 10px auto 0 auto;
@@ -42,7 +43,7 @@
 .admin span, small {
     display: block;
     margin-bottom: 6px;
-    font-size: 0.7em;
+    font-size: 0.55em;
 }
 
 .admin input, textarea, select {

@@ -20,13 +20,18 @@ export const useQueryEnrolledStudents = () => {
     const unsubscribe = onSnapshot(
       usersRef,
       (snapshot) => {
-        const enrolled = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setStudents(enrolled);
-        setError(null);
-        setIsPending(false);
+        if (snapshot.empty) {
+          setError(`😶‍🌫️ Không có học viên nào ghi danh module "${moduleId}"`);
+          setIsPending(false);
+        } else {
+          const enrolled = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setStudents(enrolled);
+          setError(null);
+          setIsPending(false);
+        }
       },
       (error) => {
         setError(error.message);
