@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import styles from "./Admin.module.css";
 
-export default function InsertContentBlock() {
+export default function InsertLesson() {
   const [collapsed, setCollapsed] = useState(true);
   const [contentId, setContentId] = useState("");
   const [blockType, setBlockType] = useState("text");

@@ -20,13 +20,10 @@
     font-size: .6em;
 }
 
-.navbar button, .navbar a {
-    margin-left: 15px;
-}
-
 .navbar a {
-    color: rgb(50, 238, 109);
+    margin-left: 15px;
     text-decoration: none;
+    color: rgb(50, 238, 109);
     font-size: 1.4em;
     font-weight: bolder;
 }

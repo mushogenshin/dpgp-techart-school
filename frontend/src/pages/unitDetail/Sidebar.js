@@ -40,6 +40,34 @@ function Outline({ content, activeLessonId, setActiveLessonId }) {
             </li>
           );
         })}
+        {/* <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li>
+        <li>A</li> */}
       </ul>
     </div>
   );
