@@ -34,24 +34,26 @@ export default function QueryEnrollment() {
       </button>
 
       {!collapsed && (
-        <form className={collapsed ? "" : styles.section}>
-          <label htmlFor="moduleId">Theo module:</label>
-          <input
-            type="text"
-            id="moduleId"
-            name="moduleId"
-            value={moduleId}
-            onChange={handleModuleIdInput}
-          />
+        <div className={collapsed ? "" : styles.section}>
+          <form>
+            <label htmlFor="moduleId">Theo module:</label>
+            <input
+              type="text"
+              id="moduleId"
+              name="moduleId"
+              value={moduleId}
+              onChange={handleModuleIdInput}
+            />
 
-          <button
-            type="submit"
-            className="btn"
-            onClick={handleSubmit}
-            disabled={isPending}
-          >
-            {isPending ? "Querying..." : "Tra"}
-          </button>
+            <button
+              type="submit"
+              className="btn"
+              onClick={handleSubmit}
+              disabled={isPending}
+            >
+              {isPending ? "Querying..." : "Tra"}
+            </button>
+          </form>
 
           {error && <div className={styles.error}>{error}</div>}
 
@@ -66,7 +68,7 @@ export default function QueryEnrollment() {
               </ul>
             </div>
           )}
-        </form>
+        </div>
       )}
     </div>
   );

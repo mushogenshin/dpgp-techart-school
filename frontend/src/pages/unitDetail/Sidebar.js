@@ -27,19 +27,20 @@ export default function Sidebar({ contents }) {
 function Outline({ content, activeLessonId, setActiveLessonId }) {
   return (
     <div>
-      <h3>{content.name}</h3>
+      <h3>{content.name || "Section"}</h3>
       <ul>
-        {content.lessons.map((lesson, index) => {
-          return (
-            <li
-              key={index}
-              onClick={() => setActiveLessonId(lesson.id)}
-              className={activeLessonId === lesson.id ? styles.active : {}}
-            >
-              {lesson.id}
-            </li>
-          );
-        })}
+        {content.lessons &&
+          content.lessons.map((lesson, index) => {
+            return (
+              <li
+                key={index}
+                onClick={() => setActiveLessonId(lesson.id)}
+                className={activeLessonId === lesson.id ? styles.active : {}}
+              >
+                {lesson.name || "Untitled"}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

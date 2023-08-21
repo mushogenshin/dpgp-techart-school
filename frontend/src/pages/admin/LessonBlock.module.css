@@ -1,0 +1,36 @@
+.block {
+    border: 1px solid rgb(128, 126, 121);
+    margin: 20px 70px 0 70px;
+    padding: 3px 30px;
+    border-radius: 20px;
+    text-align: right;
+}
+
+.block label {
+    color: rgb(130, 234, 201);
+    font-size: 0.6em;
+    display: inline-block;
+    margin: 0 20px;
+    padding: 0;
+}
+
+.block .remove {
+    color: white;
+    background: rgb(217, 67, 67);
+    padding: 3px 10px;
+    margin-bottom: 5px;
+    box-shadow: none;
+    border-radius: 5px;
+    border: none;
+
+}
+
+.add-block {
+    margin: 10px 100px;
+    padding: 5px 10px;
+    color: white;
+    background: rgb(59, 65, 155);
+    box-shadow: none;
+    border-radius: 5px;
+    border: none;
+}
