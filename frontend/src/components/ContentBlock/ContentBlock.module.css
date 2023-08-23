@@ -1,0 +1,13 @@
+.download {
+    padding: 10px 0;
+}
+
+.download a {
+    color: rgb(41, 222, 107);
+    text-decoration: none;
+    /* text-decoration-style: dotted; */
+}
+
+.download a:visited {
+    color: rgb(30, 153, 92);
+}

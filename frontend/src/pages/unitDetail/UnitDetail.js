@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useFetchContents } from "../../hooks/useFetchContents";
 import Sidebar from "./Sidebar";
 import Lesson from "../lesson/Lesson";
-import Block from "../../components/Block";
+import ContentBlock from "../../components/ContentBlock/ContentBlock";
 
 import styles from "./Unit.module.css";
 
@@ -38,7 +38,7 @@ function Pin({ blocks }) {
   return (
     <div className={styles.pin}>
       {blocks.map((block, index) => (
-        <Block key={index} block={block} />
+        <ContentBlock key={index} block={block} />
       ))}
     </div>
   );

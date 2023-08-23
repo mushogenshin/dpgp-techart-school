@@ -19,7 +19,7 @@ export default function Dashboard() {
       <MigrateStatus history={history} conformed={conformed} />
       <History history={history} />
 
-      <div className={styles.block}>
+      <div className={styles["metadata-section"]}>
         Cảm ơn đã tham gia cùng Dẫu Phải Giải Phẫu 🚀
       </div>
     </div>
@@ -30,7 +30,7 @@ function LoginStatus({ user }) {
   const { logout, isPending: isLogoutPending } = useLogout();
 
   return (
-    <div className={styles.block}>
+    <div className={styles["metadata-section"]}>
       <h2>🙌 Đã đang đăng nhập</h2>
       <p>Account Email: {user.email}</p>
       <button onClick={logout} className="btn" disabled={isLogoutPending}>
@@ -43,7 +43,7 @@ function LoginStatus({ user }) {
 function MigrateStatus({ history, conformed }) {
   const { migrate, isPending: isMigratePending } = useMigrate();
   return (
-    <div className={styles.block}>
+    <div className={styles["metadata-section"]}>
       {history ? (
         <div>
           {/* Cựu Học viên */}
@@ -102,7 +102,7 @@ function History({ history }) {
   const historyCourses = useMapModulesToCourses(historyEnrollments);
 
   return (
-    <div className={styles.block}>
+    <div className={styles["metadata-section"]}>
       <h2>🥅 Các khoá học cũ đã ghi danh:</h2>
       <p>(trước khi DPGP chuyển sang hệ thống mới tháng 8/2023)</p>
 
