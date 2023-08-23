@@ -1,4 +1,8 @@
 .unit-content {
-    padding: 20px;
+    padding: 40px;
     max-width: 1024px;   
+}
+
+.pin {
+    color: rgb(229, 86, 86);
 }

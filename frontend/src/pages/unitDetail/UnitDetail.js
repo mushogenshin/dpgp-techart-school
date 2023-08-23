@@ -3,16 +3,21 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useFetchContents } from "../../hooks/useFetchContents";
 import Sidebar from "./Sidebar";
 import Lesson from "../lesson/Lesson";
+import Block from "../../components/Block";
 
 import styles from "./Unit.module.css";
 
 export default function UnitDetail({ unit, setShowSidebar }) {
   const unlocked = (unit && unit.unlocked) || false;
   const [contentIds, setContentIds] = useState(null);
+  const [preface, setPreface] = useState(null);
+  const [postscript, setPostscript] = useState(null);
 
   useEffect(() => {
     // wait for unit to be fetched before setting contentIds
     setContentIds(unit && unit.contents ? unit.contents : []);
+    setPreface(unit && unit.preface_blocks ? unit.preface_blocks : []);
+    setPostscript(unit && unit.postscript_blocks ? unit.postscript_blocks : []);
 
     // only show sidebar if there are contents and the unit is unlocked
     setShowSidebar(contentIds && unlocked ? true : false);
@@ -20,11 +25,21 @@ export default function UnitDetail({ unit, setShowSidebar }) {
 
   return (
     <div className={styles["unit-content"]}>
-      <p>{unit.preface || ""}</p>
+      {preface && <Pin blocks={preface} />}
       {contentIds && (
         <GuardedUnit contentIds={contentIds} unlocked={unlocked} />
       )}
-      <p>{unit.postscript || ""}</p>
+      {postscript && <Pin blocks={postscript} />}
+    </div>
+  );
+}
+
+function Pin({ blocks }) {
+  return (
+    <div className={styles.pin}>
+      {blocks.map((block, index) => (
+        <Block key={index} block={block} />
+      ))}
     </div>
   );
 }

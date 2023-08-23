@@ -1,5 +1,4 @@
 .sidebar {
-  font-size: 0.7em;
   position: fixed;
   top: 0;
   left: 0;
@@ -7,6 +6,7 @@
   width: var(--sidebar-width);
   padding: var(--navbar-height-offset) 0 0 10px;
   color: rgb(163, 163, 163);
+  font-size: 0.7em;
   font-family: 'Montserrat';
   background: #005485;
   overflow-x: hidden;
@@ -25,6 +25,8 @@
 
 .sidebar ul {
   list-style-type: none;
+  padding: 0 0 ;
+  margin: 0 0;
 }
 
 .sidebar li {
