@@ -1,4 +1,5 @@
 .sidebar {
+  font-size: 0.7em;
   position: fixed;
   top: 0;
   left: 0;
@@ -6,7 +7,7 @@
   width: var(--sidebar-width);
   padding: var(--navbar-height-offset) 0 0 10px;
   color: white;
-  background: #6b435e;
+  background: #290551;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -31,7 +32,7 @@
 }
 
 .sidebar .active {
-  color: yellow;
+  color: rgb(255, 252, 55);
   font-weight: bold;
-  border-left: 5px solid rgb(255, 25, 247);
+  border-left: 7px solid rgb(255, 25, 247);
 }
