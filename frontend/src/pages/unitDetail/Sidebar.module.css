@@ -28,9 +28,9 @@
 
 .sidebar li {
   cursor: pointer;
-  margin: 0;
+  margin: 3px;
   padding: 5px;
-  line-height: 1.8em;
+  line-height: 1.6em;
 }
 
 .sidebar .active {
