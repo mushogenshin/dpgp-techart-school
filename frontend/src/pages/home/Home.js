@@ -1,4 +1,4 @@
-import Vimeo from "../../components/vimeo";
+import Vimeo from "../../components/Vimeo";
 import logo from "../../logo.svg";
 
 import styles from "./Home.module.css";
