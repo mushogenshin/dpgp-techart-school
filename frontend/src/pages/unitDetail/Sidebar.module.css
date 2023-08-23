@@ -20,6 +20,7 @@
   height: 100%;
   width: 10px;
   background-color: #da3f3f;
+  z-index: 2;
 }
 
 .sidebar ul {
@@ -28,13 +29,14 @@
 
 .sidebar li {
   cursor: pointer;
-  margin: 3px;
+  margin: 6px;
   padding: 5px;
-  line-height: 1.6em;
+  line-height: 1.5em;
 }
 
 .sidebar .active {
   color: rgb(96, 244, 123);
+  background:  #023350;
   font-weight: bold;
   border-left: 7px solid rgb(36, 30, 28);
 }

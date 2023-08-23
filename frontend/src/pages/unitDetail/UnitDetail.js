@@ -19,7 +19,13 @@ export default function UnitDetail({ unit, setShowSidebar }) {
   }, [unit, contentIds, unlocked, setShowSidebar]);
 
   return (
-    contentIds && <GuardedUnit contentIds={contentIds} unlocked={unlocked} />
+    <div className={styles["unit-content"]}>
+      <p>{unit.preface || ""}</p>
+      {contentIds && (
+        <GuardedUnit contentIds={contentIds} unlocked={unlocked} />
+      )}
+      <p>{unit.postscript || ""}</p>
+    </div>
   );
 }
 
@@ -47,7 +53,7 @@ function GuardedUnit({ contentIds, unlocked }) {
   }, [contents, lessonParam, navigate]);
 
   return (
-    <div className={styles["unit-content"]}>
+    <div>
       {contentIds.length > 0 ? (
         unlocked ? (
           <div>
