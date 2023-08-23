@@ -5,7 +5,7 @@ export default function About() {
     <div className={styles.about}>
       <h1>phone.nguyen</h1>
       <p>
-        Xin chàoo!!! Mình là Hoàng Nguyên, hiện đang là giảng viên của Dẫu Phải
+        Xin chàoo!!! Mình là Hoàng Nguyên, hiện đang là giảng viên tại Dẫu Phải
         Giải Phẫu.
       </p>
       <p>
