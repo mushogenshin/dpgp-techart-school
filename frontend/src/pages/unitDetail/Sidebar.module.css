@@ -6,8 +6,9 @@
   height: 100%;
   width: var(--sidebar-width);
   padding: var(--navbar-height-offset) 0 0 10px;
-  color: white;
-  background: #290551;
+  color: rgb(163, 163, 163);
+  font-family: 'Montserrat';
+  background: #005485;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -18,7 +19,7 @@
   right: -5px;
   height: 100%;
   width: 10px;
-  background-color: #c23e3e;
+  background-color: #da3f3f;
 }
 
 .sidebar ul {
@@ -29,10 +30,11 @@
   cursor: pointer;
   margin: 0;
   padding: 5px;
+  line-height: 1.8em;
 }
 
 .sidebar .active {
-  color: rgb(255, 252, 55);
+  color: rgb(96, 244, 123);
   font-weight: bold;
-  border-left: 7px solid rgb(255, 25, 247);
+  border-left: 7px solid rgb(36, 30, 28);
 }

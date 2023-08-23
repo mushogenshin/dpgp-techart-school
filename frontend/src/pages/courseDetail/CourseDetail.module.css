@@ -24,7 +24,7 @@
 }
 
 .people h3, .title {
-    color: rgb(177, 158, 225);
+    color: rgb(144, 129, 182);
     font-size: 0.7em;
     font-weight: bolder;
     padding: 3px 0;
@@ -33,7 +33,7 @@
 }
 
 .people li, .person {
-    color: rgb(195, 195, 195);
+    color: rgb(121, 121, 121);
     list-style-type: none;
     font-size: 0.8em;
     padding: 3px 0;
@@ -75,6 +75,7 @@
 .carousel .hint {
     color: rgb(162, 34, 51);
     font-family: 'Lexend';
+    font-size: 2em;
 }
 
 h2 {
