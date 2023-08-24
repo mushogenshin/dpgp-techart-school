@@ -8,6 +8,10 @@ export default function About() {
         Xin chàoo!!! Mình là Hoàng Nguyên, hiện đang là giảng viên tại Dẫu Phải
         Giải Phẫu.
       </p>
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/instructors%2Fphone.nguyen.jpg?alt=media&token=ec006fa9-45ab-4b88-b957-406938e7810a"
+        style={{ borderRadius: "12px" }}
+      />
       <p>
         Mình cũng là một họa sĩ tự do (ở đây là tự do về công việc, công cụ và
         cả ‘công thức’, mình thích tự cam kết hơn là bị ràng buộc^^).
@@ -58,6 +62,10 @@ export default function About() {
 
       <hr></hr>
       <h1>Trọng Hoan</h1>
+      <img
+        style={{ borderRadius: "12px" }}
+        src="https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/instructors%2Fmushogenshin.jpg?alt=media&token=1e6efaab-0ec9-46e9-8aa9-f037918e3ed6"
+      />
       <p>...</p>
 
       <hr></hr>
