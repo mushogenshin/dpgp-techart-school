@@ -2,7 +2,7 @@ export default function Sketchfab({ id }) {
   return (
     <div className="sketchfab-embed-wrapper">
       <iframe
-        // title={``}
+        title="Sketchfab player"
         frameborder="0"
         allowfullscreen
         mozallowfullscreen="true"

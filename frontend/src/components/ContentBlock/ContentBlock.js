@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import Vimeo from "../Vimeo";
+import YouTube from "../YouTube";
 import Sketchfab from "../Sketchfab";
 import styles from "./ContentBlock.module.css";
 
@@ -10,6 +11,8 @@ export default function ContentBlock({ block }) {
         <ReactMarkdown>{block.data}</ReactMarkdown>
       ) : block.type === "vimeo" ? (
         <Vimeo id={block.data} />
+      ) : block.type === "youtube" ? (
+        <YouTube id={block.data} />
       ) : block.type === "file" ? (
         <div className={styles.download}>
           <a

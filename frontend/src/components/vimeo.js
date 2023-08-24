@@ -5,7 +5,7 @@ export default function Vimeo({ id }) {
       style={{ padding: "56.25% 0 0 0", position: "relative" }}
     >
       <iframe
-        // title={``}
+        title="Vimeo video player"
         src={`https://player.vimeo.com/video/${id}?badge=0&amp;autopause=0&amp`}
         width="640"
         height="360"
