@@ -1,13 +1,13 @@
-.download {
-    padding: 10px 0;
-}
-
-.download a {
+.content-block a {
     color: rgb(41, 222, 107);
     text-decoration: none;
     /* text-decoration-style: dotted; */
 }
 
-.download a:visited {
+.content-block a:visited {
     color: rgb(30, 153, 92);
+}
+
+.download {
+    padding: 10px 0;
 }
