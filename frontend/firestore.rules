@@ -1,0 +1,41 @@
+rules_version = '2';
+
+service cloud.firestore {    
+  match /databases/{database}/documents {
+  	function isUserOwned(uid) {
+    	return request.auth.uid == uid;
+  	}
+  
+  	function isAdmin(requestUid) {
+    	let user = get(/databases/$(database)/documents/admins/$(requestUid));
+    	return user.data.role in ['admin'];
+    }
+  
+    match /classes/{classId=**} {
+      allow read;
+    }
+    
+    match /modules/{moduleId=**} {
+    	allow read;
+    }
+    
+    match /enrollments_migration/{uid} {
+    	allow read: if request.auth != null;
+      // allow write: if isAdmin();
+    }
+    
+    match /users/{uid} {
+    	allow read: if request.auth != null;
+      allow write: if isUserOwned(uid) || isAdmin(request.auth.uid);
+    }
+    
+    match /admins/{document} {
+    	allow read: if request.auth != null;
+    }
+    
+    match /contents/{unitId=**} {
+    	allow read: if request.auth != null;
+      allow write: if isAdmin(request.auth.uid);
+    }
+  }
+}
