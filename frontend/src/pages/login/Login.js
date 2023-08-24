@@ -53,12 +53,14 @@ export default function Login() {
       {error && <p>{error}</p>}
 
       {linkSent && (
-        <p className={styles.sent}>
-          Đã gửi Login link!
-          <br />
-          Vui lòng check email và bấm vào link bên trong email vừa nhận được để
-          login
-        </p>
+        <div className={styles.sent}>
+          <p>Đã gửi Login link!</p>
+          <img src="https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2FGmail-threads-collapsed.jpg?alt=media&token=ca91abb2-1326-4d56-a64b-9b69d7342878" />
+          <p>
+            Vui lòng check email và bấm vào link bên trong email vừa nhận được
+            để login
+          </p>
+        </div>
       )}
     </form>
   );

@@ -12,7 +12,11 @@ export default function Navbar() {
         <li className={styles.title}>
           <Link to="/">DPGP TechArt</Link>
         </li>
-        {elevatedRole && <Link to="/admin">Admin</Link>}
+        {elevatedRole && (
+          <Link to="/admin" title="Admin" className={styles.circle}>
+            👽
+          </Link>
+        )}
         <Link to="/about">About</Link>
         <Link to="/courses">Courses</Link>
         {user ? (

@@ -16,7 +16,7 @@
     list-style-type: none;
 }
 
-.title {
+.navbar .title {
     margin-right: auto;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -34,3 +34,13 @@
 .navbar a:hover {
     color:rgb(243, 83, 20);
 }
+
+.navbar .circle {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid rgb(176, 234, 18);
+    text-align: center;
+    line-height: 50px;
+  }
