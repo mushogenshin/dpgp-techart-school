@@ -11,7 +11,11 @@ export default function ContentBlock({ block }) {
         <Vimeo id={block.data} />
       ) : block.type === "file" ? (
         <div className={styles.download}>
-          <a href={block.data} download={block.name || "Resources"}>
+          <a
+            href={block.data}
+            target="_blank"
+            download={block.name || "Resources"}
+          >
             📎 Download {block.name || "Resources"}
           </a>
         </div>
