@@ -7,7 +7,7 @@ export default function ContentBlock({ block }) {
     <div>
       {block.type === "text" ? (
         <ReactMarkdown>{block.data}</ReactMarkdown>
-      ) : block.type === "video" ? (
+      ) : block.type === "vimeo" ? (
         <Vimeo id={block.data} />
       ) : block.type === "file" ? (
         <div className={styles.download}>

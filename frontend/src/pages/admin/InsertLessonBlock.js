@@ -33,7 +33,8 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
             >
               <option value="">Select a type</option>
               <option value="text">Text</option>
-              <option value="video">Video</option>
+              <option value="vimeo">Vimeo</option>
+              <option value="file">File</option>
             </select>
           </div>
 
