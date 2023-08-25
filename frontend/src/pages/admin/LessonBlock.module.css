@@ -1,20 +1,20 @@
-.block {
-    border: 1px solid rgb(128, 126, 121);
-    margin: 20px 70px 0 70px;
+.lesson-block {
+    border: 1px solid rgb(197, 183, 147);
+    margin: 20px 60px 0 60px;
     padding: 3px 30px;
     border-radius: 20px;
     text-align: right;
 }
 
-.block label {
-    color: rgb(130, 234, 201);
+.lesson-block label {
+    color: rgb(130, 234, 186);
     font-size: 0.6em;
     display: inline-block;
     margin: 0 20px;
     padding: 0;
 }
 
-.block .remove {
+.lesson-block .remove {
     color: white;
     background: rgb(217, 67, 67);
     padding: 3px 10px;

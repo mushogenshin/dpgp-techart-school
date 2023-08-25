@@ -47,7 +47,7 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
   return (
     <div>
       {blocks.map((block, index) => (
-        <div key={index} className={styles.block}>
+        <div key={index} className={styles["lesson-block"]}>
           {/* Block type */}
           <div>
             <label htmlFor={`block-type-${index}`}>Block Type:</label>
