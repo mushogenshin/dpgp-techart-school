@@ -15,6 +15,7 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
   const [targetUnit, setTargetUnit] = useState(null);
   const [units, setUnits] = useState(null);
   const { mod, error, isPending } = useFetchModule(moduleId);
+  const [isPurchased, setIsPurchased] = useState(false);
 
   useEffect(() => {
     if (mod && mod.units && unitParam) {
@@ -34,11 +35,12 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
         null
     );
 
+    const isFreebie = (mod && mod.freebie) || false;
+    setIsPurchased(isFreebie || (purchased && purchased.includes(moduleId)));
+
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
   }, [mod, unitParam, navigate, setShowSidebar]);
-
-  const isPurchased = purchased && purchased.includes(moduleId);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
