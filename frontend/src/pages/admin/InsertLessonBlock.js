@@ -1,8 +1,11 @@
+import { useState } from "react";
 import styles from "./LessonBlock.module.css";
 
 export default function InsertLessonBlock({ blocks, setBlocks }) {
+  const [placeholder, setPlaceholder] = useState("");
+
   const handleAddBlock = () => {
-    setBlocks([...blocks, { type: "text", data: "" }]);
+    setBlocks([...blocks, { type: "text", data: "", name: "" }]);
   };
 
   const handleRemoveBlock = (index) => {
@@ -13,7 +16,31 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
 
   const handleBlockChange = (index, field, value) => {
     const newBlocks = [...blocks];
+    // replace the block at the specified index and specified field with the new value
     newBlocks[index][field] = value;
+    // if the block type is not file, remove the name field
+    if (field === "type" && value !== "file") {
+      delete newBlocks[index].name;
+    } else if (field === "type" && value === "file") {
+      newBlocks[index].name = "";
+    }
+    if (field === "type") {
+      setPlaceholder(
+        value === "text"
+          ? "Markdown text..."
+          : value === "image"
+          ? "URL đến tấm hình..."
+          : value === "file"
+          ? "URL đến file..."
+          : value === "vimeo"
+          ? "Vimeo embed ID..."
+          : value === "youtube"
+          ? "YouTube embed ID..."
+          : value === "sketchfab"
+          ? "Sketchfab embed ID..."
+          : ""
+      );
+    }
     setBlocks(newBlocks);
   };
 
@@ -41,6 +68,21 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
             </select>
           </div>
 
+          {/* Block name */}
+          {block.type === "file" && (
+            <div>
+              <label htmlFor={`block-name-${index}`}>Block Name:</label>
+              <input
+                type="text"
+                id={`block-name-${index}`}
+                value={block.name}
+                onChange={(event) =>
+                  handleBlockChange(index, "name", event.target.value)
+                }
+              />
+            </div>
+          )}
+
           {/* Block data */}
           <div>
             <label htmlFor={`block-data-${index}`}>Block Data:</label>
@@ -51,7 +93,7 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
               onChange={(event) =>
                 handleBlockChange(index, "data", event.target.value)
               }
-              placeholder="Markdown text hoặc Vimeo embed ID..."
+              placeholder={placeholder}
             />
           </div>
 
