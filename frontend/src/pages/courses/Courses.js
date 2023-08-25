@@ -55,11 +55,11 @@ function Purchased() {
 }
 
 function All() {
-  const { courses, error } = useContext(CoursesContext);
+  const { courses, coursesError } = useContext(CoursesContext);
   return (
     <div>
       <p>Các khoá đã dạy</p>
-      {error && <h2>{error}</h2>}
+      {coursesError && <h2>{coursesError}</h2>}
       <ul>
         {courses &&
           courses.map((cls) => (
