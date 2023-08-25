@@ -11,7 +11,7 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
     setBlocks(newBlocks);
   };
 
-  const placeholder = (type) => {
+  const getPlaceholder = (type) => {
     switch (type) {
       case "text":
         return "Markdown text...";
@@ -92,7 +92,7 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
               onChange={(event) =>
                 handleBlockChange(index, "data", event.target.value)
               }
-              placeholder={placeholder(block.type)}
+              placeholder={getPlaceholder(block.type)}
             />
           </div>
 

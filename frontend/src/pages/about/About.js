@@ -10,6 +10,7 @@ export default function About() {
       </p>
       <img
         src="https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/instructors%2Fphone.nguyen.jpg?alt=media&token=ec006fa9-45ab-4b88-b957-406938e7810a"
+        alt="phone.nguyen"
         style={{ borderRadius: "12px" }}
       />
       <p>
@@ -64,6 +65,7 @@ export default function About() {
       <h1>Trọng Hoan</h1>
       <img
         style={{ borderRadius: "12px" }}
+        alt="Trọng Hoan"
         src="https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/instructors%2Fmushogenshin.jpg?alt=media&token=1e6efaab-0ec9-46e9-8aa9-f037918e3ed6"
       />
       <p>...</p>

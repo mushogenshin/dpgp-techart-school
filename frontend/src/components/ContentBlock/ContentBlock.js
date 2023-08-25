@@ -21,12 +21,13 @@ export default function ContentBlock({ block }) {
           <a
             href={block.data}
             target="_blank"
+            rel="noreferrer"
             download={block.name || "Resources"}
           >
             📎 Download {block.name || "Resources"}
           </a>
         </div>
-      ) : block.type == "sketchfab" ? (
+      ) : block.type === "sketchfab" ? (
         <Sketchfab id={block.data} />
       ) : // TODO: add support for other block types, e.g. image, audio, etc.
       null}
