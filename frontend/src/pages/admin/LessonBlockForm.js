@@ -1,9 +1,11 @@
-import { useState } from "react";
 import styles from "./LessonBlock.module.css";
 
-export default function InsertLessonBlock({ blocks, setBlocks }) {
-  const [placeholder, setPlaceholder] = useState("");
-
+export default function LessonBlockForm({
+  blocks,
+  setBlocks,
+  placeholders,
+  setPlaceholders,
+}) {
   const handleAddBlock = () => {
     setBlocks([...blocks, { type: "text", data: "", name: "" }]);
   };
@@ -24,8 +26,10 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
     } else if (field === "type" && value === "file") {
       newBlocks[index].name = "";
     }
+    // placeholder
+    const newPlaceholders = [...placeholders];
     if (field === "type") {
-      setPlaceholder(
+      newPlaceholders[index] =
         value === "text"
           ? "Markdown text..."
           : value === "image"
@@ -38,10 +42,10 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
           ? "YouTube embed ID..."
           : value === "sketchfab"
           ? "Sketchfab embed ID..."
-          : ""
-      );
+          : "";
     }
     setBlocks(newBlocks);
+    setPlaceholders(newPlaceholders);
   };
 
   return (
@@ -93,7 +97,7 @@ export default function InsertLessonBlock({ blocks, setBlocks }) {
               onChange={(event) =>
                 handleBlockChange(index, "data", event.target.value)
               }
-              placeholder={placeholder}
+              placeholder={placeholders[index]}
             />
           </div>
 

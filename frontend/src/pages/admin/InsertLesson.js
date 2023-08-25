@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import InsertLessonBlock from "./InsertLessonBlock";
+import LessonBlockForm from "./LessonBlockForm";
 
 import styles from "./Admin.module.css";
 
@@ -16,6 +16,7 @@ export default function InsertLesson() {
   const [insertAtEnd, setInsertAtEnd] = useState(true);
   const [lessonIndex, setLessonIndex] = useState(0);
   const [blocks, setBlocks] = useState([{ type: "text", data: "" }]);
+  const [placeholders, setPlaceholders] = useState(["Markdown text..."]);
 
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
@@ -136,7 +137,12 @@ export default function InsertLesson() {
               onChange={(event) => setLessonIndex(event.target.value)}
             />
 
-            <InsertLessonBlock blocks={blocks} setBlocks={setBlocks} />
+            <LessonBlockForm
+              blocks={blocks}
+              setBlocks={setBlocks}
+              placeholders={placeholders}
+              setPlaceholders={setPlaceholders}
+            />
 
             <div>
               <button type="submit" className="btn">
