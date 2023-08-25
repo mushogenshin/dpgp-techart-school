@@ -21,7 +21,7 @@ export default function ContentBlock({ block }) {
           <a
             href={block.data}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             download={block.name || "Resources"}
           >
             📎 Download {block.name || "Resources"}
