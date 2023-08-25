@@ -1,11 +1,6 @@
 import styles from "./LessonBlock.module.css";
 
-export default function LessonBlockForm({
-  blocks,
-  setBlocks,
-  placeholders,
-  setPlaceholders,
-}) {
+export default function LessonBlockForm({ blocks, setBlocks }) {
   const handleAddBlock = () => {
     setBlocks([...blocks, { type: "text", data: "", name: "" }]);
   };
@@ -14,6 +9,25 @@ export default function LessonBlockForm({
     const newBlocks = [...blocks];
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
+  };
+
+  const placeholder = (type) => {
+    switch (type) {
+      case "text":
+        return "Markdown text...";
+      case "image":
+        return "URL đến tấm hình...";
+      case "file":
+        return "URL đến file...";
+      case "vimeo":
+        return "Vimeo embed ID...";
+      case "youtube":
+        return "YouTube embed ID...";
+      case "sketchfab":
+        return "Sketchfab embed ID...";
+      default:
+        return "";
+    }
   };
 
   const handleBlockChange = (index, field, value) => {
@@ -26,26 +40,7 @@ export default function LessonBlockForm({
     } else if (field === "type" && value === "file") {
       newBlocks[index].name = "";
     }
-    // placeholder
-    const newPlaceholders = [...placeholders];
-    if (field === "type") {
-      newPlaceholders[index] =
-        value === "text"
-          ? "Markdown text..."
-          : value === "image"
-          ? "URL đến tấm hình..."
-          : value === "file"
-          ? "URL đến file..."
-          : value === "vimeo"
-          ? "Vimeo embed ID..."
-          : value === "youtube"
-          ? "YouTube embed ID..."
-          : value === "sketchfab"
-          ? "Sketchfab embed ID..."
-          : "";
-    }
     setBlocks(newBlocks);
-    setPlaceholders(newPlaceholders);
   };
 
   return (
@@ -97,7 +92,7 @@ export default function LessonBlockForm({
               onChange={(event) =>
                 handleBlockChange(index, "data", event.target.value)
               }
-              placeholder={placeholders[index]}
+              placeholder={placeholder(block.type)}
             />
           </div>
 
