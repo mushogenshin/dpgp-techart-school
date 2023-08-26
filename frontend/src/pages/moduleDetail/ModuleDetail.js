@@ -7,21 +7,24 @@ import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
-export default function ModuleDetail({ moduleId, setShowSidebar }) {
+export default function ModuleDetail({ setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
   const { courseId, modId, unitId: unitParam } = useParams();
 
   const [targetUnit, setTargetUnit] = useState(null);
   const [units, setUnits] = useState(null);
-  const { mod, error, isPending } = useFetchModule(moduleId);
-  const [isPurchased, setIsPurchased] = useState(false);
+  const { mod, error, isPending } = useFetchModule(modId);
+  const [isPurchased, setIsPurchased] = useState(null);
 
   useEffect(() => {
     if (mod && mod.units && unitParam) {
       // check if unitParam is valid
       if (!mod.units.find((unit) => unit.id === unitParam)) {
-        navigate("/404");
+        setTargetUnit(null);
+        setIsPurchased(null);
+        // navigate("/404");
+        console.warn("Unit not found:", unitParam);
         return;
       }
     }
@@ -35,19 +38,18 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
         null
     );
 
-    if (!unitParam && mod && mod.units && mod.units.length > 0) {
-      // if no unit param is specified, redirect to the first unit
-      navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`, {
-        replace: true,
-      });
-    }
+    // if (!unitParam && mod && mod.units && mod.units.length > 0) {
+    //   // if no unit param is specified, redirect to the first unit
+    //   console.log("Redirecting to first unit", mod.units[0].id);
+    //   navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`);
+    // }
 
     const isFreebie = (mod && mod.freebie) || false;
-    setIsPurchased(isFreebie || (purchased && purchased.includes(moduleId)));
+    setIsPurchased(isFreebie || (purchased && purchased.includes(modId)));
 
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
-  }, [mod, unitParam, navigate, setShowSidebar]);
+  }, [purchased, courseId, modId, unitParam, mod, navigate, setShowSidebar]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -72,8 +74,8 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
         </div>
       ) : (
         <h3>
-          📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉{" "}
-          {moduleId})
+          📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {modId}
+          )
         </h3>
       )}
     </div>

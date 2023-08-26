@@ -67,13 +67,13 @@ function GuardedUnit({ contentIds, unlocked }) {
       setTargetLesson(null);
     }
 
-    if (!lessonParam && contents && contents.length > 0) {
-      // if no lesson param is specified, redirect to the first lesson
-      navigate(
-        `/course/${courseId}/${modId}/${unitId}/${contents[0].lessons[0].id}`,
-        { replace: true }
-      );
-    }
+    // if (!lessonParam && contents && contents.length > 0) {
+    //   // if no lesson param is specified, redirect to the first lesson
+    //   navigate(
+    //     `/course/${courseId}/${modId}/${unitId}/${contents[0].lessons[0].id}`,
+    //     { replace: true }
+    //   );
+    // }
   }, [contents, lessonParam, navigate]);
 
   return (

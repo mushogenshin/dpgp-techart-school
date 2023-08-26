@@ -23,17 +23,17 @@ export default function CourseDetail() {
       setCurrCourse(courseLookup);
 
       if (!courseLookup) {
+        setCurrCourse(null);
+        setModuleIds(null);
         navigate("/404");
         return;
       } else {
         setModuleIds(courseLookup.modules || []);
+      }
 
-        if (!modParam && courseLookup && courseLookup.modules.length > 0) {
-          // if no module param is specified, redirect to the first module
-          navigate(`/course/${courseId}/${courseLookup.modules[0]}`, {
-            replace: true,
-          });
-        }
+      if (!modParam && courseLookup && courseLookup.modules.length > 0) {
+        // if no module param is specified, redirect to the first module
+        navigate(`/course/${courseId}/${courseLookup.modules[0]}`);
       }
     }
   }, [allCourses, courseId, modParam, navigate]);
@@ -59,13 +59,7 @@ export default function CourseDetail() {
         activeMod={modParam}
       />
 
-      {modParam && (
-        <GuardedModule
-          courseId={courseId}
-          moduleId={modParam}
-          setShowSidebar={setShowSidebar}
-        />
-      )}
+      {modParam && <GuardedModule setShowSidebar={setShowSidebar} />}
     </div>
   );
 }
@@ -103,15 +97,11 @@ function ChooseModule({ courseId, moduleIds, activeMod }) {
   );
 }
 
-function GuardedModule({ courseId, moduleId, setShowSidebar }) {
+function GuardedModule({ setShowSidebar }) {
   const { user } = useAuthContext();
 
   return user ? (
-    <ModuleDetail
-      courseId={courseId}
-      moduleId={moduleId}
-      setShowSidebar={setShowSidebar}
-    />
+    <ModuleDetail setShowSidebar={setShowSidebar} />
   ) : (
     <h3 className={styles.prompt}>
       🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí + toàn
