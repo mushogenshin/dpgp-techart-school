@@ -10,7 +10,7 @@ import styles from "./Module.module.css";
 export default function ModuleDetail({ moduleId, setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
-  const { unitId: unitParam } = useParams();
+  const { courseId, modId, unitId: unitParam } = useParams();
 
   const [targetUnit, setTargetUnit] = useState(null);
   const [units, setUnits] = useState(null);
@@ -35,6 +35,11 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
         null
     );
 
+    if (!unitParam && mod && mod.units && mod.units.length > 0) {
+      // if no unitId is specified, redirect to the first unit
+      navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`);
+    }
+
     const isFreebie = (mod && mod.freebie) || false;
     setIsPurchased(isFreebie || (purchased && purchased.includes(moduleId)));
 
@@ -52,7 +57,12 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit units={units} activeUnit={unitParam} />
+          <ChooseUnit
+            courseId={courseId}
+            modId={modId}
+            units={units}
+            activeUnit={unitParam}
+          />
 
           {unitParam && (
             <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
@@ -68,9 +78,8 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
   );
 }
 
-function ChooseUnit({ units, activeUnit }) {
+function ChooseUnit({ courseId, modId, units, activeUnit }) {
   const navigate = useNavigate();
-  const { courseId, modId } = useParams();
 
   const routeActiveUnit = (target, i) => {
     navigate(`/course/${courseId}/${modId}/${target}`);

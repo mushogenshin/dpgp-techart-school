@@ -13,7 +13,7 @@ export default function CourseDetail() {
 
   const { courses: allCourses } = useCoursesContext();
   const [currCourse, setCurrCourse] = useState(null);
-  const [modules, setModules] = useState(null);
+  const [moduleIds, setModuleIds] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,12 @@ export default function CourseDetail() {
         navigate("/404");
         return;
       } else {
-        setModules(courseLookup.modules || []);
+        setModuleIds(courseLookup.modules || []);
+
+        if (!modParam && courseLookup && courseLookup.modules.length > 0) {
+          // if no modId is specified, redirect to the first module
+          navigate(`/course/${courseId}/${courseLookup.modules[0]}`);
+        }
       }
     }
   }, [allCourses, courseId, modParam, navigate]);
@@ -48,7 +53,7 @@ export default function CourseDetail() {
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule
         courseId={courseId}
-        moduleIds={modules}
+        moduleIds={moduleIds}
         activeMod={modParam}
       />
 
