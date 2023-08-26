@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useCoursesContext } from "../../hooks/useCoursesContext";
 import CourseMetadata from "./CourseMetadata";
 import ModuleDetail from "../moduleDetail/ModuleDetail";
 
@@ -11,7 +11,7 @@ export default function CourseDetail() {
   const navigate = useNavigate();
   const { courseId, modId: modParam } = useParams();
 
-  const { courses: allCourses } = useContext(CoursesContext);
+  const { courses: allCourses } = useCoursesContext();
   const [currCourse, setCurrCourse] = useState(null);
   const [modules, setModules] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);

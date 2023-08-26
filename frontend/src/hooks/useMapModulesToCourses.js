@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { CoursesContext } from "../context/CoursesContext";
+import { useCoursesContext } from "./useCoursesContext";
 
 export const useMapModulesToCourses = (moduleIds) => {
-  const { courses: allCourses } = useContext(CoursesContext);
+  const { courses: allCourses } = useCoursesContext();
 
   const combineCourses = () => {
     const courseIds = new Set();

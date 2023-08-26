@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CoursesContext } from "../../context/CoursesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useCoursesContext } from "../../hooks/useCoursesContext";
 import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
 import styles from "./Courses.module.css";
 
@@ -55,7 +54,7 @@ function Purchased() {
 }
 
 function All() {
-  const { courses, coursesError } = useContext(CoursesContext);
+  const { courses, coursesError } = useCoursesContext();
   return (
     <div>
       <p>Các khoá đã dạy</p>

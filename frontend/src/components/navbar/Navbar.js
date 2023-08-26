@@ -1,13 +1,12 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { CoursesContext } from "../../context/CoursesContext";
+import { useCoursesContext } from "../../hooks/useCoursesContext";
 
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const { user, elevatedRole } = useAuthContext();
-  const { usersCount } = useContext(CoursesContext);
+  const { usersCount } = useCoursesContext();
 
   return (
     <nav className={styles.navbar}>
