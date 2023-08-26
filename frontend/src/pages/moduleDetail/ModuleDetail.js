@@ -21,7 +21,7 @@ export default function ModuleDetail({ setShowSidebar }) {
 
   useEffect(() => {
     // we should wait for moduleData to be fetched before doing any redirection
-    if (moduleData && moduleData.units && unitParam && !unitLookup) {
+    if (!unitLookup && unitParam && moduleData && moduleData.units) {
       navigate("/404");
       return;
     }

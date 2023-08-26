@@ -10,7 +10,6 @@ export const useMigrate = () => {
   const [succeeded, setSucceeded] = useState(false);
 
   const migrate = async () => {
-    // firstly, clear errors for every migration
     setError(null);
     setIsPending(true);
 

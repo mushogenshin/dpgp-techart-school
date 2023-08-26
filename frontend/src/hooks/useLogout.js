@@ -8,7 +8,6 @@ export const useLogout = () => {
   const { dispatch } = useAuthContext();
 
   const logout = async () => {
-    // firstly, clear errors for every logout
     setError(null);
     setIsPending(true);
 

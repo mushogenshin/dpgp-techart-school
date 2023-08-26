@@ -8,7 +8,6 @@ export const useSignup = () => {
   const { dispatch } = useAuthContext();
 
   const signup = async (email, password) => {
-    // firstly, clear errors for every signup
     setError(null);
     setIsPending(true);
 

@@ -14,7 +14,6 @@ export const useGrantAccess = () => {
   const [successList, setSuccessList] = useState([]);
 
   const grantAccess = async (emails, modules, target) => {
-    // firstly, clear errors for every signup
     setSuccessList([]);
     setError(null);
     setIsPending(true);

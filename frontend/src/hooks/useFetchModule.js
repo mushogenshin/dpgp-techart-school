@@ -8,8 +8,6 @@ export const useFetchModule = (moduleId) => {
   const [moduleData, setModuleData] = useState(null);
 
   useEffect(() => {
-    // console.log("Refetching module ...");
-    // firstly, clear errors for every fetch
     setModuleData(null);
     setError(null);
     setIsPending(true);

@@ -30,7 +30,6 @@ export const useEmailLinkLogin = () => {
   const [linkSent, setLinkSent] = useState(false);
 
   const sendSignInLink = async (email) => {
-    // firstly, clear errors for every send attempt
     setError(null);
     setLinkSent(false);
     setIsPending(true);

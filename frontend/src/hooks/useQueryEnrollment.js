@@ -8,7 +8,6 @@ export const useQueryEnrolledStudents = () => {
   const [isPending, setIsPending] = useState(false);
 
   const queryEnrolledUsers = (moduleId) => {
-    // firstly, clear errors for every signup
     setStudents([]);
     setError(null);
     setIsPending(true);

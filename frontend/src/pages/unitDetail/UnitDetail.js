@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFetchContents } from "../../hooks/useFetchContents";
 import Sidebar from "./Sidebar";
@@ -9,16 +9,15 @@ import styles from "./Unit.module.css";
 
 export default function UnitDetail({ unit, setShowSidebar }) {
   const unlocked = (unit && unit.unlocked) || false;
-  const [contentIds, setContentIds] = useState(null);
-
+  const contentIds = useMemo(
+    () => (unit && unit.contents ? unit.contents : []),
+    [unit]
+  );
   const preface = unit && unit.preface_blocks ? unit.preface_blocks : [];
   const postscript =
     unit && unit.postscript_blocks ? unit.postscript_blocks : [];
 
   useEffect(() => {
-    // wait for unit to be fetched before setting contentIds
-    setContentIds(unit && unit.contents ? unit.contents : []);
-
     // only show sidebar if there are contents and the unit is unlocked
     setShowSidebar(contentIds && unlocked ? true : false);
   }, [unit, contentIds, unlocked, setShowSidebar]);
