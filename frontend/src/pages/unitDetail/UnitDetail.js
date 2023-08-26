@@ -34,6 +34,7 @@ export default function UnitDetail({ unit, setShowSidebar }) {
   );
 }
 
+// Blocks that are stayed throughout the unit regardless of active lesson.
 function Pin({ blocks }) {
   return (
     <div className={styles.pin}>
@@ -46,7 +47,7 @@ function Pin({ blocks }) {
 
 function GuardedUnit({ contentIds, unlocked }) {
   const navigate = useNavigate();
-  const { lessonId: lessonParam } = useParams();
+  const { courseId, modId, unitId, lessonId: lessonParam } = useParams();
   const { contents, error, isPending } = useFetchContents(contentIds, unlocked);
   const [targetLesson, setTargetLesson] = useState(null);
 
@@ -64,6 +65,14 @@ function GuardedUnit({ contentIds, unlocked }) {
       }
     } else {
       setTargetLesson(null);
+    }
+
+    if (!lessonParam && contents && contents.length > 0) {
+      // if no lesson param is specified, redirect to the first lesson
+      navigate(
+        `/course/${courseId}/${modId}/${unitId}/${contents[0].lessons[0].id}`,
+        { replace: true }
+      );
     }
   }, [contents, lessonParam, navigate]);
 

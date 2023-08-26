@@ -36,8 +36,10 @@ export default function ModuleDetail({ moduleId, setShowSidebar }) {
     );
 
     if (!unitParam && mod && mod.units && mod.units.length > 0) {
-      // if no unitId is specified, redirect to the first unit
-      navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`);
+      // if no unit param is specified, redirect to the first unit
+      navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`, {
+        replace: true,
+      });
     }
 
     const isFreebie = (mod && mod.freebie) || false;

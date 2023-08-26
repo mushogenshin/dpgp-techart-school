@@ -29,8 +29,10 @@ export default function CourseDetail() {
         setModuleIds(courseLookup.modules || []);
 
         if (!modParam && courseLookup && courseLookup.modules.length > 0) {
-          // if no modId is specified, redirect to the first module
-          navigate(`/course/${courseId}/${courseLookup.modules[0]}`);
+          // if no module param is specified, redirect to the first module
+          navigate(`/course/${courseId}/${courseLookup.modules[0]}`, {
+            replace: true,
+          });
         }
       }
     }
