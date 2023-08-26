@@ -73,8 +73,8 @@ function App() {
             path="course/:courseId/:modId/:unitId/:lessonId"
             element={<CourseDetail />}
           />
-          {/* <Route path="404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" />} /> */}
+          <Route path="404" element={<NotFound />} />
+          {/* <Route path="*" element={<Navigate to="/404" />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

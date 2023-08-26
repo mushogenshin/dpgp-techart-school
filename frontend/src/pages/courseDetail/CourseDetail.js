@@ -12,19 +12,20 @@ export default function CourseDetail() {
   const { courseId, modId: modParam } = useParams();
 
   const { courses: allCourses } = useCoursesContext();
-  const [currCourse, setCurrCourse] = useState(null);
+  const [currCourseData, setCurrCourseData] = useState(null);
   const [moduleIds, setModuleIds] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
+    setCurrCourseData(null);
+    setModuleIds(null);
+
     // we should wait for allCourses to be fetched before checking if courseId is valid
     if (allCourses) {
       const courseLookup = allCourses.find((cls) => cls.id === courseId);
-      setCurrCourse(courseLookup);
+      setCurrCourseData(courseLookup);
 
       if (!courseLookup) {
-        setCurrCourse(null);
-        setModuleIds(null);
         navigate("/404");
         return;
       } else {
@@ -50,7 +51,7 @@ export default function CourseDetail() {
           : {}
       }
     >
-      <CourseMetadata course={currCourse} />
+      <CourseMetadata course={currCourseData} />
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule

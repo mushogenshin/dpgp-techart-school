@@ -58,6 +58,7 @@ function GuardedUnit({ contentIds, unlocked }) {
       const lessonLookup = lessons.find((lesson) => lesson.id === lessonParam);
 
       if (!lessonLookup) {
+        setTargetLesson(null);
         navigate("/404");
         return;
       } else {

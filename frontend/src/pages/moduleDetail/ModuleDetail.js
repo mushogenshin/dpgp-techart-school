@@ -12,51 +12,56 @@ export default function ModuleDetail({ setShowSidebar }) {
   const { purchased } = useAuthContext();
   const { courseId, modId, unitId: unitParam } = useParams();
 
-  const [targetUnit, setTargetUnit] = useState(null);
   const [units, setUnits] = useState(null);
-  const { mod, error, isPending } = useFetchModule(modId);
+  const [targetUnit, setTargetUnit] = useState(null);
+  const { mod: moduleData, error, isPending } = useFetchModule(modId);
   const [isPurchased, setIsPurchased] = useState(null);
 
   useEffect(() => {
-    if (mod && mod.units && unitParam) {
-      // check if unitParam is valid
-      if (!mod.units.find((unit) => unit.id === unitParam)) {
-        setTargetUnit(null);
-        setIsPurchased(null);
-        // navigate("/404");
+    setUnits(null);
+    setTargetUnit(null);
+    setIsPurchased(null);
+
+    if (unitParam && moduleData && moduleData.units) {
+      const unitLookup = moduleData.units.find((unit) => unit.id === unitParam);
+
+      if (!unitLookup) {
         console.warn("Unit not found:", unitParam);
+        navigate("/404");
         return;
+      } else {
+        setUnits(moduleData.units || []);
+        setTargetUnit(unitLookup);
       }
+    } else {
+      setUnits(moduleData && moduleData.units ? moduleData.units : []);
+      setTargetUnit(null);
     }
 
-    // wait for module to be fetched before setting units
-    setUnits(mod && mod.units ? mod.units : []);
-
-    // update the target unit if the unit ID param in the URL changes
-    setTargetUnit(
-      (mod && mod.units && mod.units.find((unit) => unit.id === unitParam)) ||
-        null
-    );
-
-    // if (!unitParam && mod && mod.units && mod.units.length > 0) {
+    // if (
+    //   !unitParam &&
+    //   moduleData &&
+    //   moduleData.units &&
+    //   moduleData.units.length > 0
+    // ) {
     //   // if no unit param is specified, redirect to the first unit
-    //   console.log("Redirecting to first unit", mod.units[0].id);
-    //   navigate(`/course/${courseId}/${modId}/${mod.units[0].id}`);
+    //   console.log("Should redirecting to first unit", moduleData.units[0].id);
+    //   navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
     // }
 
-    const isFreebie = (mod && mod.freebie) || false;
+    const isFreebie = (moduleData && moduleData.freebie) || false;
     setIsPurchased(isFreebie || (purchased && purchased.includes(modId)));
 
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
-  }, [purchased, courseId, modId, unitParam, mod, navigate, setShowSidebar]);
+  }, [purchased, modId, unitParam, moduleData, navigate, setShowSidebar]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
   ) : (
     <div>
       {error && <h2>😳 {error}</h2>}
-      {mod && <ModuleMetadata mod={mod} />}
+      {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
       {isPurchased ? (
         <div>

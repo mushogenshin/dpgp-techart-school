@@ -1,15 +1,15 @@
 import styles from "./Module.module.css";
 
-export default function ModuleMetadata({ mod }) {
+export default function ModuleMetadata({ moduleData }) {
   return (
     <div className={styles.mod}>
-      <h2>{mod.description}</h2>
-      <p className={styles.desc}>Hình thức: {mod.format}</p>
+      <h2>{moduleData.description}</h2>
+      <p className={styles.desc}>Hình thức: {moduleData.format}</p>
       <p className={styles.desc}>
-        Bắt đầu: {mod.starts_at.toLocaleDateString()}
+        Bắt đầu: {moduleData.starts_at.toLocaleDateString()}
       </p>
       <p className={styles.desc}>
-        Kết thúc: {mod.ends_at.toLocaleDateString()}
+        Kết thúc: {moduleData.ends_at.toLocaleDateString()}
       </p>
     </div>
   );
