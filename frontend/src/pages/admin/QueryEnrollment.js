@@ -5,6 +5,7 @@ import styles from "./Admin.module.css";
 
 export default function QueryEnrollment() {
   const [collapsed, setCollapsed] = useState(true);
+  const [censored, setCensored] = useState(true);
   const [moduleId, setModuleId] = useState("");
   const { queryEnrolledUsers, error, isPending, students } =
     useQueryEnrolledStudents();
@@ -19,9 +20,18 @@ export default function QueryEnrollment() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (moduleId === "") {
+      return;
+    }
     queryEnrolledUsers(moduleId);
   };
 
+  const censorEmail = (email) => {
+    const username = email.slice(0, 8);
+    const domain = email.slice(-3);
+    const censoredUsername = username + "**...";
+    return `${censoredUsername}${domain}`;
+  };
   const label = `${collapsed ? "👉" : "👇"} Tra tham dự`;
 
   return (
@@ -45,6 +55,16 @@ export default function QueryEnrollment() {
               onChange={handleModuleIdInput}
             />
 
+            <label>
+              <input
+                type="checkbox"
+                checked={censored}
+                className={styles.checkbox}
+                onChange={() => setCensored(!censored)}
+              />
+              Censor Emails
+            </label>
+
             <button
               type="submit"
               className="btn"
@@ -63,7 +83,9 @@ export default function QueryEnrollment() {
               <h3>{`Danh sách tham dự (tổng cộng ${students.length}):`}</h3>
               <ul>
                 {students.map((student) => (
-                  <li key={student.id}>{student.email}</li>
+                  <li key={student.id}>
+                    {censored ? censorEmail(student.email) : student.email}
+                  </li>
                 ))}
               </ul>
             </div>

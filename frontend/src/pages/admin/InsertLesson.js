@@ -45,6 +45,14 @@ export default function InsertLesson() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // return if any of the required fields are empty
+    if (contentId === "" || lessonId === "" || lessonName === "") {
+      setError("Cần điền đủ thông tin");
+      setSuccess(false);
+      return;
+    }
+
     setError(null);
     setSuccess(false);
 
@@ -115,11 +123,7 @@ export default function InsertLesson() {
                 type="checkbox"
                 id="insertAtEnd"
                 checked={insertAtEnd}
-                style={{
-                  width: "25px",
-                  height: "25px",
-                  margin: "20px 20px",
-                }}
+                className={styles.checkbox}
                 onChange={(event) => setInsertAtEnd(event.target.checked)}
               />
               <label className={styles.checkboxLabel} htmlFor="insertAtEnd">

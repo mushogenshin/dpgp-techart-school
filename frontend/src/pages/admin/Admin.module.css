@@ -18,7 +18,7 @@
     color: white;
     background-color: transparent;
     border-image: linear-gradient(to right, rgb(124, 160, 118) 30%, transparent 70%) 1;
-    padding: 3px 30px;
+    padding: 3px 20px;
     margin: 7px;
     cursor: pointer;
 }
@@ -34,6 +34,12 @@
     display: block;
     margin: 10px auto 0 auto;
     padding: 0;
+}
+
+.admin .checkbox {
+    width: 25px;
+    height: 25px;
+    margin: 20px 20px;
 }
 
 .admin .checkboxLabel {
@@ -55,6 +61,7 @@
 .admin input, textarea, select {
     max-width: 360px;
     padding: 5px;
+    margin: 0 0;
     color: #777;
     width: 100%;
     border-radius: 7px;
