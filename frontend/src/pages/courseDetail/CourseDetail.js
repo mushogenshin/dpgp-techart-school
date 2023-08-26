@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useCoursesContext } from "../../hooks/useCoursesContext";
-// import { useFetchModule } from "../../hooks/useFetchModule";
+import { useNavigateFirstUnit } from "../../hooks/useNavigateFirstUnit";
 import CourseMetadata from "./CourseMetadata";
 import ModuleDetail from "../moduleDetail/ModuleDetail";
 
@@ -11,7 +11,7 @@ import styles from "./CourseDetail.module.css";
 export default function CourseDetail() {
   const navigate = useNavigate();
   const { courses: allCourses } = useCoursesContext();
-  const { courseId, modId: modParam } = useParams();
+  const { courseId, modId: modParam, unitId: unitParam } = useParams();
 
   const [showSidebar, setShowSidebar] = useState(false);
   const courseLookup = allCourses
@@ -21,6 +21,8 @@ export default function CourseDetail() {
     () => (courseLookup ? courseLookup.modules : []),
     [courseLookup]
   );
+
+  useNavigateFirstUnit();
 
   useEffect(() => {
     // we should wait for allCourses to be fetched before doing any redirection
@@ -32,10 +34,18 @@ export default function CourseDetail() {
 
       if (!modParam && moduleIds.length > 0) {
         // if no module ID param is specified, redirect to the first module
-        navigate(`/course/${courseId}/${moduleIds[0]}`);
+        navigate(`/course/${courseId}/${moduleIds[0]}`, { replace: true });
       }
     }
-  }, [allCourses, courseId, courseLookup, moduleIds, modParam, navigate]);
+  }, [
+    allCourses,
+    courseId,
+    courseLookup,
+    moduleIds,
+    modParam,
+    unitParam,
+    navigate,
+  ]);
 
   return (
     <div
