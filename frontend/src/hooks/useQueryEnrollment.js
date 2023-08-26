@@ -9,9 +9,9 @@ export const useQueryEnrolledStudents = () => {
 
   const queryEnrolledUsers = (moduleId) => {
     // firstly, clear errors for every signup
+    setStudents([]);
     setError(null);
     setIsPending(true);
-    setStudents([]);
 
     const usersRef = query(
       collection(db, "users"),

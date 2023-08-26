@@ -8,9 +8,10 @@ export function useFetchContents(contentIds, unlocked) {
   const [contents, setContents] = useState(null);
 
   useEffect(() => {
-    let unsubscribe;
+    setContents(null);
     setError(null);
     setIsPending(true);
+    let unsubscribe;
 
     if (contentIds.length > 0 && unlocked) {
       // fetch contents from content IDs

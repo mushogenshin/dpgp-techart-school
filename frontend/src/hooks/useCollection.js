@@ -7,6 +7,9 @@ export const useCollection = (collectionName, docsLimit) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setDocuments(null);
+    setError(null);
+
     let ref = docsLimit
       ? query(collection(db, collectionName), limit(docsLimit))
       : collection(db, collectionName);

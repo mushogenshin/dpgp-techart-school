@@ -7,6 +7,9 @@ export const useCollectionLength = (collectionName) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLength(null);
+    setError(null);
+
     const ref = collection(db, collectionName);
     const unsub = onSnapshot(
       ref,

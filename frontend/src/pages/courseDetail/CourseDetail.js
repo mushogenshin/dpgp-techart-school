@@ -51,22 +51,19 @@ export default function CourseDetail() {
           : {}
       }
     >
-      <CourseMetadata course={currCourseData} />
+      <CourseMetadata courseData={currCourseData} />
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
-      <ChooseModule
-        courseId={courseId}
-        moduleIds={moduleIds}
-        activeMod={modParam}
-      />
+      <ChooseModule moduleIds={moduleIds} activeMod={modParam} />
 
       {modParam && <GuardedModule setShowSidebar={setShowSidebar} />}
     </div>
   );
 }
 
-function ChooseModule({ courseId, moduleIds, activeMod }) {
+function ChooseModule({ moduleIds, activeMod }) {
   const navigate = useNavigate();
+  const { courseId } = useParams();
   const [index, setIndex] = useState(null);
 
   const routeActiveModule = (target, i) => {

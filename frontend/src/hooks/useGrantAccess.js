@@ -15,9 +15,9 @@ export const useGrantAccess = () => {
 
   const grantAccess = async (emails, modules, target) => {
     // firstly, clear errors for every signup
+    setSuccessList([]);
     setError(null);
     setIsPending(true);
-    setSuccessList([]);
 
     try {
       // get the user documents for each email address

@@ -9,6 +9,7 @@ export const useFetchModule = (moduleId) => {
 
   useEffect(() => {
     // firstly, clear errors for every fetch
+    setMod(null);
     setError(null);
     setIsPending(true);
 

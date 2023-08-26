@@ -1,15 +1,15 @@
 import styles from "./CourseDetail.module.css";
 
-export default function CourseMetadata({ course }) {
+export default function CourseMetadata({ courseData }) {
   return (
-    course && (
+    courseData && (
       <div>
-        {course.location && (
-          <p className={styles.location}>Địa điểm: {course.location}</p>
+        {courseData.location && (
+          <p className={styles.location}>Địa điểm: {courseData.location}</p>
         )}
 
-        <People title="Giảng viên" people={course.instructors} />
-        <People title="Trợ giảng" people={course.assistants} />
+        <People title="Giảng viên" people={courseData.instructors} />
+        <People title="Trợ giảng" people={courseData.assistants} />
       </div>
     )
   );

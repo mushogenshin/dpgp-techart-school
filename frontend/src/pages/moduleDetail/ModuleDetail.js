@@ -10,51 +10,59 @@ import styles from "./Module.module.css";
 export default function ModuleDetail({ setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
-  const { courseId, modId, unitId: unitParam } = useParams();
+  const { modId, unitId: unitParam } = useParams();
 
   const [units, setUnits] = useState(null);
   const [targetUnit, setTargetUnit] = useState(null);
   const { mod: moduleData, error, isPending } = useFetchModule(modId);
-  const [isPurchased, setIsPurchased] = useState(null);
+  const [isPurchased, setIsPurchased] = useState(false);
 
   useEffect(() => {
     setUnits(null);
     setTargetUnit(null);
     setIsPurchased(null);
 
-    if (unitParam && moduleData && moduleData.units) {
-      const unitLookup = moduleData.units.find((unit) => unit.id === unitParam);
+    const getPurchased = () => {
+      const isFreebie = (moduleData && moduleData.freebie) || false;
+      return isFreebie || (purchased && purchased.includes(modId));
+    };
 
-      if (!unitLookup) {
-        console.warn("Unit not found:", unitParam);
-        navigate("/404");
-        return;
-      } else {
-        setUnits(moduleData.units || []);
+    if (moduleData && moduleData.units) {
+      if (unitParam) {
+        const unitLookup = moduleData.units.find(
+          (unit) => unit.id === unitParam
+        );
+        if (!unitLookup) {
+          navigate("/404");
+          return;
+        }
+        setUnits(moduleData.units);
         setTargetUnit(unitLookup);
+        setIsPurchased(getPurchased());
+      } else {
+        setUnits(moduleData && moduleData.units ? moduleData.units : []);
+        setTargetUnit(null);
+        setIsPurchased(getPurchased());
       }
     } else {
-      setUnits(moduleData && moduleData.units ? moduleData.units : []);
+      // DO NOT try to access dynamic data again here
+      setUnits(null);
       setTargetUnit(null);
+      setIsPurchased(null);
     }
-
-    // if (
-    //   !unitParam &&
-    //   moduleData &&
-    //   moduleData.units &&
-    //   moduleData.units.length > 0
-    // ) {
-    //   // if no unit param is specified, redirect to the first unit
-    //   console.log("Should redirecting to first unit", moduleData.units[0].id);
-    //   navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
-    // }
-
-    const isFreebie = (moduleData && moduleData.freebie) || false;
-    setIsPurchased(isFreebie || (purchased && purchased.includes(modId)));
 
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
-  }, [purchased, modId, unitParam, moduleData, navigate, setShowSidebar]);
+  }, [
+    purchased,
+    modId,
+    unitParam,
+    moduleData,
+    units,
+    targetUnit,
+    navigate,
+    setShowSidebar,
+  ]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -66,12 +74,7 @@ export default function ModuleDetail({ setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit
-            courseId={courseId}
-            modId={modId}
-            units={units}
-            activeUnit={unitParam}
-          />
+          <ChooseUnit units={units} activeUnit={unitParam} />
 
           {unitParam && (
             <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
@@ -87,10 +90,24 @@ export default function ModuleDetail({ setShowSidebar }) {
   );
 }
 
-function ChooseUnit({ courseId, modId, units, activeUnit }) {
+function ChooseUnit({ units, activeUnit }) {
   const navigate = useNavigate();
+  const { courseId, modId } = useParams();
 
-  const routeActiveUnit = (target, i) => {
+  // if (
+  //   !unitParam &&
+  //   moduleData &&
+  //   moduleData.units &&
+  //   moduleData.units.length > 0
+  // ) {
+  //   // if no unit param is specified, redirect to the first unit
+  //   const route = `/course/${courseId}/${modId}/${moduleData.units[0].id}`;
+  //   console.log("Should redirecting to first unit", route);
+  //   // console.log("Should redirecting to first unit", moduleData.units[0].id);
+  //   // navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
+  // }
+
+  const routeActiveUnit = (target) => {
     navigate(`/course/${courseId}/${modId}/${target}`);
   };
 
