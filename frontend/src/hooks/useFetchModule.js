@@ -5,11 +5,11 @@ import { doc, onSnapshot } from "firebase/firestore";
 export const useFetchModule = (moduleId) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-  const [mod, setMod] = useState(null);
+  const [moduleData, setModuleData] = useState(null);
 
   useEffect(() => {
     // firstly, clear errors for every fetch
-    setMod(null);
+    setModuleData(null);
     setError(null);
     setIsPending(true);
 
@@ -21,7 +21,7 @@ export const useFetchModule = (moduleId) => {
           const result = { ...doc.data(), id: doc.id };
           result.starts_at = result.starts_at.toDate();
           result.ends_at = result.ends_at.toDate();
-          setMod(result);
+          setModuleData(result);
           setError(null);
           setIsPending(false);
         } else {
@@ -30,7 +30,7 @@ export const useFetchModule = (moduleId) => {
         }
       },
       (error) => {
-        setMod(null);
+        setModuleData(null);
         setError(error.message);
         setIsPending(false);
       }
@@ -38,5 +38,5 @@ export const useFetchModule = (moduleId) => {
     return () => unsub();
   }, [moduleId]);
 
-  return { mod, error, isPending };
+  return { moduleData, error, isPending };
 };

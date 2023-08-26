@@ -33,7 +33,7 @@ export default function CourseDetail() {
       }
 
       if (!modParam && courseLookup && courseLookup.modules.length > 0) {
-        // if no module param is specified, redirect to the first module
+        // if no module ID param is specified, redirect to the first module
         navigate(`/course/${courseId}/${courseLookup.modules[0]}`);
       }
     }
@@ -54,14 +54,14 @@ export default function CourseDetail() {
       <CourseMetadata courseData={currCourseData} />
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
-      <ChooseModule moduleIds={moduleIds} activeMod={modParam} />
+      <ChooseModule moduleIds={moduleIds} activeModId={modParam} />
 
       {modParam && <GuardedModule setShowSidebar={setShowSidebar} />}
     </div>
   );
 }
 
-function ChooseModule({ moduleIds, activeMod }) {
+function ChooseModule({ moduleIds, activeModId }) {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [index, setIndex] = useState(null);
@@ -76,13 +76,13 @@ function ChooseModule({ moduleIds, activeMod }) {
       {moduleIds && (
         <div>
           <ul>
-            {moduleIds.map((mod, index) => (
+            {moduleIds.map((modId, index) => (
               <li
                 key={index}
-                onClick={() => routeActiveModule(mod, index)}
-                className={activeMod === mod ? styles.active : {}}
+                onClick={() => routeActiveModule(modId, index)}
+                className={activeModId === modId ? styles.active : {}}
               >
-                {mod}
+                {modId}
               </li>
             ))}
           </ul>

@@ -12,13 +12,13 @@ export default function ModuleDetail({ setShowSidebar }) {
   const { purchased } = useAuthContext();
   const { modId, unitId: unitParam } = useParams();
 
-  const [units, setUnits] = useState(null);
+  const [unitsData, setUnitsData] = useState(null);
   const [targetUnit, setTargetUnit] = useState(null);
-  const { mod: moduleData, error, isPending } = useFetchModule(modId);
+  const { moduleData, error, isPending } = useFetchModule(modId);
   const [isPurchased, setIsPurchased] = useState(false);
 
   useEffect(() => {
-    setUnits(null);
+    setUnitsData(null);
     setTargetUnit(null);
     setIsPurchased(null);
 
@@ -36,33 +36,24 @@ export default function ModuleDetail({ setShowSidebar }) {
           navigate("/404");
           return;
         }
-        setUnits(moduleData.units);
+        setUnitsData(moduleData.units);
         setTargetUnit(unitLookup);
         setIsPurchased(getPurchased());
       } else {
-        setUnits(moduleData && moduleData.units ? moduleData.units : []);
+        setUnitsData(moduleData && moduleData.units ? moduleData.units : []);
         setTargetUnit(null);
         setIsPurchased(getPurchased());
       }
     } else {
       // DO NOT try to access dynamic data again here
-      setUnits(null);
+      setUnitsData(null);
       setTargetUnit(null);
       setIsPurchased(null);
     }
 
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
-  }, [
-    purchased,
-    modId,
-    unitParam,
-    moduleData,
-    units,
-    targetUnit,
-    navigate,
-    setShowSidebar,
-  ]);
+  }, [purchased, modId, unitParam, moduleData, navigate, setShowSidebar]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -74,7 +65,10 @@ export default function ModuleDetail({ setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit units={units} activeUnit={unitParam} />
+          <ChooseUnit
+            unitsData={unitsData}
+            activeUnitId={targetUnit ? targetUnit.id : null}
+          />
 
           {unitParam && (
             <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
@@ -90,22 +84,22 @@ export default function ModuleDetail({ setShowSidebar }) {
   );
 }
 
-function ChooseUnit({ units, activeUnit }) {
+function ChooseUnit({ unitsData, activeUnitId }) {
   const navigate = useNavigate();
-  const { courseId, modId } = useParams();
+  const { courseId, modId, unitId: unitParam } = useParams();
 
-  // if (
-  //   !unitParam &&
-  //   moduleData &&
-  //   moduleData.units &&
-  //   moduleData.units.length > 0
-  // ) {
-  //   // if no unit param is specified, redirect to the first unit
-  //   const route = `/course/${courseId}/${modId}/${moduleData.units[0].id}`;
-  //   console.log("Should redirecting to first unit", route);
-  //   // console.log("Should redirecting to first unit", moduleData.units[0].id);
-  //   // navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
-  // }
+  useEffect(() => {
+    console.log("Unit ID Param:", unitParam);
+    console.log("Active Unit:", activeUnitId);
+  }, [unitsData, activeUnitId]);
+
+  if (!unitParam) {
+    // if no unit ID param is specified, redirect to the first unit
+    // const route = `/course/${courseId}/${modId}/${unitsData[0].id}`;
+    // console.log("Should redirect to first unit", route);
+    // console.log("Should redirecting to first unit", moduleData.units[0].id);
+    // navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
+  }
 
   const routeActiveUnit = (target) => {
     navigate(`/course/${courseId}/${modId}/${target}`);
@@ -113,15 +107,15 @@ function ChooseUnit({ units, activeUnit }) {
 
   return (
     <div className={styles.carousel}>
-      {units && units.length > 0 ? (
+      {unitsData && unitsData.length > 0 ? (
         <ul>
-          {units.map((unit, index) => (
+          {unitsData.map((unitData, index) => (
             <li
               key={index}
-              onClick={() => routeActiveUnit(unit.id, index)}
-              className={activeUnit === unit.id ? styles.active : {}}
+              onClick={() => routeActiveUnit(unitData.id, index)}
+              className={activeUnitId === unitData.id ? styles.active : {}}
             >
-              {unit.name || `Unit ${index + 1}`}
+              {unitData.name || `Unit ${index + 1}`}
             </li>
           ))}
         </ul>
