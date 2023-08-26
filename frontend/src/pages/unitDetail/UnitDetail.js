@@ -10,14 +10,14 @@ import styles from "./Unit.module.css";
 export default function UnitDetail({ unit, setShowSidebar }) {
   const unlocked = (unit && unit.unlocked) || false;
   const [contentIds, setContentIds] = useState(null);
-  const [preface, setPreface] = useState(null);
-  const [postscript, setPostscript] = useState(null);
+
+  const preface = unit && unit.preface_blocks ? unit.preface_blocks : [];
+  const postscript =
+    unit && unit.postscript_blocks ? unit.postscript_blocks : [];
 
   useEffect(() => {
     // wait for unit to be fetched before setting contentIds
     setContentIds(unit && unit.contents ? unit.contents : []);
-    setPreface(unit && unit.preface_blocks ? unit.preface_blocks : []);
-    setPostscript(unit && unit.postscript_blocks ? unit.postscript_blocks : []);
 
     // only show sidebar if there are contents and the unit is unlocked
     setShowSidebar(contentIds && unlocked ? true : false);

@@ -12,20 +12,25 @@ export default function ModuleDetail({ setShowSidebar }) {
   const { purchased } = useAuthContext();
   const { modId, unitId: unitParam } = useParams();
 
-  const [unitsData, setUnitsData] = useState(null);
-  const [targetUnit, setTargetUnit] = useState(null);
   const { moduleData, error, isPending } = useFetchModule(modId);
   const [isPurchased, setIsPurchased] = useState(false);
+  // const [targetUnit, setTargetUnit] = useState(null);
 
   useEffect(() => {
-    setUnitsData(null);
-    setTargetUnit(null);
+    // setTargetUnit(null);
     setIsPurchased(null);
 
     const getPurchased = () => {
       const isFreebie = (moduleData && moduleData.freebie) || false;
       return isFreebie || (purchased && purchased.includes(modId));
     };
+
+    // const getFirstUnit = () => {
+    //   if (moduleData && moduleData.units && moduleData.units.length > 0) {
+    //     return moduleData.units[0];
+    //   }
+    //   return null;
+    // };
 
     if (moduleData && moduleData.units) {
       if (unitParam) {
@@ -36,24 +41,25 @@ export default function ModuleDetail({ setShowSidebar }) {
           navigate("/404");
           return;
         }
-        setUnitsData(moduleData.units);
-        setTargetUnit(unitLookup);
-        setIsPurchased(getPurchased());
+        setIsPurchased(
+          purchased && purchased.includes(modId) ? true : moduleData.freebie
+        );
       } else {
-        setUnitsData(moduleData && moduleData.units ? moduleData.units : []);
-        setTargetUnit(null);
+        // setTargetUnit(getFirstUnit());
         setIsPurchased(getPurchased());
       }
     } else {
       // DO NOT try to access dynamic data again here
-      setUnitsData(null);
-      setTargetUnit(null);
-      setIsPurchased(null);
+      // setTargetUnit(getFirstUnit());
+      setIsPurchased(getPurchased());
     }
 
     // only show sidebar if there is some unit specified in the URL
     setShowSidebar(unitParam ? true : false);
   }, [purchased, modId, unitParam, moduleData, navigate, setShowSidebar]);
+
+  const unitsData = moduleData && moduleData.units ? moduleData.units : [];
+  const targetUnit = unitsData.find((unit) => unit.id === unitParam);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -65,10 +71,7 @@ export default function ModuleDetail({ setShowSidebar }) {
       {isPurchased ? (
         <div>
           {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit
-            unitsData={unitsData}
-            activeUnitId={targetUnit ? targetUnit.id : null}
-          />
+          <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
           {unitParam && (
             <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
@@ -86,20 +89,7 @@ export default function ModuleDetail({ setShowSidebar }) {
 
 function ChooseUnit({ unitsData, activeUnitId }) {
   const navigate = useNavigate();
-  const { courseId, modId, unitId: unitParam } = useParams();
-
-  useEffect(() => {
-    console.log("Unit ID Param:", unitParam);
-    console.log("Active Unit:", activeUnitId);
-  }, [unitsData, activeUnitId]);
-
-  if (!unitParam) {
-    // if no unit ID param is specified, redirect to the first unit
-    // const route = `/course/${courseId}/${modId}/${unitsData[0].id}`;
-    // console.log("Should redirect to first unit", route);
-    // console.log("Should redirecting to first unit", moduleData.units[0].id);
-    // navigate(`/course/${courseId}/${modId}/${moduleData.units[0].id}`);
-  }
+  const { courseId, modId } = useParams();
 
   const routeActiveUnit = (target) => {
     navigate(`/course/${courseId}/${modId}/${target}`);
