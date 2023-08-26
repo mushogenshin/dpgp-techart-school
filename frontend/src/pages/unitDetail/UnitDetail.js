@@ -47,7 +47,7 @@ function Pin({ blocks }) {
 
 function GuardedUnit({ contentIds, unlocked }) {
   const navigate = useNavigate();
-  const { courseId, modId, unitId, lessonId: lessonParam } = useParams();
+  const { lessonId: lessonParam } = useParams();
   const { contents, error, isPending } = useFetchContents(contentIds, unlocked);
   const [targetLesson, setTargetLesson] = useState(null);
 
@@ -67,14 +67,6 @@ function GuardedUnit({ contentIds, unlocked }) {
     } else {
       setTargetLesson(null);
     }
-
-    // if (!lessonParam && contents && contents.length > 0) {
-    //   // if no lesson param is specified, redirect to the first lesson
-    //   navigate(
-    //     `/course/${courseId}/${modId}/${unitId}/${contents[0].lessons[0].id}`,
-    //     { replace: true }
-    //   );
-    // }
   }, [contents, lessonParam, navigate]);
 
   return (
@@ -100,7 +92,7 @@ function GuardedUnit({ contentIds, unlocked }) {
           </h3>
         )
       ) : (
-        <h3>😳 Module này trống trơn, không tìm thấy nội dung nào.</h3>
+        <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào.</h3>
       )}
     </div>
   );

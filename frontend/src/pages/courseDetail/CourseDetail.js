@@ -9,27 +9,21 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
+  const { courses: allCourses } = useCoursesContext();
   const { courseId, modId: modParam } = useParams();
 
-  const { courses: allCourses } = useCoursesContext();
-  const [currCourseData, setCurrCourseData] = useState(null);
-  const [moduleIds, setModuleIds] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const courseLookup = allCourses
+    ? allCourses.find((cls) => cls.id === courseId)
+    : null;
+  const moduleIds = courseLookup ? courseLookup.modules : [];
 
   useEffect(() => {
-    setCurrCourseData(null);
-    setModuleIds(null);
-
-    // we should wait for allCourses to be fetched before checking if courseId is valid
+    // we should wait for allCourses to be fetched before doing any redirection
     if (allCourses) {
-      const courseLookup = allCourses.find((cls) => cls.id === courseId);
-      setCurrCourseData(courseLookup);
-
       if (!courseLookup) {
         navigate("/404");
         return;
-      } else {
-        setModuleIds(courseLookup.modules || []);
       }
 
       if (!modParam && courseLookup && courseLookup.modules.length > 0) {
@@ -37,7 +31,7 @@ export default function CourseDetail() {
         navigate(`/course/${courseId}/${courseLookup.modules[0]}`);
       }
     }
-  }, [allCourses, courseId, modParam, navigate]);
+  }, [allCourses, courseId, courseLookup, modParam, navigate]);
 
   return (
     <div
@@ -51,7 +45,7 @@ export default function CourseDetail() {
           : {}
       }
     >
-      <CourseMetadata courseData={currCourseData} />
+      <CourseMetadata courseData={courseLookup} />
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule moduleIds={moduleIds} activeModId={modParam} />

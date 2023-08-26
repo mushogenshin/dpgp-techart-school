@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetchModule } from "../../hooks/useFetchModule";
@@ -13,53 +13,22 @@ export default function ModuleDetail({ setShowSidebar }) {
   const { modId, unitId: unitParam } = useParams();
 
   const { moduleData, error, isPending } = useFetchModule(modId);
-  const [isPurchased, setIsPurchased] = useState(false);
-  // const [targetUnit, setTargetUnit] = useState(null);
+
+  const isFreebie = (moduleData && moduleData.freebie) || false;
+  const isPurchased = isFreebie || (purchased && purchased.includes(modId));
+  const unitsData = moduleData && moduleData.units ? moduleData.units : [];
+  const unitLookup = unitsData.find((unit) => unit.id === unitParam);
 
   useEffect(() => {
-    // setTargetUnit(null);
-    setIsPurchased(null);
-
-    const getPurchased = () => {
-      const isFreebie = (moduleData && moduleData.freebie) || false;
-      return isFreebie || (purchased && purchased.includes(modId));
-    };
-
-    // const getFirstUnit = () => {
-    //   if (moduleData && moduleData.units && moduleData.units.length > 0) {
-    //     return moduleData.units[0];
-    //   }
-    //   return null;
-    // };
-
-    if (moduleData && moduleData.units) {
-      if (unitParam) {
-        const unitLookup = moduleData.units.find(
-          (unit) => unit.id === unitParam
-        );
-        if (!unitLookup) {
-          navigate("/404");
-          return;
-        }
-        setIsPurchased(
-          purchased && purchased.includes(modId) ? true : moduleData.freebie
-        );
-      } else {
-        // setTargetUnit(getFirstUnit());
-        setIsPurchased(getPurchased());
-      }
-    } else {
-      // DO NOT try to access dynamic data again here
-      // setTargetUnit(getFirstUnit());
-      setIsPurchased(getPurchased());
+    // we should wait for moduleData to be fetched before doing any redirection
+    if (moduleData && moduleData.units && unitParam && !unitLookup) {
+      navigate("/404");
+      return;
     }
 
-    // only show sidebar if there is some unit specified in the URL
-    setShowSidebar(unitParam ? true : false);
-  }, [purchased, modId, unitParam, moduleData, navigate, setShowSidebar]);
-
-  const unitsData = moduleData && moduleData.units ? moduleData.units : [];
-  const targetUnit = unitsData.find((unit) => unit.id === unitParam);
+    // only show sidebar if there is a valid unit
+    setShowSidebar(unitLookup);
+  }, [moduleData, unitParam, unitLookup, navigate, setShowSidebar]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
@@ -73,8 +42,8 @@ export default function ModuleDetail({ setShowSidebar }) {
           {/* carousel-style clickable elements to select a Unit */}
           <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
-          {unitParam && (
-            <UnitDetail unit={targetUnit} setShowSidebar={setShowSidebar} />
+          {unitLookup && (
+            <UnitDetail unit={unitLookup} setShowSidebar={setShowSidebar} />
           )}
         </div>
       ) : (
