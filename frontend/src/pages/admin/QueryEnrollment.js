@@ -60,7 +60,7 @@ export default function QueryEnrollment() {
           {students.length > 0 && (
             <div className={styles.success}>
               <hr></hr>
-              <h3>Danh sách tham dự:</h3>
+              <h3>{`Danh sách tham dự (tổng cộng ${students.length}):`}</h3>
               <ul>
                 {students.map((student) => (
                   <li key={student.id}>{student.email}</li>

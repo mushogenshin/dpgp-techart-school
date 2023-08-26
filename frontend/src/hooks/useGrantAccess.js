@@ -60,7 +60,9 @@ export const useGrantAccess = () => {
       );
 
       if (failedEmails.length > 0) {
-        const errorMessage = `😶‍🌫️ Những học viên này chưa đăng nhập hoặc chưa migrate: ${failedEmails.join(
+        const errorMessage = `😶‍🌫️ ${
+          failedEmails.length
+        } học viên này chưa đăng nhập hoặc chưa migrate: ${failedEmails.join(
           ", "
         )}`;
         setError(errorMessage);
