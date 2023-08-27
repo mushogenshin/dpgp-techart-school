@@ -60,8 +60,11 @@ function Freebie() {
   const { courses } = useCoursesContext();
   const freebies =
     courses && courses.filter((cls) => cls.maybe_freebie || false);
+
+  if (!freebies || freebies.length === 0) return null;
+
   return (
-    <div>
+    <div className={styles.freebies}>
       <p>Các khoá miễn phí</p>
       {user ? (
         freebies && (

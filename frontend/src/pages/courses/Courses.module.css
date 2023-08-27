@@ -28,6 +28,11 @@
     color: rgb(115, 90, 255);
 }
 
+.courses .freebies li {
+    color: rgb(240, 124, 255);
+    list-style: square;
+}
+
 .courses a {
     text-decoration: none;
     /* color: #9494ae; */
