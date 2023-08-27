@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { useCollectionLength } from "../hooks/useCollectionLength";
+import { useCollectionLength } from "../hooks/firestore/useCollectionLength";
 import { useAuthContext } from "../hooks/auth/useAuthContext";
 
 export const UsersContext = createContext();

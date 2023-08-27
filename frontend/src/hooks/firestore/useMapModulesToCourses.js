@@ -1,4 +1,4 @@
-import { useCoursesContext } from "./useCoursesContext";
+import { useCoursesContext } from "../auth/useCoursesContext";
 
 export const useMapModulesToCourses = (moduleIds) => {
   const { courses: allCourses } = useCoursesContext();

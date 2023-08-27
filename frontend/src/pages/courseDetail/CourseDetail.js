@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import { useCoursesContext } from "../../hooks/useCoursesContext";
-import { useNavigateFirstUnit } from "../../hooks/useNavigateFirstUnit";
+import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
+import { useNavigateFirstUnit } from "../../hooks/firestore/useNavigateFirstUnit";
 import CourseMetadata from "./CourseMetadata";
 import ModuleDetail from "../moduleDetail/ModuleDetail";
 

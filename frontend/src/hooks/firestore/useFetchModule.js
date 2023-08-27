@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../firebase_config";
+import { db } from "../../firebase_config";
 import { doc, onSnapshot } from "firebase/firestore";
 
 export const useFetchModule = (moduleId) => {

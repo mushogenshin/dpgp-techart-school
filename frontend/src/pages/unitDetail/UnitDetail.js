@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useFetchContents } from "../../hooks/useFetchContents";
+import { useFetchContents } from "../../hooks/firestore/useFetchContents";
 import Sidebar from "./Sidebar";
 import Lesson from "../lesson/Lesson";
 import ContentBlock from "../../components/ContentBlock/ContentBlock";

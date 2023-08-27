@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useLogout } from "../../hooks/auth/useLogout";
 import { useMigrate } from "../../hooks/admin/useMigrate";
-import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
+import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 
 import styles from "./Dashboard.module.css";
 

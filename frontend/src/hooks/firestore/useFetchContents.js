@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../firebase_config";
+import { db } from "../../firebase_config";
 import { onSnapshot, query, collection, where } from "firebase/firestore";
 
 export function useFetchContents(contentIds, unlocked) {

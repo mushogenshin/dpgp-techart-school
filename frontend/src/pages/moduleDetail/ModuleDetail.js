@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import { useFetchModule } from "../../hooks/useFetchModule";
+import { useFetchModule } from "../../hooks/firestore/useFetchModule";
 import ModuleMetadata from "./ModuleMetadata";
 import UnitDetail from "../unitDetail/UnitDetail";
 

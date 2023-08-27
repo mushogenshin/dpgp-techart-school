@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import { useUsersContext } from "../../hooks/useUsersContext";
+import { useUsersContext } from "../../hooks/auth/useUsersContext";
 
 import styles from "./Navbar.module.css";
 

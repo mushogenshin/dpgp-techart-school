@@ -1,21 +1,23 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import { useCoursesContext } from "../../hooks/useCoursesContext";
-import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
+import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
+import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 import styles from "./Courses.module.css";
 
 export default function Courses() {
+  const { user } = useAuthContext();
+  const { courses, coursesError } = useCoursesContext();
+
   return (
     <div className={styles.courses}>
-      <Purchased />
-      <Freebie />
-      <All />
+      <Purchased user={user} />
+      <Freebie user={user} courses={courses} />
+      <All courses={courses} coursesError={coursesError} />
     </div>
   );
 }
 
-function Purchased() {
-  const { user } = useAuthContext();
+function Purchased({ user }) {
   const {
     purchased,
     pre_2023_07_history: history,
@@ -55,9 +57,7 @@ function Purchased() {
   );
 }
 
-function Freebie() {
-  const { user } = useAuthContext();
-  const { courses } = useCoursesContext();
+function Freebie({ user, courses }) {
   const freebies =
     courses && courses.filter((cls) => cls.maybe_freebie || false);
 
@@ -87,8 +87,7 @@ function Freebie() {
   );
 }
 
-function All() {
-  const { courses, coursesError } = useCoursesContext();
+function All({ courses, coursesError }) {
   return (
     <div>
       <p>Các khoá đã dạy</p>

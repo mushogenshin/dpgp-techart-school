@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { db } from "../firebase_config";
 import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase_config";
 
 export function useNavigateFirstUnit() {
   const navigate = useNavigate();

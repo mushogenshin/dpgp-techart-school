@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { useCollection } from "../hooks/useCollection";
+import { useCollection } from "../hooks/firestore/useCollection";
 
 export const CoursesContext = createContext();
 
