@@ -10,6 +10,7 @@ import styles from "./CourseDetail.module.css";
 
 export default function CourseDetail() {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const { courses: allCourses } = useCoursesContext();
   const { courseId, modId: modParam } = useParams();
 
@@ -56,7 +57,15 @@ export default function CourseDetail() {
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule moduleIds={moduleIds} activeModId={modParam} />
 
-      {modParam && <GuardedModule setShowSidebar={setShowSidebar} />}
+      {modParam &&
+        (user ? (
+          <ModuleDetail setShowSidebar={setShowSidebar} />
+        ) : (
+          <h3 className={styles.prompt}>
+            🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí
+            + toàn bộ modules đã mua
+          </h3>
+        ))}
     </div>
   );
 }
@@ -92,18 +101,5 @@ function ChooseModule({ moduleIds, activeModId }) {
         </div>
       )}
     </div>
-  );
-}
-
-function GuardedModule({ setShowSidebar }) {
-  const { user } = useAuthContext();
-
-  return user ? (
-    <ModuleDetail setShowSidebar={setShowSidebar} />
-  ) : (
-    <h3 className={styles.prompt}>
-      🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí + toàn
-      bộ modules đã mua
-    </h3>
   );
 }

@@ -12,24 +12,20 @@
     background-color: rgb(221, 68, 7);
 }
 
-
-/* .courses .title {
-    font-size: 1em;
-    margin-bottom: 20px;
-    font-family: 'Montserrat';
-    font-weight: bolder;
-    color:rgb(225, 70, 18);
-} */
-
 .courses .hint {
     color: #ffea8b;
     font-size: .6em;
 }
 
 .courses .hint a {
+    color: rgb(197, 126, 255);
     font-size: 1.05em;
     text-decoration: underline;
     text-decoration-style: dotted;
+}
+
+.courses .hint a:visited {
+    color: rgb(115, 90, 255);
 }
 
 .courses a {

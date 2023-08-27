@@ -58,22 +58,27 @@ function Purchased() {
 function Freebie() {
   const { user } = useAuthContext();
   const { courses } = useCoursesContext();
+  const freebies =
+    courses && courses.filter((cls) => cls.maybe_freebie || false);
   return (
     <div>
       <p>Các khoá miễn phí</p>
       {user ? (
-        <ul>
-          {/* {courses &&
-          courses.map((cls) => (
-            <li key={cls.id}>
-              <Link to={`/course/${cls.id}`}>
-                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
-              </Link>
-            </li>
-          ))} */}
-        </ul>
+        freebies && (
+          <ol>
+            {freebies.map((cls) => (
+              <li key={cls.id}>
+                <Link to={`/course/${cls.id}`}>
+                  {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        )
       ) : (
-        <div>Please sign in to see freebies </div>
+        <p className={styles.hint}>
+          🗝️ <Link to="/login">Đăng nhập để xem các tài liệu miễn phí</Link>
+        </p>
       )}
     </div>
   );
