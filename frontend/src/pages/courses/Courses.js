@@ -32,7 +32,7 @@ function Purchased({ user }) {
       <div>
         <p>Các khoá đã mua</p>
         {courses.length > 0 ? (
-          <ol>
+          <ul>
             {courses.map((cls) => (
               <li key={cls.id}>
                 <Link to={`/course/${cls.id}`}>
@@ -40,7 +40,7 @@ function Purchased({ user }) {
                 </Link>
               </li>
             ))}
-          </ol>
+          </ul>
         ) : (
           <div className={styles.hint}>
             <p>Chưa có khoá nào cả</p>
@@ -65,7 +65,7 @@ function Freebie({ user, courses }) {
 
   return (
     <div className={styles.freebies}>
-      <p>Các khoá miễn phí</p>
+      <p>Miễn phí</p>
       {user ? (
         freebies && (
           <ol>
