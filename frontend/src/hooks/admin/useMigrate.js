@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
-import { db } from "../firebase_config";
 import { doc, runTransaction } from "firebase/firestore";
+import { db } from "../../firebase_config";
+import { useAuthContext } from "../auth/useAuthContext";
 
 export const useMigrate = () => {
   const { user, pre_2023_07_history: history } = useAuthContext();

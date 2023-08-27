@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useCollectionLength } from "../hooks/useCollectionLength";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../hooks/auth/useAuthContext";
 
 export const UsersContext = createContext();
 

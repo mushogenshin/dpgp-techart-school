@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEmailLinkLogin } from "../../hooks/useEmailLinkLogin";
+import { useEmailLinkLogin } from "../../hooks/auth/useEmailLinkLogin";
 
 import styles from "./Login.module.css";
 

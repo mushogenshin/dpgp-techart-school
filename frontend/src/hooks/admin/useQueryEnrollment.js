@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase_config";
+import { db } from "../../firebase_config";
 
 export const useQueryEnrolledStudents = () => {
   const [students, setStudents] = useState([]);

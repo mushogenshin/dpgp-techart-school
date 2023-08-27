@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGrantAccess } from "../../hooks/useGrantAccess";
+import { useGrantAccess } from "../../hooks/admin/useGrantAccess";
 
 import styles from "./Admin.module.css";
 

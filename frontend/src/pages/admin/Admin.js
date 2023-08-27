@@ -1,7 +1,7 @@
 // Desc: Admin panel for managing users, courses, and other resource.
 // NOTE: this is accessible to all elevated roles (admin, collaborator, etc)
 
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import GrantAccess from "./GrantAccess";
 import QueryEnrollment from "./QueryEnrollment";
 import InsertLesson from "./InsertLesson";

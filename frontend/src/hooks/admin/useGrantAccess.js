@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { db } from "../firebase_config";
 import {
   query,
   collection,
@@ -7,6 +6,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { db } from "../../firebase_config";
 
 export const useGrantAccess = () => {
   const [error, setError] = useState(null);

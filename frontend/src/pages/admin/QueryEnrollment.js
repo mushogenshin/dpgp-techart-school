@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQueryEnrolledStudents } from "../../hooks/useQueryEnrollment";
+import { useQueryEnrolledStudents } from "../../hooks/admin/useQueryEnrollment";
 
 import styles from "./Admin.module.css";
 

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useLogout } from "../../hooks/auth/useLogout";
+import { useMigrate } from "../../hooks/admin/useMigrate";
 import { useMapModulesToCourses } from "../../hooks/useMapModulesToCourses";
-import { useMigrate } from "../../hooks/useMigrate";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
 import styles from "./Dashboard.module.css";
 

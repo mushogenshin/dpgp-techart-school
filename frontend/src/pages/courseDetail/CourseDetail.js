@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/useCoursesContext";
 import { useNavigateFirstUnit } from "../../hooks/useNavigateFirstUnit";
 import CourseMetadata from "./CourseMetadata";
