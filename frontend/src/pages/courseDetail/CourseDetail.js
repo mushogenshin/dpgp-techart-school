@@ -11,7 +11,7 @@ import styles from "./CourseDetail.module.css";
 export default function CourseDetail() {
   const navigate = useNavigate();
   const { courses: allCourses } = useCoursesContext();
-  const { courseId, modId: modParam, unitId: unitParam } = useParams();
+  const { courseId, modId: modParam } = useParams();
 
   const [showSidebar, setShowSidebar] = useState(false);
   const courseLookup = allCourses
@@ -37,15 +37,7 @@ export default function CourseDetail() {
         navigate(`/course/${courseId}/${moduleIds[0]}`, { replace: true });
       }
     }
-  }, [
-    allCourses,
-    courseId,
-    courseLookup,
-    moduleIds,
-    modParam,
-    unitParam,
-    navigate,
-  ]);
+  }, [allCourses, courseId, courseLookup, moduleIds, modParam, navigate]);
 
   return (
     <div

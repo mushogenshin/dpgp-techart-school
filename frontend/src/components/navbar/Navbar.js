@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useCoursesContext } from "../../hooks/useCoursesContext";
+import { useUsersContext } from "../../hooks/useUsersContext";
 
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const { user, elevatedRole } = useAuthContext();
-  const { usersCount } = useCoursesContext();
+  const { usersCount } = useUsersContext();
 
   return (
     <nav className={styles.navbar}>
       <ul>
         <li className={styles.title}>
           <Link to="/">DPGP TechArt</Link>{" "}
-          {elevatedRole && (
+          {usersCount && (
             <span className={styles.circle}>
               <span className={styles["users-count"]} title="Users Count">
                 {usersCount}

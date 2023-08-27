@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { AuthContextProvider } from "./context/AuthContext";
 import { CoursesContextProvider } from "./context/CoursesContext";
+import { UsersContextProvider } from "./context/UsersContext";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
@@ -11,7 +12,9 @@ root.render(
   // <React.StrictMode>
   <AuthContextProvider>
     <CoursesContextProvider>
-      <App />
+      <UsersContextProvider>
+        <App />
+      </UsersContextProvider>
     </CoursesContextProvider>
   </AuthContextProvider>
   // </React.StrictMode>
