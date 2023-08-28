@@ -24,7 +24,7 @@ export default function ContentBlock({ block }) {
             rel="noreferrer noopener"
             download={block.name || "Resources"}
           >
-            📎 Download {block.name || "Resources"}
+            📎 {block.name || "Resources"}
           </a>
         </div>
       ) : block.type === "sketchfab" ? (
