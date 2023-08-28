@@ -22,14 +22,15 @@ export default function UnitDetail({ unit, setShowSidebar }) {
     setShowSidebar(contentIds && unlocked ? true : false);
   }, [unit, contentIds, unlocked, setShowSidebar]);
 
-  return (
+  return unlocked ? (
     <div className={styles["unit-content"]}>
       {preface && <Pin blocks={preface} />}
-      {contentIds && (
-        <GuardedUnit contentIds={contentIds} unlocked={unlocked} />
-      )}
+      {/* bypass fetching contents if the unit is locked */}
+      {contentIds && <GuardedUnit contentIds={contentIds} bypass={!unlocked} />}
       {postscript && <Pin blocks={postscript} />}
     </div>
+  ) : (
+    <h3>🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)</h3>
   );
 }
 
@@ -44,10 +45,10 @@ function Pin({ blocks }) {
   );
 }
 
-function GuardedUnit({ contentIds, unlocked }) {
+function GuardedUnit({ contentIds, bypass }) {
   const navigate = useNavigate();
   const { lessonId: lessonParam } = useParams();
-  const { contents, error, isPending } = useFetchContents(contentIds, unlocked);
+  const { contents, error, isPending } = useFetchContents(contentIds, bypass);
   const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
@@ -71,25 +72,19 @@ function GuardedUnit({ contentIds, unlocked }) {
   return (
     <div>
       {contentIds.length > 0 ? (
-        unlocked ? (
-          <div>
-            {error && <h2>😳 {error}</h2>}
-            {isPending ? (
-              <p>Đợi xíu nha 😙...</p>
-            ) : (
-              contents && (
-                <div>
-                  <Sidebar contents={contents} />
-                  {targetLesson && <Lesson lesson={targetLesson} />}
-                </div>
-              )
-            )}
-          </div>
-        ) : (
-          <h3>
-            🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)
-          </h3>
-        )
+        <div>
+          {error && <h2>😳 {error}</h2>}
+          {isPending ? (
+            <p>Đợi xíu nha 😙...</p>
+          ) : (
+            contents && (
+              <div>
+                <Sidebar contents={contents} />
+                {targetLesson && <Lesson lesson={targetLesson} />}
+              </div>
+            )
+          )}
+        </div>
       ) : (
         <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào.</h3>
       )}

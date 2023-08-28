@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { onSnapshot, query, collection, where } from "firebase/firestore";
 
-export function useFetchContents(contentIds, unlocked) {
+export function useFetchContents(contentIds, bypass) {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [contents, setContents] = useState(null);
@@ -13,7 +13,11 @@ export function useFetchContents(contentIds, unlocked) {
     setIsPending(true);
     let unsubscribe;
 
-    if (contentIds.length > 0 && unlocked) {
+    if (bypass) {
+      return;
+    }
+
+    if (contentIds.length > 0) {
       // fetch contents from content IDs
       const contentRef = query(
         collection(db, "contents"),
@@ -48,7 +52,7 @@ export function useFetchContents(contentIds, unlocked) {
     return () => {
       unsubscribe && unsubscribe();
     };
-  }, [contentIds, unlocked]);
+  }, [contentIds, bypass]);
 
   return { contents, error, isPending };
 }
