@@ -39,6 +39,6 @@
 .sidebar .active {
   color: rgb(96, 244, 123);
   background:  #023350;
-  font-weight: bold;
+  /* font-weight: bold; */
   border-left: 7px solid rgb(36, 30, 28);
 }
