@@ -17,10 +17,10 @@ export const useFetchModule = (moduleId) => {
       moduleRef,
       (doc) => {
         if (doc.exists()) {
-          const result = { ...doc.data(), id: doc.id };
-          result.starts_at = result.starts_at.toDate();
-          result.ends_at = result.ends_at.toDate();
-          setModuleData(result);
+          const mod = { ...doc.data(), id: doc.id };
+          mod.starts_at = mod.starts_at && mod.starts_at.toDate();
+          mod.ends_at = mod.ends_at && mod.ends_at.toDate();
+          setModuleData(mod);
           setError(null);
           setIsPending(false);
         } else {
