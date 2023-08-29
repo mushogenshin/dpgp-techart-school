@@ -2,6 +2,12 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useUsersContext } from "../../hooks/auth/useUsersContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSkull,
+  faUnlock,
+  faScrewdriverWrench,
+} from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Navbar.module.css";
 
@@ -29,29 +35,37 @@ export default function Navbar() {
                 checked={ignoreLockedModules}
                 onChange={handleIgnoreLockedModulesChange}
               />
-              Ignore 🔓
+              <FontAwesomeIcon icon={faUnlock} />
             </label>
             {/* Admin panels */}
-            <Link to="/admin" title="Admin" className={styles.circle}>
-              👽
+            <Link to="/admin" title="Admin">
+              <FontAwesomeIcon icon={faScrewdriverWrench} />
             </Link>
+            <span style={{ fontSize: "1.7em" }}>|</span>
           </span>
         )}
-        <Link to="/about">About</Link>
         <Link to="/courses">Courses</Link>
+        <Link to="/long-ap">
+          <span class="material-symbols-outlined">wb_incandescent</span>
+        </Link>
         {user ? (
           <>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard" title="Dashboard">
+                <FontAwesomeIcon icon={faSkull} />
+              </Link>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/login" title="Login">
+                <span class="material-symbols-outlined">skull</span>
+              </Link>
             </li>
           </>
         )}
+        <Link to="/about">About</Link>
       </ul>
     </nav>
   );
