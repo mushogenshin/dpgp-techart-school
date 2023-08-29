@@ -10,6 +10,7 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import Courses from "./pages/courses/Courses";
+import LongAp from "./pages/longAp/LongAp";
 import NotFound from "./pages/404/404";
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
             path="course/:courseId/:modId/:unitId/:lessonId"
             element={<CourseDetail />}
           />
+          <Route path="long-ap" element={<LongAp />} />
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>

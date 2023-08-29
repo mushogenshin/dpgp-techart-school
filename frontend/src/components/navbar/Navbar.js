@@ -46,7 +46,7 @@ export default function Navbar() {
         )}
         <Link to="/courses">Courses</Link>
         <Link to="/long-ap">
-          <span class="material-symbols-outlined">wb_incandescent</span>
+          <span className="material-symbols-outlined">wb_incandescent</span>
         </Link>
         {user ? (
           <>
@@ -60,7 +60,7 @@ export default function Navbar() {
           <>
             <li>
               <Link to="/login" title="Login">
-                <span class="material-symbols-outlined">skull</span>
+                <span className="material-symbols-outlined">skull</span>
               </Link>
             </li>
           </>
