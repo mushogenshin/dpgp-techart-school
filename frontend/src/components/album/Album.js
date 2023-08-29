@@ -31,6 +31,22 @@ export default function Album({ albumName, folderName }) {
     }
   }, [files, activeIndex]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 37) {
+        // Left arrow key
+        setActiveIndex((prevIndex) => prev_item(prevIndex, files.length));
+      } else if (event.keyCode === 39) {
+        // Right arrow key
+        setActiveIndex((prevIndex) => next_item(prevIndex, files.length));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeIndex, files]);
+
   return (
     <div className={styles.album}>
       {error && <div>{error}</div>}
@@ -44,9 +60,8 @@ export default function Album({ albumName, folderName }) {
             setActiveIndex={setActiveIndex}
           />
           {/* <p>{activeDownloadURL}</p> */}
-          {activeDownloadURL && (
-            <img src={activeDownloadURL} alt={files[activeIndex].name} />
-          )}
+          {/* <p>{files[activeIndex].name}</p> */}
+          {activeDownloadURL && <img src={activeDownloadURL} alt="image" />}
         </div>
       )}
     </div>
@@ -55,33 +70,45 @@ export default function Album({ albumName, folderName }) {
 
 // Carousel that allows circular navigation.
 function Carousel({ items, activeIndex, setActiveIndex }) {
-  const handleNext = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === items.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handleBack = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? items.length - 1 : prevIndex - 1
-    );
-  };
-
   return (
     <div>
       {/* Back button */}
-      <button onClick={handleBack}>
+      <button
+        onClick={() => {
+          setActiveIndex((prevIndex) => prev_item(prevIndex, items.length));
+        }}
+      >
         <FontAwesomeIcon icon={faCaretLeft} />
       </button>
 
       <span className={styles.hint}>
-        {activeIndex + 1} / {items.length}
+        {items.length === 0 ? activeIndex : activeIndex + 1} / {items.length}
       </span>
 
       {/* Next button */}
-      <button onClick={handleNext}>
+      <button
+        onClick={() => {
+          setActiveIndex((prevIndex) => next_item(prevIndex, items.length));
+        }}
+      >
         <FontAwesomeIcon icon={faCaretRight} />
       </button>
     </div>
   );
+}
+
+function next_item(prevIndex, length) {
+  return length !== 0
+    ? prevIndex === length - 1
+      ? 0
+      : prevIndex + 1
+    : prevIndex;
+}
+
+function prev_item(prevIndex, length) {
+  return length !== 0
+    ? prevIndex === 0
+      ? length - 1
+      : prevIndex - 1
+    : prevIndex;
 }

@@ -15,8 +15,12 @@ export const useListAll = (folderName) => {
 
     listAll(folderRef)
       .then((listResult) => {
+        // sort the item refs by name
+        const sortedItems = listResult.items.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
         // just return the item refs
-        setFiles(listResult.items);
+        setFiles(sortedItems);
       })
       .catch((error) => {
         setError(error.message);

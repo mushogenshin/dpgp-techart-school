@@ -1,0 +1,9 @@
+.long-ap {
+    text-align: center;
+}
+
+.long-ap .announce {
+    margin: 0 auto 10px auto;
+    font-size: 0.6em;
+    max-width: 720px;
+}
