@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
+import { useNavigateFirstLesson } from "../../hooks/firestore/useNavigateFirstLesson";
 import { useFetchContents } from "../../hooks/firestore/useFetchContents";
 
 import Sidebar from "./Sidebar";
@@ -9,24 +10,28 @@ import ContentBlock from "../../components/ContentBlock/ContentBlock";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({ unit, setShowSidebar }) {
+export default function UnitDetail({ unitData, setShowSidebar }) {
   const { ignoreLockedModules } = useCoursesContext();
-  const unlocked = ignoreLockedModules || (unit && unit.unlocked) || false;
+  const unlocked =
+    ignoreLockedModules || (unitData && unitData.unlocked) || false;
 
   const contentIds = useMemo(
-    () => (unit && unit.contents ? unit.contents : []),
-    [unit]
+    () => (unitData && unitData.contents ? unitData.contents : []),
+    [unitData]
   );
 
-  const preface = unit && unit.preface_blocks ? unit.preface_blocks : [];
+  const preface =
+    unitData && unitData.preface_blocks ? unitData.preface_blocks : [];
   const postscript =
-    unit && unit.postscript_blocks ? unit.postscript_blocks : [];
+    unitData && unitData.postscript_blocks ? unitData.postscript_blocks : [];
+
+  useNavigateFirstLesson(unitData);
 
   useEffect(() => {
     // only show sidebar if there are contents and the unit is unlocked
     const should_open = unlocked && contentIds.length > 0 ? true : false;
     setShowSidebar(should_open);
-  }, [unit, contentIds, unlocked, setShowSidebar]);
+  }, [unitData, contentIds, unlocked, setShowSidebar]);
 
   return unlocked ? (
     <div className={styles["unit-content"]}>

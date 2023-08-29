@@ -9,7 +9,7 @@ export function useNavigateFirstUnit() {
 
   useEffect(() => {
     // only redirect if there is no unit ID param
-    if (modId && !unitParam) {
+    if (!unitParam && modId) {
       const moduleRef = doc(db, "modules", modId);
       getDoc(moduleRef)
         .then((doc) => {
@@ -24,7 +24,6 @@ export function useNavigateFirstUnit() {
                 : null;
 
             if (firstUnit) {
-              console.log("Redirecting to first unit:", firstUnit.id);
               navigate(`/course/${courseId}/${modId}/${firstUnit.id}`, {
                 replace: true,
               });
@@ -32,7 +31,7 @@ export function useNavigateFirstUnit() {
           }
         })
         .catch((error) => {
-          console.warn("Error getting document:", error.message);
+          console.warn("Error getting module:", error.message);
         });
     }
   }, [courseId, modId, unitParam, navigate]);

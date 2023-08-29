@@ -40,7 +40,7 @@ export default function ModuleDetail({ setShowSidebar }) {
           <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
           {unitLookup && (
-            <UnitDetail unit={unitLookup} setShowSidebar={setShowSidebar} />
+            <UnitDetail unitData={unitLookup} setShowSidebar={setShowSidebar} />
           )}
         </div>
       ) : (
