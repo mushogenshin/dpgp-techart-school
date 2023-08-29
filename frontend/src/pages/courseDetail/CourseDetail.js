@@ -35,6 +35,7 @@ export default function CourseDetail() {
 
       if (!modParam && moduleIds.length > 0) {
         // if no module ID param is specified, redirect to the first module
+        console.log("Redirecting to first module:", moduleIds[0]);
         navigate(`/course/${courseId}/${moduleIds[0]}`, { replace: true });
       }
     }

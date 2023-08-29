@@ -24,6 +24,7 @@ export function useNavigateFirstUnit() {
                 : null;
 
             if (firstUnit) {
+              console.log("Redirecting to first unit:", firstUnit.id);
               navigate(`/course/${courseId}/${modId}/${firstUnit.id}`, {
                 replace: true,
               });

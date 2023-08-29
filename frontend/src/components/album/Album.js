@@ -61,7 +61,7 @@ export default function Album({ albumName, folderName }) {
           />
           {/* <p>{activeDownloadURL}</p> */}
           {/* <p>{files[activeIndex].name}</p> */}
-          {activeDownloadURL && <img src={activeDownloadURL} alt="image" />}
+          {activeDownloadURL && <img src={activeDownloadURL} alt="" />}
         </div>
       )}
     </div>

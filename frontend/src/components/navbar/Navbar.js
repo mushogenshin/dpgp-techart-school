@@ -24,6 +24,10 @@ export default function Navbar() {
       <ul>
         <li className={styles.title}>
           <Link to="/">DPGP TechArt</Link> <UserCount />
+          <Link to="/about">About</Link>
+          <Link to="/long-ap">
+            <span className="material-symbols-outlined">wb_incandescent</span>
+          </Link>
         </li>
 
         {elevatedRole && (
@@ -37,17 +41,14 @@ export default function Navbar() {
               />
               <FontAwesomeIcon icon={faUnlock} />
             </label>
+
             {/* Admin panels */}
             <Link to="/admin" title="Admin">
               <FontAwesomeIcon icon={faScrewdriverWrench} />
             </Link>
-            <span style={{ fontSize: "1.7em" }}>|</span>
           </span>
         )}
         <Link to="/courses">Courses</Link>
-        <Link to="/long-ap">
-          <span className="material-symbols-outlined">wb_incandescent</span>
-        </Link>
         {user ? (
           <>
             <li>
@@ -60,12 +61,16 @@ export default function Navbar() {
           <>
             <li>
               <Link to="/login" title="Login">
-                <span className="material-symbols-outlined">skull</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: "1em" }}
+                >
+                  skull
+                </span>
               </Link>
             </li>
           </>
         )}
-        <Link to="/about">About</Link>
       </ul>
     </nav>
   );
@@ -75,12 +80,9 @@ function UserCount() {
   const { usersCount } = useUsersContext();
   return (
     usersCount && (
-      <span>
-        <span style={{ fontSize: "1.7em" }}>| 📈 </span>
-        <span className={styles.circle}>
-          <span className={styles["users-count"]} title="Users Count">
-            {usersCount}
-          </span>
+      <span className={styles.circle}>
+        <span className={styles["users-count"]} title="Users Count">
+          {usersCount}
         </span>
       </span>
     )
