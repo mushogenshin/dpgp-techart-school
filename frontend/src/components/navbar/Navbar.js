@@ -23,7 +23,7 @@ export default function Navbar() {
         {elevatedRole && (
           <span>
             {/* Ignore Locked Modules checkbox */}
-            <label>
+            <label title="Bất chấp các Modules bị khóa">
               <input
                 type="checkbox"
                 checked={ignoreLockedModules}
