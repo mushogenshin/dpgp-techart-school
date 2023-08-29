@@ -45,7 +45,7 @@ export function useFetchContents(contentIds, bypass) {
       );
     } else {
       setError(null);
-      setContents(null);
+      setContents([]);
       setIsPending(false);
     }
 

@@ -28,9 +28,9 @@ function Outline({ content, activeLessonId, setActiveLessonId }) {
   return (
     <div>
       <h3>{content.name || "Section"}</h3>
-      <ul>
-        {content.lessons &&
-          content.lessons.map((lesson, index) => {
+      {content.lessons && content.lessons.length > 0 ? (
+        <ul>
+          {content.lessons.map((lesson, index) => {
             return (
               <li
                 key={index}
@@ -41,7 +41,10 @@ function Outline({ content, activeLessonId, setActiveLessonId }) {
               </li>
             );
           })}
-      </ul>
+        </ul>
+      ) : (
+        <p>{`- { No lessons found } -`}</p>
+      )}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function UnitDetail({ unit, setShowSidebar }) {
     <div className={styles["unit-content"]}>
       {preface && <Pin blocks={preface} />}
       {/* bypass fetching contents if the unit is locked */}
-      {contentIds && <GuardedUnit contentIds={contentIds} bypass={!unlocked} />}
+      {<GuardedUnit contentIds={contentIds} bypass={!unlocked} />}
       {postscript && <Pin blocks={postscript} />}
     </div>
   ) : (
@@ -52,7 +52,7 @@ function GuardedUnit({ contentIds, bypass }) {
   const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
-    if (contents && lessonParam) {
+    if (lessonParam && contents) {
       // find the lesson with the specified lesson ID
       const lessons = contents.flatMap((content) => content.lessons);
       const lessonLookup = lessons.find((lesson) => lesson.id === lessonParam);
