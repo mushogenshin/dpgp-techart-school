@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, listAll } from "firebase/storage";
 import { storage } from "../../firebase_config";
 
 export const useListAll = (folderName) => {
@@ -15,32 +15,14 @@ export const useListAll = (folderName) => {
 
     listAll(folderRef)
       .then((listResult) => {
-        const promises = listResult.items.map((itemRef) =>
-          getDownloadURL(ref(storage, itemRef.fullPath))
-        );
-
-        Promise.all(promises)
-          .then((downloadURLs) => {
-            const filesWithDownloadURLs = listResult.items.map(
-              (itemRef, index) => ({
-                ...itemRef,
-                downloadURL: downloadURLs[index],
-              })
-            );
-            setFiles(filesWithDownloadURLs);
-            setError(null);
-          })
-          .catch((error) => {
-            setError(error.message);
-            setFiles(null);
-          })
-          .finally(() => {
-            setIsPending(false);
-          });
+        // just return the item refs
+        setFiles(listResult.items);
       })
       .catch((error) => {
         setError(error.message);
         setFiles(null);
+      })
+      .finally(() => {
         setIsPending(false);
       });
   }, [folderName]);

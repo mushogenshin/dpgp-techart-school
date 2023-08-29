@@ -5,7 +5,7 @@ export default function LinkedInLogo() {
       viewBox="0 0 24 24"
       data-supported-dps="24x24"
       fill="#0077B5"
-      class="mercado-match flipthis-highlight"
+      className="mercado-match flipthis-highlight"
       width="24"
       height="24"
       focusable="false"
