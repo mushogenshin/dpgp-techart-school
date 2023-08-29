@@ -15,7 +15,7 @@ export default function InsertLesson() {
   const [lessonName, setLessonName] = useState("");
   const [insertAtEnd, setInsertAtEnd] = useState(true);
   const [lessonIndex, setLessonIndex] = useState(0);
-  const [blocks, setBlocks] = useState([{ type: "text", data: "" }]);
+  const [blocks, setBlocks] = useState([{ type: "", data: "" }]);
 
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");

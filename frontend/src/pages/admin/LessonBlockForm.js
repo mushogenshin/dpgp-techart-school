@@ -2,7 +2,13 @@ import styles from "./LessonBlock.module.css";
 
 export default function LessonBlockForm({ blocks, setBlocks }) {
   const handleAddBlock = () => {
-    setBlocks([...blocks, { type: "text", data: "", name: "" }]);
+    const lastBlock = blocks[blocks.length - 1];
+    const newBlock = {
+      type: lastBlock ? lastBlock.type : "vimeo",
+      data: "",
+      name: "",
+    };
+    setBlocks([...blocks, newBlock]);
   };
 
   const handleRemoveBlock = (index) => {
