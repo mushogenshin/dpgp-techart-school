@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useUsersContext } from "../../hooks/auth/useUsersContext";
 
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
+  const { ignoreLockedModules, setIgnoreLockedModules } = useCoursesContext();
   const { user, elevatedRole } = useAuthContext();
+
+  const handleIgnoreLockedModulesChange = (event) => {
+    setIgnoreLockedModules(event.target.checked);
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -13,10 +19,23 @@ export default function Navbar() {
         <li className={styles.title}>
           <Link to="/">DPGP TechArt</Link> <UserCount />
         </li>
+
         {elevatedRole && (
-          <Link to="/admin" title="Admin" className={styles.circle}>
-            👽
-          </Link>
+          <span>
+            {/* Ignore Locked Modules checkbox */}
+            <label>
+              <input
+                type="checkbox"
+                checked={ignoreLockedModules}
+                onChange={handleIgnoreLockedModulesChange}
+              />
+              Ignore 🔓
+            </label>
+            {/* Admin panels */}
+            <Link to="/admin" title="Admin" className={styles.circle}>
+              👽
+            </Link>
+          </span>
         )}
         <Link to="/about">About</Link>
         <Link to="/courses">Courses</Link>
@@ -43,8 +62,7 @@ function UserCount() {
   return (
     usersCount && (
       <span>
-        <span style={{ fontSize: "1.7em" }}>| </span>
-        Users Count:{" "}
+        <span style={{ fontSize: "1.7em" }}>| 📈 </span>
         <span className={styles.circle}>
           <span className={styles["users-count"]} title="Users Count">
             {usersCount}

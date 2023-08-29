@@ -25,10 +25,7 @@ export default function ModuleDetail({ setShowSidebar }) {
       navigate("/404");
       return;
     }
-
-    // only show sidebar if there is a valid unit
-    setShowSidebar(unitLookup);
-  }, [moduleData, unitParam, unitLookup, navigate, setShowSidebar]);
+  }, [moduleData, unitParam, unitLookup, navigate]);
 
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
