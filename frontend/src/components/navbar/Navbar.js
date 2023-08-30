@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSkull,
   faUnlock,
-  faScrewdriverWrench,
+  faUserSecret,
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Navbar.module.css";
@@ -44,7 +44,7 @@ export default function Navbar() {
 
             {/* Admin panels */}
             <Link to="/admin" title="Admin">
-              <FontAwesomeIcon icon={faScrewdriverWrench} />
+              <FontAwesomeIcon icon={faUserSecret} />
             </Link>
           </span>
         )}
