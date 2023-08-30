@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Courses.module.css";
 
 export default function Courses() {
@@ -36,7 +38,8 @@ function Purchased({ user }) {
             {courses.map((cls) => (
               <li key={cls.id}>
                 <Link to={`/course/${cls.id}`}>
-                  {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+                  {cls.name}{" "}
+                  <span className={styles["course-id"]}>{cls.id}</span>
                 </Link>
               </li>
             ))}
@@ -72,7 +75,8 @@ function Freebie({ user, courses }) {
             {freebies.map((cls) => (
               <li key={cls.id}>
                 <Link to={`/course/${cls.id}`}>
-                  {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+                  {cls.name}{" "}
+                  <span className={styles["course-id"]}>{cls.id}</span>
                 </Link>
               </li>
             ))}
@@ -97,7 +101,13 @@ function All({ courses, coursesError }) {
           courses.map((cls) => (
             <li key={cls.id}>
               <Link to={`/course/${cls.id}`}>
-                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+                {cls.name} <span className={styles["course-id"]}>{cls.id}</span>{" "}
+                {cls.show_student_works && (
+                  <FontAwesomeIcon
+                    icon={faImage}
+                    className={styles["student-works"]}
+                  />
+                )}
               </Link>
             </li>
           ))}

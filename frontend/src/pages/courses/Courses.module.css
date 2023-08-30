@@ -33,6 +33,10 @@
     list-style: square;
 }
 
+.courses .student-works {
+    color: #baf043;
+}
+
 .courses a {
     text-decoration: none;
     /* color: #9494ae; */
@@ -42,7 +46,7 @@
     line-height: 1.5;
 }
 
-.courses_id {
+.course-id {
     font-size: 0.6em;
     font-weight: bold;
     padding: 2px 8px;

@@ -111,7 +111,7 @@ function History({ history }) {
           {historyCourses.map((cls) => (
             <li key={cls.id}>
               <Link to={`/courses/${cls.id}`}>
-                {cls.name} <span className={styles.courses_id}>{cls.id}</span>
+                {cls.name} <span className={styles["course-id"]}>{cls.id}</span>
               </Link>
             </li>
           ))}

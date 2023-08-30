@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useNavigateFirstUnit } from "../../hooks/firestore/useNavigateFirstUnit";
 import CourseMetadata from "./CourseMetadata";
+import Album from "../../components/album/Album";
 import ModuleDetail from "../moduleDetail/ModuleDetail";
 
 import styles from "./CourseDetail.module.css";
@@ -13,8 +14,8 @@ export default function CourseDetail() {
   const { user } = useAuthContext();
   const { courses: allCourses } = useCoursesContext();
   const { courseId, modId: modParam } = useParams();
-
   const [showSidebar, setShowSidebar] = useState(false);
+
   const courseLookup = allCourses
     ? allCourses.find((cls) => cls.id === courseId)
     : null;
@@ -22,6 +23,8 @@ export default function CourseDetail() {
     () => (courseLookup ? courseLookup.modules : []),
     [courseLookup]
   );
+  const showStudentWorks =
+    (courseLookup && courseLookup.show_student_works) || false;
 
   useNavigateFirstUnit();
 
@@ -54,10 +57,15 @@ export default function CourseDetail() {
       }
     >
       <CourseMetadata courseData={courseLookup} />
+      {showStudentWorks && (
+        <Album
+          albumName="Bài nộp học viên"
+          folderName={`student-works/${courseId}`}
+        />
+      )}
       <hr></hr>
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule moduleIds={moduleIds} activeModId={modParam} />
-
       {modParam &&
         (user ? (
           <ModuleDetail setShowSidebar={setShowSidebar} />
