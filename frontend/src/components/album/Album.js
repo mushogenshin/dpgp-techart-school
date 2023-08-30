@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Album.module.css";
 
-export default function Album({ albumName, folderName }) {
+export default function Album({ albumName, folderName, imgLabels }) {
   const { files, error, isPending } = useListAll(folderName);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeDownloadURL, setActiveDownloadURL] = useState(null);
@@ -61,6 +61,9 @@ export default function Album({ albumName, folderName }) {
           />
           {/* <p>{activeDownloadURL}</p> */}
           {/* <p>{files[activeIndex].name}</p> */}
+          {imgLabels && (
+            <p className={styles.label}>{imgLabels[activeIndex]}</p>
+          )}
           {activeDownloadURL && <img src={activeDownloadURL} alt="" />}
         </div>
       )}

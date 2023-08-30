@@ -61,6 +61,11 @@ export default function CourseDetail() {
         <Album
           albumName="Bài nộp học viên"
           folderName={`student-works/${courseId}`}
+          // comma-separated list of labels for each image
+          imgLabels={
+            courseLookup.student_works_labels &&
+            courseLookup.student_works_labels.split(",")
+          }
         />
       )}
       <hr></hr>
