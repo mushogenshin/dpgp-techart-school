@@ -21,61 +21,52 @@ export default function InsertUnit() {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
 
-  const prepareUnitObject = () => {
-    // sanitize input
-    const sanitizedModuleId = sanitizeInput(selectedModuleId);
-    const sanitizedUnitId = sanitizeInput(unitId);
-    const sanitizedUnitName = sanitizeInput(unitName);
+  const insertUnitAtIndex = async (insertion) => {
+    const docRef = doc(db, "modules", selectedModuleId);
+
+    // Get the current unit array
+    const docSnap = await getDoc(docRef);
+    const units = docSnap.data().units || [];
+
+    // function to insert the new element at the specified index
+    const inserted = () => {
+      const pre = units.slice(0, unitIndex);
+      const post = units.slice(unitIndex);
+      return [...pre, insertion, ...post];
+    };
+
+    const updated = appendUnit ? [...units, insertion] : inserted();
+
+    // Update with the modified array
+    await updateDoc(docRef, {
+      units: updated,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     // return if any of the required fields are empty
-    if (
-      sanitizedModuleId === "" ||
-      sanitizedUnitId === "" ||
-      sanitizedUnitName === ""
-    ) {
+    if (!selectedModuleId || unitId === "" || unitName === "") {
       setError("Cần điền đủ thông tin");
       setSuccess(false);
       return;
     }
 
-    // prepare the new unit object
+    setError(null);
+    setSuccess(false);
+
+    // prepare the new Unit object
     const newUnit = {
-      id: sanitizedUnitId,
-      name: sanitizedUnitName,
+      id: unitId,
+      name: unitName,
+      contents: [],
     };
 
-    // get the current module object
-    const docRef = doc(db, "modules", sanitizedModuleId);
-    getDoc(docRef)
-      .then((docSnap) => {
-        const moduleData = docSnap.data();
-        const units = moduleData.units || [];
-
-        // determine the index to insert the new unit
-        let index = parseInt(unitIndex, 10);
-        if (isNaN(index) || index < 0 || index > units.length) {
-          index = units.length;
-        }
-        if (appendUnit) {
-          index = units.length;
-        }
-
-        // insert the new unit at the specified index
-        units.splice(index, 0, newUnit);
-
-        // update the module object with the new unit
-        return updateDoc(docRef, {
-          units: units,
-        });
-      })
+    insertUnitAtIndex(newUnit)
       .then(() => {
-        setSuccess("Đã thêm unit mới");
         setError(null);
-        setSelectedModuleId("");
-        setUnitIndex("");
-        setAppendUnit(false);
-        setUnitId("");
-        setUnitName("");
+        setSuccess(true);
       })
       .catch((error) => {
         setError(error.message);
@@ -95,7 +86,7 @@ export default function InsertUnit() {
 
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
-          <form onSubmit={(event) => event.preventDefault()}>
+          <form onSubmit={handleSubmit}>
             <label htmlFor="moduleId">Parent Module ID:</label>
             <select
               id="moduleId"
@@ -117,7 +108,7 @@ export default function InsertUnit() {
               id="unitId"
               placeholder="vd: week1 (ảnh hưởng URL)"
               value={unitId}
-              onChange={(event) => setUnitId(event.target.value)}
+              onChange={(event) => setUnitId(sanitizeInput(event.target.value))}
             />
 
             <label htmlFor="unitName">New Unit name:</label>
@@ -152,14 +143,14 @@ export default function InsertUnit() {
             />
 
             <div>
-              <button type="submit" className="btn" onClick={prepareUnitObject}>
+              <button type="submit" className="btn" onClick={handleSubmit}>
                 Chèn unit
               </button>
             </div>
           </form>
 
           {error && <div className={styles.error}>{error}</div>}
-          {success && <div className={styles.success}>{success}</div>}
+          {success && <div className={styles.success}>Success!</div>}
         </div>
       )}
     </div>

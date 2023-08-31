@@ -17,6 +17,7 @@ service cloud.firestore {
     
     match /modules/{moduleId=**} {
     	allow read;
+      allow write: if isAdmin(request.auth.uid);
     }
     
     match /enrollments_migration/{uid} {

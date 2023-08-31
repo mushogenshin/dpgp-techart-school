@@ -1,5 +1,5 @@
 :root {
-    --admin-color: rgb(255, 85, 117);
+    --admin-color: rgb(127, 85, 255);
   }
 
 .navbar {
@@ -38,8 +38,12 @@
     color:rgb(243, 83, 20);
 }
 
-.admin {
+.admin-link {
     color: var(--admin-color)
+}
+
+.admin-link:hover {
+    color: rgb(238, 50, 91)
 }
 
 .navbar .circle {
@@ -54,6 +58,6 @@
 
 .navbar .users-count {
     font-size: 1em;
-    color: rgb(234, 175, 175);
+    color: rgb(195, 175, 234);
     cursor: pointer;
 }

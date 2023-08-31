@@ -58,16 +58,14 @@ export default function InsertLesson() {
     setError(null);
     setSuccess(false);
 
-    // construct Lesson object
-    const lesson = {
+    // prepare the new Lesson object
+    const newLesson = {
       id: selectedContentId.id,
       name: lessonName,
       blocks: blocks,
     };
 
-    // console.log("Lesson", lesson);
-
-    insertLessonAtIndex(lesson)
+    insertLessonAtIndex(newLesson)
       .then(() => {
         setError(null);
         setSuccess(true);
