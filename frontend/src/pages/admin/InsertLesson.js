@@ -13,7 +13,7 @@ export default function InsertLesson() {
   const [contentId, setContentId] = useState("");
   const [lessonId, setLessonId] = useState("");
   const [lessonName, setLessonName] = useState("");
-  const [insertAtEnd, setInsertAtEnd] = useState(true);
+  const [appendLesson, setAppendLesson] = useState(true);
   const [lessonIndex, setLessonIndex] = useState(0);
   const [blocks, setBlocks] = useState([{ type: "", data: "" }]);
 
@@ -35,7 +35,7 @@ export default function InsertLesson() {
       return [...pre, insertion, ...post];
     };
 
-    const updated = insertAtEnd ? [...lessons, insertion] : inserted();
+    const updated = appendLesson ? [...lessons, insertion] : inserted();
 
     // Update with the modified array
     await updateDoc(docRef, {
@@ -110,7 +110,7 @@ export default function InsertLesson() {
               }
             />
 
-            <label htmlFor="lessonName">Lesson Name:</label>
+            <label htmlFor="lessonName">Tên Lesson:</label>
             <input
               type="text"
               id="lessonName"
@@ -121,12 +121,12 @@ export default function InsertLesson() {
             <div>
               <input
                 type="checkbox"
-                id="insertAtEnd"
-                checked={insertAtEnd}
+                id="appendLesson"
+                checked={appendLesson}
                 className={styles.checkbox}
-                onChange={(event) => setInsertAtEnd(event.target.checked)}
+                onChange={(event) => setAppendLesson(event.target.checked)}
               />
-              <label className={styles.checkboxLabel} htmlFor="insertAtEnd">
+              <label className={styles.checkboxLabel} htmlFor="appendLesson">
                 Cuối dãy
               </label>
             </div>
@@ -136,7 +136,7 @@ export default function InsertLesson() {
               type="number"
               id="lessonIndex"
               value={lessonIndex}
-              disabled={insertAtEnd}
+              disabled={appendLesson}
               onChange={(event) => setLessonIndex(event.target.value)}
             />
 

@@ -34,18 +34,22 @@
     color:rgb(243, 83, 20);
 }
 
+.admin {
+    color: rgb(238, 50, 113);
+}
+
 .navbar .circle {
     display: inline-block;
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    border: 3px solid rgb(122, 21, 255);
+    border: 3px solid rgb(238, 50, 113);
     text-align: center;
     line-height: 45px;
 }
 
 .navbar .users-count {
     font-size: 1em;
-    color: rgb(255, 239, 66);
+    color: rgb(255, 161, 161);
     cursor: pointer;
 }

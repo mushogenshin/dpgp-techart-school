@@ -39,12 +39,12 @@ export default function Navbar() {
                 checked={ignoreLockedModules}
                 onChange={handleIgnoreLockedModulesChange}
               />
-              <FontAwesomeIcon icon={faUnlock} />
+              <FontAwesomeIcon icon={faUnlock} className={styles.admin} />
             </label>
 
             {/* Admin panels */}
             <Link to="/admin" title="Admin">
-              <FontAwesomeIcon icon={faUserSecret} />
+              <FontAwesomeIcon icon={faUserSecret} className={styles.admin} />
             </Link>
           </span>
         )}
