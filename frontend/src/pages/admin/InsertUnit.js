@@ -14,7 +14,7 @@ export default function InsertUnit() {
   const [selectedModuleId, setSelectedModuleId] = useState(null);
   const [unitId, setUnitId] = useState("");
   const [unitName, setUnitName] = useState("");
-  const [appendUnit, setAppendUnit] = useState(false);
+  const [appendUnit, setAppendUnit] = useState(true);
   const [unitIndex, setUnitIndex] = useState(0);
 
   const sanitizeInput = (input) => {
@@ -115,6 +115,7 @@ export default function InsertUnit() {
             <input
               type="text"
               id="unitId"
+              placeholder="vd: week1 (ảnh hưởng URL)"
               value={unitId}
               onChange={(event) => setUnitId(event.target.value)}
             />
@@ -123,6 +124,7 @@ export default function InsertUnit() {
             <input
               type="text"
               id="unitName"
+              placeholder="vd: Week 3 (sẽ là tên của Unit button)"
               value={unitName}
               onChange={(event) => setUnitName(event.target.value)}
             />

@@ -1,3 +1,7 @@
+:root {
+    --admin-color: rgb(255, 85, 117);
+  }
+
 .navbar {
     background: #373745;
     padding: 20px;
@@ -35,7 +39,7 @@
 }
 
 .admin {
-    color: rgb(238, 50, 113);
+    color: var(--admin-color)
 }
 
 .navbar .circle {
@@ -43,13 +47,13 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    border: 3px solid rgb(238, 50, 113);
+    border: 3px solid var(--admin-color);
     text-align: center;
     line-height: 45px;
 }
 
 .navbar .users-count {
     font-size: 1em;
-    color: rgb(255, 161, 161);
+    color: rgb(234, 175, 175);
     cursor: pointer;
 }

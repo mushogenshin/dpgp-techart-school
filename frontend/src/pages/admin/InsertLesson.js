@@ -111,6 +111,7 @@ export default function InsertLesson() {
             <input
               type="text"
               id="lessonId"
+              placeholder="vd: oil-painting-techniques (ảnh hưởng URL)"
               value={lessonId}
               onChange={(event) =>
                 setLessonId(sanitizeInput(event.target.value))
@@ -121,6 +122,7 @@ export default function InsertLesson() {
             <input
               type="text"
               id="lessonName"
+              placeholder="vd: 🎨 Thực hành kỹ thuật sơn dầu"
               value={lessonName}
               onChange={(event) => setLessonName(event.target.value)}
             />
