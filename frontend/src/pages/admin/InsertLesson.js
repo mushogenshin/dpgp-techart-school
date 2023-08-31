@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useCollection } from "../../hooks/firestore/useCollection";
@@ -12,7 +12,10 @@ export default function InsertLesson() {
   const [success, setSuccess] = useState(null);
 
   const { documents: allContents } = useCollection("contents");
+  const [contentIds, setContentIds] = useState(null);
+  const [filteredContentIds, setFilteredContentIds] = useState([]);
   const [selectedContentId, setSelectedContentId] = useState(null);
+
   const [lessonId, setLessonId] = useState("");
   const [lessonName, setLessonName] = useState("");
   const [appendLesson, setAppendLesson] = useState(true);
@@ -22,6 +25,25 @@ export default function InsertLesson() {
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
+
+  // Update the filtered list of content based on the user's input
+  const handleContentIdFilter = (event) => {
+    const query = event.target.value.toLowerCase();
+    const filtered = query
+      ? contentIds.filter((id) => id.toLowerCase().includes(query))
+      : contentIds;
+    setFilteredContentIds(filtered);
+  };
+
+  useEffect(() => {
+    setFilteredContentIds(contentIds);
+  }, [contentIds]);
+
+  useEffect(() => {
+    setContentIds(
+      (allContents && allContents.map((content) => content.id)) || []
+    );
+  }, [allContents]);
 
   const insertLessonAtIndex = async (insertion) => {
     const docRef = doc(db, "contents", selectedContentId);
@@ -91,20 +113,23 @@ export default function InsertLesson() {
         <div className={collapsed ? "" : styles.section}>
           <form onSubmit={handleSubmit}>
             <label htmlFor="contentId">Parent Content ID:</label>
+            <input
+              type="text"
+              placeholder="Filter content IDs"
+              onChange={handleContentIdFilter}
+            />
             <select
               id="contentId"
               value={selectedContentId}
               onChange={(event) => setSelectedContentId(event.target.value)}
             >
               <option value="">-- Chọn content --</option>
-              {allContents &&
-                allContents.map((content) => (
-                  <option key={content.id} value={content.id}>
-                    {content.id}
-                  </option>
-                ))}
+              {filteredContentIds.map((id) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
             </select>
-
             <label htmlFor="lessonId">New Lesson ID:</label>
             <input
               type="text"
@@ -115,7 +140,6 @@ export default function InsertLesson() {
                 setLessonId(sanitizeInput(event.target.value))
               }
             />
-
             <label htmlFor="lessonName">New Lesson name:</label>
             <input
               type="text"
@@ -124,7 +148,6 @@ export default function InsertLesson() {
               value={lessonName}
               onChange={(event) => setLessonName(event.target.value)}
             />
-
             <div>
               <input
                 type="checkbox"
@@ -137,7 +160,6 @@ export default function InsertLesson() {
                 Append
               </label>
             </div>
-
             <label htmlFor="lessonIndex">New Lesson index:</label>
             <input
               type="number"
@@ -146,9 +168,7 @@ export default function InsertLesson() {
               disabled={appendLesson}
               onChange={(event) => setLessonIndex(event.target.value)}
             />
-
             <LessonBlockForm blocks={blocks} setBlocks={setBlocks} />
-
             <div>
               <button type="submit" className="btn">
                 Chèn Lesson

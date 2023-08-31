@@ -61,6 +61,7 @@ export default function InsertUnit() {
       id: unitId,
       name: unitName,
       contents: [],
+      unlocked: false,
     };
 
     insertUnitAtIndex(newUnit)
