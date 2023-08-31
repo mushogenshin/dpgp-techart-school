@@ -44,10 +44,8 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
 
     // if the block type is not `file`, remove the `name` field
     if (field === "type" && value !== "file") {
-      console.log("Deleting name...");
       delete newBlocks[index].name;
     } else if (field === "type" && value === "file") {
-      console.log("Setting name to empty string...");
       newBlocks[index].name = "";
     }
 

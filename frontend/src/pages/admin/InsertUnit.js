@@ -13,6 +13,7 @@ export default function InsertUnit() {
   // context for the form
   const { documents: allModules } = useCollection("modules");
   const [moduleIds, setModuleIds] = useState(null);
+  const [query, setQuery] = useState("");
   const [filteredModuleIds, setFilteredModuleIds] = useState([]);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
 
@@ -26,18 +27,14 @@ export default function InsertUnit() {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
 
-  // Update the filtered list of modules based on the user's input
-  const handleModuleIdFilter = (event) => {
-    const query = event.target.value.toLowerCase();
+  useEffect(() => {
+    // this will help us keep the filtered list of content IDs populated
+    // at the start, and for subsequent form submissions
     const filtered = query
       ? moduleIds.filter((id) => id.toLowerCase().includes(query))
       : moduleIds;
     setFilteredModuleIds(filtered);
-  };
-
-  useEffect(() => {
-    setFilteredModuleIds(moduleIds);
-  }, [moduleIds]);
+  }, [moduleIds, query]);
 
   useEffect(() => {
     setModuleIds((allModules && allModules.map((mod) => mod.id)) || []);
@@ -116,8 +113,11 @@ export default function InsertUnit() {
               🔍{" "}
               <input
                 type="text"
+                value={query}
                 placeholder="Filter module IDs"
-                onChange={handleModuleIdFilter}
+                onChange={(event) => {
+                  setQuery(event.target.value.toLowerCase());
+                }}
               />
             </div>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useCollection } from "../../hooks/firestore/useCollection";
@@ -29,28 +29,14 @@ export default function InsertLesson() {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
 
-  const filterContentIds = useCallback(
-    (inputStr) => {
-      const filtered = inputStr
-        ? contentIds.filter((id) => id.toLowerCase().includes(inputStr))
-        : contentIds;
-      setFilteredContentIds(filtered);
-    },
-    [contentIds]
-  );
-
-  // Update the filtered list of contents based on the user's input
-  const handleContentIdFilter = (event) => {
-    const inputStr = event.target.value.toLowerCase();
-    setQuery(inputStr);
-    filterContentIds(inputStr);
-  };
-
   useEffect(() => {
     // this will help us keep the filtered list of content IDs populated
     // at the start, and for subsequent form submissions
-    filterContentIds(query);
-  }, [query, filterContentIds]);
+    const filtered = query
+      ? contentIds.filter((id) => id.toLowerCase().includes(query))
+      : contentIds;
+    setFilteredContentIds(filtered);
+  }, [contentIds, query]);
 
   useEffect(() => {
     setContentIds(
@@ -135,7 +121,9 @@ export default function InsertLesson() {
                 type="text"
                 value={query}
                 placeholder="Filter content IDs"
-                onChange={handleContentIdFilter}
+                onChange={(event) => {
+                  setQuery(event.target.value.toLowerCase());
+                }}
               />
             </div>
 
