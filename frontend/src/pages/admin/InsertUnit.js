@@ -10,11 +10,13 @@ export default function InsertUnit() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  // context for the form
   const { documents: allModules } = useCollection("modules");
   const [moduleIds, setModuleIds] = useState(null);
   const [filteredModuleIds, setFilteredModuleIds] = useState([]);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
 
+  // the form fields
   const [unitId, setUnitId] = useState("");
   const [unitName, setUnitName] = useState("");
   const [appendUnit, setAppendUnit] = useState(true);

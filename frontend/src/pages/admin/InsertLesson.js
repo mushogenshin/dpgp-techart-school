@@ -11,11 +11,13 @@ export default function InsertLesson() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  // context for the form
   const { documents: allContents } = useCollection("contents");
   const [contentIds, setContentIds] = useState(null);
   const [filteredContentIds, setFilteredContentIds] = useState([]);
   const [selectedContentId, setSelectedContentId] = useState(null);
 
+  // the form fields
   const [lessonId, setLessonId] = useState("");
   const [lessonName, setLessonName] = useState("");
   const [appendLesson, setAppendLesson] = useState(true);
@@ -82,10 +84,12 @@ export default function InsertLesson() {
 
     // prepare the new Lesson object
     const newLesson = {
-      id: selectedContentId.id,
+      id: lessonId,
       name: lessonName,
       blocks: blocks,
     };
+
+    console.log(newLesson);
 
     insertLessonAtIndex(newLesson)
       .then(() => {
