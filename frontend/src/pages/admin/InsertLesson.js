@@ -148,6 +148,7 @@ export default function InsertLesson() {
                 setLessonId(sanitizeInput(event.target.value))
               }
             />
+
             <label htmlFor="lessonName">New Lesson name:</label>
             <input
               type="text"
@@ -156,6 +157,7 @@ export default function InsertLesson() {
               value={lessonName}
               onChange={(event) => setLessonName(event.target.value)}
             />
+
             <div>
               <input
                 type="checkbox"
@@ -168,6 +170,7 @@ export default function InsertLesson() {
                 Append
               </label>
             </div>
+
             <label htmlFor="lessonIndex">New Lesson index:</label>
             <input
               type="number"
@@ -176,11 +179,18 @@ export default function InsertLesson() {
               disabled={appendLesson}
               onChange={(event) => setLessonIndex(event.target.value)}
             />
+
             <LessonBlockForm blocks={blocks} setBlocks={setBlocks} />
+
             <div>
               <button type="submit" className="btn">
                 Chèn Lesson
               </button>
+              {selectedContentId && (
+                <span style={{ display: "inline-block", fontSize: "0.7em" }}>
+                  (vào "{selectedContentId}")
+                </span>
+              )}
             </div>
           </form>
 

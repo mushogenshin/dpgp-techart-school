@@ -105,7 +105,7 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
           <button
             type="button"
             onClick={() => handleRemoveBlock(index)}
-            className={styles.remove}
+            className={styles["remove-block"]}
           >
             🗑️ Xoá
           </button>

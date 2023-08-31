@@ -1,9 +1,10 @@
 .lesson-block {
     border: 1px solid rgb(197, 183, 147);
     margin: 20px 60px 0 60px;
-    padding: 3px 30px;
+    padding: 2px 30px;
     border-radius: 20px;
     text-align: right;
+    line-height: 0.5em;
 }
 
 .lesson-block label {
@@ -14,15 +15,14 @@
     padding: 0;
 }
 
-.lesson-block .remove {
-    color: white;
-    background: rgb(217, 67, 67);
+.remove-block {
     padding: 3px 10px;
-    margin-bottom: 5px;
+    margin: 2px;
     box-shadow: none;
     border-radius: 5px;
     border: none;
-
+    color: white;
+    background: rgb(217, 67, 67);
 }
 
 .add-block {

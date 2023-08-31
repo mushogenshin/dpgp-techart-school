@@ -32,7 +32,7 @@
     font-size: 0.8em;
     font-weight: bold;
     display: block;
-    margin: 10px auto 0 auto;
+    margin: 5px auto 0 auto;
     padding: 0;
 }
 
@@ -62,7 +62,7 @@
 .admin input, textarea, select {
     max-width: 360px;
     padding: 5px;
-    margin: 10px 0;
+    margin: 3px 0;
     color: #777;
     width: 100%;
     border-radius: 7px;

@@ -178,6 +178,12 @@ export default function InsertUnit() {
               <button type="submit" className="btn" onClick={handleSubmit}>
                 Chèn unit
               </button>
+
+              {selectedModuleId && (
+                <span style={{ display: "inline-block", fontSize: "0.7em" }}>
+                  (vào "{selectedModuleId}")
+                </span>
+              )}
             </div>
           </form>
 
