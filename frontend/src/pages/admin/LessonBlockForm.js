@@ -42,6 +42,15 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
     // replace the block at the specified index and specified field with the new value
     newBlocks[index][field] = value;
 
+    // if the block type is not `file`, remove the `name` field
+    if (field === "type" && value !== "file") {
+      console.log("Deleting name...");
+      delete newBlocks[index].name;
+    } else if (field === "type" && value === "file") {
+      console.log("Setting name to empty string...");
+      newBlocks[index].name = "";
+    }
+
     // if the block type is `vimeo` and the block data is a URL, extract the video ID
     if (
       newBlocks[index].type === "vimeo" &&
@@ -53,13 +62,6 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
       if (match) {
         newBlocks[index].data = match[1];
       }
-    }
-
-    // if the block type is not `file`, remove the `name` field
-    if (field === "type" && value !== "file") {
-      delete newBlocks[index].name;
-    } else if (field === "type" && value === "file") {
-      newBlocks[index].name = "";
     }
 
     setBlocks(newBlocks);
