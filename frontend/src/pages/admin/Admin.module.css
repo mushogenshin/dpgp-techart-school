@@ -82,3 +82,64 @@
 .admin .success {
     color: rgb(151, 255, 123);
 }
+
+.list-container {
+    height: 120px;
+    overflow: auto;
+    max-width: 480px;
+    padding: 0 0;
+    margin: 0 0;
+}
+
+.list-container > *:first-child {
+    margin-top: 0;
+}
+
+.list-container > *:last-child {
+    margin-bottom: 0;
+}
+
+.list-container::-webkit-scrollbar {
+    width: 10px;
+}
+  
+.list-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+    background-color: #bc5050;
+    border-radius: 5px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover {
+    background-color: #bc5050;
+}
+
+.comboList ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comboList li {
+    font-size: 0.5em;
+    line-height: 1.4em;
+    padding: 2px 20px;
+    margin: 0 2px;
+    border: 1px solid #676767;
+    color: rgb(147, 149, 147);
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.comboList li:hover {
+    background-color: #7bb68a;
+    color: white;
+}
+
+.comboList li.selected {
+    background-color: #d2ea65;
+    color: black;
+    font-weight: bold;
+}

@@ -112,24 +112,30 @@ export default function InsertLesson() {
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
           <form onSubmit={handleSubmit}>
+            {/* List of available contents, with filtering */}
             <label htmlFor="contentId">Parent Content ID:</label>
-            <input
-              type="text"
-              placeholder="Filter content IDs"
-              onChange={handleContentIdFilter}
-            />
-            <select
-              id="contentId"
-              value={selectedContentId}
-              onChange={(event) => setSelectedContentId(event.target.value)}
-            >
-              <option value="">-- Chọn content --</option>
-              {filteredContentIds.map((id) => (
-                <option key={id} value={id}>
-                  {id}
-                </option>
-              ))}
-            </select>
+            <div className={styles["filter-input"]}>
+              🔍{" "}
+              <input
+                type="text"
+                placeholder="Filter content IDs"
+                onChange={handleContentIdFilter}
+              />
+            </div>
+            <div className={styles["list-container"]}>
+              <ul className={styles.comboList}>
+                {filteredContentIds.map((id) => (
+                  <li
+                    key={id}
+                    onClick={() => setSelectedContentId(id)}
+                    className={selectedContentId === id ? styles.selected : ""}
+                  >
+                    {id}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <label htmlFor="lessonId">New Lesson ID:</label>
             <input
               type="text"
