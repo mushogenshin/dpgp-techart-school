@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useCollection } from "../../hooks/firestore/useCollection";
 
 import styles from "./Admin.module.css";
 
@@ -9,7 +10,8 @@ export default function InsertUnit() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const [moduleId, setModuleId] = useState("");
+  const { documents: allModules } = useCollection("modules");
+  const [selectedModuleId, setSelectedModuleId] = useState(null);
   const [unitId, setUnitId] = useState("");
   const [unitName, setUnitName] = useState("");
   const [appendUnit, setAppendUnit] = useState(false);
@@ -21,7 +23,7 @@ export default function InsertUnit() {
 
   const prepareUnitObject = () => {
     // sanitize input
-    const sanitizedModuleId = sanitizeInput(moduleId);
+    const sanitizedModuleId = sanitizeInput(selectedModuleId);
     const sanitizedUnitId = sanitizeInput(unitId);
     const sanitizedUnitName = sanitizeInput(unitName);
 
@@ -69,7 +71,7 @@ export default function InsertUnit() {
       .then(() => {
         setSuccess("Đã thêm unit mới");
         setError(null);
-        setModuleId("");
+        setSelectedModuleId("");
         setUnitIndex("");
         setAppendUnit(false);
         setUnitId("");
@@ -94,15 +96,22 @@ export default function InsertUnit() {
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
           <form onSubmit={(event) => event.preventDefault()}>
-            <label htmlFor="moduleId">Module ID:</label>
-            <input
-              type="text"
+            <label htmlFor="moduleId">Parent Module ID:</label>
+            <select
               id="moduleId"
-              value={moduleId}
-              onChange={(event) => setModuleId(event.target.value)}
-            />
+              value={selectedModuleId}
+              onChange={(event) => setSelectedModuleId(event.target.value)}
+            >
+              <option value="">-- Chọn module --</option>
+              {allModules &&
+                allModules.map((mod) => (
+                  <option key={mod.id} value={mod.id}>
+                    {mod.id}
+                  </option>
+                ))}
+            </select>
 
-            <label htmlFor="unitId">Unit ID:</label>
+            <label htmlFor="unitId">New Unit ID:</label>
             <input
               type="text"
               id="unitId"
@@ -110,7 +119,7 @@ export default function InsertUnit() {
               onChange={(event) => setUnitId(event.target.value)}
             />
 
-            <label htmlFor="unitName">Tên Unit:</label>
+            <label htmlFor="unitName">New Unit name:</label>
             <input
               type="text"
               id="unitName"
@@ -118,7 +127,20 @@ export default function InsertUnit() {
               onChange={(event) => setUnitName(event.target.value)}
             />
 
-            <label htmlFor="unitIndex">Thứ tự của Unit:</label>
+            <div>
+              <input
+                type="checkbox"
+                id="appendUnit"
+                checked={appendUnit}
+                className={styles.checkbox}
+                onChange={(event) => setAppendUnit(event.target.checked)}
+              />
+              <label htmlFor="appendUnit" className={styles.checkboxLabel}>
+                Append
+              </label>
+            </div>
+
+            <label htmlFor="unitIndex">New Unit index:</label>
             <input
               type="number"
               id="unitIndex"
@@ -127,19 +149,10 @@ export default function InsertUnit() {
               onChange={(event) => setUnitIndex(event.target.value)}
             />
 
-            <label htmlFor="appendUnit">
-              <input
-                type="checkbox"
-                id="appendUnit"
-                checked={appendUnit}
-                className={styles.checkbox}
-                onChange={(event) => setAppendUnit(event.target.checked)}
-              />
-              Cuối dãy
-            </label>
-
             <div>
-              <button onClick={prepareUnitObject}>Thêm unit</button>
+              <button type="submit" className="btn" onClick={prepareUnitObject}>
+                Chèn unit
+              </button>
             </div>
           </form>
 

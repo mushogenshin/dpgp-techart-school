@@ -50,6 +50,7 @@
 
 .admin .hint {
     color: rgb(104, 101, 207);
+    line-height: 1.2em;
 }
 
 .admin span, small {
@@ -61,7 +62,7 @@
 .admin input, textarea, select {
     max-width: 360px;
     padding: 5px;
-    margin: 0 0;
+    margin: 10px 0;
     color: #777;
     width: 100%;
     border-radius: 7px;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useCollection } from "../../hooks/firestore/useCollection";
 import LessonBlockForm from "./LessonBlockForm";
 
 import styles from "./Admin.module.css";
@@ -10,7 +11,8 @@ export default function InsertLesson() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const [contentId, setContentId] = useState("");
+  const { documents: allContents } = useCollection("contents");
+  const [selectedContentId, setSelectedContentId] = useState(null);
   const [lessonId, setLessonId] = useState("");
   const [lessonName, setLessonName] = useState("");
   const [appendLesson, setAppendLesson] = useState(true);
@@ -22,7 +24,7 @@ export default function InsertLesson() {
   };
 
   const insertLessonAtIndex = async (insertion) => {
-    const docRef = doc(db, "contents", contentId);
+    const docRef = doc(db, "contents", selectedContentId);
 
     // Get the current lesson array
     const docSnap = await getDoc(docRef);
@@ -47,7 +49,7 @@ export default function InsertLesson() {
     event.preventDefault();
 
     // return if any of the required fields are empty
-    if (contentId === "" || lessonId === "" || lessonName === "") {
+    if (!selectedContentId || lessonId === "" || lessonName === "") {
       setError("Cần điền đủ thông tin");
       setSuccess(false);
       return;
@@ -58,12 +60,12 @@ export default function InsertLesson() {
 
     // construct Lesson object
     const lesson = {
-      id: lessonId,
+      id: selectedContentId.id,
       name: lessonName,
       blocks: blocks,
     };
 
-    console.log("Lesson", lesson);
+    // console.log("Lesson", lesson);
 
     insertLessonAtIndex(lesson)
       .then(() => {
@@ -91,16 +93,21 @@ export default function InsertLesson() {
         <div className={collapsed ? "" : styles.section}>
           <form onSubmit={handleSubmit}>
             <label htmlFor="contentId">Parent Content ID:</label>
-            <input
-              type="text"
+            <select
               id="contentId"
-              value={contentId}
-              onChange={(event) =>
-                setContentId(sanitizeInput(event.target.value))
-              }
-            />
+              value={selectedContentId}
+              onChange={(event) => setSelectedContentId(event.target.value)}
+            >
+              <option value="">-- Chọn content --</option>
+              {allContents &&
+                allContents.map((content) => (
+                  <option key={content.id} value={content.id}>
+                    {content.id}
+                  </option>
+                ))}
+            </select>
 
-            <label htmlFor="lessonId">Lesson ID:</label>
+            <label htmlFor="lessonId">New Lesson ID:</label>
             <input
               type="text"
               id="lessonId"
@@ -110,7 +117,7 @@ export default function InsertLesson() {
               }
             />
 
-            <label htmlFor="lessonName">Tên Lesson:</label>
+            <label htmlFor="lessonName">New Lesson name:</label>
             <input
               type="text"
               id="lessonName"
@@ -126,12 +133,12 @@ export default function InsertLesson() {
                 className={styles.checkbox}
                 onChange={(event) => setAppendLesson(event.target.checked)}
               />
-              <label className={styles.checkboxLabel} htmlFor="appendLesson">
-                Cuối dãy
+              <label htmlFor="appendLesson" className={styles.checkboxLabel}>
+                Append
               </label>
             </div>
 
-            <label htmlFor="lessonIndex">Thứ tự của Lesson:</label>
+            <label htmlFor="lessonIndex">New Lesson index:</label>
             <input
               type="number"
               id="lessonIndex"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCollection } from "../../hooks/firestore/useCollection";
 import { useQueryEnrolledStudents } from "../../hooks/admin/useQueryEnrollment";
 
 import styles from "./Admin.module.css";
@@ -6,24 +7,16 @@ import styles from "./Admin.module.css";
 export default function QueryEnrollment() {
   const [collapsed, setCollapsed] = useState(true);
   const [censored, setCensored] = useState(true);
-  const [moduleId, setModuleId] = useState("");
+
+  const { documents: allModules } = useCollection("modules");
+
+  const [selectedModuleId, setSelectedModuleId] = useState(null);
   const { queryEnrolledUsers, error, isPending, students } =
     useQueryEnrolledStudents();
 
-  const handleModuleIdInput = (event) => {
-    const sanitizedModuleId = event.target.value
-      .replace(/[^\w\s-]/gi, "") // sanitize for special characters
-      .replace(/[^\x00-\x7F]/g, "") // remove non-ASCII characters
-      .trim();
-    setModuleId(sanitizedModuleId);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (moduleId === "") {
-      return;
-    }
-    queryEnrolledUsers(moduleId);
+    selectedModuleId && queryEnrolledUsers(selectedModuleId);
   };
 
   const censorEmail = (email) => {
@@ -47,23 +40,19 @@ export default function QueryEnrollment() {
         <div className={collapsed ? "" : styles.section}>
           <form>
             <label htmlFor="moduleId">Theo module:</label>
-            <input
-              type="text"
+            <select
               id="moduleId"
-              name="moduleId"
-              value={moduleId}
-              onChange={handleModuleIdInput}
-            />
-
-            <label>
-              <input
-                type="checkbox"
-                checked={censored}
-                className={styles.checkbox}
-                onChange={() => setCensored(!censored)}
-              />
-              Censor Emails
-            </label>
+              value={selectedModuleId}
+              onChange={(event) => setSelectedModuleId(event.target.value)}
+            >
+              <option value="">-- Chọn module --</option>
+              {allModules &&
+                allModules.map((mod) => (
+                  <option key={mod.id} value={mod.id}>
+                    {mod.id}
+                  </option>
+                ))}
+            </select>
 
             <button
               type="submit"
@@ -80,6 +69,17 @@ export default function QueryEnrollment() {
           {students.length > 0 && (
             <div className={styles.success}>
               <hr></hr>
+
+              <label>
+                <input
+                  type="checkbox"
+                  checked={censored}
+                  className={styles.checkbox}
+                  onChange={() => setCensored(!censored)}
+                />
+                Censor Emails
+              </label>
+
               <h3>{`Danh sách tham dự (tổng cộng ${students.length}):`}</h3>
               <ul>
                 {students.map((student) => (
