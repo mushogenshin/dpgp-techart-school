@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useCollection } from "../../hooks/firestore/useCollection";
@@ -11,7 +11,10 @@ export default function InsertUnit() {
   const [success, setSuccess] = useState(null);
 
   const { documents: allModules } = useCollection("modules");
+  const [moduleIds, setModuleIds] = useState(null);
+  const [filteredModuleIds, setFilteredModuleIds] = useState([]);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
+
   const [unitId, setUnitId] = useState("");
   const [unitName, setUnitName] = useState("");
   const [appendUnit, setAppendUnit] = useState(true);
@@ -20,6 +23,23 @@ export default function InsertUnit() {
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
+
+  // Update the filtered list of modules based on the user's input
+  const handleModuleIdFilter = (event) => {
+    const query = event.target.value.toLowerCase();
+    const filtered = query
+      ? moduleIds.filter((id) => id.toLowerCase().includes(query))
+      : moduleIds;
+    setFilteredModuleIds(filtered);
+  };
+
+  useEffect(() => {
+    setFilteredModuleIds(moduleIds);
+  }, [moduleIds]);
+
+  useEffect(() => {
+    setModuleIds((allModules && allModules.map((mod) => mod.id)) || []);
+  }, [allModules]);
 
   const insertUnitAtIndex = async (insertion) => {
     const docRef = doc(db, "modules", selectedModuleId);
@@ -88,20 +108,31 @@ export default function InsertUnit() {
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
           <form onSubmit={handleSubmit}>
+            {/* List of available modules, with filtering */}
             <label htmlFor="moduleId">Parent Module ID:</label>
-            <select
-              id="moduleId"
-              value={selectedModuleId}
-              onChange={(event) => setSelectedModuleId(event.target.value)}
-            >
-              <option value="">-- Chọn module --</option>
-              {allModules &&
-                allModules.map((mod) => (
-                  <option key={mod.id} value={mod.id}>
-                    {mod.id}
-                  </option>
+            <div>
+              🔍{" "}
+              <input
+                type="text"
+                placeholder="Filter module IDs"
+                onChange={handleModuleIdFilter}
+              />
+            </div>
+
+            {/* filtered results */}
+            <div className={styles["list-container"]}>
+              <ul className={styles.comboList}>
+                {filteredModuleIds.map((id) => (
+                  <li
+                    key={id}
+                    onClick={() => setSelectedModuleId(id)}
+                    className={selectedModuleId === id ? styles.selected : ""}
+                  >
+                    {id}
+                  </li>
                 ))}
-            </select>
+              </ul>
+            </div>
 
             <label htmlFor="unitId">New Unit ID:</label>
             <input

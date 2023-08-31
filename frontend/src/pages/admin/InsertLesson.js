@@ -26,7 +26,7 @@ export default function InsertLesson() {
     return input.replace(/[^a-zA-Z0-9_-]/g, "");
   };
 
-  // Update the filtered list of content based on the user's input
+  // Update the filtered list of contents based on the user's input
   const handleContentIdFilter = (event) => {
     const query = event.target.value.toLowerCase();
     const filtered = query
@@ -114,7 +114,7 @@ export default function InsertLesson() {
           <form onSubmit={handleSubmit}>
             {/* List of available contents, with filtering */}
             <label htmlFor="contentId">Parent Content ID:</label>
-            <div className={styles["filter-input"]}>
+            <div>
               🔍{" "}
               <input
                 type="text"
@@ -122,6 +122,8 @@ export default function InsertLesson() {
                 onChange={handleContentIdFilter}
               />
             </div>
+
+            {/* filtered results */}
             <div className={styles["list-container"]}>
               <ul className={styles.comboList}>
                 {filteredContentIds.map((id) => (
