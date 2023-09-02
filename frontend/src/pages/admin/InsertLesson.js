@@ -127,6 +127,12 @@ export default function InsertLesson() {
               />
             </div>
 
+            {selectedContentId && (
+              <span style={{ display: "inline-block", fontSize: "0.7em" }}>
+                Đang chọn: "{selectedContentId}"
+              </span>
+            )}
+
             {/* filtered results */}
             <div className={styles["list-container"]}>
               <ul className={styles.comboList}>
@@ -190,11 +196,6 @@ export default function InsertLesson() {
               <button type="submit" className="btn">
                 Chèn Lesson
               </button>
-              {selectedContentId && (
-                <span style={{ display: "inline-block", fontSize: "0.7em" }}>
-                  (vào "{selectedContentId}")
-                </span>
-              )}
             </div>
           </form>
 

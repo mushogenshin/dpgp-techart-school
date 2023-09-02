@@ -68,6 +68,11 @@
     border-radius: 7px;
 }
 
+input::placeholder {
+    color: rgb(197, 197, 197);
+    font-style: italic;
+  }
+
 .admin .error {
     color: rgb(255, 70, 70);
     font-size: 1.2em;

@@ -121,6 +121,12 @@ export default function InsertUnit() {
               />
             </div>
 
+            {selectedModuleId && (
+              <span style={{ display: "inline-block", fontSize: "0.7em" }}>
+                Đang chọn: "{selectedModuleId}"
+              </span>
+            )}
+
             {/* filtered results */}
             <div className={styles["list-container"]}>
               <ul className={styles.comboList}>
@@ -180,12 +186,6 @@ export default function InsertUnit() {
               <button type="submit" className="btn" onClick={handleSubmit}>
                 Chèn unit
               </button>
-
-              {selectedModuleId && (
-                <span style={{ display: "inline-block", fontSize: "0.7em" }}>
-                  (vào "{selectedModuleId}")
-                </span>
-              )}
             </div>
           </form>
 
