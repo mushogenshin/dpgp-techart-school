@@ -109,9 +109,9 @@ function ChooseModule({ moduleIds, activeModId }) {
               </li>
             ))}
           </ul>
-          {moduleIds.length > 1 && index !== null && (
+          {/* {moduleIds.length > 1 && index !== null && (
             <small className={styles.hint}>Module #{index + 1}:</small>
-          )}
+          )} */}
         </div>
       )}
     </div>
