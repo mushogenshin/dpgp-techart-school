@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 
-.collapsibleHeader:hover {
+.admin .collapsibleHeader:hover {
     background: rgb(128, 47, 78);
     color: #fff;
   }
@@ -53,6 +53,10 @@
     line-height: 1.2em;
 }
 
+.admin .preview {
+    color: rgb(96, 247, 212);
+}
+
 .admin span, small {
     display: block;
     margin-bottom: 6px;
@@ -68,7 +72,7 @@
     border-radius: 7px;
 }
 
-input::placeholder {
+.admin input::placeholder {
     color: rgb(197, 197, 197);
     font-style: italic;
   }
@@ -88,46 +92,13 @@ input::placeholder {
     color: rgb(151, 255, 123);
 }
 
-.list-container {
-    height: 120px;
-    overflow: auto;
-    max-width: 480px;
-    padding: 0 0;
-    margin: 0 0;
-}
-
-.list-container > *:first-child {
-    margin-top: 0;
-}
-
-.list-container > *:last-child {
-    margin-bottom: 0;
-}
-
-.list-container::-webkit-scrollbar {
-    width: 10px;
-}
-  
-.list-container::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-.list-container::-webkit-scrollbar-thumb {
-    background-color: #bc5050;
-    border-radius: 5px;
-}
-
-.list-container::-webkit-scrollbar-thumb:hover {
-    background-color: #bc5050;
-}
-
-.comboList ul {
+.admin .comboList ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.comboList li {
+.admin .comboList li {
     font-size: 0.5em;
     line-height: 1.4em;
     padding: 2px 20px;
@@ -138,13 +109,46 @@ input::placeholder {
     cursor: pointer;
 }
 
-.comboList li:hover {
+.admin .comboList li:hover {
     background-color: #7bb68a;
     color: white;
 }
 
-.comboList li.selected {
+.admin .comboList li.selected {
     background-color: #d2ea65;
     color: black;
     font-weight: bold;
+}
+
+.admin .list-container {
+    height: 100px;
+    overflow: auto;
+    max-width: 480px;
+    padding: 0 0;
+    margin: 0 0;
+}
+
+.admin .list-container > *:first-child {
+    margin-top: 0;
+}
+
+.admin .list-container > *:last-child {
+    margin-bottom: 0;
+}
+
+.admin .list-container::-webkit-scrollbar {
+    width: 10px;
+}
+  
+.admin .list-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+.admin .list-container::-webkit-scrollbar-thumb {
+    background-color: #bc5050;
+    border-radius: 5px;
+}
+
+.admin .list-container::-webkit-scrollbar-thumb:hover {
+    background-color: #bc5050;
 }

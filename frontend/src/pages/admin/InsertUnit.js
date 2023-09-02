@@ -122,8 +122,8 @@ export default function InsertUnit() {
             </div>
 
             {selectedModuleId && (
-              <span style={{ display: "inline-block", fontSize: "0.7em" }}>
-                Đang chọn: "{selectedModuleId}"
+              <span className={styles.preview}>
+                Đang chọn 👉: "{selectedModuleId}"
               </span>
             )}
 

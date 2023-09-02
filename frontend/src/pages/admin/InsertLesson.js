@@ -128,8 +128,8 @@ export default function InsertLesson() {
             </div>
 
             {selectedContentId && (
-              <span style={{ display: "inline-block", fontSize: "0.7em" }}>
-                Đang chọn: "{selectedContentId}"
+              <span className={styles.preview}>
+                Đang chọn 👉: "{selectedContentId}"
               </span>
             )}
 
