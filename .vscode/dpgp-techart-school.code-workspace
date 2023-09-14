@@ -2,12 +2,6 @@
   "folders": [
     {
       "path": ".."
-    },
-    {
-      "path": "../../../development/FrontendMasters-React-Firebase"
-    },
-    {
-      "path": "../../../development/FrontendMasters-Firebase-Fundamentals"
     }
   ],
   "settings": {
