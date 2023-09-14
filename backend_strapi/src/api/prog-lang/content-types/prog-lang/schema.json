@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prog_langs",
+  "info": {
+    "singularName": "prog-lang",
+    "pluralName": "prog-langs",
+    "displayName": "Programming Language",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "mappedBy": "langs"
+    },
+    "color": {
+      "type": "string",
+      "required": true,
+      "default": "#FFFFFF"
+    },
+    "background_color": {
+      "type": "string",
+      "required": true,
+      "default": "#4A4A4A"
+    }
+  }
+}

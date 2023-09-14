@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "front_frames",
+  "info": {
+    "singularName": "front-frame",
+    "pluralName": "front-frames",
+    "displayName": "Frontend Framework"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "mappedBy": "front_frames"
+    }
+  }
+}

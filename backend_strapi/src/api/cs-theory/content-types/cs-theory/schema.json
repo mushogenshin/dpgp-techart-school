@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cs_theories",
+  "info": {
+    "singularName": "cs-theory",
+    "pluralName": "cs-theories",
+    "displayName": "CompSci Theory"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "mappedBy": "cs_theories"
+    }
+  }
+}
