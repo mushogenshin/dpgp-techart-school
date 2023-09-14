@@ -1,12 +1,12 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 
 import StudyNote from "./StudyNote";
+import styles from "./StudyNote.module.css";
 
-const NOTE_DETAIL = gql`
-  query GetNoteDetail($id: ID!) {
-    studyNote(id: $id) {
+const STUDY_NOTES = gql`
+  query GetStudyNotes {
+    studyNotes {
       data {
         id
         attributes {
@@ -29,14 +29,17 @@ const NOTE_DETAIL = gql`
   }
 `;
 
-export default function StudyNoteDetail({ excerpt = false }) {
-  const { id } = useParams();
-  const { loading, error, data } = useQuery(NOTE_DETAIL, {
-    variables: { id: id },
-  });
+export default function AllNotes() {
+  const { loading, error, data } = useQuery(STUDY_NOTES);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error 😰: {error.message}</p>;
 
-  return <StudyNote note={data.studyNote.data} />;
+  return (
+    <div className={styles.notes}>
+      {[...data.studyNotes.data].reverse().map((note) => {
+        return <StudyNote key={note.id} note={note} complete={false} />;
+      })}
+    </div>
+  );
 }

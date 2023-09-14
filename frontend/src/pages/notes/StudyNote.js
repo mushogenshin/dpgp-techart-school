@@ -1,14 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import CodeBlock from "../components/CodeBlock";
+import CodeBlock from "../../components/CodeBlock";
 
-export default function StudyNote({ note, excerpt = false }) {
+import styles from "./StudyNote.module.css";
+
+export default function StudyNote({ note, complete = true }) {
   const date = new Date(note.attributes.createdAt);
 
-  let body;
-  if (!excerpt) {
-    body = (
+  let markdown_body;
+  if (complete) {
+    markdown_body = (
       <div>
         <ReactMarkdown
           children={note.attributes.body}
@@ -21,7 +23,7 @@ export default function StudyNote({ note, excerpt = false }) {
       </div>
     );
   } else {
-    body = (
+    markdown_body = (
       <div>
         <ReactMarkdown>{`${note.attributes.body.substring(
           0,
@@ -33,21 +35,22 @@ export default function StudyNote({ note, excerpt = false }) {
     );
   }
 
-  // we must use `return` keyword here
   return (
-    <div key={note.id} className="study-note">
-      {/* note title in a `Link` */}
+    <div key={note.id} className={styles["study-note"]}>
+      {/* note title */}
       <Link to={`/study-note/${note.id}`}>
         <h2>{note.attributes.title}</h2>
       </Link>
+
       <small>{date.toLocaleString()}</small>
+
       {/* all the language tags */}
       {note.attributes.langs.data.map((lang) => {
         // we must use `return` keyword here
         return (
           <small
             key={lang.id}
-            className="prog-lang"
+            className={styles["prog-lang"]}
             style={{
               color: lang.attributes.color,
               backgroundColor: lang.attributes.background_color,
@@ -57,7 +60,9 @@ export default function StudyNote({ note, excerpt = false }) {
           </small>
         );
       })}
-      {body}
+
+      {/* note content */}
+      {markdown_body}
     </div>
   );
 }

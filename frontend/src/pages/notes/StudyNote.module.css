@@ -1,0 +1,46 @@
+.notes {
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1024px;
+}
+
+.study-note {
+    max-width: 1024px;
+    margin: 60px auto;
+    padding: 1px 20px 20px 90px;
+    color: rgb(55, 55, 69);
+    background: rgb(206, 199, 201);
+    border-radius: 15px;
+}
+
+.study-note h2 {
+    margin-bottom: 0;
+}
+
+.study-note h3 {
+    color: rgb(143, 78, 63);
+}
+
+.study-note small {
+    margin-right: 10px;
+    color: #777;
+}
+
+.study-note a {
+    text-decoration: none;
+}
+
+.study-note a:link {
+    background: rgb(232, 207, 44);
+    color: rgb(171, 58, 96);
+}
+
+.study-note a:visited {
+    color: rgb(131, 28, 63);
+}
+
+.study-note .prog-lang {
+    display: inline;
+    padding: 2px 7px;
+    border-radius: 7px;
+}

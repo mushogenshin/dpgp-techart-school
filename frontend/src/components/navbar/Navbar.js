@@ -7,6 +7,7 @@ import {
   faSkull,
   faUnlock,
   faUserSecret,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Navbar.module.css";
@@ -27,6 +28,9 @@ export default function Navbar() {
           <Link to="/about">About</Link>
           <Link to="/long-ap">
             <span className="material-symbols-outlined">wb_incandescent</span>
+          </Link>
+          <Link to="/notes">
+            <FontAwesomeIcon icon={faBook} />
           </Link>
         </li>
 

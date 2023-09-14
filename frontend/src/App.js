@@ -10,8 +10,8 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import AllCourses from "./pages/courses/AllCourses";
-import AllNotes from "./pages/AllNotes";
-import StudyNoteDetail from "./pages/StudyNoteDetail";
+import AllNotes from "./pages/notes/AllNotes";
+import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
 import LongAp from "./pages/longAp/LongAp";
 import NotFound from "./pages/404/404";
 
