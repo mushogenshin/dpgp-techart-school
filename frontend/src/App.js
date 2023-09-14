@@ -9,7 +9,7 @@ import FinishLogin from "./pages/login/FinishLogin";
 import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
-import Courses from "./pages/courses/Courses";
+import AllCourses from "./pages/courses/AllCourses";
 import LongAp from "./pages/longAp/LongAp";
 import NotFound from "./pages/404/404";
 
@@ -62,7 +62,7 @@ function App() {
           <Route
             path="courses"
             //  Unguarded Courses page
-            element={<Courses />}
+            element={<AllCourses />}
           />
           <Route path="course/:courseId" element={<CourseDetail />} />
           <Route path="course/:courseId/:modId" element={<CourseDetail />} />

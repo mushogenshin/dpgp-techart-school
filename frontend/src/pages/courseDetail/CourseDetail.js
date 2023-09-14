@@ -87,10 +87,10 @@ export default function CourseDetail() {
 function ChooseModule({ moduleIds, activeModId }) {
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const [index, setIndex] = useState(null);
+  // const [index, setIndex] = useState(null);
 
   const routeActiveModule = (target, i) => {
-    setIndex(i);
+    // setIndex(i);
     navigate(`/course/${courseId}/${target}`);
   };
 
@@ -99,10 +99,10 @@ function ChooseModule({ moduleIds, activeModId }) {
       {moduleIds && (
         <div>
           <ul>
-            {moduleIds.map((modId, index) => (
+            {moduleIds.map((modId, i) => (
               <li
-                key={index}
-                onClick={() => routeActiveModule(modId, index)}
+                key={i}
+                onClick={() => routeActiveModule(modId, i)}
                 className={activeModId === modId ? styles.active : {}}
               >
                 {modId}

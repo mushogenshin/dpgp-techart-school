@@ -3,10 +3,10 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { faImages } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Courses.module.css";
 
-export default function Courses() {
+export default function AllCourses() {
   const { user } = useAuthContext();
   const { courses, coursesError } = useCoursesContext();
 
@@ -104,7 +104,7 @@ function All({ courses, coursesError }) {
                 {cls.name} <span className={styles["course-id"]}>{cls.id}</span>{" "}
                 {cls.show_student_works && (
                   <FontAwesomeIcon
-                    icon={faImage}
+                    icon={faImages}
                     className={styles["student-works"]}
                   />
                 )}
