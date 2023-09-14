@@ -1,21 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import reportWebVitals from "./reportWebVitals";
+
 import { AuthContextProvider } from "./context/AuthContext";
 import { CoursesContextProvider } from "./context/CoursesContext";
 import { UsersContextProvider } from "./context/UsersContext";
+
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import "./index.css";
+
+// apollo client setup
+const client = new ApolloClient({
+  uri: `${process.env.REACT_APP_API_URL}`,
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <AuthContextProvider>
-    <CoursesContextProvider>
-      <UsersContextProvider>
-        <App />
-      </UsersContextProvider>
-    </CoursesContextProvider>
+    <UsersContextProvider>
+      <CoursesContextProvider>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </CoursesContextProvider>
+    </UsersContextProvider>
   </AuthContextProvider>
   // </React.StrictMode>
 );
