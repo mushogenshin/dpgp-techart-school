@@ -33,7 +33,12 @@ export default function AllNotes() {
   const { loading, error, data } = useQuery(STUDY_NOTES);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error 😰: {error.message}</p>;
+  if (error)
+    return (
+      <div className="not-found">
+        <p className="not-found-prompt">Error 😰: {error.message}</p>;
+      </div>
+    );
 
   return (
     <div className={styles.notes}>

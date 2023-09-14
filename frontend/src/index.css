@@ -84,6 +84,19 @@ code {
   }
 }
 
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+  
+.not-found-prompt {
+  font-size: 8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
 .btn {
   background: rgb(255, 136, 56);
   border: 6px solid rgb(255, 45, 25);
