@@ -5,37 +5,37 @@ import { useCollection } from "../../hooks/firestore/useCollection";
 
 import styles from "./Admin.module.css";
 
-export default function DuplicateModule() {
+export default function DuplicateContent() {
   const [collapsed, setCollapsed] = useState(true);
-  const [newModuleId, setNewModuleId] = useState("");
+  const [newContentId, setNewContentId] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
   // context for the form
-  const { documents: allModules } = useCollection("modules");
-  const [selectedModuleId, setSelectedModuleId] = useState(null);
+  const { documents: allModules } = useCollection("contents");
+  const [selectedContentId, setSelectedContentId] = useState(null);
 
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_]/g, "");
   };
 
-  const duplicateModule = async () => {
+  const duplicateContent = async () => {
     setError(null);
     setSuccess(false);
     setIsPending(true);
 
-    // Get the selected module document
-    const selectedModule = allModules.find(
-      (mod) => mod.id === selectedModuleId
+    // Get the selected content document
+    const selectedContent = allModules.find(
+      (content) => content.id === selectedContentId
     );
 
-    // Create a new module document with the same data as the selected module
+    // Create a new content document with the same data as the selected content
     // but without the ID
-    delete selectedModule.id;
-    const newModuleData = { ...selectedModule };
-    const newModuleRef = doc(db, "modules", newModuleId);
-    await setDoc(newModuleRef, newModuleData)
+    delete selectedContent.id;
+    const newContentData = { ...selectedContent };
+    const newContentRef = doc(db, "contents", newContentId);
+    await setDoc(newContentRef, newContentData)
       .then((docRef) => {
         setError(null);
         setSuccess(true);
@@ -54,22 +54,22 @@ export default function DuplicateModule() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!selectedModuleId) {
-      setError("Chọn một module để duplicate");
+    if (!selectedContentId) {
+      setError("Chọn một content để duplicate");
       setSuccess(false);
       return;
     }
 
-    if (newModuleId === "") {
-      setError("Nhập một ID cho module mới");
+    if (newContentId === "") {
+      setError("Nhập một ID cho content mới");
       setSuccess(false);
       return;
     }
 
-    duplicateModule();
+    duplicateContent();
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Duplicate Module`;
+  const label = `${collapsed ? "👉" : "👇"} Duplicate Content`;
 
   return (
     <div>
@@ -83,13 +83,13 @@ export default function DuplicateModule() {
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
           <form>
-            <label htmlFor="moduleId">Module gốc:</label>
+            <label htmlFor="contentId">Content gốc:</label>
             <select
-              id="moduleId"
-              value={selectedModuleId}
-              onChange={(event) => setSelectedModuleId(event.target.value)}
+              id="contentId"
+              value={selectedContentId}
+              onChange={(event) => setSelectedContentId(event.target.value)}
             >
-              <option value="">-- Chọn module --</option>
+              <option value="">-- Chọn content --</option>
               {allModules &&
                 allModules.map((mod) => (
                   <option key={mod.id} value={mod.id}>
@@ -98,14 +98,14 @@ export default function DuplicateModule() {
                 ))}
             </select>
 
-            <label htmlFor="newModuleId">New Module ID:</label>
+            <label htmlFor="newContentId">New Content ID:</label>
             <input
               type="text"
-              id="newModuleId"
+              id="newContentId"
               placeholder="ABC_123"
-              value={newModuleId}
+              value={newContentId}
               onChange={(event) =>
-                setNewModuleId(sanitizeInput(event.target.value))
+                setNewContentId(sanitizeInput(event.target.value))
               }
             />
 

@@ -7,6 +7,7 @@ import QueryEnrollment from "./QueryEnrollment";
 import InsertUnit from "./InsertUnit";
 import InsertLesson from "./InsertLesson";
 import DuplicateModule from "./DuplicateModule";
+import DuplicateContent from "./DuplicateContent";
 
 import styles from "./Admin.module.css";
 
@@ -22,6 +23,7 @@ export default function Admin() {
           <GrantAccess />
           <QueryEnrollment />
           <DuplicateModule />
+          <DuplicateContent />
           <InsertUnit />
           <InsertLesson />
         </div>
