@@ -12,11 +12,12 @@ import DuplicateContent from "./DuplicateContent";
 import styles from "./Admin.module.css";
 
 export default function Admin() {
-  const { elevatedRole } = useAuthContext();
+  const { user, elevatedRole } = useAuthContext();
 
   return (
     <div className={styles.admin}>
       Your role: {elevatedRole.toUpperCase()}
+      <small>🔑 UID: {user.uid}</small>
       <hr></hr>
       {["admin", "collaborator"].includes(elevatedRole) ? (
         <div className={styles.admin}>

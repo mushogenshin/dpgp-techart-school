@@ -21,6 +21,8 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
     switch (type) {
       case "text":
         return "Markdown text...";
+      case "html":
+        return "HTML...";
       case "image":
         return "URL đến tấm hình...";
       case "file":
@@ -44,7 +46,9 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
 
     // if the block type is not `file`, remove the `name` field
     if (field === "type" && value !== "file") {
-      delete newBlocks[index].name;
+      newBlocks[index] = Object.entries(newBlocks[index])
+        .filter(([key]) => key !== "name")
+        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
     } else if (field === "type" && value === "file") {
       newBlocks[index].name = "";
     }
@@ -81,6 +85,7 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
             >
               <option value="">Select a type</option>
               <option value="text">Text</option>
+              <option value="html">HTML</option>
               <option value="image">Image</option>
               <option value="file">File</option>
               <option value="vimeo">Vimeo</option>

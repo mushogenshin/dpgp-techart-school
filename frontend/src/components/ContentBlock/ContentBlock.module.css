@@ -1,3 +1,7 @@
+.content-block pre {
+    white-space: pre-wrap;
+}
+
 .content-block {
     padding: 4px 0;
 }

@@ -10,6 +10,10 @@ export default function ContentBlock({ block }) {
     <div className={styles["content-block"]}>
       {block.type === "text" ? (
         <ReactMarkdown>{block.data}</ReactMarkdown>
+      ) : // ) : block.type === "plain_text" ? (
+      //   <pre>{block.data}</pre>
+      block.type === "html" ? (
+        <div dangerouslySetInnerHTML={{ __html: block.data }} />
       ) : block.type === "image" ? (
         <Image src={block.data} />
       ) : block.type === "vimeo" ? (
