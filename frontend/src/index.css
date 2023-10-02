@@ -124,3 +124,15 @@ code {
   background: #32d99f;
   color: #fff;
 }
+
+
+/* Responsive styles */
+
+@media screen and (max-width: 767px) {
+
+body {
+  margin: 0;
+  padding: 0;
+}
+  
+} /* /max-width:767px */
