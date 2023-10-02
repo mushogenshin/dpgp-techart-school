@@ -9,6 +9,7 @@ import { UsersContextProvider } from "./context/UsersContext";
 
 import App from "./App";
 import "./index.css";
+import "./responsive.css";
 
 // Strapi Apollo client setup
 const apolloClient = new ApolloClient({
