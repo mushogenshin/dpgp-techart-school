@@ -7,6 +7,8 @@ export function useFetchContents(contentIds, bypass) {
   const [isPending, setIsPending] = useState(false);
   const [contents, setContents] = useState(null);
 
+  console.log("Content IDs:", contentIds);
+
   useEffect(() => {
     setContents(null);
     setError(null);
@@ -33,8 +35,14 @@ export function useFetchContents(contentIds, bypass) {
               id: doc.id,
             };
           });
+
+          // sort the results array based on the order of the contentIds array
+          const sortedResults = contentIds.map((id) =>
+            results.find((result) => result.id === id)
+          );
+
           setError(null);
-          setContents(results);
+          setContents(sortedResults);
           setIsPending(false);
         },
         (error) => {
