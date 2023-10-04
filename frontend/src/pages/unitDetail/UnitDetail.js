@@ -54,7 +54,12 @@ function GuardedContents({ contentIds, bypass }) {
   useEffect(() => {
     if (lessonParam && contents) {
       // find the lesson with the specified lesson ID
-      const lessons = contents.flatMap((content) => content.lessons);
+      // NOTE: we're using `flat` and `filter` because the content doc
+      // may contain undefined lessons
+      const lessons = contents
+        .map((content) => content.lessons)
+        .filter((lessons) => lessons !== undefined)
+        .flat();
       const lessonLookup = lessons.find((lesson) => lesson.id === lessonParam);
 
       if (!lessonLookup) {

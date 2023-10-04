@@ -7,8 +7,6 @@ export function useFetchContents(contentIds, bypass) {
   const [isPending, setIsPending] = useState(false);
   const [contents, setContents] = useState(null);
 
-  console.log("Content IDs:", contentIds);
-
   useEffect(() => {
     setContents(null);
     setError(null);
@@ -28,6 +26,8 @@ export function useFetchContents(contentIds, bypass) {
       unsubscribe = onSnapshot(
         contentRef,
         (snapshot) => {
+          // NOTE: `onSnapshot` is async, therefore there is a chance that the
+          // contentData objects may be returned in a different order
           const results = snapshot.docs.map((doc) => {
             const contentData = doc.data();
             return {
