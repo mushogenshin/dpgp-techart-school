@@ -165,6 +165,37 @@ div[class*=Dashboard_dashboard] h2 {
     max-width: 100%;
 }
 
+div.CourseDetail_course-detail__eTmCR {
+    margin-left: auto !important;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+div[class*=Sidebar_sidebar__] {
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 10px 15px;
+    margin: 15px auto;
+}
+div[class*=Unit_unit-content__] {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+div[class*=Module_carousel__] ul {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+
+
 
 
 } /* /max-width:767px ----------------------------------------------------------------- */
