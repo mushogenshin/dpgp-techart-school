@@ -58,3 +58,43 @@
 <li>Để ở cọ Smooth  của BraveRabbit sau khi cài đặt thì mọi người vào Skin - Paint Smooth Weights Tool trong phần Smooth Skin Weights</li></br></br>
 
 Tips: Trong BraveRabbit hay SkinWrangler, khi vertex đang có dấu hiệu lạ và không hoạt động đúng như mong muốn thì mọi người có thể kiểm tra Lock/Unlock Skin Weight setting của joint trong Tool Paint weight default
+
+<!-- ------------------------------------------------------------------------------- -->
+
+--- 🔀 Transfer Skinning (2 trường hợp) 🔀 ---</br></br>
+
+Cùng topology:</br></br>
+<li>Setting thường dùng khi Copy Skinweight (Áp dụng khi 2 model nằm chồng lên nhau - cùng world position):</br>
+    Suface Association: Closest point on surface</br>
+    Influence Association 1: One to One</br>
+    Influence Association 2: Closest Joint</br>
+    Influence Association 3: None</br>
+    Normalize: Untick</li>
+
+<li>Do Skin weight ko lệ thuộc vào scale, position của vertex</li>
+<li>Khi transfer thì thường xuất ra files .xml hoặc là .json </li>
+<li>Trong ngSkinTools cho phép export json file cho từng mesh (mỗi mesh là mỗi 1 file json)</br>
+(Select mesh - File - Export Layers to json</li></br></br>
+
+<li>Export tool của Maya dựa trên UVs nên bắt buộc mesh phải được trải UVs và layout rõ ràng.</br>
+(nên export mở resolution càng cào càng tốt)</li>
+<li>1 trong những lý do ít người dùng export skin weight tool của maya là do nó không dùng được khi những UVs của các mesh bị chồng lên nhau</li>
+<li>Mọi người có thể dùng transferSkinCluster của BraveRabbit ở phần trên (plugin này sẽ export ra file với định dạng là scw)</li>
+
+<hr>Khác topology:</br></br>
+<li>Setting thường dùng khi Copy Skinweight (Áp dụng khi 2 model nằm chồng lên nhau - cùng world position):</br>
+    Suface Association: Closest point on surface</br>
+    Influence Association 1: One to One</br>
+    Influence Association 2: Closest Joint</br>
+    Influence Association 3: None</br>
+    Normalize: Untick</li>
+
+<li>Do khác topology thì Maya nó sẽ tự nội suy những vertex đã được thay đổi, và dĩ nhiên mình vẫn cần phải review và chỉnh sửa lại trong trường hợp weight không được tranfers qua như ý muốn</li>
+
+<hr>--- 👔 Skin cùng áo quần hay chỉ body trước? 👔 ---</br></br>
+
+Nên skin từ body trước rồi mới đến phần outfit và phụ kiện nhưng có những lưu ý như sau:
+
+<li>Trong trường hợp là làm Offline (Pre-render) thì có thể nhờ team model để chỉnh sửa và tách mesh (tốt cho cả model và rigger)</li>  
+<li>Realtime thì do cứ 1 mesh thì nó sẽ là tăng 1 draw call nên cần phải cẩn thận về số mesh được tách ra và số lượng joints được quy định trước đó</br> 
+(tips: skin và diễn anim trong mesh lẻ, trước khi integration thì mình sẽ combine mesh để giảm bớt việc draw call: vào Mesh - Combine Options - Enable Combine Skinning - Apply)</li>
