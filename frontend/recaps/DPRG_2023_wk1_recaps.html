@@ -1,0 +1,30 @@
+📝 Recap do bạn Võ Chí Thành (Jacob) thực hiện</br></br>
+
+- Skin/Skinning: dùng Joint để deform geometry</br> 
+- Vị trí đặt xương (joint) giúp định hình các khớp nối tốt hơn</br></br>
+
+<hr>--- T pose hay là A pose? ---</br></br>
+
+<li>T pose được sử dụng nhiều hơn do giá trị rotation nó sẽ sạch sẽ hơn và thuận tiện hơn cho animators khi diễn</li>
+<li>A pose giữ được volume của những khối cơ trên model nhiều hơn và thường dùng để diễn realistic</li>
+
+<hr>--- Những thao tác cần làm trước khi rig ---</br></br>
+
+<li>Delete history - node sẽ ảnh hưởng tới model khi rig</li>
+<li>Kiểm tra topology (lưới của nhân vật hoặc vật thể sẽ được rig)</li>
+
+<hr>--- Những thứ cần lưu ý khi đặt vị trí xương (joint) ---</br></br>   
+
+<li>Vị trí đặt pelvis nên ở giữa phần xương chậu</li>
+<li>Phần chân trên ngang hàng với Root/Pelvis thì nó sẽ dễ deform hơn</li>
+<li>Có thể dùng Cluster để test góc quay và xác định vị trí đặt joint</li>
+<li>Joint chỉ là "Pivots" của vertex, vì vậy, vị trí đặt joint không nhất thiết phải match 100% anatomy ở ngoài đời thật</li>
+<li>Nên cân bằng việc sắp xếp vị trí các joints để có được kết quả deform tốt nhất</li>
+
+<hr>--- Tips khi rig ---</br></br>
+
+<li>Nên ưu tiên những bộ phận chính của nhân vật để rig trước (tránh đi quá sâu vào chi tiết quá sớm)</li>
+<li>Sử dụng display layer để tránh select mesh nhầm trong quá trình đặt xương</li>
+<li>Để giảm lưới trên mesh cho rig proxy thì chúng ta có thể dùng lệnh Reduce nên mesh (Mesh - Reduce)</li>
+<li>Advance Skeleton rất nhạy cảm với tên nếu bị trùng, vì vậy hạn chế đặt tên trùng với những cái tên default của AS (thường xuyên bị lỗi với tên mesh, thậm chí cả tên của display layer)</br>
+(Có thể dùng comet rename script để thay đổi prefix, suffix của tên: http://www.comet-cartoons.com/melscript.php)</li>

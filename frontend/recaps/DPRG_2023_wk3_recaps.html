@@ -1,0 +1,60 @@
+📝 Recap do bạn Võ Chí Thành (Jacob) thực hiện</br></br>
+
+--- Thêm Tips cho việc skinning ---</br></br>
+<li>Nên skin với ROM để có thể preview được skinning của mesh có hoạt động đúng hay không
+(ROM - Range of Motion/Movement - biên độ chuyển động)</li>
+
+
+
+<hr>--- 🖌️ ngSkinTools 🖌️ ---</br></br>
+<li>Download: https://www.ngskintools.com/get/</li>
+<li>Tutorial: https://www.ngskintools.com/v2/tutorials/</li></br></br>
+
+
+--- Lợi thế của ngSkinTools ---</br></br>
+<li>Giống với photoshop ở việc là ngSkinTools sử dụng layers để quản lý skin weight</li>
+<li>Thuật toán smooth của ngSkinTools hoạt động tốt hơn so với smooth của Vanila Maya (Maya gốc)</li>
+<li>Có thể dùng mirror để copy weight từ trái sang phải hoặc ngược lại (ngSkinTools cho phép việc thay đổi mapping tùy thuộc vào naming convention của studio hay project)</li>
+
+
+
+<hr>--- Cách để skinning dùng ngSkinTools ---</br></br>
+<li>Để bắt đầu thì chọn mesh đã có node skinCluster - Initialize Skinning Layers</li>
+<li>Khi preview: Màu đỏ bằng 0, Trắng là 1 và những màu còn lại thể hiện việc những vertex đó cũng đang bị ảnh hưởng bởi những joint khác</li>
+<li>Khi paint weight thì vẫn như Vanila Maya: Trắng là 1 và đen là 0</li>
+<li>Tạo Layers để có thể xem hiệu quả của những thử nghiệm skinning</li>
+<li>Dùng phần search bên cột Influences để chọn chính xác xương dùng cho việc skinning</li>
+<li>Sau khi cảm thấy skinning trong layer đó đã đạt yêu cầu thì có thể Merge về layer chính</li>
+<li>Delete Custom Nodes for Selection để xóa node của ngSkinTools trước khi deliver cho anim</li>
+
+
+
+<hr>--- Tips khi paint weight trong ngSkinTools ---</br></br>
+<li>Dùng Replace - Flood để assign nhanh 1 value cho những vertex đã chọn cho 1 joint</li>
+<li>Dùng Smooth - Flood của ngSkin để tản đều skin weight</li>
+<li>Có thể dùng Mask để set vùng ảnh hưởng trong 1 layer nhất định (hạn chế việc paint nhầm hoặc flood nhầm sang những vertex không mong muốn)</li>
+
+
+
+<hr>--- 🤠 skinWrangler 🤠 ---</br></br>
+<li>Cách cài đặt và mở skinWrangler:</br>
+    + Copy folder vào Documents - maya - scripts</br>
+    + Chạy maya python:</br>
+        <pre>from skinWrangler import skinWranglerui; skinWranglerWindow = skinWranglerui.show()</pre></li>
+
+<li>SkinWrangler gần giống với Component Editor nhưng cho phép điều chỉnh value skin weight tốt hơn.</li>
+<li>SkinWrangler thường được dùng để tweak những vertex lẻ hoặc những vertex bị lỗi sau khi paint skin trong Vanila Maya hay là ngSkinTools</li>
+
+
+
+<hr>--- 🐰 BraveRabbit 🐰 ---</br></br>
+<li>Smooth tool trong BraveRabbit:
+    Link: https://github.com/IngoClemens/brSmoothWeights</li>
+<li>Transfer Skin Cluster:
+    Link: https://github.com/IngoClemens/transferSkinCluster</li>
+
+<li>Sau khi drag and drop vào maya thì mọi người cần enable plugins trong Windows - Settings/Preference - Plug-in Manager (brSmoothWeights.bundle và transferSkinCluster.py)</li>
+<li>BraveRabbit là 1 plugin free dùng để hỗ trợ cho việc skinning</li>
+<li>Để ở cọ Smooth  của BraveRabbit sau khi cài đặt thì mọi người vào Skin - Paint Smooth Weights Tool trong phần Smooth Skin Weights</li></br></br>
+
+Tips: Trong BraveRabbit hay SkinWrangler, khi vertex đang có dấu hiệu lạ và không hoạt động đúng như mong muốn thì mọi người có thể kiểm tra Lock/Unlock Skin Weight setting của joint trong Tool Paint weight default

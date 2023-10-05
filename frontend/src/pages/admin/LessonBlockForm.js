@@ -44,12 +44,13 @@ export default function LessonBlockForm({ blocks, setBlocks }) {
     // replace the block at the specified index and specified field with the new value
     newBlocks[index][field] = value;
 
-    // if the block type is not `file`, remove the `name` field
-    if (field === "type" && value !== "file") {
-      newBlocks[index] = Object.entries(newBlocks[index])
-        .filter(([key]) => key !== "name")
-        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+    // if current block type is not `file`, makes sure to remove the `name` field
+    if (newBlocks[index]["type"] !== "file") {
+      if (newBlocks[index].name !== undefined) {
+        delete newBlocks[index].name;
+      }
     } else if (field === "type" && value === "file") {
+      // users changed back to `file` type, so we need to add back the `name` field
       newBlocks[index].name = "";
     }
 

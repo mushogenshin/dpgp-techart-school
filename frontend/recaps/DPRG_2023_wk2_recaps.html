@@ -1,0 +1,42 @@
+📝 Recap do bạn Võ Chí Thành (Jacob) thực hiện</br></br>
+
+--- 🦴 Những lưu ý khi đặt xương 🦴---</br></br>
+    
+<li>Phần xương ở mũi bàn chân nên được đặt ở điểm cao nhất của bàn chân và nên chạm đất (trừ trường hợp mũi chân/ mũi giày bị cong lên)</li>
+<li>Phần xương đùi nên nằm ngang hàng với xương hông để hạn chế ảnh hưởng tới phần đầu gối</li>
+<li>Phần xương đầu nên được đặt ở dưới hộp sọ, không nên đặt quá cao hay quá thấp để giảm ảnh hưởng đến vùng cổ</li>
+<li>Có thể unparent những cái joint ra để thay đổi góc quay của xương - sau khi chỉnh sửa thì cần parent lại xương như ban đầu (Thường được sử dụng để fix xương ở ngón tay - lưu ý là không dùng FitMode sau khi thay đổi mà hãy dùng Update Now)</li>
+<li>Phần xương lưng thì ưu tiên đặt thẳng để giá trị của xương được đồng nhất nhưng trong trường hợp lưng của model bị cong quá thì mình vẫn nên đặt xương cong theo sống lưng của nhân vật</li>
+<li>Phần xương đòn (xương quai xanh) nên được đặt dưới cổ 1 tí (không nên đặt quá cao hay quá thấp gần phần dưới ngực do nó sẽ ảnh hưởng tới góc quay của phần vai)</li>
+
+<hr>--- 🤖 Những lưu ý khi rig 🤖 ---</br></br>
+    
+<li>Model phải được import vào file (reference thì Maya vẫn cho phép như dễ nảy sinh lỗi)</li>
+<li>Trong Advance Skeleton, có thể thêm joint ở bất kì đâu và chỉ cần đảm bảo những joint đó nằm trong hierachy của Advance Skeleton thì nó sẽ auto build controller</li>
+<li>Advance Skeleton sẽ auto build FK và mirror, nên nếu như chỉ muốn add joint 1 bên thì cần phải add thêm những tính năng khác trong phần Attribute</li>
+<li>Tuyệt đối không thay đổi size của controller bằng cách scale controller bằng transform gizmo</li>
+<li>Để thay đổi size của controller, chọn controller và Select Component Type (F8) để edit CVs (cái này là chỉnh sửa Shape nên sẽ không ảnh hưởng đến rig)(Tips: để scale shape của nhiều controller cùng 1 lúc theo trục của từng controller thì mình có thể đổi Scale Center sang Object trong Tool Settings)</li>
+<li>Có thể chỉnh màu sắc của controller trực tiếp trong Advance Skeleton hoặc vào trong Attribute Editor - Shape - Object Display - Draw Overdrive    - Enable Overrides và chọn màu ở phần Color</li>
+<li>Có thể chỉnh độ dày của controller (từ Maya 2017 trở lên) trong Attribute Editor - Shape - Object Display - Extra Attributes và thay đổi thông số trong Line Width</li>
+
+<hr>--- 🖌️ Paint Weight 🖌️ ---</br></br>
+
+<li>Weight là mức độ ảnh hưởng của joint với vertex được thể theo giá trị (Trắng là 1 và đen là 0)</li>
+<li>Bind Skin setting thường dùng:+ Bind to: Selected joints (gắn mesh vào những xương được lựa chọn)+ Bind method: Closest distance (thường sẽ paint lại từ đầu nên setting này không quá quan trọng)+ Skinning method: Weight blended+ Normalized weights: Interactive+ Weight distribution: Distance</li>
+<li>Normalized Weight Interactive bắt buộc mức ảnh hưởng của joint lên mesh có tổng là 1 (và nó auto recalculate giúp mình)</li>
+<li>Normalized Weight Post sẽ thêm mức ảnh hưởng khi mình paint weight nhưng mình phải remove manually những giá trị ở những xương mình đã paint trước đó</li>
+<li>Một cách khác để xem chi tiết có bao nhiêu vertices đang bị ảnh hưởng bởi nhữnmg joints nào và thông số là bao nhiêu ở trong Windows - General Editors - Component Editor</li>
+<li>Để add thêm xương vào bind skin thì mình có thể vào Skin - Edit Influences - Add Influence (lưu ý nên enable lock weight để tránh weight đã được paint trước đó bị ảnh hưởng bởi những xương mới được add vào)</li>
+
+<hr>--- 🧑‍🎨 Skinning tips 🧑‍🎨 ---</br></br>
+
+<li>Chỉnh size của tất cả các joints bằng cách vào Display - Animation - Joint Size...</li>
+<li>Flood toàn bộ vertext bằng 1 cho root trước sau đó unlock từng joint để paint weight</li>
+<li>Nên để 2 joints unlock để có thể paint weight hiệu quả và tránh vertex bị ảnh hưởng bởi những joint khác</li>
+<li>Có thể dùng Hammer để smooth giữa 2 loop (nên dùng cẩn thận do hammer có thể lấy giá trị từ joint đã lock)</li>
+<li>Save liên tục trong quá trình paint weight+ Skin 1 bên của character sau đó dùng Mirror Skin Weights để tiết kiệm thời gian</li>
+
+<hr>--- ❓ Lý do để không dùng ngSkinTool ❓ ---</br></br>
+(lưu ý là tuỳ hoàn cảnh mà cân nhắc lại)
+<li>ngSkinTools là plugin rời và nó gắn liền với file nên các máy cần có ngSkinTools mới có thể mở.</li>
+<li>ngSkinTools chỉ free cho non-commercial nên nếu dùng ở môi trường studio thì mọi người nên đảm bảo là có studio đã có license</li>
