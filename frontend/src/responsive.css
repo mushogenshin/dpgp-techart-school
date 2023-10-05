@@ -164,23 +164,25 @@ div[class*=Dashboard_dashboard] h2 {
     padding-top: 60px;
     max-width: 100%;
 }
-
 div.CourseDetail_course-detail__eTmCR {
     margin-left: auto !important;
     padding-left: 15px;
     padding-right: 15px;
 }
-div[class*=Sidebar_sidebar__] {
+/* div[class*=Sidebar_sidebar__] {
     position: relative;
     height: auto;
     width: 100%;
     padding: 10px 15px;
     margin: 15px auto;
-}
+} */
 div[class*=Unit_unit-content__] {
     max-width: 100%;
     padding-left: 0;
     padding-right: 0;
+}
+div[class*=Module_carousel__] {
+  margin: 15px 0;
 }
 div[class*=Module_carousel__] ul {
     display: flex;
@@ -193,6 +195,50 @@ div[class*=Module_carousel__] ul {
     align-items: center;
     gap: 15px;
 }
+div#course_details_main {
+  margin-left: 0px !important;
+  padding-bottom: 50px;
+}
+div#itu_sidebar_footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+}
+div#itu_sidebar_footer span {
+  display: flex;
+}
+div#itu_sidebar_main {
+  position: fixed;
+  top: 0;
+  left: -400px;
+  right: auto;
+  top: 0;
+  width: 350px;
+  max-width: 100%;
+  z-index: 99;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+div#itu_sidebar_main.open {
+  left: 0;
+}
+#itu_sidebar_main h3 {
+  font-size: 1rem;
+}
+#itu_sidebar_main li {
+  font-size: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 
 
 

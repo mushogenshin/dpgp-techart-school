@@ -46,6 +46,7 @@ export default function CourseDetail() {
 
   return (
     <div
+      id="course_details_main"
       className={styles["course-detail"]}
       style={
         // spare some space for the sidebar when viewing a Unit
@@ -95,7 +96,7 @@ function ChooseModule({ moduleIds, activeModId }) {
   };
 
   return (
-    <div className={styles.carousel}>
+    <div id="course_carousel_module" className={styles.carousel}>
       {moduleIds && (
         <div>
           <ul>
