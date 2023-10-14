@@ -1,0 +1,43 @@
+📝 Recap do bạn Võ Chí Thành (Jacob) thực hiện</br></br>
+
+--- 2 yếu tố chính để xác định 1 Skinning đẹp (dành cho character) ---</br></br>
+<li>Bảo toàn được Volumn nhiều nhất có thể ở các xương (Đặc biệt là cùi chỏ và đầu gối)</li>
+<li>Gợi cảm giác skin slide khi xương chuyển động</li>
+
+
+<hr>--- Note về Skinning ---</br></br>
+
+<li>Phần khớp vai hông là 2 phần khá khó và cần được dành thời gian nhiều hơn trong quá trình đặt xương và skinning</li>
+<li>Lưu ý: Phần xương đùi nằm ngang với xương hông hoạt động rất tốt trong một số trường hợp nhất định, nhưng không phải lúc nào cũng áp dụng được nên tùy trường hợp mà chúng ta phải đặt xương hông lệch so với 2 xương đùi</li>
+<li>3 thành phần của một khớp bản lề (hinge joint), nên được đặt trên cùng 1 mặt phẳng và có đủ góc tam giác để mặt phẳng đó có thể gấp được như ý muốn</br>
+(3 thành phần ở đây ví dụ như là cánh tay - cùi chỏ - cổ tay, hay là đùi - đầu gối - cổ chân)</li>
+<li>Xương đầu gối thì nên được đặt nhích ra trước 1 tí để giữ form đầu gối (có thể nhờ modeler thêm loop ở đầu gối để khi skin có thể giữ được form phía trước tốt hơn)</li>
+<li>Xương đầu khi di chuyển sẽ bao gồm chuyển động phần tai theo chiều ngược lại</br>
+(khi đầu nghiêng xuống dưới thì phần tai sẽ di chuyển lên trên so với vị trí ban đầu và ngược lại)</li>
+<li>Phần xương đầu và xương cổ nên được tách riêng ra phòng trường hợp animator muốn diễn chi tiết hơn</li>
+
+
+<hr>--- Skinning methods trong game? ---</br></br>
+
+<li>Người ta thường dùng Classic Linear skinning trong game.</li>
+<li>Classic Linear skinning method (tổng value skinning trên 1 vertex bằng 1 => dễ quản lý) không bảo toàn tốt được volumn của mesh nhưng có thể thêm corrective/additive blendshapes để khắc phục việc mất volumn</li>
+<li>Dual Quaternion Method thì bảo toàn được volumn của mesh tốt hơn NHƯNG hiện tại KHÔNG sử dụng được trong những game engine thường dùng (Unity và Unreal Engine) => phù hợp hơn nếu như làm phim render offline</li>
+
+
+--- Mọi người có thể tham khảo thêm ---</br></br>
+
+Euler (Gimbal Lock) - 1 trong những kiến thức khá quan trọng trong rigging cần lưu ý. 
+(Video giải thích Euler, Rotation order, etc... từ bác Andrew Silke trên kênh GuerrillaCG)
+https://www.youtube.com/watch?v=zc8b2Jo7mno
+
+Pose Space Deformer (PSD) - PSD có thể dùng cone reader để trigger blendshape (Video so sánh PSD và Euler Based Deformer của bác Andrew Silke) 
++ Pose Space Deformers: The Pose Reader Overview (Maya 1/3): 
+https://www.youtube.com/watch?v=6Gb3ZiITCmE
++ Pose Space Deformers: The Pose Reader Overview (Maya 2/3):
+https://www.youtube.com/watch?v=_4nYjT-rASo
++ Pose Space Deformers: The Pose Reader Overview (Maya 3/3):
+https://www.youtube.com/watch?v=O1Oz6dGcC3I
++ PSD được tích hợp trực tiếp trong Maya (Enable plugin của PSD trong Maya (từ Maya 2016) - poseInterpolator)
+
+Radial Basis Function (RBF) - RBF Solver không được tích hợp sẵn trong Maya (RBF solver and pose interpolator setup: 
+https://vimeo.com/204003227
