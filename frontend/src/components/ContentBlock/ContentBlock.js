@@ -33,7 +33,7 @@ export default function ContentBlock({ block }) {
         </div>
       ) : block.type === "sketchfab" ? (
         <Sketchfab id={block.data} />
-      ) : // TODO: add support for other block types, e.g. image, audio, etc.
+      ) : // TODO: add support for other block types, e.g. audio, etc.
       null}
     </div>
   );
