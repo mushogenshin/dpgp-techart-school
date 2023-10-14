@@ -1,0 +1,76 @@
+📝 Recap do bạn Võ Chí Thành (Jacob) thực hiện</br></br>
+
+--- Bone placement/Đặt xương ---</br></br>
+<li>Việc đặt xương là nền móng cực kỳ quan trọng của việc rigging</li>
+<li>Luôn luôn ưu tiên việc đặt xương chính xác vì không phải lúc nào cũng có thể sử dụng tool để chỉnh lại vị trí của xương sau khi đã skin và add controllers</li>
+
+
+
+<hr>--- Facial Rigging bằng Advanced Skeleton ---</br></br>
+<li>Mọi người vào phần Face để có thể bắt đầu rig mặt trong Advanced Skeleton</li>
+<li>Trong phần Face nếu nhưng có những mục mà mọi người không rõ thì đều có thể nhấn nút "?" để có thể xem thêm thông tin chi tiết</li>
+<li>Phần Fit thì cần phải chọn những Edge loop hoặc là vertex theo hướng dẫn để Advanced Skeleton có thể tính toán đặt vị trí xương và chỉnh sửa skinning giúp mình</li>
+<li>Lưu ý: Facial rigging trong Advanced Skeleton chỉ hoạt động được khi model có những edge loop đầy đủ cho những vùng như mắt hay môi</li>
+
+
+
+<hr>--- Node ---</br></br>
+
+<li>Node có những Attribute (thuộc tính) riêng của nó</li>
+<li>1 mesh thường sẽ có 3 nodes chính - Transform node - Shape node - ShadingGroup</br>
+(mọi người có thể xem chính xác object đó có node gì bằng cách chọn object đó vào Node Editor và nhấn nút có 2 mũi tên trong 1 ô vuông)</li>
+<li>Cách để chọn 1 node nào đó: + Vào AttributeEditor - chọn tab của node đó - nhấn nút Select ở phía dưới cùng của AttributeEditor+ Chọn object - mở Node Editor - chọn Input Connections - chọn đúng node mình cần - clear the graph - add selected node to graph+ Search tên trên thanh tool bar Select by name+ Trong Outliner - Display - untick DAG Objects Only - tìm node mình cần trong Outliner</li>
+<li>Khi mọi người model thì việc làm những thao tác như extrude, cut, add loop, v.v... thì nó đồng nghĩa với việc là mình đang thêm node cho mesh đó</li>
+<li>Lưu ý: những node này ko dùng để chỉnh sửa được vì nó chỉ cho mình biết được những node này đã được build như thế nào. (Nếu chỉnh sửa node sau khi đã build thì nó thường sẽ không cho ra kết quả như ý muốn hoặc tệ hơn là phá hư model của mình)</li>
+<hr>
+
+
+Mọi người xem thêm về node ở đây trong video giải thích của a Huy:
+https://www.youtube.com/watch?v=vDb7I4aPUa0&list=PLG-Lq42qknex3JrtXF8MZhfP7nz5S8s4d&ab_channel=MeshwithMe
+
+--- Blendshape ---</br></br>
+
+<li>Blendshape là 1 node nằm trong group Deformer</li>
+<li>Deformer bao gồm những node có thể làm thay đổi được hình dạng của 1 shape</li>
+<li>Blend target là shape đã được chỉnh sửa và được dùng để tạo blendshape node cho shape gốc ban đầu</li>
+<li>Blendshape hoạt động được dựa trên vertex order</li>
+<li>Maya sẽ so sánh từng vertexID của mesh chính và từng vertexID của blend target để có thể thay đổi được shape của mesh đó trên blendshape</li>
+<li>2 mesh giống nhau nằm ở 2 vị trí khác nhau trong world nhưng vẫn có thể sử dụng làm blendtarget cho mesh gốc được nếu như giá trị vị trí của mesh đó node transform.</li>
+
+</br></br>*Lưu ý: 
+
+<li>Thứ tự của các layer deformer cực kì quan trọng nên mọi người phải cẩn thận sắp xếp thứ tự của các layer deformer để nó hoạt động như ý muốn</br>
+(cách để thay đổi thứ tự của layer deformer là chọn object - nhấn giữ chuột phải - Inputs - All Inputs... - nhấn giữ chuột giữa trên cái deformer và kéo vào vị trí mong muốn)</li>
+<li>Node của 1 object trong Maya sẽ có thứ tự từ dưới lên</br>
+(node dưới cùng sẽ là node đầu tiên và node trên cùng sẽ là node được thêm vào cuối cùng)</li>
+
+</br></br>Ví dụ:
+
+<li>Blendshape node đặt trước skinCluster node:</br>
+Blendshape sẽ thay đổi shape của của object trước rồi sau đó mới tính đến vị trí vertex của skinCluster (shape được giữ nguyên mặc dù mình thay đổi vị trí)</li>
+
+<li>Blendshape node đặt sau skinCluster node:</br>
+Vị trí của shape đã được thay đổi dựa theo skinCluster, sau đó nếu mình bật giá trị của blendshape thì nó shape sẽ được thay đổi để match với blendtarget.</br>
+(shape được trả về blend target dù cho vị trí đã được thay đổi như thế nào)</li>
+
+
+
+<hr>--- Shape Editor ---</br></br>
+
+<li>Để tạo blendshape mới trực tiếp trong Maya, chúng ta vào Windows - Animation Editors - Shape Editor</li>
+<li>Chọn Create Blend Shape để tạo blendshape node mới - chuột phải Add target và rename theo ý muốn</li>
+<li>Khi sculpt thì phải enable Edit (Edit phải hiện màu đỏ), nếu không mesh sẽ bị phá hư do mình đang thay đổi shape của mesh gốc</li>
+<li>Lưu ý: Khi Set Driven Key thì nên set Corrective Blendshape vào xương thay vì controller</li>
+
+
+<hr>--- 2 yếu tố chính làm nên 1 rig tốt + đẹp ---</br></br>
+<li>Rig có stable hay không?</li>
+<li>Deformation có đẹp hay không?</li>
+
+
+
+--- Mọi người có thể tìm hiểu và tham khảo thêm ---
++ Lattice Deformer: 1 ví dụ vui về squash and stretch rig của bác Iker (cựu Character TD của Disney Animation): 
+https://www.youtube.com/shorts/XGrodAb9D0M
++ FACS - Facial Action Coding System
+(https://imotions.com/blog/learning/research-fundamentals/facial-action-coding-system/)
