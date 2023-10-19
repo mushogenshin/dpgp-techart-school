@@ -24,7 +24,7 @@ export default function CourseDetail() {
     [courseLookup]
   );
   const showStudentWorks =
-    (courseLookup && courseLookup.show_student_works) || false;
+    (courseLookup && courseLookup.shows_student_works) || false;
 
   useNavigateFirstUnit();
 

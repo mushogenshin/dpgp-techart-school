@@ -59,9 +59,12 @@ export default function Album({ albumName, folderName, imgLabels }) {
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
           />
+
+          {/* DEBUG */}
           {/* <p>{activeDownloadURL}</p> */}
           {/* <p>{files[activeIndex].name}</p> */}
-          {imgLabels && (
+
+          {imgLabels[activeIndex] && (
             <p className={styles.label}>{imgLabels[activeIndex]}</p>
           )}
           {activeDownloadURL && <img src={activeDownloadURL} alt="" />}

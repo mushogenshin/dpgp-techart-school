@@ -102,7 +102,7 @@ function All({ courses, coursesError }) {
             <li key={cls.id}>
               <Link to={`/course/${cls.id}`}>
                 {cls.name} <span className={styles["course-id"]}>{cls.id}</span>{" "}
-                {cls.show_student_works && (
+                {cls.shows_student_works && (
                   <FontAwesomeIcon
                     icon={faImages}
                     className={styles["student-works"]}
