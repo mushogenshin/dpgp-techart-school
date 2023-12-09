@@ -289,44 +289,53 @@ mod tests {
             //         .description("Facial Expression")
             //         .folder_label("TRACK C"),
             // ),
+            // (
+            //     "HAA21_mod1",
+            //     LearningModule::default()
+            //         .duration_and_start("4w", 2023, 8, 26)
+            //         .unwrap()
+            //         // online
+            //         .description("Human Skeleton & Bony Landmarks")
+            //         .folder_label("MOD 1"),
+            // ),
+            // (
+            //     "HAA21_mod2",
+            //     LearningModule::default()
+            //         .duration_and_start("4w", 2023, 9, 30)
+            //         .unwrap()
+            //         // online
+            //         .weeks_offset(4)
+            //         .description("Muscles of the Torso, Upper Arms & Upper Legs")
+            //         .folder_label("MOD 2"),
+            // ),
+            // (
+            //     "HAA21_mod3",
+            //     LearningModule::default()
+            //         .duration_and_start("4w", 2023, 11, 4)
+            //         .unwrap()
+            //         // online
+            //         .weeks_offset(8)
+            //         .description("Gesture Drawing")
+            //         .folder_label("MOD 3"),
+            // ),
+            // (
+            //     "HAA21_mod4",
+            //     LearningModule::default()
+            //         .duration_and_start("4w", 2023, 12, 9)
+            //         .unwrap()
+            //         // online
+            //         .weeks_offset(12)
+            //         .description("Muscles of the Lower Arms & Lower Legs")
+            //         .folder_label("MOD 4"),
+            // ),
             (
-                "HAA21_mod1",
+                "PNFD1_all",
                 LearningModule::default()
-                    .duration_and_start("4w", 2023, 8, 26)
+                    .duration_and_start("6w", 2023, 12, 31)
                     .unwrap()
                     // online
-                    .description("Human Skeleton & Bony Landmarks")
-                    .folder_label("MOD 1"),
-            ),
-            (
-                "HAA21_mod2",
-                LearningModule::default()
-                    .duration_and_start("4w", 2023, 9, 30)
-                    .unwrap()
-                    // online
-                    .weeks_offset(4)
-                    .description("Muscles of the Torso, Upper Arms & Upper Legs")
-                    .folder_label("MOD 2"),
-            ),
-            (
-                "HAA21_mod3",
-                LearningModule::default()
-                    .duration_and_start("4w", 2023, 11, 4)
-                    .unwrap()
-                    // online
-                    .weeks_offset(8)
-                    .description("Gesture Drawing")
-                    .folder_label("MOD 3"),
-            ),
-            (
-                "HAA21_mod4",
-                LearningModule::default()
-                    .duration_and_start("4w", 2023, 12, 9)
-                    .unwrap()
-                    // online
-                    .weeks_offset(12)
-                    .description("Muscles of the Lower Arms & Lower Legs")
-                    .folder_label("MOD 4"),
+                    .weeks_offset(0)
+                    .description(""), // .folder_label(""),
             ),
         ];
 
@@ -617,17 +626,48 @@ mod tests {
             //         .module("FAP01_trackC")
             //         .location("CKA Studio, Q.Tân Bình, Sài Gòn"),
             // ),
+            // (
+            //     "HAA21",
+            //     Class::default()
+            //         .categories(&["Art", "Anatomy"])
+            //         .name("Human Anatomy for Artists")
+            //         .instructor("Nguyễn Trọng Hoan")
+            //         .assistant("Nguyễn Hoàng Nguyên")
+            //         .module("HAA21_mod1")
+            //         .module("HAA21_mod2")
+            //         .module("HAA21_mod3")
+            //         .module("HAA21_mod4"),
+            // ),
+            // (
+            //     "FAP02",
+            //     Class::default()
+            //         .categories(&["Art", "Anatomy"])
+            //         .name("Facial Anatomy & Portraiture")
+            //         .instructor("Nguyễn Trọng Hoan")
+            //         .assistant("Huệ GN")
+            //         .module("FAP02_trackA")
+            //         .module("FAP02_trackB")
+            //         .module("FAP02_trackC"),
+            // ),
             (
-                "HAA21",
+                "HAA22",
                 Class::default()
                     .categories(&["Art", "Anatomy"])
                     .name("Human Anatomy for Artists")
                     .instructor("Nguyễn Trọng Hoan")
-                    .assistant("Nguyễn Hoàng Nguyên")
-                    .module("HAA21_mod1")
-                    .module("HAA21_mod2")
-                    .module("HAA21_mod3")
-                    .module("HAA21_mod4"),
+                    .assistant("Huệ GN")
+                    .module("HAA22_mod1")
+                    .module("HAA22_mod2")
+                    .module("HAA22_mod3")
+                    .module("HAA22_mod4"),
+            ),
+            (
+                "PNFD1",
+                Class::default()
+                    .categories(&["Art", "Gesture", "Anatomy", "Figurative"])
+                    .name("Vẽ Người")
+                    .instructor("Nguyễn Hoàng Nguyên")
+                    .module("PNFD1_all"),
             ),
         ];
 
