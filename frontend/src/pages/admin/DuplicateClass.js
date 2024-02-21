@@ -7,35 +7,33 @@ import styles from "./Admin.module.css";
 
 export default function DuplicateClass() {
   const [collapsed, setCollapsed] = useState(true);
-  const [newModuleId, setNewModuleId] = useState("");
+  const [newClassId, setNewClassId] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
   // context for the form
-  const { documents: allModules } = useCollection("modules");
-  const [selectedModuleId, setSelectedModuleId] = useState(null);
+  const { documents: allClasses } = useCollection("classes");
+  const [selectedClassId, setSelectedClassId] = useState(null);
 
   const sanitizeInput = (input) => {
     return input.replace(/[^a-zA-Z0-9_]/g, "");
   };
 
-  const duplicateModule = async () => {
+  const duplicateClass = async () => {
     setError(null);
     setSuccess(false);
     setIsPending(true);
 
-    // Get the selected module document
-    const selectedModule = allModules.find(
-      (mod) => mod.id === selectedModuleId
-    );
+    // Get the selected class document
+    const selectedClass = allClasses.find((cls) => cls.id === selectedClassId);
 
-    // Create a new module document with the same data as the selected module
+    // Create a new class document with the same data as the selected class
     // but without the ID
-    delete selectedModule.id;
-    const newModuleData = { ...selectedModule };
-    const newModuleRef = doc(db, "modules", newModuleId);
-    await setDoc(newModuleRef, newModuleData)
+    delete selectedClass.id;
+    const newClassData = { ...selectedClass };
+    const newClassRef = doc(db, "classes", newClassId);
+    await setDoc(newClassRef, newClassData)
       .then((docRef) => {
         setError(null);
         setSuccess(true);
@@ -54,22 +52,22 @@ export default function DuplicateClass() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!selectedModuleId) {
-      setError("Chọn một module để duplicate");
+    if (!selectedClassId) {
+      setError("Chọn một class để duplicate");
       setSuccess(false);
       return;
     }
 
-    if (newModuleId === "") {
-      setError("Nhập một ID cho module mới");
+    if (newClassId === "") {
+      setError("Nhập một ID cho class mới");
       setSuccess(false);
       return;
     }
 
-    duplicateModule();
+    duplicateClass();
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Duplicate Module`;
+  const label = `${collapsed ? "👉" : "👇"} Duplicate Class`;
 
   return (
     <div>
@@ -83,29 +81,29 @@ export default function DuplicateClass() {
       {!collapsed && (
         <div className={collapsed ? "" : styles.section}>
           <form>
-            <label htmlFor="moduleId">Module gốc:</label>
+            <label htmlFor="classId">Class gốc:</label>
             <select
-              id="moduleId"
-              value={selectedModuleId}
-              onChange={(event) => setSelectedModuleId(event.target.value)}
+              id="classId"
+              value={selectedClassId}
+              onChange={(event) => setSelectedClassId(event.target.value)}
             >
-              <option value="">-- Chọn module --</option>
-              {allModules &&
-                allModules.map((mod) => (
-                  <option key={mod.id} value={mod.id}>
-                    {mod.id}
+              <option value="">-- Chọn class --</option>
+              {allClasses &&
+                allClasses.map((cls) => (
+                  <option key={cls.id} value={cls.id}>
+                    {cls.id}
                   </option>
                 ))}
             </select>
 
-            <label htmlFor="newModuleId">New Module ID:</label>
+            <label htmlFor="newClassId">New Class ID:</label>
             <input
               type="text"
-              id="newModuleId"
+              id="newClassId"
               placeholder="ABC_123"
-              value={newModuleId}
+              value={newClassId}
               onChange={(event) =>
-                setNewModuleId(sanitizeInput(event.target.value))
+                setNewClassId(sanitizeInput(event.target.value))
               }
             />
 

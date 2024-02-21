@@ -6,6 +6,7 @@ import GrantAccess from "./GrantAccess";
 import QueryEnrollment from "./QueryEnrollment";
 import InsertUnit from "./InsertUnit";
 import InsertLesson from "./InsertLesson";
+import DuplicateClass from "./DuplicateClass";
 import DuplicateModule from "./DuplicateModule";
 import DuplicateContent from "./DuplicateContent";
 
@@ -23,6 +24,7 @@ export default function Admin() {
         <div className={styles.admin}>
           <GrantAccess />
           <QueryEnrollment />
+          <DuplicateClass />
           <DuplicateModule />
           <DuplicateContent />
           <InsertUnit />
