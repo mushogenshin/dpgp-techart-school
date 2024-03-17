@@ -70,6 +70,7 @@
     color: #777;
     width: 100%;
     border-radius: 7px;
+    font-size: 12pt;
 }
 
 .admin input::placeholder {
