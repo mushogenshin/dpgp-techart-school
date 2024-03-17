@@ -1,0 +1,9 @@
+----- RECAP-WEEK12 -----
+
+--- Scale main controller mà không bị hư rig? ---
+Mesh thường sẽ không được parent dưới main controller để tránh trường hợp bị double transform (do mesh scale đang bị ảnh hưởng bởi cả giá trị của main controller và joint)
+Joint và controller khác thường sẽ được tách riêng để chúng ta có thể constraint controller với joint (cũng tránh trường hợp double transform)
+Tùy vào rigger mà có trường hợp rigger sẽ gom hầu hết constraint của skeleton vào 1 group để giảm thiểu việc animator key nhầm và chọn nhầm
+
+Trong trường hợp được yêu cầu phải parent tất cả vào trong 1 main controller thì chúng ta có thể disable Inherits Transform để mesh không bị double transform
+Inherits Transform nằm ở trong tab Attribute Editor - mục Transform Attributes

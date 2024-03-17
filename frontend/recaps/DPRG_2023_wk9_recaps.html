@@ -1,0 +1,50 @@
+----- RECAP-WEEK09 (1) -----
+
+
+--- Offset group ---
+Offset group được dùng để lưu thông tin transform (translate, rotate và scale) default của controllers để animator có thể tiện đưa về pose ban đầu
+Thuật ngữ khác của offset group là Zero out
+Một trong những cách để zero out 1 controller đó là:
+Tạo 1 group rỗng, thay đổi tên group để dễ dàng quản lý
+Parent constraint group rỗng vào controller (tắt Maintain offset)
+Lưu ý: khi parent 1 object nào đó thì giá trị của object đó sẽ được tính tương đối với object cha
+(Mọi người có thể tham khảo lại video về transform node của a Huy: https://www.youtube.com/watch?v=mo--CCPPScc&t=4s)
+
+
+--- Joint orientation ---
+Có 2 yếu tố quan trọng của joint orientation:+ Có 1 trục chính hướng về child (thường là trục X nhưng không bắt buộc - tùy vào pipeline của studio)+ Trục thứ 2 và thứ 3 nên được đặt vuông góc với mặt phẳng được tạo của joint chain(Việc đặt trục thứ 2 hoặc trục thứ 3 hợp lý giúp giảm thiểu việc Gimbal Lock nhiều nhất có thể)
+Cách để orient joint thủ công mà không dùng tool đó là dùng Aim Constraint
+Trong joint node có 1 điểm đặc biệt đó là nó có joint orient, đây là đặc tính được tích hợp thêm trong joint
+Chúng ta có thể xem phần joint orient này như 1 offset group được tích hợp sẵn trong joint
+Khi chúng ta đã dùng aim constraint từ joint cha xuống joint con và xóa aim constraint thì có thể value rotation vẫn không được zero out
+Chúng ta phải dùng Freeze Transform để Zero out được value rotate của joint đó (value đó sẽ được chuyển xuống Joint Orient)
+1 tip troubleshoot nhanh để kiểm tra xem joint cha có aim chính xác vào joint con hay không đó là chúng ta sẽ check value translate của joint con (nếu aim constraint trục chính là X thì joint con sẽ chỉ có value translate trên trục X)
+Tool dùng để Orient joint được tích hợp sẵn trong tab Skeleton - Orient Joint với setting cần điều chỉnh:+ Trục chính: Primary Axis+ Trục thứ 2: Secondary Axis
+
+
+*Mọi người có thể xem lại video giải thích Euler, Rotation order, etc... từ bác Andrew Silke trên kênh GuerrillaCG mình có giới thiệu trong tuần 4 - https://www.youtube.com/watch?v=zc8b2Jo7mno
+----- RECAP-WEEK09 (2) -----
+
+--- FK/IK ---
+FK: Forward Kinematics - trong FK thì joint cha sẽ có sức ảnh hưởng tới joint con và đi theo thứ tự hierachy 
+(ví dụ:  joint vai xoay ảnh hưởng tới vị trí của joint cùi chỏ
+     joint cùi chỏ xoay, làm thay đổi vị trí xương cổ tay
+     joint cổ tay xoay thì ảnh hưởng tới xương ngón tay)
+
+IK: Inverse Kinematics - trong IK thì joint con có sức ảnh hưởng tới joint ở giữa joint con và joint cha
+(ví dụ:  joint cổ tay thay đổi vị trí thì joint cùi chỏ cũng sẽ được di chuyển
+     vị trí của joint cùi chỏ sẽ vẫn giữ trên 1 mặt phẳng được tạo giữa joint vai, joint cổ tay và pole vector)
+
+Trong IK thì còn có thêm Pole Vector - được dùng để điều chỉnh mặt phẳng hướng xoay của joint giữa
+1 điểm quan trọng đó là 3 joints đó phải nằm cùng 1 mặt phẳng với Pole Vector để nó có thể hoạt động được
+(trong trường hợp 4 điểm đó không nằm cùng 1 mặt phẳng thì góc xoay sẽ bị lỗi
+Yếu tố quan trọng thứ 2 đó là trục thứ 2 hoặc thứ 3 của joint giữa phải vuông góc với mặt phẳng được tạo ra bởi 3 điểm (joint cha, joint con và pole vector)
+
+
+Tips: 
+    + Nếu như xương cha hướng đúng về phía của xương tiếp theo theo trục chính và đã được zero out thì value translate của xương tiếp theo đó sẽ chỉ có giá trị trên trục chính thôi. (ví dụ: nếu joint A hướng về joint B theo trục X thì value translate Y và Z của joint B sẽ bằng 0)
+    + Nếu như trục thứ 2 (secondary axis) nằm vuông góc với mặt phẳng được tạo ra bởi 3 điểm (joint cha, joint con và pole vector) thì joint giữa chỉ có value ở trục thứ 2 trong Joint Orient ( ví dụ: joint cha là xương vai, joint giữa là xương cùi chỏ, joint con là xương cổ tay và trục chính hướng về child là trục X. Nếu xương cùi bỏ có trục thứ 2 vuông góc với mặt phẳng được tạo ra bởi 3 xương đó thì xương cùi chỏ sẽ có giá trị X và Z bằng 0)
+
+
+--- IK Splines và Ribbon Spines ---
+Link tham khảo thêm về IK Splines và Ribbon Spines: https://www.youtube.com/watch?v=w5VTJxmYuj8

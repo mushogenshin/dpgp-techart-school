@@ -1,0 +1,103 @@
+----- RECAP-WEEK07 (1) -----
+
+--- Nodes & Network ---
+Những ai chưa xem clip giải thích của anh Huy thì vào xem tại đây để bổ sung lại kiến thức:
+https://www.youtube.com/watch?v=vDb7I4aPUa0&list=PLG-Lq42qknex3JrtXF8MZhfP7nz5S8s4d&ab_channel=MeshwithMe
+
+
+
+--- Những cách để có chọn 1 node ---
+
+Cách đơn giản nhất để chọn node là vào Attribute Editor, nhấnn tab(node) muốn chọn và nhấn Select ở phía dưới
+Chọn node bằng tên: nhập đúng tên của node cần chọn vào phần 'Select by name' trên thanh Status Line
+Chọn node trong Outliner bằng cách untick DAG Object Only trong phần Display
+Chọn Node trong Node Editor: Chọn tab Windows - Node Editor - chọn object và nhấn Input and output connections
+(Một cách để xem nhanh 1 object có chứa những node gì đó là vào Attribute Editor, mỗi 1 cái tab tương ứng với 1 node. Lưu ý cách này có thể sẽ không xem được toàn bộ node của object đó)
+
+
+
+--- DG và DAG ---
+
+DG Nodes - Dependency Graph:
+Tất cả các node trong maya thì đều là DG nodes
+DAG nodes - Directed Acylic Graph:
+DAG nodes là 1 phần nhỏ của DG nodes cho phép người dùng khả năng parent những node này
+
+
+
+--- Node Editor and Node Connection ---
+
+Cách phím thường dùng (theo thứ tự từ trái sang):
+Nút thứ 3 đến 5 là 'Input connections', 'Input and output connections' và 'Output connections': 
+  Dùng để show input, cả input và output hoặc chỉ có output của các node đã chọn
+Nút thứ 6 là 'Clear the graph': 
+  Dùng để clear view trong Node Editor
+Nút thứ 7 là 'Add selected nodes to the graph':
+  Dùng để thêm các node đang được chọn ở Viewport
+Nút thứ 8 là 'Remove selected nodes from the graph':
+  Dùng để xóa các node đang chọn khỏi view của Node Editor (lưu ý là không nhấn Delete do delete sẽ xóa node đó khỏi scene chứ không phải chỉ loại khỏi view của Node Editor)
+
+Tips: Để làm việc hiệu quả hơn trong Node Editor, sử dụng Bookmarks để lưu các nodes đang làm việc trong 1 viewport để có thể xem đi xem lại 1 cách dễ dàng hơn
+
+Những cách để tạo 1 node mới:
+Nhấn nút đầu tiên là 'Toggle the create node panel on and off': sau đó chọn node mình cần và kéo vào viewport của Node Editor
+Nhấn Tab trên bàn phím trong viewport của Node Editor và gõ tên của node đó để thêm node vàoo
+
+Có 2 cách để dùng 1 node này để tạo ảnh hưởng trên node khác:
+Parent: sau khi parent thì child sẽ đi theo parent
+Dùng attribute của node này để tạo ảnh hưởng trên node khác
+
+1 trong những cách đơn giản nhất để connect attribute 1 node này với 1 node khác là dùng Connection Editor
+Connection Editor: dùng để kết nối giá trị của 1 node này qua 1 giá trị của 1 node khác miễn 2 giá trị được định dạng giống nhau thì sẽ connect được 
+    (Có 3 định dạng giá trị:
+    Float
+    Vector (tổng hợp của 3 float: float, float, float)
+    Matrix) 
+----- RECAP-WEEK07 (2) -----
+
+--- Constraint ---
+
+Trong phần Rigging - Constrain chứa những node constrain dùng cho rigging
+Những node thường dùng là 6 node ở trong phần Create:
+Parent (Cho phép object này đi theo object còn lại - chỉ ảnh hưởng giá trị Translate và Rotate)
+Point
+Orient (Cho phép object này rotate theo object còn lại - chỉ ảnh hưởng giá trị Rotate)
+Scale (Cho phép object này scale theo object còn lại - chỉ ảnh hưởng giá trị Scale)
+Pole Vector
+
+*Maintain offset: dùng để giữ vị trí ban đầu của object con so với object cha
+
+
+
+--- Aim constraint ---
+
+Aim constrain khá phức tạp vì nó chứa khá nhiều settings:+ Aim constrain lấy 1 trục của object con và chỉ về hướng của object cha
+Aim constrain settings: + Aim vector là trục sẽ hướng về object cha (3 giá trị tương ứng với 3 trục X-Y-Z)+ Up vector là trục còn lại để xác định được hướng xoay của object con (3 giá trị tương ứng với 3 trục X-Y-Z)+ World up type: Scene up - Object up - Object rotation up - Vector - None
+
+
+
+--- World up type trong Aim constraint ---
+
+Aim constrain - Vector:+ Nếu set World up type là Vector thì nó sẽ so sánh với trục của maya scene+ World up type thì thường chúng ta hạn chế dùng Vector do nó không có tính ổn định khi rig
+
+Aim constrain - Object up:+ 'Aim vector' và 'Up vector' vẫn sẽ cho chúng ta khả năng điều chỉnh+ Nhưng 'World up vector' sẽ được thay thế bằng 'World up object'+ 'World up object' phải được nhập chính xác tên của object(trong trường hợp 2 objects có cùng tên thì phải điền DAG path và tên đầy đủ của object đó)+ Vì 'Up vector' sẽ chỉ cố gắng hướng về 1 object (tương đương 1 value nhất định) nên nó mang tính ổn định cao hơn nhiều so với Setting là Vector
+
+Aim constrain - Object rotation up:+ Trong setting này thì tất cả option đều được enable: 'Aim vector', 'Up vector', 'World up vector' and 'World up object'+ 'World up vector' trong trường hợp này sẽ là world up của 'World up object' chứ không phải của scene+ Trong trường hợp này thì translate của 'World up object' không quan trọng, 'Up vector' sẽ chỉ quan tâm tới rotation của 'World up object'
+ 
+----- RECAP-WEEK07 (3) -----
+
+--- Những node thường dùng trong rigging ---
+
+reverse thường dùng cho việc hoán đổi 0 thành 1 hoặc 1 thành 0
+
+multiplyDivide dùng để nhân chia và lấy số mũ/ số căn
+
+plusMinusAverage: lấy cộng trừ và trung bình (Node này cho phép chúng ta thêm rất nhiều số)
+*Tips: mọi người nên dùng Input 3D để dễ quản lý và dễ hiểu hơn
+
+Clamp chặn giá trị vượt quá số nhỏ nhất và số lớn nhất mà mình muốn
+
+condition so sánh 2 value với nhau bằng 1 phương thức mình muốn (ví dụ như: lớn hơn, nhỏ hơn, bằng, ...)+ Nếu kết quả so sánh là đúng thì áp dụng output cho trường hợp so sánh đúng+ Và ngược lại, nếu kết quả so sánh sai thì sẽ áp dụng output cho trường hợp so sánh sai
+
+blendColors cho phép chúng ta chuyển từ giá 1 sang 2 một cách mượt mà hơn thay vì snapping
+Lưu ý: giá trị blender thì ngược lại với quy tắc thông thường. + Trong blendColors, nếu blender có giá trị là 1 thì giá trị output của nó sẽ là output 1+ Và ngược lại nếu blender có giá trị là 0 thì giá trị output của nó lại là output 2

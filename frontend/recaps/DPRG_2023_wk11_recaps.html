@@ -1,0 +1,23 @@
+----- RECAP-WEEK11 -----
+
+--- Set Driven Key ---
+Set Driven Key nằm trong mục Animation, ở mục Key - Set Driven Key
+Driver là dành cho object sẽ điều khiển và Driven là dành cho object bị điều khiển
+Set Driven Key về bản chất thì cũng là key frame nên chúng ta vẫn có thể thêm hoặc điều chỉnh thông qua Graph Editor
+
+--- IK/FK Snapping ---
+Về lý thuyết thì việc snapping IK và FK là chúng ta match giá trị của vị trí và rotation của FK controller với giá trị của joint khi ở vị trí của IK (hoặc ngược lại IK match value joint khi được điều khiển bằng FK)
+1 tip khi làm tay IK/FK matching đó là chúng ta sẽ duplicate skeleton của cái hệ thống mình muốn match và copy  value + Ví dụ như chúng ta đã diễn anim bàn tay bằng IK và muốn match bằng FK thì chúng ta sẽ duplicate skeleton của IK để giữ value. Sau đó chúng ta chọn FK controller, shift chọn joint của bộ copy IK vừa rồi, click vào value trên Channel Box và nhấn Enter
+
+— Pivot và Transformation Matrix (kiến thức nâng cao) --- 
+Transformation Matrix là dãy giá trị bao gồm 16 số thể hiện hết tất cả những giá trị liên quan tới transform của 1 object (translate, rotate, scale, v..v)
+Với giá trị của Transformation Matrix, chúng ta có thể biết được vị trí của object đó trong môi trường 3D (giá translate, rotate và scale của object đó)
+Khi chúng ta di chuyển pivot của 1 object trong Maya thì nó đồng nghĩa với việc là chúng ta di chuyển cả rotatePivot và scalePivot của object đó (rotatePivot và scalePivot là 2 giá trị khác nhau)
+
+— Rigging trong Maya có cần phải học thêm Python không? --- 
+Có. Python sẽ giúp rút ngắn thời gian cho những thao tác lặp đi lặp lại nhiều lần. Không chỉ riêng gì Maya mà python có thể áp dụng cho các DCC khác hoặc thậm chí là game engine (Unreal)
+Python còn giúp xem được những attribute ẩn mà UI trong Maya không cho phép chúng ta nhìn thấy
+
+— Rig Analyze and Tips ---
+1 thư viện khá to cho rigging đó là: Agora https://agora.community/assets
+Phần này mình recommend mọi người xem lại nhiều lần đoạn a Huy mổ xẻ rig, vì trong đó hầu như đã có lý thuyết mình đã học. Cái quan trọng trong đoạn mổ xẻ rig của a Huy là việc suy luận và mindset để mình có thể học hỏi thêm từ những cái rig ở ngoài.

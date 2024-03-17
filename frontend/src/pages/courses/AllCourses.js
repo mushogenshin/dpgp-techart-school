@@ -10,11 +10,28 @@ export default function AllCourses() {
   const { user } = useAuthContext();
   const { courses, coursesError } = useCoursesContext();
 
+  // // Group courses by category
+  // const coursesByCategory = courses.reduce((acc, course) => {
+  //   (course.categories || []).forEach((category) => {
+  //     if (!acc[category]) {
+  //       acc[category] = [];
+  //     }
+  //     acc[category].push(course);
+  //   });
+  //   return acc;
+  // }, {});
+
   return (
     <div className={styles.courses}>
       <Purchased user={user} />
       <Freebie user={user} courses={courses} />
-      <All courses={courses} coursesError={coursesError} />
+      <AllExisting courses={courses} coursesError={coursesError} />
+      {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
+        <div key={category}>
+          <h2>{category}</h2>
+          <AllExisting courses={courses} coursesError={coursesError} />
+        </div>
+      ))} */}
     </div>
   );
 }
@@ -91,7 +108,7 @@ function Freebie({ user, courses }) {
   );
 }
 
-function All({ courses, coursesError }) {
+function AllExisting({ courses, coursesError }) {
   return (
     <div>
       <p>Các khoá đã dạy</p>

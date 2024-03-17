@@ -1,0 +1,106 @@
+----- RECAP-WEEK08 (1) -----
+
+--- Skeletal Mesh ---
+Skeletal Mesh bao gồm có Skeleton và Mesh (polygon)
+Thường thì mesh sẽ được bind theo phương pháp classic linear (UE bắt đầu hỗ trợ dual quaternion)
+
+
+--- Control Rig ---
+Control Rig sẽ có thêm những Constraints (Point, Parents, Orient, Aim, ...)
+Control Rig có bao gồn thêm Deformers (Wrap, FFD, Sine, ...)
+Control Rig có thể hỗ trợ tới những Deformer 3rd party như PSD, RBF, ...
+Control Rig có thêm IK setup, Ribbon, ... rất nhiều expression khác
+
+*Lưu ý: Control rig của software nào thì nó chỉ sử dụng được trong software đấy chứ chưa thể transfer qua lại với nhau. Ví dụ như Constraint ở trong Maya chỉ sử dụng được trong Maya hay Constraint trong Unreal chỉ sử dụng được trong Unreal)
+
+--- Rig UV/Texture ---
+Rig UV/Texture có thể được dùng để scale UV, hoặc thay đổi texture trên UV (Vẫn dùng 1 texture nhưng UV sẽ được di chuyển đến vị trí texture mình mong muốn)
+
+Những ứng dụng của rig UV này có thể kể như là rig texture mắt cho các nhân vật hoạt hình hoặc nhân vật anime, rig màn hình TV, CCTV hay là màn hình radar, hoặc là rig những ảnh chiếu hologram... 
+
+Những custom attribute setup trong Maya thì ở thời điểm hiện tại, mình có thể phần nào đem qua Unreal Engine được (không phải tất cả)
+
+--- Bind Pose ---
+Bind pose là vị trí và pose mặc định của joint và mesh khi vừa mới được bind
+Bind pose chỉ nên sử dụng khi không có Constraint hay là Controller. Do nếu mình nhấn Go to Bind Pose, nó có thể phá hỏng hết cái mesh và những controller đã setup của mình
+
+
+--- Những lưu ý trước khi integrate skeletal mesh vào engine --- 
+Hầu như tất cả các engine đều chỉ hỗ trợ single hierachy (1 joint hoặc 1 node tổng).
+Đồng nghĩa với việc trước khi mọi người integrate thì mọi người cần phải kiểm tra chắc chắn là skeleton phải là single hierachy (chỉ có 1 joint tổng hoặc 1 node group tổng)
+Nếu như skeleton mà chúng ta integrate vào trong Unreal Engine có nhiều hơn 1 hierachy thì Unreal Engine sẽ báo lỗi và không cho phép chúng ta import skeleton vào
+
+Max influence, tùy thuộc vào project và tùy thuộc engine mà chúng ta sẽ có quy định riêng về số lượng xương nhất định có thể ảnh hưởng lên 1 vertex
+Thường thì khách hàng sẽ cho phép maximum là 4 xương có thể hưởng trên 1 vertex để họ có thể optimize được cái skeletal mesh tốt nhất có thể
+Fun facts: Unreal Engine hiện tại có thể support max influence trên 1 vertex là 12 xương
+Cách thường dùng nhất trong engine để giả muscle và chuyển động của muscle là thêm xương. Những vùng thường sẽ có nhiều xương hơn để giả cơ là phần vai và phần đùi
+----- RECAP-WEEK08 (2) -----
+
+--- Skeletal Mesh export ---
+Nếu như mọi người integration từ Advance Skeleton thì trong Advance Skeleton tool có chưa 1 mục là Export
+Trong mục Export, thì những mesh nào và những group nào sẽ được export đã được quy định sẵn
+Naming convention thường đặt sẽ là SK_tennhanvat
+Trong Unreal, có những naming convention thường dùng là SM cho Static Mesh (asset chỉ chứa mesh), SK hoặc SKM cho Skeletal Mesh (chứa mesh và skeleton), SKEL cho Skeleton (chỉ chứa xương), A cho Animation, ...
+Mọi người có thể tham khảo naming convention ở đây, guide này được qui định chung cho Unreal Engine 4 nhưng hiện tại vẫn dùng là standard và áp dụng cho Unreal Engine 5 luôn: https://studio.eecs.umich.edu/confluence/display/PG21/Unreal+Engine+4+Asset+Naming+Conventions
+Trong trường hợp khi export xong mà Maya báo lỗi Bindpose thì mọi người có thể dùng Rebuild dagPose trong mục Export luôn để làm sạch skinning. Sau đó chúng ta sẽ thực hiện lại thao tác export
+
+Những setting cần khi export Skeletal Mesh từ Maya: 
+Enable Animation - Enable Deformered Model, Skins và Blend Shapes
+Constraint trong Maya không thể dùng trong những software khác nên thường chúng ta sẽ disable Constraints và Skeleton Definitions. (Tips: Disable Constraints có thể giúp tiết kiệm được khá nhiều thời gian trong quá trình export Skeletal Mesh và Animation)
+Connections: Enable Include Children sẽ export tất cả những joint con trong cái selection của mình. Input connection thì mình sẽ tắt để tiết kiệm thời gian (Input connection là những connection từ controller hay là constraints của cái joint đó, NHƯNG do nó không sử dụng được trong engine nên mình không cần phải export)
+
+
+
+--- Skeletal Mesh export ---
+Để integrate Skeletal Mesh vào trong Unreal Engine, mình có thể chuột phải và chọn cái đầu tiên Import ... (Tips: mọi người có thể dùng chuột phải chọn New Folder để tạo Folder, việc này giúp mọi người quản lý asset tốt hơn và cải thiện việc debug sau này)
+Sau khi chọn đến fbx cần integrate thì Unreal sẽ show 1 cái UI để chúng ta thay đổi import setting theo ý mình
+Những setting cần khi import Skeletal Mesh trong UE:
+Skeletal Mesh: Enable
+Import Mesh: Enable
+Import Content Type: Geometry and Skinning Weights
+Skeleton: None (nếu như trong engine chưa có sẵn Skeleton cho character này thì chúng ta sẽ để None. Khi đó Skeleton sẽ được import trực tiếp vào từ file chúng ta đang chọn. Trong trường hợp đã có sẵn Skeleton thì mình sẽ chọn đúng Skeleton để khi import vào character sẽ có đúng bộ Skeleton mong muốn)
+Animation: Disable
+Material - Material Import Method: trong mục này thì nếu character đã được setup shader trong Maya và naming đã chính xác rồi thì mình sẽ để là Create New Materials, nếu chưa thì mình sẽ để là Do Not Create Material
+Những setting khác chúng ta thường sẽ để mặc định
+
+
+--- Skeletal Mesh setup ---
+Sau khi import Skeletal mesh vào trong engine rồi thì chúng ta sẽ tiến hành kiểm tra setup của character đó. Assign lại material/shader nếu character chưa được setup.
+Chúng ta có thể chọn Isolate bên cột bên trái để slot material đó chỉ hiện đúng mesh mà material đó đã được assign vào, khi đó chúng ta có thể search tên của material để assign vào
+Trong tab Skeleton Tree bên trái, những joint nào bị xám đi thì đồng nghĩa với việc là joint đó không có skinning
+----- RECAP-WEEK08 (3) -----
+
+--- Animation export ---
+Như đã nêu ở trên, Unreal không hiểu được Constraint của Maya nên chúng ta phải bake key để Unreal có thể đọc được data vị trí của các joint
+Khi integrate animation thì chúng ta chỉ cần export joint có chứa animation đã được bake key. Chúng ta không cần phải export cả cái mesh cùng với animation.
+Chúng ta có thể bake trước khi export hoặc là bake trong quá trình export, nhưng thường là recommend bake keys trước khi export do trong quá trình bake khi có thể xảy ra những lỗi khác và chúng ta có thể fix được trước khi export.
+Để bake keys thì chúng ta sẽ chọn joint tổng, chọn Select - Hierachy, sau đó chọn Edit - Keys - Bake Simulation
+Setting trong Bake Simulation thì thường chúng ta để default và không thay đổi gì
+*Tips khi bake animation đó là chúng ta có thể pause Viewport của Maya (toggle pausing Viewport) trước khi bake. 
+Do khi bake key animation thì cứ mỗi frame bake xong thì maya viewport sẽ refresh qua frame tiếp theo, với việc Pause Viewport này, nó sẽ giúp cắt được giai đoạn refresh viewport và cải thiện cực kỳ nhiều thời gian bake keys animation
+Khi export chúng ta cần lưu ý những setting sau:
+Animation: Enable
+Bake Animation: Disable (Enable nếu như chúng ta chưa bake keys)
+(Start và End để chúng ta điền frame đầu và frame cuối)
+Mục Deformed Models có thể để Enale (không còn quan trọng do chúng ta ko export mesh hay blendshapes)
+Naming convention của animation sẽ là A_tennhanvat_tenanimation (suffix chúng ta có thể để là Body hoặc là Facial để xác định đó là Body animation hay là Facial animation  - ví dụ: A_tennhanvat_tenanimation_Body và A_tennhanvat_tenanimation_Facial
+*Lưu ý trước khi export đó là chúng ta cần lưu ý hierachy của Skeletal Mesh là gì để khi xuất animation, chúng ta cần xuất giống như vậy để Unreal có thể hiểu được structure của file anim.
+
+
+--- Animation integration ---
+Sau đó chúng ta lặp lại thao tác import như ở trên, nhưng khi import animation, chúng ta cần chọn Skeleton là bộ Skeletal Mesh mà chúng ta đã import trước đó hoặc là Skeletal Mesh đã được setup sẵn tùy theo dự án.
+Khi import animation thì Unreal sẽ tự nhận biết được chúng ta import animation nên default UI sẽ không có mục enable hay disable animation nữa.
+Thường chúng ta sẽ import animation với default setting. Trong trường hợp import Facial animation, chúng ta sẽ disable Remove Redudant Keys. Remove Redudant Keys sẽ xóa bớt những key frame có value gần giống nhau và có thể làm thay đổi facial anim mà chúng ta import vào
+
+
+
+----- Unity skeletal mesh integration -----
+Hầu như các thao tác khi import đều như Unreal, chúng ta nhấn chuột phải và chọn Import New Asset và tìm đến đúng file fbx chúng ta cần import
+Trong Unity thì UI sẽ khác so với Unreal 1 tí, để có thể vào xem phần Material của Asset thì chúng ta phải vào tab Materials ở bên phải trong window Inspector
+Rig trong Unity chúng ta sẽ cần lưu ý 2 loại Animation Type: Generic và Humanoid
+(Generic sẽ nhận được hết tất cả các joint, nhưng Humanoid thì nó chỉ nhận những joint chính nên thường sẽ có vấn đề về Scaling)
+
+Quá trình import animation cũng tương tự như thao tác import Skeletal Mesh ở trên. Sau khi import animation, chúng ta phải vào tab Rig ở trong window Inspector ở bên tay phải để chỉnh sửa 1 số setting.
+Animation Type của file Animation phải cùng loại với Animation Type của Skeletal Mesh mà chúng ta đã thiết lập trước đó
+Sau đó, chúng ta sẽ set cái Avatar Definition thành Copy From Other Avatar và chọn source là Skeletal Mesh mà chúng ta đã import trước đó và nhấn Apply. (chúng ta có thể thay đổi max influence ở phần Skin Weights ở trong tab Rig luôn nếu cần)
+Khi đã apply xong thì chúng ta có thể qua tab Animation bên cạnh để preview animation mà chúng ta đã import
