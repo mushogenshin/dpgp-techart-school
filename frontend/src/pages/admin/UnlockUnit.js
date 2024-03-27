@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useCollection } from "../../hooks/firestore/useCollection";
 
 import styles from "./Admin.module.css";
@@ -17,6 +17,7 @@ export default function UnlockUnit() {
   const [query, setQuery] = useState("");
   const [filteredModuleIds, setFilteredModuleIds] = useState([]);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
+  const [selectedModule, setSelectedModule] = useState(null);
 
   useEffect(() => {
     // this will help us keep the filtered list of module IDs populated
@@ -31,19 +32,34 @@ export default function UnlockUnit() {
     setModuleIds((allModules && allModules.map((mod) => mod.id)) || []);
   }, [allModules]);
 
-  const unlockUnit = async (unlocked) => {
+  const unlockUnit = async (unit) => {
     setError(null);
     setSuccess(false);
     setIsPending(true);
 
-    // Get the selected module document
-    const selectedModule = allModules.find(
-      (mod) => mod.id === selectedModuleId
-    );
+    // console.log("Unlocking unit with ID:", unit.id);
 
-    // TODO
+    try {
+      // Update the database with the new value of unit.unlocked
+      const newUnlockedValue = !unit.unlocked;
+      const moduleRef = doc(db, "modules", selectedModuleId);
+      const updatedUnits = selectedModule.units.map((u) =>
+        u.id === unit.id ? { ...u, unlocked: newUnlockedValue } : u
+      );
+      await updateDoc(moduleRef, { units: updatedUnits });
 
-    setIsPending(false);
+      // Update the selectedModule state
+      setSelectedModule((prevModule) => ({
+        ...prevModule,
+        units: updatedUnits,
+      }));
+
+      setSuccess(true);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   const label = `${collapsed ? "👁️" : "👁️👁️👁️"} Unlock Unit`;
@@ -86,7 +102,11 @@ export default function UnlockUnit() {
                 {filteredModuleIds.map((id) => (
                   <li
                     key={id}
-                    onClick={() => setSelectedModuleId(id)}
+                    onClick={() => {
+                      setSelectedModuleId(id);
+                      const modData = allModules.find((mod) => mod.id === id);
+                      setSelectedModule(modData);
+                    }}
                     className={selectedModuleId === id ? styles.selected : ""}
                   >
                     {id}
@@ -95,7 +115,11 @@ export default function UnlockUnit() {
               </ul>
             </div>
 
-            {/* TODO */}
+            <label htmlFor="units">Units:</label>
+            <UnitsList
+              units={(selectedModule && selectedModule.units) || []}
+              unlockUnit={unlockUnit}
+            />
           </form>
 
           {error && <div className={styles.error}>{error}</div>}
@@ -103,5 +127,22 @@ export default function UnlockUnit() {
         </div>
       )}
     </div>
+  );
+}
+
+function UnitsList({ units, unlockUnit }) {
+  return (
+    <ul>
+      {units.map((unit, index) => (
+        <label key={index}>
+          {unit.name} {unit.unlocked ? "-- 👀 --" : "-- 🔒 --"}
+          <input
+            type="checkbox"
+            checked={unit.unlocked}
+            onChange={() => unlockUnit(unit)}
+          />
+        </label>
+      ))}
+    </ul>
   );
 }
