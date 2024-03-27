@@ -67,7 +67,7 @@ export default function DuplicateClass() {
     duplicateClass();
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Duplicate Class`;
+  const label = `${collapsed ? "🤼‍♀️" : "🤼‍♀️🤼‍♀️🤼‍♀️"} Duplicate Class`;
 
   return (
     <div>

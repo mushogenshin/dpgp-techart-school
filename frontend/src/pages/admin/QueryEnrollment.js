@@ -25,7 +25,7 @@ export default function QueryEnrollment() {
     const censoredUsername = username + "**...";
     return `${censoredUsername}${domain}`;
   };
-  const label = `${collapsed ? "👉" : "👇"} Tra tham dự`;
+  const label = `${collapsed ? "🔎" : "🔎🔎🔎"} Tra tham dự`;
 
   return (
     <div>

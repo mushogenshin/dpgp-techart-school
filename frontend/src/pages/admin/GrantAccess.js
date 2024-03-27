@@ -32,7 +32,7 @@ export default function GrantAccess() {
     grantAccess(emailArray, moduleArray, target);
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Cấp quyền học viên`;
+  const label = `${collapsed ? "🚪" : "🚪🚪🚪"} Cấp quyền học viên`;
 
   return (
     <div>

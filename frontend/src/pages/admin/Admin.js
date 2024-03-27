@@ -2,6 +2,7 @@
 // NOTE: this is accessible to all elevated roles (admin, collaborator, etc)
 
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import UnlockUnit from "./UnlockUnit";
 import GrantAccess from "./GrantAccess";
 import QueryEnrollment from "./QueryEnrollment";
 import InsertUnit from "./InsertUnit";
@@ -22,6 +23,7 @@ export default function Admin() {
       <hr></hr>
       {["admin", "collaborator"].includes(elevatedRole) ? (
         <div className={styles.admin}>
+          <UnlockUnit />
           <GrantAccess />
           <QueryEnrollment />
           <DuplicateClass />

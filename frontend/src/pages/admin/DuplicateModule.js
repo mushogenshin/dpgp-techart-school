@@ -69,7 +69,7 @@ export default function DuplicateModule() {
     duplicateModule();
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Duplicate Module`;
+  const label = `${collapsed ? "🎯" : "🎯🎯🎯"} Duplicate Module`;
 
   return (
     <div>

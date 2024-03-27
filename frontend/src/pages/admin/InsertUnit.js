@@ -93,7 +93,7 @@ export default function InsertUnit() {
         setSuccess(false);
       });
   };
-  const label = `${collapsed ? "👉" : "👇"} Chèn Unit rỗng`;
+  const label = `${collapsed ? "🗓️" : "🗓️🗓️🗓️"} Chèn Unit rỗng`;
 
   return (
     <div>

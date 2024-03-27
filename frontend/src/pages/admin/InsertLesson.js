@@ -99,7 +99,7 @@ export default function InsertLesson() {
       });
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Chèn nội dung Lesson`;
+  const label = `${collapsed ? "📺" : "📺📺📺"} Chèn nội dung Lesson`;
 
   return (
     <div>

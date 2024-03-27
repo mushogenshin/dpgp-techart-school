@@ -69,7 +69,7 @@ export default function DuplicateContent() {
     duplicateContent();
   };
 
-  const label = `${collapsed ? "👉" : "👇"} Duplicate Content`;
+  const label = `${collapsed ? "📚" : "📚📚📚"} Duplicate Content`;
 
   return (
     <div>
