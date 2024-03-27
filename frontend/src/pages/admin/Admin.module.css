@@ -58,6 +58,11 @@
     color: rgb(96, 247, 212);
 }
 
+.admin .table {
+    font-size: 12pt;
+    color: white;
+}
+
 .admin span, small {
     display: block;
     margin-bottom: 6px;

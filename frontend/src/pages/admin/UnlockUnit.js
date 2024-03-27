@@ -136,12 +136,13 @@ export default function UnlockUnit() {
 
 function UnitsList({ units, unlockUnit }) {
   return (
-    <table>
+    <table className={styles.table}>
       <tbody>
         {units.map((unit, index) => (
           <tr key={index}>
+            <td>{unit.name}</td>
             <td style={{ whiteSpace: "pre" }}>
-              {unit.name} {unit.unlocked ? "-- 📖 Y" : "-- 🔒 N"}
+              {unit.unlocked ? "    (📖 đã mở)    " : "    (🔒 đang khoá)    "}
             </td>
             <td>
               <input
