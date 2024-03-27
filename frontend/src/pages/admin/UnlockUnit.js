@@ -120,6 +120,10 @@ export default function UnlockUnit() {
               units={(selectedModule && selectedModule.units) || []}
               unlockUnit={unlockUnit}
             />
+
+            <label className={styles.error}>
+              {isPending ? "working..." : ""}
+            </label>
           </form>
 
           {error && <div className={styles.error}>{error}</div>}
@@ -132,17 +136,23 @@ export default function UnlockUnit() {
 
 function UnitsList({ units, unlockUnit }) {
   return (
-    <ul>
-      {units.map((unit, index) => (
-        <label key={index}>
-          {unit.name} {unit.unlocked ? "-- 👀 --" : "-- 🔒 --"}
-          <input
-            type="checkbox"
-            checked={unit.unlocked}
-            onChange={() => unlockUnit(unit)}
-          />
-        </label>
-      ))}
-    </ul>
+    <table>
+      <tbody>
+        {units.map((unit, index) => (
+          <tr key={index}>
+            <td style={{ whiteSpace: "pre" }}>
+              {unit.name} {unit.unlocked ? "-- 📖 Y" : "-- 🔒 N"}
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                checked={unit.unlocked}
+                onChange={() => unlockUnit(unit)}
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
