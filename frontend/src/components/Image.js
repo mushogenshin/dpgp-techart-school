@@ -1,3 +1,7 @@
 export default function Image({ src }) {
-  return <img src={src} alt="" />;
+  return (
+    <a href={src} target="_blank" rel="noopener noreferrer">
+      <img src={src} alt="" style={{ maxWidth: "720px" }} />
+    </a>
+  );
 }
