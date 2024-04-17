@@ -78,7 +78,7 @@ function MigrateStatus({ history, conformed }) {
         // have a history
         history && (
           <div>
-            <p>
+            {/* <p>
               Tuy nhiên nếu thấy có thiếu sót, vui lòng liên lạc admin và{" "}
               <b>sau khi admin sửa chữa hồ sơ</b>, bạn có thể chạy lại khâu{" "}
               <em>Migrate</em> bằng nút "Rerun" bên dưới:
@@ -89,7 +89,7 @@ function MigrateStatus({ history, conformed }) {
               disabled={isMigratePending}
             >
               {isMigratePending ? "Migrating..." : "Rerun"}
-            </button>
+            </button> */}
           </div>
         )
       )}
