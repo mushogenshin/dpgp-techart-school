@@ -37,9 +37,9 @@ export default function Sidebar({ contents }) {
         <span onClick={toggleClass}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            fill="currentColor"
+            width="36"
+            height="36"
+            fill="#fc5aff" // or "currentColor"
             class="bi bi-grid-3x3-gap"
             viewBox="0 0 16 16"
           >
