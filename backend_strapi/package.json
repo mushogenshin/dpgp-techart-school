@@ -1,12 +1,16 @@
 {
   "name": "backend_strapi",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "description": "A Strapi application",
+  "license": "MIT",
+  "author": {
+    "name": "Hoan Nguyen"
+  },
   "scripts": {
+    "build": "strapi build",
     "develop": "strapi develop",
     "start": "strapi start",
-    "build": "strapi build",
     "strapi": "strapi",
     "transfer": "strapi transfer --to https://starfish-app-wgxq3.ondigitalocean.app/admin --force --"
   },
@@ -15,22 +19,18 @@
     "@strapi/plugin-i18n": "4.24.0",
     "@strapi/plugin-users-permissions": "4.24.0",
     "@strapi/strapi": "4.24.0",
-    "better-sqlite3": "8.0.1",
+    "better-sqlite3": "8.6.0",
     "pg": "^8.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
-    "styled-components": "^5.3.11"
-  },
-  "author": {
-    "name": "Hoan Nguyen"
-  },
-  "strapi": {
-    "uuid": "04f3531d-4a04-4b90-a257-c43d9357afd1"
+    "styled-components": "^5.3.3"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "strapi": {
+    "uuid": "04f3531d-4a04-4b90-a257-c43d9357afd1"
+  }
 }
