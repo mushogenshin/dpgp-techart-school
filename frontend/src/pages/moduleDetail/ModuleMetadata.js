@@ -9,12 +9,22 @@ export default function ModuleMetadata({ moduleData }) {
       )}
       {moduleData.starts_at && (
         <p className={styles.desc}>
-          Bắt đầu: {moduleData.starts_at.toLocaleDateString()}
+          Bắt đầu:{" "}
+          {moduleData.starts_at.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
         </p>
       )}
       {moduleData.ends_at && (
         <p className={styles.desc}>
-          Kết thúc: {moduleData.ends_at.toLocaleDateString()}
+          Kết thúc:{" "}
+          {moduleData.ends_at.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
         </p>
       )}
     </div>

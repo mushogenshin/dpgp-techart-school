@@ -3,3 +3,11 @@
     max-width: 1024px;
     padding: 0 100px;
 }
+
+.home .opening {
+    font-size: 2em;
+}
+
+.home .countdown {
+    font-size: 0.8em;
+}

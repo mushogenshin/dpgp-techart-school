@@ -4,30 +4,6 @@ import SocialLink from "../../components/SocialLink";
 
 import styles from "./Instructors.module.css";
 
-function Member({ name, member }) {
-  const display_name = member.display_name || name;
-  const socials = member.socials || [];
-  const blocks = member.blocks || [];
-
-  return (
-    <div id={name}>
-      <h2>
-        <a href={`#${name}`}>{display_name}</a>{" "}
-        <span>
-          {socials.map((social, index) => (
-            <span key={index}>
-              <SocialLink key={index} social={social} />{" "}
-            </span>
-          ))}
-        </span>
-      </h2>
-      {blocks.map((block, index) => (
-        <ContentBlock key={index} block={block} />
-      ))}
-    </div>
-  );
-}
-
 export default function Instructors() {
   const {
     pageData: memberList,
@@ -60,6 +36,30 @@ export default function Instructors() {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function Member({ name, member }) {
+  const display_name = member.display_name || name;
+  const socials = member.socials || [];
+  const blocks = member.blocks || [];
+
+  return (
+    <div id={name}>
+      <h2>
+        <a href={`#${name}`}>{display_name}</a>{" "}
+        <span>
+          {socials.map((social, index) => (
+            <span key={index}>
+              <SocialLink key={index} social={social} />{" "}
+            </span>
+          ))}
+        </span>
+      </h2>
+      {blocks.map((block, index) => (
+        <ContentBlock key={index} block={block} />
+      ))}
     </div>
   );
 }
