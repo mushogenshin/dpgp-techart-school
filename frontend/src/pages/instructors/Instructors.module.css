@@ -1,0 +1,13 @@
+.about {
+    max-width: 1024px;
+    padding: 0 100px;
+}
+
+.about a {
+    color: rgb(210, 72, 26);
+    text-decoration: none;
+}
+
+.about a:visited {
+    color: rgb(210, 72, 26)
+}

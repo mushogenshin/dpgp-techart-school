@@ -11,13 +11,7 @@ export default function Home() {
 
   return (
     <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
-      {isPending ? (
-        <p>Đợi xíu nha 😙...</p>
-      ) : (
-        blocks &&
-        blocks.map((block, index) => <ContentBlock key={index} block={block} />)
-      )}
+      TODO: show all courses that are about to start
     </div>
   );
 }

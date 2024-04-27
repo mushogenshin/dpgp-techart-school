@@ -43,17 +43,7 @@
 }
 
 .admin-link:hover {
-    color: rgb(238, 50, 91)
-}
-
-.navbar .circle {
-    display: inline-block;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 3px solid var(--admin-color);
-    text-align: center;
-    line-height: 45px;
+    color: rgb(238, 50, 185)
 }
 
 .navbar .users-count {

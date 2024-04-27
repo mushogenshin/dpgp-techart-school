@@ -16,7 +16,7 @@ const apolloClient = new ApolloClient({
   uri:
     window.location.hostname === "localhost"
       ? "http://localhost:1337/graphql"
-      : "https://starfish-app-wgxq3.ondigitalocean.app/graphql",
+      : "https://techart.dauphaigiaiphau.wtf/graphql",
   cache: new InMemoryCache(),
 });
 

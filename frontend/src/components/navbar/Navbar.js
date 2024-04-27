@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
-import { useUsersContext } from "../../hooks/auth/useUsersContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSkull, faUnlock, faBook } from "@fortawesome/free-solid-svg-icons";
+import { faSkull, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 import styles from "./Navbar.module.css";
@@ -23,6 +22,7 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
+      {/* Nav bar icon for mobile */}
       <div id="mob_header" className="tab">
         <span onClick={toggleClass} className="mob_nav_open_btn">
           <svg
@@ -35,6 +35,7 @@ export default function Navbar() {
           </svg>
         </span>
       </div>
+      {/* Nav bar icon for mobile */}
       <div className={isActive ? "nav_wrapper open" : "nav_wrapper"}>
         <div id="mob_nav_close" className="tab">
           <span onClick={toggleClass} className="mob_nav_close_btn">
@@ -48,23 +49,29 @@ export default function Navbar() {
             </svg>
           </span>
         </div>
+
         <ul>
+          {/* Left aligned */}
           <li className={styles.title}>
+            {/* Home page */}
             <Link onClick={toggleClass} to="/">
               DPGP TechArt
-            </Link>
-            {/* {" "}<UserCount /> */}
+            </Link>{" "}
+            {/* About */}
             <Link onClick={toggleClass} to="/about">
               About
+            </Link>
+            {/* Instructors */}
+            <Link onClick={toggleClass} to="/instructors">
+              Instructors
             </Link>
             {/* <Link onClick={toggleClass} to="/long-ap">
               <span className="material-symbols-outlined">wb_incandescent</span>
             </Link> */}
-            {/* <Link onClick={toggleClass} to="/notes">
-              <FontAwesomeIcon icon={faBook} />
+            {/* <Link onClick={toggleClass} to="/wiki">
+              <FontAwesomeIcon icon={faBook} /> Wiki
             </Link> */}
           </li>
-
           {elevatedRole && (
             <span>
               {/* Admin panels */}
@@ -86,6 +93,8 @@ export default function Navbar() {
               </label>
             </span>
           )}
+
+          {/* Right aligned */}
           <Link onClick={toggleClass} to="/courses">
             Courses
           </Link>
@@ -114,18 +123,5 @@ export default function Navbar() {
         </ul>
       </div>
     </nav>
-  );
-}
-
-function UserCount() {
-  const { usersCount } = useUsersContext();
-  return (
-    usersCount && (
-      <span className={styles.circle}>
-        <span className={styles["users-count"]} title="Users Count">
-          {usersCount}
-        </span>
-      </span>
-    )
   );
 }

@@ -8,7 +8,7 @@ export const UsersContextProvider = ({ children }) => {
   const { elevatedRole } = useAuthContext();
   const { length: usersCount } = useCollectionLength(
     "users",
-    elevatedRole ? false : true
+    elevatedRole ? false : true // bypass if not elevated role
   );
 
   return (

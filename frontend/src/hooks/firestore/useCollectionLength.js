@@ -11,6 +11,7 @@ export const useCollectionLength = (collectionName, bypass) => {
     setError(null);
     let unsub;
 
+    // only listen to collection if bypass is false
     if (!bypass) {
       const ref = collection(db, collectionName);
       unsub = onSnapshot(
