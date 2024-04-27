@@ -11,7 +11,8 @@ export default function Home() {
 
   return (
     <div className={styles.home}>
-      TODO: show all courses that are about to start
+      <span className="not-found-prompt">đang sửa chữa... 🧑🏻‍🎨</span>
+      {/* TODO: show all courses that are about to start */}
     </div>
   );
 }

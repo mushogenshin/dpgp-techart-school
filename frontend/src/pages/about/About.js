@@ -4,10 +4,8 @@ import ContentBlock from "../../components/ContentBlock/ContentBlock";
 import styles from "./About.module.css";
 
 export default function About() {
-  const { pageData, error, isPending } = useFetchPublicPage("home");
+  const { pageData, error, isPending } = useFetchPublicPage("about");
   const blocks = pageData?.versions["1"]?.blocks;
-
-  // console.log("blocks", blocks);
 
   return (
     <div className={styles.home}>
