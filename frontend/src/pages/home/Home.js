@@ -6,8 +6,7 @@ import styles from "./Home.module.css";
 export default function Home() {
   const { pageData, error, isPending } = useFetchPublicPage("home");
   const opening = pageData?.opening;
-
-  // console.log("opening", opening);
+  const selfTaught = pageData?.self_taught;
 
   return (
     <div className={styles.home}>
@@ -17,14 +16,25 @@ export default function Home() {
         <p>Đợi xíu nha 😙...</p>
       ) : (
         <div>
-          <span className={styles.title}>
-            {opening?.length} lớp đang chiêu sinh:
-          </span>
+          {/* Opening classes */}
+          <p className={styles.title}>{opening?.length} lớp đang chiêu sinh:</p>
           <ul>
             {opening &&
               opening.map((item, index) => (
                 <li key={index}>
-                  <Opening cls={item} />
+                  <Available cls={item} timebound={true} />
+                </li>
+              ))}
+          </ul>
+          {/* Self-taught classes */}
+          <p className={styles.title}>
+            {selfTaught?.length} lớp tự học (access trọn đời):
+          </p>
+          <ul>
+            {selfTaught &&
+              selfTaught.map((item, index) => (
+                <li key={index}>
+                  <Available cls={item} timebound={false} />
                 </li>
               ))}
           </ul>
@@ -34,7 +44,7 @@ export default function Home() {
   );
 }
 
-function Opening({ cls }) {
+function Available({ cls, timebound }) {
   const { classId, starts_at, url, description } = cls;
   const [daysLeft, setDaysLeft] = useState(calculateDaysLeft(starts_at));
 
@@ -48,25 +58,31 @@ function Opening({ cls }) {
 
   return (
     <div>
-      <span>
-        {starts_at &&
-          starts_at.toDate().toLocaleDateString("en-GB", {
+      {timebound && starts_at && (
+        <span>
+          {starts_at.toDate().toLocaleDateString("en-GB", {
             weekday: "short",
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
           })}
-      </span>
-      {" 👉"}
+          {" 👉"}
+        </span>
+      )}
       {/* Link with class ID */}
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        <span className={styles.opening}>{classId}</span>
-      </a>{" "}
-      <span className={styles.countdown}>({daysLeft} ngày nữa khai giảng)</span>
+      <LinkOptional
+        url={url}
+        label={<span className={styles.opening}>{classId}</span>}
+      />
+      {/* Count down */}
+      {timebound && (
+        <span className={styles.countdown}>
+          ({daysLeft} ngày nữa khai giảng)
+        </span>
+      )}
       <br />
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        <span>{description}</span>
-      </a>
+      {/* Description */}
+      <LinkOptional url={url} label={description} />
     </div>
   );
 }
@@ -80,4 +96,14 @@ function calculateDaysLeft(starts_at) {
   const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
 
   return differenceInDays > 0 ? differenceInDays : 0;
+}
+
+function LinkOptional({ url, label }) {
+  return url ? (
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      {label}
+    </a>
+  ) : (
+    <span>{label}</span>
+  );
 }
