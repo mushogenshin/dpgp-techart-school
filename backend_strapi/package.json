@@ -12,7 +12,7 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi",
-    "transfer": "strapi transfer --to https://starfish-app-wgxq3.ondigitalocean.app/admin --force --"
+    "transfer": "strapi transfer --to https://techart.dauphaigiaiphau.wtf/admin --force --"
   },
   "dependencies": {
     "@strapi/plugin-graphql": "^4.24.0",
