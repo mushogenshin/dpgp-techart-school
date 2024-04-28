@@ -1,7 +1,6 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import ContentBlock from "../../components/ContentBlock/ContentBlock";
 
 import styles from "./Home.module.css";
 
@@ -9,7 +8,7 @@ export default function Home() {
   const { pageData, error, isPending } = useFetchPublicPage("home");
   const opening = pageData?.opening;
 
-  console.log("opening", opening);
+  // console.log("opening", opening);
 
   return (
     <div className={styles.home}>
@@ -19,7 +18,9 @@ export default function Home() {
         <p>Đợi xíu nha 😙...</p>
       ) : (
         <div>
-          {opening?.length} lớp đang chiêu sinh:
+          <span className={styles.title}>
+            {opening?.length} lớp đang chiêu sinh:
+          </span>
           <ul>
             {opening &&
               opening.map((item, index) => (
@@ -35,7 +36,7 @@ export default function Home() {
 }
 
 function Opening({ cls }) {
-  const { classId, starts_at } = cls;
+  const { classId, starts_at, url, description } = cls;
   const [daysLeft, setDaysLeft] = useState(calculateDaysLeft(starts_at));
 
   useEffect(() => {
@@ -56,10 +57,17 @@ function Opening({ cls }) {
             month: "2-digit",
             year: "numeric",
           })}
-      </span>{" "}
-      👉 <span className={styles.opening}>{classId}</span>
-      <br />
+      </span>
+      {" 👉"}
+      {/* Link with class ID */}
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <span className={styles.opening}>{classId}</span>
+      </a>{" "}
       <span className={styles.countdown}>({daysLeft} ngày nữa khai giảng)</span>
+      <br />
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <span>{description}</span>
+      </a>
     </div>
   );
 }

@@ -1,8 +1,32 @@
 .home {
     /* background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%); */
     max-width: 1024px;
-    padding: 0 100px;
+    padding: 0 50px;
 }
+
+
+.home a {
+    text-decoration-style: dotted;
+}
+
+.home a:visited {
+    color: rgb(210, 72, 26)
+}
+
+.home ul {
+    padding-top: 10px;
+}
+
+.home li {
+    margin-top: 30px;
+    padding-top: 30px;
+}
+
+.home .title {
+    margin: 0 15;
+    font-size: 1.5em;
+}
+
 
 .home .opening {
     font-size: 2em;
@@ -10,4 +34,5 @@
 
 .home .countdown {
     font-size: 0.8em;
+    color: rgb(196, 180, 180);
 }
