@@ -6,6 +6,8 @@ const url =
     ? "https://dpgp-techart.firebaseapp.com"
     : window.location.hostname === "dpgp-techart.web.app"
     ? "https://dpgp-techart.web.app"
+    : window.location.hostname === "school.dauphaigiaiphau.wtf"
+    ? "https://school.dauphaigiaiphau.wtf"
     : window.location.hostname === "localhost"
     ? "http://localhost:3000"
     : "unexpectedhostname";
