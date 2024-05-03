@@ -6,7 +6,8 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const { pageData, error, isPending } = useFetchPublicPage("home");
-  const opening = pageData?.opening;
+  // opening classes, sorted by starts_at
+  const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
   const selfTaught = pageData?.self_taught;
 
   return (
