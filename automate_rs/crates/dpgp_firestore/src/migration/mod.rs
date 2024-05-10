@@ -10,7 +10,7 @@ use super::*;
 /// Create a database instance.
 async fn connect() -> FirestoreResult<DpgpFirestore> {
     const TOKEN_FILE_PATH: &str =
-        "/Users/mushogenshin/projects/dpgp-techart-school/frontend/.keys/dpgp-techart-daulauusau.json";
+        "/Users/mushogenshin/projects/dpgp-techart-school/frontend_react/.keys/dpgp-techart-daulauusau.json";
     const PROJECT_ID: &str = "dpgp-techart";
 
     client_from_token(GCPProjectAndToken {
