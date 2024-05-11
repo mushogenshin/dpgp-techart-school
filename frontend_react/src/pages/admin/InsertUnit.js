@@ -8,6 +8,7 @@ import styles from "./Admin.module.css";
 export default function InsertUnit() {
   const [collapsed, setCollapsed] = useState(true);
   const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
   const [success, setSuccess] = useState(null);
 
   // context for the form
@@ -69,11 +70,13 @@ export default function InsertUnit() {
     if (!selectedModuleId || unitId === "" || unitName === "") {
       setError("Cần điền đủ thông tin");
       setSuccess(false);
+      setIsPending(false);
       return;
     }
 
     setError(null);
     setSuccess(false);
+    setIsPending(true);
 
     // prepare the new Unit object
     const newUnit = {
@@ -87,10 +90,12 @@ export default function InsertUnit() {
       .then(() => {
         setError(null);
         setSuccess(true);
+        setIsPending(false);
       })
       .catch((error) => {
         setError(error.message);
         setSuccess(false);
+        setIsPending(false);
       });
   };
   const label = `${collapsed ? "🗓️" : "🗓️🗓️🗓️"} Chèn Unit rỗng`;
@@ -183,7 +188,7 @@ export default function InsertUnit() {
             />
 
             <div>
-              <button type="submit" className="btn" onClick={handleSubmit}>
+              <button type="submit" className="btn" disabled={isPending}>
                 Chèn unit
               </button>
             </div>

@@ -9,6 +9,7 @@ import styles from "./Admin.module.css";
 export default function InsertLesson() {
   const [collapsed, setCollapsed] = useState(true);
   const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
   const [success, setSuccess] = useState(null);
 
   // context for the form
@@ -86,16 +87,19 @@ export default function InsertLesson() {
       blocks: blocks,
     };
 
-    console.log(newLesson);
+    // console.log(newLesson);
+    setIsPending(true);
 
     insertLessonAtIndex(newLesson)
       .then(() => {
         setError(null);
         setSuccess(true);
+        setIsPending(false);
       })
       .catch((error) => {
         setError(error.message);
         setSuccess(false);
+        setIsPending(false);
       });
   };
 
@@ -193,7 +197,7 @@ export default function InsertLesson() {
             <LessonBlockForm blocks={blocks} setBlocks={setBlocks} />
 
             <div>
-              <button type="submit" className="btn">
+              <button type="submit" className="btn" disabled={isPending}>
                 Chèn Lesson
               </button>
             </div>

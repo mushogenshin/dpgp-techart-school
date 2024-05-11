@@ -119,6 +119,7 @@ export default function UnlockUnit() {
             <UnitsList
               units={(selectedModule && selectedModule.units) || []}
               unlockUnit={unlockUnit}
+              isPending={isPending}
             />
 
             <label className={styles.error}>
@@ -134,7 +135,7 @@ export default function UnlockUnit() {
   );
 }
 
-function UnitsList({ units, unlockUnit }) {
+function UnitsList({ units, unlockUnit, isPending }) {
   return (
     <table className={styles.table}>
       <tbody>
@@ -149,6 +150,7 @@ function UnitsList({ units, unlockUnit }) {
                 type="checkbox"
                 checked={unit.unlocked}
                 onChange={() => unlockUnit(unit)}
+                disabled={isPending}
               />
             </td>
           </tr>
