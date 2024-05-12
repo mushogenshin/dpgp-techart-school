@@ -22,8 +22,9 @@ new CommandKit({
   client,
   eventsPath: join(__dirname, "events"),
   commandsPath: join(__dirname, "commands"),
-  // devGuildIds: ["456441614206763019"],
-  // devUserIds: ["454667337229139988"],
+  devGuildIds: ["456441614206763019"],
+  devUserIds: ["454667337229139988"],
+  bulkRegister: true,
 });
 
 client.login(process.env.DISCORD_TOKEN);
