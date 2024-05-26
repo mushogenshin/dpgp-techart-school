@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "front_frames",
+  "collectionName": "game_engines",
   "info": {
-    "singularName": "front-frame",
-    "pluralName": "front-frames",
-    "displayName": "Frontend Framework",
+    "singularName": "game-engine",
+    "pluralName": "game-engines",
+    "displayName": "Game Engine",
     "description": ""
   },
   "options": {
@@ -13,21 +13,19 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string",
-      "required": true,
-      "unique": true
+      "type": "string"
     },
     "study_notes": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::study-note.study-note",
-      "mappedBy": "front_frames"
+      "inversedBy": "game_engines"
     },
     "prog_langs": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::prog-lang.prog-lang",
-      "mappedBy": "front_frames"
+      "inversedBy": "game_engines"
     }
   }
 }

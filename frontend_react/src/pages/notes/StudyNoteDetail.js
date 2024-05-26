@@ -12,7 +12,7 @@ const NOTE_DETAIL = gql`
           title
           createdAt
           body
-          langs {
+          prog_langs {
             data {
               id
               attributes {

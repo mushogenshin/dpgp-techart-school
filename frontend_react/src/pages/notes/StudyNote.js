@@ -16,7 +16,7 @@ export default function StudyNote({ note, complete = true }) {
       <small>{date.toLocaleString()}</small>
 
       {/* all the language tags */}
-      {note.attributes.langs.data.map((lang) => {
+      {note.attributes.prog_langs.data.map((lang) => {
         // we must use `return` keyword here
         return (
           <small

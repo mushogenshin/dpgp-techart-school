@@ -12,7 +12,7 @@ const STUDY_NOTES = gql`
           title
           createdAt
           body
-          langs {
+          prog_langs {
             data {
               id
               attributes {

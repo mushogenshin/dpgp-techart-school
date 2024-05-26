@@ -829,6 +829,7 @@ export interface ApiFrontFrameFrontFrame extends Schema.CollectionType {
     singularName: 'front-frame';
     pluralName: 'front-frames';
     displayName: 'Frontend Framework';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -839,6 +840,11 @@ export interface ApiFrontFrameFrontFrame extends Schema.CollectionType {
       'api::front-frame.front-frame',
       'manyToMany',
       'api::study-note.study-note'
+    >;
+    prog_langs: Attribute.Relation<
+      'api::front-frame.front-frame',
+      'manyToMany',
+      'api::prog-lang.prog-lang'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -851,6 +857,47 @@ export interface ApiFrontFrameFrontFrame extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::front-frame.front-frame',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiGameEngineGameEngine extends Schema.CollectionType {
+  collectionName: 'game_engines';
+  info: {
+    singularName: 'game-engine';
+    pluralName: 'game-engines';
+    displayName: 'Game Engine';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::game-engine.game-engine',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    prog_langs: Attribute.Relation<
+      'api::game-engine.game-engine',
+      'manyToMany',
+      'api::prog-lang.prog-lang'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::game-engine.game-engine',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::game-engine.game-engine',
       'oneToOne',
       'admin::user'
     > &
@@ -871,17 +918,27 @@ export interface ApiProgLangProgLang extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String & Attribute.Required & Attribute.Unique;
-    study_notes: Attribute.Relation<
-      'api::prog-lang.prog-lang',
-      'manyToMany',
-      'api::study-note.study-note'
-    >;
     color: Attribute.String &
       Attribute.Required &
       Attribute.DefaultTo<'#FFFFFF'>;
     background_color: Attribute.String &
       Attribute.Required &
       Attribute.DefaultTo<'#4A4A4A'>;
+    front_frames: Attribute.Relation<
+      'api::prog-lang.prog-lang',
+      'manyToMany',
+      'api::front-frame.front-frame'
+    >;
+    game_engines: Attribute.Relation<
+      'api::prog-lang.prog-lang',
+      'manyToMany',
+      'api::game-engine.game-engine'
+    >;
+    study_notes: Attribute.Relation<
+      'api::prog-lang.prog-lang',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -932,7 +989,7 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    langs: Attribute.Relation<
+    prog_langs: Attribute.Relation<
       'api::study-note.study-note',
       'manyToMany',
       'api::prog-lang.prog-lang'
@@ -946,6 +1003,11 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
       'api::study-note.study-note',
       'manyToMany',
       'api::cs-theory.cs-theory'
+    >;
+    game_engines: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::game-engine.game-engine'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -991,6 +1053,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::cs-theory.cs-theory': ApiCsTheoryCsTheory;
       'api::front-frame.front-frame': ApiFrontFrameFrontFrame;
+      'api::game-engine.game-engine': ApiGameEngineGameEngine;
       'api::prog-lang.prog-lang': ApiProgLangProgLang;
       'api::study-note.study-note': ApiStudyNoteStudyNote;
     }

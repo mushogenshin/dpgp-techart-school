@@ -35,7 +35,7 @@
       "type": "richtext",
       "required": true
     },
-    "langs": {
+    "prog_langs": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::prog-lang.prog-lang",
@@ -52,6 +52,12 @@
       "relation": "manyToMany",
       "target": "api::cs-theory.cs-theory",
       "inversedBy": "study_notes"
+    },
+    "game_engines": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::game-engine.game-engine",
+      "mappedBy": "study_notes"
     }
   }
 }

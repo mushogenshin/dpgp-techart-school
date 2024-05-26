@@ -17,12 +17,6 @@
       "required": true,
       "unique": true
     },
-    "study_notes": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::study-note.study-note",
-      "mappedBy": "langs"
-    },
     "color": {
       "type": "string",
       "required": true,
@@ -32,6 +26,24 @@
       "type": "string",
       "required": true,
       "default": "#4A4A4A"
+    },
+    "front_frames": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::front-frame.front-frame",
+      "inversedBy": "prog_langs"
+    },
+    "game_engines": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::game-engine.game-engine",
+      "mappedBy": "prog_langs"
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "mappedBy": "prog_langs"
     }
   }
 }

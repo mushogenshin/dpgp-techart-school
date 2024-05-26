@@ -15,10 +15,10 @@
     "transfer": "strapi transfer --to https://techart.dauphaigiaiphau.wtf/admin --force --"
   },
   "dependencies": {
-    "@strapi/plugin-graphql": "^4.24.0",
-    "@strapi/plugin-i18n": "4.24.0",
-    "@strapi/plugin-users-permissions": "4.24.0",
-    "@strapi/strapi": "4.24.0",
+    "@strapi/plugin-graphql": "^4.24.3",
+    "@strapi/plugin-i18n": "4.24.3",
+    "@strapi/plugin-users-permissions": "4.24.3",
+    "@strapi/strapi": "4.24.3",
     "better-sqlite3": "8.6.0",
     "pg": "^8.11.1",
     "react": "^18.2.0",
