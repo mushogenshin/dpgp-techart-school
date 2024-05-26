@@ -82,6 +82,12 @@
       "relation": "manyToMany",
       "target": "api::version-control.version-control",
       "mappedBy": "study_notes"
+    },
+    "dccs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::dcc.dcc",
+      "mappedBy": "study_notes"
     }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dccs",
+  "info": {
+    "singularName": "dcc",
+    "pluralName": "dccs",
+    "displayName": "3D Softwares",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "inversedBy": "dccs"
+    },
+    "prog_langs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::prog-lang.prog-lang",
+      "inversedBy": "dccs"
+    }
+  }
+}

@@ -44,6 +44,12 @@
       "relation": "manyToMany",
       "target": "api::study-note.study-note",
       "mappedBy": "prog_langs"
+    },
+    "dccs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::dcc.dcc",
+      "mappedBy": "prog_langs"
     }
   }
 }

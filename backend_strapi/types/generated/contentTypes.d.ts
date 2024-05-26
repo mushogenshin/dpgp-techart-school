@@ -858,6 +858,39 @@ export interface ApiDatabaseDatabase extends Schema.CollectionType {
   };
 }
 
+export interface ApiDccDcc extends Schema.CollectionType {
+  collectionName: 'dccs';
+  info: {
+    singularName: 'dcc';
+    pluralName: 'dccs';
+    displayName: '3D Softwares';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::dcc.dcc',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    prog_langs: Attribute.Relation<
+      'api::dcc.dcc',
+      'manyToMany',
+      'api::prog-lang.prog-lang'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::dcc.dcc', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::dcc.dcc', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFrontFrameFrontFrame extends Schema.CollectionType {
   collectionName: 'front_frames';
   info: {
@@ -1028,6 +1061,11 @@ export interface ApiProgLangProgLang extends Schema.CollectionType {
       'manyToMany',
       'api::study-note.study-note'
     >;
+    dccs: Attribute.Relation<
+      'api::prog-lang.prog-lang',
+      'manyToMany',
+      'api::dcc.dcc'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1118,6 +1156,11 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
       'manyToMany',
       'api::version-control.version-control'
     >;
+    dccs: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::dcc.dcc'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1197,6 +1240,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::cs-theory.cs-theory': ApiCsTheoryCsTheory;
       'api::database.database': ApiDatabaseDatabase;
+      'api::dcc.dcc': ApiDccDcc;
       'api::front-frame.front-frame': ApiFrontFrameFrontFrame;
       'api::game-engine.game-engine': ApiGameEngineGameEngine;
       'api::ide.ide': ApiIdeIde;
