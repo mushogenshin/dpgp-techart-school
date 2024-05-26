@@ -58,6 +58,24 @@
       "relation": "manyToMany",
       "target": "api::game-engine.game-engine",
       "mappedBy": "study_notes"
+    },
+    "ides": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ide.ide",
+      "mappedBy": "study_notes"
+    },
+    "databases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::database.database",
+      "mappedBy": "study_notes"
+    },
+    "maths": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::math.math",
+      "mappedBy": "study_notes"
     }
   }
 }

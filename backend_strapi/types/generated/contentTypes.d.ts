@@ -823,6 +823,41 @@ export interface ApiCsTheoryCsTheory extends Schema.CollectionType {
   };
 }
 
+export interface ApiDatabaseDatabase extends Schema.CollectionType {
+  collectionName: 'databases';
+  info: {
+    singularName: 'database';
+    pluralName: 'databases';
+    displayName: 'Database';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::database.database',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::database.database',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::database.database',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFrontFrameFrontFrame extends Schema.CollectionType {
   collectionName: 'front_frames';
   info: {
@@ -901,6 +936,60 @@ export interface ApiGameEngineGameEngine extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiIdeIde extends Schema.CollectionType {
+  collectionName: 'ides';
+  info: {
+    singularName: 'ide';
+    pluralName: 'ides';
+    displayName: 'IDE';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::ide.ide',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::ide.ide', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::ide.ide', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMathMath extends Schema.CollectionType {
+  collectionName: 'maths';
+  info: {
+    singularName: 'math';
+    pluralName: 'maths';
+    displayName: 'Math';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::math.math',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::math.math', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::math.math', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -1009,6 +1098,21 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
       'manyToMany',
       'api::game-engine.game-engine'
     >;
+    ides: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::ide.ide'
+    >;
+    databases: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::database.database'
+    >;
+    maths: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::math.math'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1052,8 +1156,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::cs-theory.cs-theory': ApiCsTheoryCsTheory;
+      'api::database.database': ApiDatabaseDatabase;
       'api::front-frame.front-frame': ApiFrontFrameFrontFrame;
       'api::game-engine.game-engine': ApiGameEngineGameEngine;
+      'api::ide.ide': ApiIdeIde;
+      'api::math.math': ApiMathMath;
       'api::prog-lang.prog-lang': ApiProgLangProgLang;
       'api::study-note.study-note': ApiStudyNoteStudyNote;
     }

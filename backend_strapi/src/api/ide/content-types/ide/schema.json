@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ides",
+  "info": {
+    "singularName": "ide",
+    "pluralName": "ides",
+    "displayName": "IDE"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "study_notes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::study-note.study-note",
+      "inversedBy": "ides"
+    }
+  }
+}
