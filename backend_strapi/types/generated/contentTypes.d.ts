@@ -1113,6 +1113,11 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
       'manyToMany',
       'api::math.math'
     >;
+    version_controls: Attribute.Relation<
+      'api::study-note.study-note',
+      'manyToMany',
+      'api::version-control.version-control'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1134,6 +1139,41 @@ export interface ApiStudyNoteStudyNote extends Schema.CollectionType {
       'api::study-note.study-note'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiVersionControlVersionControl extends Schema.CollectionType {
+  collectionName: 'version_controls';
+  info: {
+    singularName: 'version-control';
+    pluralName: 'version-controls';
+    displayName: 'Version Control';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    study_notes: Attribute.Relation<
+      'api::version-control.version-control',
+      'manyToMany',
+      'api::study-note.study-note'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::version-control.version-control',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::version-control.version-control',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1163,6 +1203,7 @@ declare module '@strapi/types' {
       'api::math.math': ApiMathMath;
       'api::prog-lang.prog-lang': ApiProgLangProgLang;
       'api::study-note.study-note': ApiStudyNoteStudyNote;
+      'api::version-control.version-control': ApiVersionControlVersionControl;
     }
   }
 }

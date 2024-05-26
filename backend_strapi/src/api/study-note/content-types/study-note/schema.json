@@ -76,6 +76,12 @@
       "relation": "manyToMany",
       "target": "api::math.math",
       "mappedBy": "study_notes"
+    },
+    "version_controls": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::version-control.version-control",
+      "mappedBy": "study_notes"
     }
   }
 }
