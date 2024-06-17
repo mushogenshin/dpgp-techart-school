@@ -8,7 +8,17 @@
     font-size: 1.2em;
 }
 
-/* .poi h3 {
-    color:  rgb(162, 135, 139);
-    font-size: .7em; 
-} */
+.poi h3 {
+    color:  rgb(165, 85, 226);
+    font-size: 0.8em;
+}
+
+.poi table {
+    border-collapse: collapse;
+  }
+  
+  .poi th,
+  .poi td {
+    border: 1px solid rgb(144, 220, 164); /* Adjust color and width as needed */
+    padding: 8px; /* Adjust padding as needed */
+  }
