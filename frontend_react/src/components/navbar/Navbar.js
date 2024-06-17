@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSkull, faUnlock } from "@fortawesome/free-solid-svg-icons";
+import { faSkull, faUnlock, faBook } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 import styles from "./Navbar.module.css";

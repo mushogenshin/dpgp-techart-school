@@ -14,6 +14,7 @@ import AllCourses from "./pages/courses/AllCourses";
 import AllNotes from "./pages/notes/AllNotes";
 import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
 import LongAp from "./pages/longAp/LongAp";
+import Poi from "./pages/dfs/Poi";
 import NotFound from "./pages/404/404";
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
           <Route path="wiki" element={<AllNotes />} />
           <Route path="study-note/:id" element={<StudyNoteDetail />} />
           <Route path="long-ap" element={<LongAp />} />
+          <Route path="poi" element={<Poi />} />
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
