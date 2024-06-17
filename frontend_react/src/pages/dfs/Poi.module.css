@@ -1,3 +1,14 @@
 .poi {
+    color: rgb(234, 226, 197);
     margin: 40px 80px;
 }
+
+.poi h2 {
+    color:  rgb(242, 126, 144);
+    font-size: 1.2em;
+}
+
+/* .poi h3 {
+    color:  rgb(162, 135, 139);
+    font-size: .7em; 
+} */
