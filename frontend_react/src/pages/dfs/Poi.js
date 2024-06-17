@@ -31,16 +31,16 @@ Suy nghĩ chính đằng sau các lựa chọn cho phím tắt ZBrush của Hoan
 - Phải **cực kỳ dễ dàng** chuyển giữa các loại cọ. Nếu phải B xong rồi phải nhấn thêm 1 phím khác để chuyển cọ, thì là rườm rà. Vd: có thể chỉ bấm 1, 2, 3, 4, 5... để nhảy giữa 5 loại cọ.
 - Ưu tiên 4 combo phím để hiện 4 palette ở phần đầu bài 
 
-### ⚙️ Phím để Hiện Palette (floating/on-screen):
+### ⚙️ 1. Phím để Hiện Palette (floating/on-screen):
 
-| PALETTE | PHÍM TẮT           | GHI CHÚ                                      |
-| ------- | ------------------ | -------------------------------------------- |
-| mk_A    | Tab                | bảng về import/export file/subtool, v.v.     |
-| mk_B    | Shift + Tab        | bảng về màu, curve, movie, v.v.              |
-| mk_C    | Ctrl + Tab         | bảng về masks, TPose Master, subtools        |
-| mk_D    | Ctrl + Shift + Tab | bảng về Morph, Dynamesh, ZRemesh, Decimation |
+| PALETTE     | PHÍM TẮT           | GHI CHÚ                                      |
+| ----------- | ------------------ | -------------------------------------------- |
+| mk_**A**    | Tab                | bảng về import/export file/subtool, v.v.     |
+| mk_**B**    | Shift + Tab        | bảng về màu, curve, movie, v.v.              |
+| mk_**C**    | Ctrl + Tab         | bảng về masks, TPose Master, subtools        |
+| mk_**D**    | Ctrl + Shift + Tab | bảng về Morph, Dynamesh, ZRemesh, Decimation |
 
-### ⚙️ Các Phím Căn Bản:
+### ⚙️ 2. Các Phím Căn Bản:
 
 Thuận lợi:
 1. Thao tác **Undo** dùng rất nhiểu, nên chỉ 1 phím Z (như trong Maya) là đủ, thay vì 2 phím Ctrl + Z. 
@@ -53,7 +53,7 @@ Thuận lợi:
 | Solo        | H         | "**H**ide" |            |
 | Lock camera | K         | "loc**K**" |            |
 
-### 🔂 Phím để Transform, Tranpose:
+### 🔂 3. Phím để Transform, Tranpose:
 
 | TÍNH NĂNG       | PHÍM TẮT | GHI CHÚ                                        | GẦN VỚI MAYA                            |
 | --------------- | -------- | ---------------------------------------------- | --------------------------------------- |
@@ -61,20 +61,17 @@ Thuận lợi:
 | Transpose       | Alt + W  | chuyển từ xform kiểu mới về transpose kiểu xưa |                                         |
 | Thoát Transform | Q        | chuyển từ xform về lại sculpt                  | Q gợi nhớ đến "**select**" (không move) |
 
+### 🔮 4. Phím cho Các Mode Hiển Thị:
 
-### 🖌️ (1) Phím cho Cọ (thuần số):
+| HIỂN THỊ              | PHÍM TẮT         | GHI CHÚ                         |
+| --------------- | ---------------- | ------------------------------- |
+| Bật/tắt **Opacity**   | Shift + 1                | "nhìn trong suốt", dùng khi nhiều SubTools                                |
+| Bật/tắt **Wireframe**   | Shift + 2                |                                 |
+| Luân phiên các mode **Polyframe**   | Shift + 3                | **macro nhà trồng**                                 |
+| Bật/tắt **X-Ray** (Ghost)   | Shift + 4                | chỉ hiệu nghiệm khi Opacity đang ON |
+| Bật Sculptris (force bất kể)   | Shift + 5                | **macro nhà trồng** |
 
-| CỌ                              | PHÍM TẮT | GHI CHÚ                                             |
-| ------------------------------- | -------- | --------------------------------------------------- |
-| Move                            | 1        | cọ mạnh & quan trọng nhất                           |
-| Clay Buildup                    | 2        | đắp nhanh                                           |
-| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới; **cọ custom** |
-| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro**          |
-| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish             |
-| Paint                           | 6        | tô Polypaint (color mà thôi)                        |
-| Topology                        | 7        | để đi lưới                                          |
-
-### 👺 Phím cho Polygroups, Visibility:
+### 👺 5. Phím cho Polygroups, Visibility:
 
 | CỌ              | PHÍM TẮT         | GHI CHÚ                         |
 | --------------- | ---------------- | ------------------------------- |
@@ -83,7 +80,19 @@ Thuận lợi:
 | **Auto** Groups | Ctrl + Shift + G | mỗi polygon shell sẽ là 1 group |
 
 
-### 🖌️ (2) Phím cho Cọ (kèm Ctrl):
+### 🖌️ 6. Phím cho Cọ (thuần số):
+
+| CỌ                              | PHÍM TẮT | GHI CHÚ                                             |
+| ------------------------------- | -------- | --------------------------------------------------- |
+| Move                            | 1        | cọ mạnh & quan trọng nhất                           |
+| Clay Buildup                    | 2        | đắp nhanh                                           |
+| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới; **cọ custom** |
+| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro nhà trồng**          |
+| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish             |
+| Paint                           | 6        | tô Polypaint (color mà thôi)                        |
+| Topology                        | 7        | để đi lưới                                          |
+
+### 🖌️ 7. Phím cho Cọ (kèm Ctrl):
 
 | CỌ              | PHÍM TẮT | GHI CHÚ                                              |
 | --------------- | -------- | ---------------------------------------------------- |
@@ -95,7 +104,7 @@ Thuận lợi:
 | Mesh Insert Dot | Ctrl + 6 | (kết hợp với Stroke) nhét nhanh khối sphere          |
 | IMM Primitives  | Ctrl + 7 |                                                      |
 
-### 🖌️ (3) Phím cho Cọ (kèm Alt):
+### 🖌️ 8. Phím cho Cọ (kèm Alt):
 
 | CỌ              | PHÍM TẮT | GHI CHÚ                                   |
 | --------------- | -------- | ----------------------------------------- |
