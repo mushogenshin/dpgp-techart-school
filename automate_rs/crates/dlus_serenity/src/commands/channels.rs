@@ -116,7 +116,7 @@ pub async fn create_module_channels(ctx: &Context, msg: &Message, mut args: Args
     let channels = vec![
         (format!("📺{}-{}-general", class, module), "Link Google Meet lớp học :computer: + các thông báo chung :loudspeaker:... sẽ được post ở đây"),
         (format!("💢{}-{}-wip-sharing", class, module), "Post WIPs lên đây nghen bà con :art:! Sôi nổi lên nào :relieved:"),
-        (format!("📬{}-{}-ta-recap", class, module), "Tóm tắt bài học :scroll: từ người trợ giảng tài ba :man_mage:"),
+        (format!("📬{}-{}-recap", class, module), "Tóm tắt :scroll:"),
         (format!("👾{}-{}-bot", class, module), "Tương tác với bot :robot:, nên tắt hết notification cho kênh này :eyes:"),
     ];
 
