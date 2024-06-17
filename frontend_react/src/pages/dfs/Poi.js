@@ -10,7 +10,7 @@ import styles from "./Poi.module.css";
 
 export default function Poi() {
   const introContent = `
-# Cài tuỳ chỉnh của Hoan cho ZBrush
+# Setup của Hoan cho ZBrush
 
 ---
   `;
@@ -25,11 +25,20 @@ abc
   const hotkeysContent = `
 ## ⌨️ Phím tắt
 
-Suy nghĩ chính đằng sau các lựa chọn cho phím tắt của Hoan.
+Suy nghĩ chính đằng sau các lựa chọn cho phím tắt ZBrush của Hoan.
 
-- Tổ hợp cho những tính năng dùng thường xuyên **càng đơn giản** thì càng đỡ gánh nặng cho cổ tay 😌.
+- Tính năng nào dùng thường xuyên thì combo phím nên **càng đơn giản**, đỡ gánh nặng cho cổ tay 😌.
 - Phải **cực kỳ dễ dàng** chuyển giữa các loại cọ. Nếu phải B xong rồi phải nhấn thêm 1 phím khác để chuyển cọ, thì là rườm rà. Vd: có thể chỉ bấm 1, 2, 3, 4, 5... để nhảy giữa 5 loại cọ.
 - Ưu tiên 4 combo phím để hiện 4 palette ở phần đầu bài 
+
+### ⚙️ Phím để Hiện Palette (floating/on-screen):
+
+| PALETTE | PHÍM TẮT           | GHI CHÚ                                      |
+| ------- | ------------------ | -------------------------------------------- |
+| mk_A    | Tab                | bảng về import/export file/subtool, v.v.     |
+| mk_B    | Shift + Tab        | bảng về màu, curve, movie, v.v.              |
+| mk_C    | Ctrl + Tab         | bảng về masks, TPose Master, subtools        |
+| mk_D    | Ctrl + Shift + Tab | bảng về Morph, Dynamesh, ZRemesh, Decimation |
 
 ### ⚙️ Các Phím Căn Bản:
 
@@ -46,33 +55,56 @@ Thuận lợi:
 
 ### 🔂 Phím để Transform, Tranpose:
 
-| TÍNH NĂNG       | PHÍM TẮT | GHI CHÚ                                        | GẦN VỚI MAYA           |
-| --------------- | -------- | ---------------------------------------------- | ---------------------- |
-| Transform       | W        | chuyển từ sculpt qua xform                     | W gợi nhớ đến "move"   |
-| Transpose       | Alt + W  | chuyển từ xform kiểu mới về transpose kiểu xưa |                        |
-| Thoát Transform | Q        | chuyển từ xform về lại sculpt                  | Q gợi nhớ đến "select" |
+| TÍNH NĂNG       | PHÍM TẮT | GHI CHÚ                                        | GẦN VỚI MAYA                            |
+| --------------- | -------- | ---------------------------------------------- | --------------------------------------- |
+| Transform       | W        | chuyển từ sculpt qua xform                     | W gợi nhớ đến "**move**"                |
+| Transpose       | Alt + W  | chuyển từ xform kiểu mới về transpose kiểu xưa |                                         |
+| Thoát Transform | Q        | chuyển từ xform về lại sculpt                  | Q gợi nhớ đến "**select**" (không move) |
 
 
-### 🖌️ Phím cho Cọ (thuần số):
+### 🖌️ (1) Phím cho Cọ (thuần số):
 
-| CỌ                              | PHÍM TẮT | GHI CHÚ                                    |
-| ------------------------------- | -------- | ------------------------------------------ |
-| Move                            | 1        | cọ mạnh & quan trọng nhất                  |
-| Clay Buildup                    | 2        | đắp nhanh                                  |
-| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới       |
-| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro** |
-| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish    |
-| Paint                           | 6        | tô Polypaint (color mà thôi)               |
-| Topology                        | 7        | để đi lưới                                 |
-
+| CỌ                              | PHÍM TẮT | GHI CHÚ                                             |
+| ------------------------------- | -------- | --------------------------------------------------- |
+| Move                            | 1        | cọ mạnh & quan trọng nhất                           |
+| Clay Buildup                    | 2        | đắp nhanh                                           |
+| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới; **cọ custom** |
+| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro**          |
+| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish             |
+| Paint                           | 6        | tô Polypaint (color mà thôi)                        |
+| Topology                        | 7        | để đi lưới                                          |
 
 ### 👺 Phím cho Polygroups, Visibility:
 
-| CỌ               | PHÍM TẮT        | GHI CHÚ                         |
-| ---------------- | --------------- | ------------------------------- |
-| G                | Group Visible   |                                 |
-| Ctrl + G         | Group Masked    |                                 |
-| Ctrl + Shift + G | **Auto** Groups | mỗi polygon shell sẽ là 1 group |
+| CỌ              | PHÍM TẮT         | GHI CHÚ                         |
+| --------------- | ---------------- | ------------------------------- |
+| Group Visible   | G                |                                 |
+| Group Masked    | Ctrl + G         |                                 |
+| **Auto** Groups | Ctrl + Shift + G | mỗi polygon shell sẽ là 1 group |
+
+
+### 🖌️ (2) Phím cho Cọ (kèm Ctrl):
+
+| CỌ              | PHÍM TẮT | GHI CHÚ                                              |
+| --------------- | -------- | ---------------------------------------------------- |
+| Standard        | Ctrl + 1 | đắp thêm 1 cách "quyết đoán"                         |
+| Claytubes       | Ctrl + 2 | đắp lên bằng nhiều lớp dát mỏng                      |
+| Curvetube       | Ctrl + 3 | tạo form ống theo curve                              |
+| Snakehook       | Ctrl + 4 | "kéo sừng, kéo vảy"                                  |
+| Snakesphere     | Ctrl + 5 | "đẻ form" (dùng với Sculptris) chạy lượn dài theo cọ |
+| Mesh Insert Dot | Ctrl + 6 | (kết hợp với Stroke) nhét nhanh khối sphere          |
+| IMM Primitives  | Ctrl + 7 |                                                      |
+
+### 🖌️ (3) Phím cho Cọ (kèm Alt):
+
+| CỌ              | PHÍM TẮT | GHI CHÚ                                   |
+| --------------- | -------- | ----------------------------------------- |
+| ZModeler        | Alt + 1  | để model polygon                          |
+| Nudge           | Alt + 2  | dịch các edge trượt theo bề mặt           |
+| Pinch           | Alt + 3  | nhíu form và cạnh lại gần nhau            |
+| Inflat          | Alt + 4  | bơm phồng                                 |
+| Morph           | Alt + 5  | trả (cục bộ) về hình dạng đã lưu trước đó |
+| ZRemesher Guide | Alt + 6  | phụ trong tính toán retopo tự động        |
 
   `;
 

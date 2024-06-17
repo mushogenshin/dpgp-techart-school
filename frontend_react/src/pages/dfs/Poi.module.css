@@ -17,8 +17,16 @@
     border-collapse: collapse;
   }
   
-  .poi th,
-  .poi td {
-    border: 1px solid rgb(144, 220, 164); /* Adjust color and width as needed */
-    padding: 8px; /* Adjust padding as needed */
-  }
+
+
+.poi th {
+    color: #76582e; 
+    font-size: 0.8em;
+    border: 2px solid rgb(92, 144, 106); 
+    padding: 4px; 
+}
+
+.poi td {
+    border: 1px solid rgb(92, 144, 106); 
+    padding: 8px; 
+}
