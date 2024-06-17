@@ -22,23 +22,37 @@ abc
 abc  
   `;
 
+  const macroContent = `
+## 🧬 Bộ Macros 
+abc  
+abc  
+abc  
+  `;
+
   const hotkeysContent = `
-## ⌨️ Phím tắt
+## ⌨️ Phím tắt 
 
-Suy nghĩ chính đằng sau các lựa chọn cho phím tắt ZBrush của Hoan.
+Tuy 2019-2020 Hoan đã chuyển nhiều tính năng trước kia trong phím tắt lên palette (các bảng hiện "floating" bất cứ đâu), phím tắt custom đến nay vẫn còn là một phần trụ cột trong lúc thao tác với ZBrush của Hoan.
 
-- Tính năng nào dùng thường xuyên thì combo phím nên **càng đơn giản**, đỡ gánh nặng cho cổ tay 😌.
-- Phải **cực kỳ dễ dàng** chuyển giữa các loại cọ. Nếu phải B xong rồi phải nhấn thêm 1 phím khác để chuyển cọ, thì là rườm rà. Vd: có thể chỉ bấm 1, 2, 3, 4, 5... để nhảy giữa 5 loại cọ.
+Các suy nghĩ chính đằng sau những lựa chọn cho phím tắt custom:
+
+- Tính năng nào dùng thường xuyên thì combo phím nên **càng đơn giản**, đỡ gánh nặng _cho cổ tay_ 😌.
+- Chuyển giữa các loại cọ phải **cực kỳ dễ dàng**. Nếu phải B xong rồi phải nhấn thêm 1 phím khác để chuyển cọ, thì là rườm rà.
+    - Vd: có thể chỉ bấm 1, 2, 3, 4, 5... để nhảy giữa 5 loại cọ.
 - Ưu tiên 4 combo phím để hiện 4 palette ở phần đầu bài 
+
+Với những tiêu chí trên, đây là tổng kết 10 bảng phím tắt custom.
+
+🌈 Các bạn không nên cảm thấy cần phải học thuộc hết ngay một lúc toàn bộ 10 bảng, mà nên nghĩ rằng: ưu tiên một _số lượng nhỏ những phím dễ hiểu dễ nhớ_ (mà phù hợp nhu cầu riêng) trước nhất, rồi dần dà mở rộng thêm ra về sau tuỳ theo.
 
 ### ⚙️ 1. Phím để Hiện Palette (floating/on-screen):
 
-| PALETTE     | PHÍM TẮT           | GHI CHÚ                                      |
-| ----------- | ------------------ | -------------------------------------------- |
-| mk_**A**    | Tab                | bảng về import/export file/subtool, v.v.     |
-| mk_**B**    | Shift + Tab        | bảng về màu, curve, movie, v.v.              |
-| mk_**C**    | Ctrl + Tab         | bảng về masks, TPose Master, subtools        |
-| mk_**D**    | Ctrl + Shift + Tab | bảng về Morph, Dynamesh, ZRemesh, Decimation |
+| PALETTE   | PHÍM TẮT           | GHI CHÚ                                                          |
+| --------- | ------------------ | ---------------------------------------------------------------- |
+| mk\_**A** | Tab                | bảng về import/export file/subtool, v.v.                         |
+| mk\_**B** | Shift + Tab        | bảng về màu, curve, thâu movie, v.v.                             |
+| mk\_**C** | Ctrl + Tab         | bảng về masks, selection, TPose Master, subtools                 |
+| mk\_**D** | Ctrl + Shift + Tab | bảng về Morph, gia công đoạn chót: Dynamesh, ZRemesh, Decimation |
 
 ### ⚙️ 2. Các Phím Căn Bản:
 
@@ -63,13 +77,14 @@ Thuận lợi:
 
 ### 🔮 4. Phím cho Các Mode Hiển Thị:
 
-| HIỂN THỊ              | PHÍM TẮT         | GHI CHÚ                         |
-| --------------- | ---------------- | ------------------------------- |
-| Bật/tắt **Opacity**   | Shift + 1                | "nhìn trong suốt", dùng khi nhiều SubTools                                |
-| Bật/tắt **Wireframe**   | Shift + 2                |                                 |
-| Luân phiên các mode **Polyframe**   | Shift + 3                | **macro nhà trồng**                                 |
-| Bật/tắt **X-Ray** (Ghost)   | Shift + 4                | chỉ hiệu nghiệm khi Opacity đang ON |
-| Bật Sculptris (force bất kể)   | Shift + 5                | **macro nhà trồng** |
+| HIỂN THỊ                          | PHÍM TẮT  | GHI CHÚ                                    |
+| --------------------------------- | --------- | ------------------------------------------ |
+| Bật/tắt **Opacity**               | Shift + 1 | "nhìn trong suốt", dùng khi nhiều SubTools |
+| Bật/tắt **Wireframe**             | Shift + 2 |                                            |
+| Luân phiên các mode **Polyframe** | Shift + 3 | **macro nhà trồng**                        |
+| Bật/tắt **X-Ray** (Ghost)         | Shift + 4 | chỉ hiệu nghiệm khi Opacity đang ON        |
+| Bật Sculptris (force bất kể)      | Shift + 5 | **macro nhà trồng**                        |
+
 
 ### 👺 5. Phím cho Polygroups, Visibility:
 
@@ -118,21 +133,40 @@ Thuận lợi:
   `;
 
   const installContent = `
-## 🙀 Cách cài vào máy (thủ công)
+## 🛠️ Cài đặt
+
+Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công đoạn: **(1)** chép vào máy, và **(2)** bật lên trong ZBrush.
+
+- Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
+- Bước cài vào ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
+
+## 🤖 1A. Cách cài vào máy (nhanh) với POI
+jkl  
+jkl  
+jkl  
+
+## 🙀 1B. Cách cài vào máy (thủ công)
 ghi  
 ghi  
 ghi  
 
-## 🤖 Cách cài vào máy (nhanh)
+## 🤖 2A. Cách cài vào ZBrush (nhanh) với plugin
 jkl  
 jkl  
 jkl  
+
+## 🙀 2B. Cách cài vào ZBrush (thủ công)
+ghi  
+ghi  
+ghi  
+
   `;
 
   return (
     <div className={styles.poi}>
       <ReactMarkdown remarkPlugins={[gfm]}>{introContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{paletteContent}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[gfm]}>{macroContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{hotkeysContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{installContent}</ReactMarkdown>
     </div>
