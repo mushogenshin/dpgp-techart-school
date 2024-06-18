@@ -1,6 +1,7 @@
 import React from "react";
 import gfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import Vimeo from "../../components/Vimeo";
 import styles from "./Poi.module.css";
 
 export default function Poi() {
@@ -258,6 +259,9 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 3 công
 
 # ⬇️ [Tải về từ Google Drive](https://drive.google.com/drive/folders/10Rc1l4mnGW9Ro9vob57O38O2R8QT7IY5?usp=drive_link)
 
+  `;
+  const installContent2 = `
+
 - (2) Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là mk_POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
 - (3) Bước bật các thứ lên trong ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
 
@@ -315,6 +319,8 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 3 công
       <div id="install">
         <ReactMarkdown remarkPlugins={[gfm]}>{installContent}</ReactMarkdown>
       </div>
+      <Vimeo id="961693035" />
+      <ReactMarkdown remarkPlugins={[gfm]}>{installContent2}</ReactMarkdown>
     </div>
   );
 }
