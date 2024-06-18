@@ -151,7 +151,7 @@ Thuận lợi:
 
 ### 🔂 3. Phím để Transform, Tranpose:
 
-| CÔNG DỤNG       | PHÍM TẮT | GHI CHÚ                                        | LIÊN HỆ VỚI MAYA                            |
+| CÔNG DỤNG       | PHÍM TẮT | GHI CHÚ                                        | LIÊN HỆ VỚI MAYA                        |
 | --------------- | -------- | ---------------------------------------------- | --------------------------------------- |
 | Transform       | W        | chuyển từ sculpt qua xform                     | W gợi nhớ đến "**move**"                |
 | Transpose       | Alt + W  | chuyển từ xform kiểu mới về transpose kiểu xưa |                                         |
@@ -179,15 +179,15 @@ Thuận lợi:
 
 ### 🖌️ 6. Phím cho Cọ (thuần số):
 
-| CỌ                              | PHÍM TẮT | GHI CHÚ                                             |
-| ------------------------------- | -------- | --------------------------------------------------- |
-| Move                            | 1        | cọ mạnh & quan trọng nhất                           |
-| Clay Buildup                    | 2        | đắp nhanh                                           |
-| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới; **cọ custom** |
-| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro nhà trồng**          |
-| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish             |
-| Paint                           | 6        | tô Polypaint (color mà thôi)                        |
-| Topology                        | 7        | để đi lưới                                          |
+| CỌ                              | PHÍM TẮT | GHI CHÚ                                              |
+| ------------------------------- | -------- | ---------------------------------------------------- |
+| Move                            | 1        | cọ mạnh & quan trọng nhất                            |
+| Clay Buildup                    | 2        | đắp nhanh                                            |
+| MAH Cut Mech                    | 3        | cắt đường mạnh, nhanh, nhưng hư lưới; **cọ custom**  |
+| hPolish & tự động tắt Sculptris | 4        | chà phẳng mặt, tạo cứng; **kết hợp macro nhà trồng** |
+| Trim Dynamic                    | 5        | cũng chà phẳng, profile nhẹ hơn hPolish              |
+| Paint                           | 6        | tô Polypaint (color mà thôi)                         |
+| Topology                        | 7        | để đi lưới                                           |
 
 ### 🖌️ 7. Phím cho Cọ (kèm Ctrl):
 
@@ -254,12 +254,12 @@ Thuận lợi:
 
 Cuối cùng, sau khi đã giới thiệu đầy đủ về nội dung những tuỳ chỉnh, để bắt đầu sử dụng thì chúng ta cần cài trước đã.
 
-# ⬇️ Tải về từ GitHub
+Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 3 công đoạn: **(1)** tải từ internet về, **(2)** xổ ra và chép vào thư mục đúng, và **(3)** bật lên trong ZBrush.
 
-Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công đoạn: **(1)** chép vào máy, và **(2)** bật lên trong ZBrush.
+# ⬇️ [Tải về từ GitHub](https://github.com/mushogenshin/3d-prefs)
 
-- Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là mk_POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
-- Bước cài vào ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
+- (2) Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là mk_POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
+- (3) Bước bật các thứ lên trong ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
 
 ### 🤖 1A. Cách cài vào máy (nhanh) với POI
 
