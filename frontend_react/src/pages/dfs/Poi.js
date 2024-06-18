@@ -15,6 +15,20 @@ export default function Poi() {
 ---
   `;
 
+  const extrasContent = `
+## 🍧 Các vật liệu, cọ custom:
+
+Đây là phần dễ hiểu nhất của tuỳ chỉnh, chỉ cần copy vào đúng chỗ là sử dụng được ngay. Chúng ta sẽ có các file sau:
+
+| LOẠI | TÁC GIẢ | GHI CHÚ |
+|----------|----------|----------|
+| Cọ    | MAH | Cut Mech (A, B)   |
+| Cọ    | Dylan Ekren   | Hair Tubes   |
+| Vật liệu    | Scott Eaton   | Double Shade   |
+| Vật liệu    | zbro   | Modeling_Clay, Gray_Ex, Paint   |
+
+  `;
+
   const paletteContent = `
 ## 🎨 Giới thiệu 4 palette (A, B, C, D)
 
@@ -58,7 +72,7 @@ Trong setup của Hoan, sử dụng với palette (bên trên) và phím tắt (
 ## 🔌 Plugin 
 Những gì macros không thể làm (vì đòi hỏi phức tạp hơn 1 chút), thì sẽ cần đến plugin.
 
-Trong setup của Hoan, giao diện plugin sẽ được nhìn đến để kích hoạt tất cả mọi thứ sau khi cài đặt xong (mô tả ở dưới cuối bài), hoặc là để reset về lại thiết lập mặc định của ZBrush.
+Trong setup của Hoan, ta bắt đầu nhìn đến giao diện plugin khi muốn kích hoạt tất cả mọi thứ _sau khi_ cài đặt xong (mô tả ở dưới cuối bài), hoặc là để reset về lại thiết lập mặc định của ZBrush.
 
 Plugin sẽ giúp chúng ta 5 tính năng sau (đã trình bày rải rác trong các bộ phím tắt bên trên, chỉ liệt kê lại cho đầy đủ):
 
@@ -208,6 +222,7 @@ mnp
   return (
     <div className={styles.poi}>
       <ReactMarkdown remarkPlugins={[gfm]}>{introContent}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[gfm]}>{extrasContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{paletteContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{macroContent}</ReactMarkdown>
       <ReactMarkdown remarkPlugins={[gfm]}>{hotkeysContent}</ReactMarkdown>
