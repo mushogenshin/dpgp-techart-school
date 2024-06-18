@@ -8,19 +8,26 @@ export default function Poi() {
 # Setup của Hoan cho ZBrush
 
 ---
+
+Đây là kết quả setup ZBrush của Hoan sau khá nhiều chỉnh sửa từ 2018 đến 2022. Từ đó đến nay (2024) thì Hoan sử dụng những setup này khá ổn định, và nó chính là setup Hoan dùng khi demo trong các lớp dạy.
+
+Phần đầu của bài viết sẽ giới thiệu tổng quan về những thành phần trong setup, phần cuối là nói về cách cài đặt và sử dụng.
+
   `;
 
   const extrasContent = `
 ## 🍧 Các vật liệu, cọ custom:
 
-Đây là phần dễ hiểu nhất của tuỳ chỉnh, chỉ cần copy vào đúng chỗ là sử dụng được ngay. Chúng ta sẽ có các file sau:
+Đây là phần dễ hiểu nhất của tuỳ chỉnh, vì chỉ cần copy vào đúng chỗ là sử dụng được ngay. Chúng ta sẽ có các file sau:
 
-| LOẠI | TÁC GIẢ | GHI CHÚ |
-|----------|----------|----------|
-| Cọ    | MAH | Cut Mech (A, B)   |
-| Cọ    | Dylan Ekren   | Hair Tubes   |
-| Vật liệu    | Scott Eaton   | Double Shade   |
-| Vật liệu    | zbro   | Modeling_Clay, Gray_Ex, Paint   |
+| LOẠI     | TÁC GIẢ     | GHI CHÚ                       |
+| -------- | ----------- | ----------------------------- |
+| Cọ       | MAH         | Cut Mech (A, B)               |
+| Cọ       | Dylan Ekren | Hair Tubes                    |
+| Vật liệu | Scott Eaton | Double Shade                  |
+| Vật liệu | zbro        | Modeling_Clay, Gray_Ex, Paint |
+
+Việc file nào phải copy vào đâu sẽ được nói đến trong phần Cài đặt (cuối trang). Ta hãy cứ nhìn tiếp đến những yếu tố khác của setup tổng.
 
   `;
 
@@ -29,28 +36,32 @@ export default function Poi() {
 
 Vì giao diện của ZBrush rất nhiều tầng (aka. từ chỗ này bấm để xổ xuống thêm 10 mục con, từ 1 mục con bấm xổ xuống thêm tiếp tiếp nữa, rất sâu, và chỗ nào nhìn cũng na ná như nhau 🙀), đối với ai chưa quen đi kiếm vì tháng năm dùng chưa đủ lâu, thì việc rảo mắt đi tìm lại một nút đã từng bấm nay không nhớ nằm đâu, quả là một ác mộng. Do đó, palette (các bảng gom lại những nút do mình chỉ định sắp xếp, có thể hiện "floating" bất cứ đâu) là thành phần quan trọng đầu tiên trong tuỳ chỉnh ZBrush của Hoan.
 
-Chú thích công năng của 4 palette:
+🌈 Định hướng khi setup: lý tưởng là hầu hết lúc làm việc, ta có thể ẩn hết các panel của ZBrush đi (gần như "Zen mode"), và access 4 palette A, B, C, D một cách "bao giờ cần thì bật cho hiện", thay vì pin rất nhiều nút lên màn hình.
+
+- **Ưu điểm** của lối này: tiết kiệm được không gian màn hình, đỡ bị rối mắt; và khi thay đổi kích cỡ cửa sổ ZBrush nhỏ đi thì không bị "lạc nút".
+- **Nhược điểm**: có thể không phù hợp với workflow hay các ưu tiên tiếp cận tools trong lúc làm file ZBrush của bạn.
+
+👉 Chú thích công năng của 4 palette:
 
 ### PALETTE A
 
+{todo: show markup}
 ![Palette A](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteA.jpg?alt=media&token=155a2973-7dbe-4298-867a-d15008af67cf "Palette A Screenshot")
-{todo}
 
 ### PALETTE B
 
+{todo: show markup}
 ![Palette B](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteB.jpg?alt=media&token=112bf6d6-8882-4fdc-bd2c-60a8640ed1af "Palette B Screenshot")
-{todo}
 
 ### PALETTE C
 
+{todo: show markup}
 ![Palette C](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteC.jpg?alt=media&token=34015674-3873-4d89-90d2-edea9d93cdaf "Palette C Screenshot")
-{todo}
 
 ### PALETTE D
 
+{todo: show markup}
 ![Palette D](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteD.jpg?alt=media&token=a65a5a59-27a7-4e7a-97c3-a48fc2daf2a8 "Palette D Screenshot")
-{todo}
-
 
   `;
 
@@ -63,7 +74,7 @@ Là những script rất đơn giản, chúng ta chỉ thêm vào có 3 macros:
 - No UH (Undo History) QuickSave
 - **Setup Me Senpai**
 
-Trong setup của Hoan, sử dụng với palette (bên trên) và phím tắt (trình bày bên dưới), thường thì ta sẽ không cần biết tới sự tồn tại của từng macro.
+Trong setup của Hoan, sử dụng với palette (bên trên) và phím tắt (trình bày bên dưới), thường thì ta sẽ **không cần biết tới** sự tồn tại của từng macro, mà sẽ khai thác nó thông qua nút bấm trên palette hoặc phím tắt, cả hai đều được nói đến trong bài.
 
   `;
 
@@ -115,7 +126,7 @@ Với những tiêu chí trên, đây là tổng kết 10 bảng phím tắt cus
 Thuận lợi:
 1. Thao tác **Undo** dùng rất nhiểu, nên chỉ 1 phím Z (như trong Maya) là đủ, thay vì 2 phím Ctrl + Z. 
 
-| TÍNH NĂNG   | PHÍM TẮT  | GHI CHÚ    | GIỐNG MAYA |
+| CÔNG DỤNG   | PHÍM TẮT  | GHI CHÚ    | GIỐNG MAYA |
 | ----------- | --------- | ---------- | ---------- |
 | Undo        | Z         |            | ✓          |
 | Redo        | Shift + Z |            | ✓          |
@@ -125,7 +136,7 @@ Thuận lợi:
 
 ### 🔂 3. Phím để Transform, Tranpose:
 
-| TÍNH NĂNG       | PHÍM TẮT | GHI CHÚ                                        | LIÊN HỆ VỚI MAYA                            |
+| CÔNG DỤNG       | PHÍM TẮT | GHI CHÚ                                        | LIÊN HỆ VỚI MAYA                            |
 | --------------- | -------- | ---------------------------------------------- | --------------------------------------- |
 | Transform       | W        | chuyển từ sculpt qua xform                     | W gợi nhớ đến "**move**"                |
 | Transpose       | Alt + W  | chuyển từ xform kiểu mới về transpose kiểu xưa |                                         |
@@ -186,12 +197,34 @@ Thuận lợi:
 | Morph           | Alt + 5  | trả (cục bộ) về hình dạng đã lưu trước đó |
 | ZRemesher Guide | Alt + 6  | phụ trong tính toán retopo tự động        |
 
+  
+### 🔅 9. ZSpotlight, v.v.
+
+| CÔNG DỤNG          | PHÍM TẮT        | GHI CHÚ                                      |
+| ------------------ | --------------- | -------------------------------------------- |
+| Bật/tắt ZSpotlight | Alt + Z         |                                              |
+| Edit ZSpotlight    | Alt + Shift + Z |                                              |
+| Make Polymesh 3D   | Alt + Shift + D | Giống Delete History bên Maya                |
+| AccuCurve          | Alt + C         | Tác động profile của cọ Move cho bớt "loang" |
+| Switch Color       | Shift + X       | Đổi qua lại giữa 2 màu fg và bg              |
+| Rename SubTool     | Alt + R         |                                              |
+
+### 🗃️ 10. Linh tinh
+
+| CÔNG DỤNG         | PHÍM TẮT               | GHI CHÚ       |
+| ----------------- | ---------------------- | ------------- |
+| Ẩn Interface      | Alt + Ctrl + F7        |               |
+| Ẩn Menus          | Alt + Ctrl + F8        |               |
+| "Super Blur Mask" | Alt + Ctrl + Shift + R | Custom plugin |
+
   `;
 
   const installContent = `
 ## 🛠️ Cài đặt
 
-Cuối cùng, để bắt đầu sử dụng thì chúng ta cần cài trước đã.
+Cuối cùng, sau khi đã giới thiệu đầy đủ về nội dung những tuỳ chỉnh, để bắt đầu sử dụng thì chúng ta cần cài trước đã.
+
+# ⬇️ Tải về từ GitHub
 
 Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công đoạn: **(1)** chép vào máy, và **(2)** bật lên trong ZBrush.
 
@@ -207,12 +240,22 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công
 
 ### 🤖 2A. Cách cài vào ZBrush (nhanh) với plugin
 
-{todo}
+- Vào palette Zplugin, tốt hơn nữa là pin/dock nó qua bên tay trái cửa sổ ZBrush.
+- Sẽ thấy mục **ZZZ Mushogenshin Tools** ở dưới cuối, xổ ra.
+
+![ZZZ Mushogenshin Tools (ZPlugin)](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2Fplugin.jpg?alt=media&token=12166498-7ecf-43e7-b420-17de85188e0a "ZZZ Mushogenshin Tools (ZPlugin)")
+
+- Bấm nút **Load 4 Palettes** (để hiện 4 palette A, B, C, D trên thanh menu).
+- Bấm nút **Set My Hotkeys** để overwrite (ghi đè) phím tắt mặc định của ZBrush bằng phím tắt custom của Hoan.
+- Lúc này bạn đã sẵn sàng để sử dụng 4 palette và toàn bộ các phím tắt custom của Hoan.
 
 ### 🙀 2B. Cách cài vào ZBrush (thủ công)
 {coming later}
 
 ## 🗑️ Gỡ bỏ
+
+- Ngưng sử dụng giao diện tuỳ chỉnh: cũng vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset UI**.
+- Ngưng sử dụng phím tắt tuỳ chỉnh: cũng vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset HKs**.
 
   `;
 
