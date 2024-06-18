@@ -3,11 +3,6 @@ import gfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import styles from "./Poi.module.css";
 
-// ![Palette A](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteA.jpg?alt=media&token=155a2973-7dbe-4298-867a-d15008af67cf "Palette A Screenshot")
-// ![Palette B](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteB.jpg?alt=media&token=112bf6d6-8882-4fdc-bd2c-60a8640ed1af "Palette B Screenshot")
-// ![Palette C](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteC.jpg?alt=media&token=34015674-3873-4d89-90d2-edea9d93cdaf "Palette C Screenshot")
-// ![Palette D](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteD.jpg?alt=media&token=a65a5a59-27a7-4e7a-97c3-a48fc2daf2a8 "Palette D Screenshot")
-
 export default function Poi() {
   const introContent = `
 # Setup của Hoan cho ZBrush
@@ -38,18 +33,22 @@ Chú thích công năng của 4 palette:
 
 ### PALETTE A
 
+![Palette A](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteA.jpg?alt=media&token=155a2973-7dbe-4298-867a-d15008af67cf "Palette A Screenshot")
 {todo}
 
 ### PALETTE B
 
+![Palette B](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteB.jpg?alt=media&token=112bf6d6-8882-4fdc-bd2c-60a8640ed1af "Palette B Screenshot")
 {todo}
 
 ### PALETTE C
 
+![Palette C](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteC.jpg?alt=media&token=34015674-3873-4d89-90d2-edea9d93cdaf "Palette C Screenshot")
 {todo}
 
 ### PALETTE D
 
+![Palette D](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2FpaletteD.jpg?alt=media&token=a65a5a59-27a7-4e7a-97c3-a48fc2daf2a8 "Palette D Screenshot")
 {todo}
 
 
@@ -200,17 +199,15 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công
 - Bước cài vào ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
 
 ### 🤖 1A. Cách cài vào máy (nhanh) với POI
-jkl  
-jkl  
-jkl  
+
+{todo}
 
 ### 🙀 1B. Cách cài vào máy (thủ công)
 {coming later}
 
 ### 🤖 2A. Cách cài vào ZBrush (nhanh) với plugin
-mnp  
-mnp  
-mnp  
+
+{todo}
 
 ### 🙀 2B. Cách cài vào ZBrush (thủ công)
 {coming later}
