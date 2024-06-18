@@ -5,7 +5,7 @@
 
 .poi h2 {
     color:  rgb(242, 126, 144);
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
 
 .poi h3 {
@@ -21,7 +21,7 @@
 
 .poi th {
     color: #76582e; 
-    font-size: 0.8em;
+    font-size: 0.7em;
     border: 2px solid rgb(92, 144, 106); 
     padding: 4px; 
 }
@@ -29,4 +29,13 @@
 .poi td {
     border: 1px solid rgb(92, 144, 106); 
     padding: 8px; 
+}
+
+
+.poi a {
+    color: rgb(213, 89, 47)
+}
+
+.poi a:visited {
+    color: rgb(158, 76, 49)
 }
