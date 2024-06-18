@@ -19,7 +19,7 @@ Phần đầu của bài viết sẽ giới thiệu về những thành phần t
 
 6 thành phần gồm có:
 
-- [Vật liệu, cọ custom](#mats-brushes)
+- [Vật liệu & cọ](#mats-brushes)
 - [Palette (A, B, C, D)](#palettes)
 - [Macros](#macros)
 - [Phím tắt](#hotkeys)
@@ -256,7 +256,7 @@ Cuối cùng, sau khi đã giới thiệu đầy đủ về nội dung những t
 
 Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 3 công đoạn: **(1)** tải từ internet về, **(2)** xổ ra và chép vào thư mục đúng, và **(3)** bật lên trong ZBrush.
 
-# ⬇️ [Tải về từ GitHub](https://github.com/mushogenshin/3d-prefs)
+# ⬇️ [Tải về từ Google Drive](https://drive.google.com/drive/folders/10Rc1l4mnGW9Ro9vob57O38O2R8QT7IY5?usp=drive_link)
 
 - (2) Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là mk_POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
 - (3) Bước bật các thứ lên trong ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
