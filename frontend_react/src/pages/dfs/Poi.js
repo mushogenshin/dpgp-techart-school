@@ -11,7 +11,7 @@ export default function Poi() {
 
 Đây là kết quả setup ZBrush của Hoan sau khá nhiều chỉnh sửa từ 2018 đến 2022. Từ đó đến nay (2024) thì Hoan sử dụng những setup này khá ổn định, và nó chính là setup Hoan dùng khi demo trong các lớp dạy.
 
-## 🌈 Nếu chỉ muốn xem cách cài và sử dụng thì scroll xuống [cuối trang 👇](#8)
+## 🌈 Nếu chỉ muốn xem cách cài và sử dụng thì scroll xuống [cuối trang 👇](#install)
 
 Các đoạn text là để trình bày (cho những ai không ngại đọc) những chi tiết đằng sau 6 thành phần chính của setup.
 
@@ -234,6 +234,21 @@ Thuận lợi:
 
   `;
 
+  const zscriptContent = `
+
+  ## 📜 Default ZScript
+
+  Có một số settings mà ZBrush **không chịu** lưu lại khi thoát ra, mà mỗi lần cần phải mỗi chỉnh sau khi mở ZBrush lên. Đó là lý do chúng ta cần có "Default ZScript" chạy mỗi khi mở ZBrush, để tự động thiết lập lại những settings đó.
+
+  Default ZScript của chúng ta sẽ gọi macro **"Setup Me Senpai"**, và macro này chỉnh những settings sau:
+
+  - Tạo ngay 1 cục dummy sphere 3D để khỏi bị thắc mắc với mode "2.5D" của ZBrush gây nhiều hoang mang cho ai không hiểu
+  - Chỉnh những settings về stroke, backface masking, cho cọ
+  - Chỉnh những settings của thâu timelapse 
+  - Chỉnh những settings của viewport
+
+  `;
+
   const installContent = `
 ## 🛠️ Cài đặt
 
@@ -243,7 +258,7 @@ Cuối cùng, sau khi đã giới thiệu đầy đủ về nội dung những t
 
 Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công đoạn: **(1)** chép vào máy, và **(2)** bật lên trong ZBrush.
 
-- Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
+- Bước chép vào máy thì Hoan có viết một desktop app nhỏ để cài nhanh, gọi là mk_POI (**P**references **O**verkill **I**nstaller). Nếu bạn không muốn dùng POI thì sẽ cần copy lần lượt các files vào đúng folder trong máy, theo chỉ dẫn bên dưới.
 - Bước cài vào ZBrush thì cũng có 2 cách: thủ công hoặc sử dụng một plugin ZBrush do Hoan viết để cài nhanh.
 
 ### 🤖 1A. Cách cài vào máy (nhanh) với POI
@@ -294,8 +309,10 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công
       <div id="plugin">
         <ReactMarkdown remarkPlugins={[gfm]}>{pluginContent}</ReactMarkdown>
       </div>
-      <div id="default-zscript">Default ZScript</div>
-      <div id="8">
+      <div id="default-zscript">
+        <ReactMarkdown remarkPlugins={[gfm]}>{zscriptContent}</ReactMarkdown>
+      </div>
+      <div id="install">
         <ReactMarkdown remarkPlugins={[gfm]}>{installContent}</ReactMarkdown>
       </div>
     </div>
