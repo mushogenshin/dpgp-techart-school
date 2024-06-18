@@ -11,7 +11,22 @@ export default function Poi() {
 
 Đây là kết quả setup ZBrush của Hoan sau khá nhiều chỉnh sửa từ 2018 đến 2022. Từ đó đến nay (2024) thì Hoan sử dụng những setup này khá ổn định, và nó chính là setup Hoan dùng khi demo trong các lớp dạy.
 
-Phần đầu của bài viết sẽ giới thiệu tổng quan về những thành phần trong setup, phần cuối là nói về cách cài đặt và sử dụng.
+## 🌈 Nếu chỉ muốn xem cách cài và sử dụng thì scroll xuống [cuối trang 👇](#8)
+
+Các đoạn text là để trình bày (cho những ai không ngại đọc) những chi tiết đằng sau 6 thành phần chính của setup.
+
+Phần đầu của bài viết sẽ giới thiệu về những thành phần trong setup, phần cuối là nói về cách cài đặt và sử dụng.
+
+6 thành phần gồm có:
+
+- [Vật liệu, cọ custom](#mats-brushes)
+- [Palette (A, B, C, D)](#palettes)
+- [Macros](#macros)
+- [Phím tắt](#hotkeys)
+- [Plugin](#plugin)
+- [Default ZScript](#default-zscript)
+
+---
 
   `;
 
@@ -243,7 +258,7 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công
 - Vào palette Zplugin, tốt hơn nữa là pin/dock nó qua bên tay trái cửa sổ ZBrush.
 - Sẽ thấy mục **ZZZ Mushogenshin Tools** ở dưới cuối, xổ ra.
 
-![ZZZ Mushogenshin Tools (ZPlugin)](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2Fplugin.jpg?alt=media&token=12166498-7ecf-43e7-b420-17de85188e0a "ZZZ Mushogenshin Tools (ZPlugin)")
+![ZZZ Mushogenshin Tools (ZPlugin)](https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/tuts%2Fpoi%2Fplugin.jpg?alt=media&token=e75d7227-2bb6-4fe6-a763-e631dac9e147 "ZZZ Mushogenshin Tools (ZPlugin)")
 
 - Bấm nút **Load 4 Palettes** (để hiện 4 palette A, B, C, D trên thanh menu).
 - Bấm nút **Set My Hotkeys** để overwrite (ghi đè) phím tắt mặc định của ZBrush bằng phím tắt custom của Hoan.
@@ -254,20 +269,35 @@ Trước tiên nên hiểu rằng: cài kiểu nào thì cũng bao gồm 2 công
 
 ## 🗑️ Gỡ bỏ
 
-- Ngưng sử dụng giao diện tuỳ chỉnh: cũng vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset UI**.
-- Ngưng sử dụng phím tắt tuỳ chỉnh: cũng vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset HKs**.
+- Để ngưng sử dụng phần giao diện custom (4 bộ palette): vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset UI**, giao diện của bạn sẽ về lại mặc định ban đầu của ZBrush.
+- Để ngưng sử dụng bộ phím tắt custom: vào plugin **ZZZ Mushogenshin Tools**, bấm nút **Reset HKs**, phím tắt của bạn sẽ quay về lại mặc định ban đầu của ZBrush.
 
   `;
 
   return (
     <div className={styles.poi}>
-      <ReactMarkdown remarkPlugins={[gfm]}>{introContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{extrasContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{paletteContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{macroContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{hotkeysContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{pluginContent}</ReactMarkdown>
-      <ReactMarkdown remarkPlugins={[gfm]}>{installContent}</ReactMarkdown>
+      <div id="intro">
+        <ReactMarkdown remarkPlugins={[gfm]}>{introContent}</ReactMarkdown>
+      </div>
+      <div id="mats-brushes">
+        <ReactMarkdown remarkPlugins={[gfm]}>{extrasContent}</ReactMarkdown>
+      </div>
+      <div id="palettes">
+        <ReactMarkdown remarkPlugins={[gfm]}>{paletteContent}</ReactMarkdown>
+      </div>
+      <div id="macros">
+        <ReactMarkdown remarkPlugins={[gfm]}>{macroContent}</ReactMarkdown>
+      </div>
+      <div id="hotkeys">
+        <ReactMarkdown remarkPlugins={[gfm]}>{hotkeysContent}</ReactMarkdown>
+      </div>
+      <div id="plugin">
+        <ReactMarkdown remarkPlugins={[gfm]}>{pluginContent}</ReactMarkdown>
+      </div>
+      <div id="default-zscript">Default ZScript</div>
+      <div id="8">
+        <ReactMarkdown remarkPlugins={[gfm]}>{installContent}</ReactMarkdown>
+      </div>
     </div>
   );
 }
