@@ -7,8 +7,9 @@ export const data = {
 /**
  * @param {import('commandkit').SlashCommandProps} param0
  */
-export const run = ({ interaction }) => {
-  interaction.reply("Pong!");
+export const run = ({ interaction, client, _handler }) => {
+  // interaction.reply(`:ping_pong: Pong! ${client.ws.ping}ms`);
+  interaction.reply(":ping_pong: Pong!");
 };
 
 /** @type {import('commandkit').CommandOptions} */
