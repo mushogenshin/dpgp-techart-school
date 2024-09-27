@@ -12,7 +12,7 @@ export default function GrantAccess() {
   const handleModulesInput = (event) => {
     const sanitizedModules = event.target.value
       .replace(/[^\w\s,]/gi, "") // sanitize for special characters
-      .replace(/[^\x00-\x7F]/g, ""); // remove non-ASCII characters
+      .replace(/[^x00-\x7F]/g, ""); // remove non-ASCII characters
 
     setModules(sanitizedModules);
   };
@@ -21,7 +21,7 @@ export default function GrantAccess() {
     event.preventDefault();
     const emailArray = emails
       .split(",")
-      .map((email) => email.trim().replace(/[^a-zA-Z0-9@._\-]/g, ""))
+      .map((email) => email.trim().replace(/[^a-zA-Z0-9@._-]/g, ""))
       .filter((email) => email !== "");
 
     const moduleArray = modules

@@ -12,7 +12,7 @@ import DuplicateClass from "./DuplicateClass";
 import DuplicateModule from "./DuplicateModule";
 import DuplicateContent from "./DuplicateContent";
 
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+// import { faBook } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Admin.module.css";
 
 export default function Admin() {

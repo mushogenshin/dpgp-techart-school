@@ -132,10 +132,10 @@ Với những tiêu chí trên, đây là tổng kết 10 bảng phím tắt cus
 
 | PALETTE   | PHÍM TẮT           | GHI CHÚ                                                          |
 | --------- | ------------------ | ---------------------------------------------------------------- |
-| mk\_**A** | Tab                | bảng về import/export file/subtool, v.v.                         |
-| mk\_**B** | Shift + Tab        | bảng về màu, curve, thâu movie, v.v.                             |
-| mk\_**C** | Ctrl + Tab         | bảng về masks, selection, TPose Master, subtools                 |
-| mk\_**D** | Ctrl + Shift + Tab | bảng về Morph, gia công đoạn chót: Dynamesh, ZRemesh, Decimation |
+| mk_**A** | Tab                | bảng về import/export file/subtool, v.v.                         |
+| mk_**B** | Shift + Tab        | bảng về màu, curve, thâu movie, v.v.                             |
+| mk_**C** | Ctrl + Tab         | bảng về masks, selection, TPose Master, subtools                 |
+| mk_**D** | Ctrl + Shift + Tab | bảng về Morph, gia công đoạn chót: Dynamesh, ZRemesh, Decimation |
 
 ### ⚙️ 2. Các Phím Căn Bản:
 
