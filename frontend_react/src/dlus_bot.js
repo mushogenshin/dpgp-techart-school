@@ -22,7 +22,10 @@ new CommandKit({
   client,
   eventsPath: join(__dirname, "bot_events"),
   commandsPath: join(__dirname, "bot_commands"),
-  devGuildIds: ["456441614206763019"],
+  devGuildIds: [
+    "456441614206763019", // ext.INKt.ion studio
+    "478115306078863361", // Dẫu Phải Giải Phẫu
+  ],
   devUserIds: ["454667337229139988"],
   bulkRegister: true,
 });

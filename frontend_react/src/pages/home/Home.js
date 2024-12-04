@@ -30,7 +30,7 @@ export default function Home() {
           </ul>
           {/* Self-taught classes */}
           <p className={styles.title}>
-            {selfTaught?.length} lớp tự học (nội dung rất hay, access trọn đời):
+            {selfTaught?.length} lớp tự học (access trọn đời):
           </p>
           <ul>
             {selfTaught &&
