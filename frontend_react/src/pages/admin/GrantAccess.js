@@ -12,7 +12,7 @@ export default function GrantAccess() {
   const handleModulesInput = (event) => {
     const sanitizedModules = event.target.value
       .replace(/[^\w\s,]/gi, "") // sanitize for special characters
-      .replace(/[^x00-\x7F]/g, ""); // remove non-ASCII characters
+      .replace(/[^x00-\x7F,]/g, ""); // remove non-ASCII characters
 
     setModules(sanitizedModules);
   };
