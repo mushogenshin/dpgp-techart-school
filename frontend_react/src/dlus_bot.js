@@ -1,4 +1,5 @@
 import "dotenv/config";
+// import { useCollection } from "./hooks/firestore/useCollection";
 
 import { Client, IntentsBitField } from "discord.js";
 import { CommandKit } from "commandkit";
@@ -18,13 +19,18 @@ const client = new Client({
   ],
 });
 
+// const checkFirebaseConnection = async () => {
+//   const { documents: allClasses } = useCollection("classes");
+//   console.log(allClasses);
+// };
+
 new CommandKit({
   client,
   eventsPath: join(__dirname, "bot_events"),
   commandsPath: join(__dirname, "bot_commands"),
   devGuildIds: [
     "456441614206763019", // ext.INKt.ion studio
-    "478115306078863361", // Dẫu Phải Giải Phẫu
+    // "478115306078863361", // Dẫu Phải Giải Phẫu
   ],
   devUserIds: ["454667337229139988"],
   bulkRegister: true,
