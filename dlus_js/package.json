@@ -2,18 +2,20 @@
   "name": "dlus_js",
   "version": "0.0.1",
   "description": "",
-  "scripts": {
-    "dev": "commandkit dev",
-    "build": "commandkit build",
-    "start": "commandkit start"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "commandkit": "^0.1.10",
     "discord.js": "^14.17.2",
-    "dotenv": "^16.4.7"
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2"
+  },
+  "scripts": {
+    "dev": "commandkit dev",
+    "build": "commandkit build",
+    "start": "commandkit start"
   }
 }
