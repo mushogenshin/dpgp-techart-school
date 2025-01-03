@@ -1,7 +1,7 @@
-// This script provides a hacky but effective way to run the Discord bot within
+// OBSOLETE
+// This script provided a hacky but effective way to run the Discord bot within
 // the same project environment, leveraging existing configurations and
 // utilities.
-// To use it, run the following command: node commandkit.mjs
 
 import fs from 'fs';
 import path from 'path';
