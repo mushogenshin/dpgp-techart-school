@@ -20,9 +20,9 @@ export const data = {
   // ],
   options: [
     {
-      name: "product",
-      description: "Mã số sản phẩm",
-      type: ApplicationCommandOptionType.Integer,
+      name: "screenshot",
+      description: "Screenshot giao dịch",
+      type: ApplicationCommandOptionType.Attachment,
       required: true,
     },
     {
@@ -32,9 +32,9 @@ export const data = {
       required: true,
     },
     {
-      name: "screenshot",
-      description: "Screenshot giao dịch",
-      type: ApplicationCommandOptionType.Attachment,
+      name: "product",
+      description: "Mã số sản phẩm",
+      type: ApplicationCommandOptionType.Integer,
       required: true,
     },
   ],
@@ -48,7 +48,6 @@ export const run = async ({ interaction, client, _handler }) => {
 
   // check if user has pending tickets
   const numPendingTickets = await getNumPendingTickets(interaction.user);
-
   console.log(
     `User ${interaction.user.username} has ${numPendingTickets} pending tickets.`
   );
@@ -68,17 +67,20 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
   const screenshot = interaction.options.get("screenshot");
 
-  const addResult = await addTicket(
+  // add ticket to Firestore
+  const ticketAddResult = await addTicket(
     interaction.user,
     product,
     email,
     screenshot
   );
 
-  const msg = addResult
-    ? "Đã gửi request thành công! Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn!"
+  const msg = ticketAddResult
+    ? `Đã gửi request thành công! Số ticket của bạn là ${ticketAddResult}.
+Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :pray:`
     : "Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
 
+  // announce result
   await interaction.editReply({
     content: msg,
     flags: MessageFlags.Ephemeral,

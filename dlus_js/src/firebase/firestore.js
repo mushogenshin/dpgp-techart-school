@@ -33,9 +33,7 @@ const getClassData = async (classId) => {
  * @returns {Promise<number>} The number of pending tickets.
  */
 const getNumPendingTickets = async (discordUser) => {
-  //   console.log(
-  //     `Checking pending tickets for Discord user ${discordUser.username}`
-  //   );
+  console.log(`Checking pending tickets for user ${discordUser.username}`);
 
   try {
     const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
@@ -61,50 +59,76 @@ const getNumPendingTickets = async (discordUser) => {
 };
 
 /**
+ * @returns {Promise<number>} The next ticket number.
+ */
+const getNextTicketNumber = async () => {
+  return await db.runTransaction(async (transaction) => {
+    const statsRef = db.collection("enrollment_stats").doc("stats");
+    const statsDoc = await transaction.get(statsRef);
+
+    if (!statsDoc.exists) {
+      console.log("No ticket stats document found!");
+      transaction.set(statsRef, { count: 1 });
+      return 1;
+    } else {
+      const statsData = statsDoc.data();
+      const newCount = (statsData.count || 0) + 1;
+      transaction.update(statsRef, { count: newCount });
+      return newCount;
+    }
+  });
+};
+
+/**
  * Adds an enrollment ticket for a Discord user.
  * @param {User} discordUser - The Discord user to add the ticket for.
  * @param {APIApplicationCommandOptionChoice<number>} product - The product to enroll in.
  * @param {APIApplicationCommandOptionChoice<string>} email - The email to enroll with.
  * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction screenshot.
- * @returns {Promise<boolean>} True if the ticket was added successfully.
+ * @returns {Promise<number | undefined>} The ticket number.
  */
 const addTicket = async (discordUser, product, email, screenshot) => {
-  console.log(`Adding ticket for Discord user ${discordUser.username}`);
+  console.log(`Adding ticket for user ${discordUser.username}`);
 
   try {
+    const ticketNumber = await getNextTicketNumber();
     const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
     const userDoc = await userDocRef.get();
 
+    // make the ticket data from the command options
     const ticketData = {
+      number: ticketNumber,
       product: product.value,
       email: email.value,
       display_name: discordUser.displayName,
-      screenshot: screenshot.attachment.url,
+      proof: screenshot.attachment.url,
       created_at: new Date().toISOString(),
       created_at_local: new Date().toLocaleString(),
       resolved: false,
     };
 
+    // if the user has no ticket record, create one
     if (!userDoc.exists) {
       console.log(`Discord user ${discordUser.username} has no ticket record`);
       await userDocRef.set({
         tickets: [ticketData],
       });
-      return true;
+      return ticketNumber;
     }
 
+    // otherwise, append to the existing record
     const userData = userDoc.data();
     const updatedTickets = [...(userData.tickets || []), ticketData];
     await userDocRef.update({
       tickets: updatedTickets,
     });
-    return true;
+    return ticketNumber;
   } catch (error) {
     console.error(
       `Error adding ticket for Discord user ${discordUser.username}`,
       error
     );
-    return false;
+    return undefined;
   }
 };
 
