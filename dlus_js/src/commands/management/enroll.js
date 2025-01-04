@@ -1,30 +1,41 @@
-import { getNumPendingTickets } from "../../firebase/firestore";
+import { addTicket, getNumPendingTickets } from "../../firebase/firestore";
 
-const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  MessageFlags,
+  InteractionContextType,
+} = require("discord.js");
+
 const MAX_PENDING_TICKETS_ALLOWED = 4;
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "register",
   description: "Báo nộp tiền học",
+  // NOTE: all are already allowed by default if this is a global command
+  // contexts: [
+  //   InteractionContextType.Guild,
+  //   InteractionContextType.BotDM,
+  //   InteractionContextType.PrivateChannel,
+  // ],
   options: [
     {
-      name: "screenshot",
-      description: "Screenshot giao dịch",
-      type: ApplicationCommandOptionType.Attachment,
-      required: false,
+      name: "product",
+      description: "Mã số sản phẩm",
+      type: ApplicationCommandOptionType.Integer,
+      required: true,
     },
     {
       name: "email",
       description: "Email dùng để access khoá học",
       type: ApplicationCommandOptionType.String,
-      required: false,
+      required: true,
     },
     {
-      name: "product",
-      description: "Mã số sản phẩm",
-      type: ApplicationCommandOptionType.Integer,
-      required: false,
+      name: "screenshot",
+      description: "Screenshot giao dịch",
+      type: ApplicationCommandOptionType.Attachment,
+      required: true,
     },
   ],
 };
@@ -33,6 +44,8 @@ export const data = {
  * @param {import('commandkit').SlashCommandProps} param0
  */
 export const run = async ({ interaction, client, _handler }) => {
+  await interaction.deferReply();
+
   // check if user has pending tickets
   const numPendingTickets = await getNumPendingTickets(interaction.user);
 
@@ -42,7 +55,7 @@ export const run = async ({ interaction, client, _handler }) => {
 
   // only proceed if user has less than the maximum allowed pending tickets
   if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {
-    await interaction.reply({
+    await interaction.editReply({
       content: `Số lượng request của bạn đã vượt quá giới hạn (${MAX_PENDING_TICKETS_ALLOWED}). 
 Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
       flags: MessageFlags.Ephemeral,
@@ -55,15 +68,25 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
   const screenshot = interaction.options.get("screenshot");
 
-  // // Send back a message with the same attachment
-  // await interaction.reply({
-  //   content: `TODO: create ticket for email: ${email.value}\nProduct: ${product.value}`,
-  //   files: [screenshot.attachment],
-  // });
+  const addResult = await addTicket(
+    interaction.user,
+    product,
+    email,
+    screenshot
+  );
+
+  const msg = addResult
+    ? "Đã gửi request thành công! Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn!"
+    : "Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
+
+  await interaction.editReply({
+    content: msg,
+    flags: MessageFlags.Ephemeral,
+  });
 };
 
 /** @type {import('commandkit').CommandOptions} */
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
-  devOnly: true,
+  devOnly: true, // `false` makes this a global command
 };
