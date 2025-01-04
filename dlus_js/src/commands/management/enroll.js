@@ -1,4 +1,4 @@
-// import { getClassData } from "../../firebase_config";
+import { getNumPendingTickets } from "../../firebase/firestore";
 
 const { ApplicationCommandOptionType } = require("discord.js");
 
@@ -11,19 +11,19 @@ export const data = {
       name: "screenshot",
       description: "Screenshot giao dịch",
       type: ApplicationCommandOptionType.Attachment,
-      required: true,
+      required: false,
     },
     {
       name: "email",
       description: "Email dùng để access khoá học",
       type: ApplicationCommandOptionType.String,
-      required: true,
+      required: false,
     },
     {
       name: "product",
       description: "Mã số sản phẩm",
       type: ApplicationCommandOptionType.Integer,
-      required: true,
+      required: false,
     },
   ],
 };
@@ -38,11 +38,18 @@ export const run = async ({ interaction, client, _handler }) => {
   // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
   const screenshot = interaction.options.get("screenshot");
 
-  // Send back a message with the same attachment
-  await interaction.reply({
-    content: `TODO: create ticket for email: ${email.value}\nProduct: ${product.value}`,
-    files: [screenshot.attachment],
-  });
+  // TODO: check if user has pending tickets
+  const numPendingTickets = await getNumPendingTickets(interaction.user);
+
+  console.log(
+    `User ${interaction.user.username} has ${numPendingTickets} pending tickets.`
+  );
+
+  // // Send back a message with the same attachment
+  // await interaction.reply({
+  //   content: `TODO: create ticket for email: ${email.value}\nProduct: ${product.value}`,
+  //   files: [screenshot.attachment],
+  // });
 };
 
 /** @type {import('commandkit').CommandOptions} */

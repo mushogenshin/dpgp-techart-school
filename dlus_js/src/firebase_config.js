@@ -10,21 +10,4 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// Function to access Firebase DB
-const getClassData = async (classId) => {
-  try {
-    const userRef = db.collection("classes").doc(classId);
-    const doc = await userRef.get();
-    if (!doc.exists) {
-      console.log("No such document!");
-      return null;
-    } else {
-      return doc.data();
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
-    throw error;
-  }
-};
-
-export { db, getClassData };
+export { db };
