@@ -1,6 +1,7 @@
 import { getNumPendingTickets } from "../../firebase/firestore";
 
-const { ApplicationCommandOptionType } = require("discord.js");
+const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
+const MAX_PENDING_TICKETS_ALLOWED = 4;
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -32,18 +33,27 @@ export const data = {
  * @param {import('commandkit').SlashCommandProps} param0
  */
 export const run = async ({ interaction, client, _handler }) => {
-  const email = interaction.options.get("email");
-  const product = interaction.options.get("product");
-
-  // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
-  const screenshot = interaction.options.get("screenshot");
-
-  // TODO: check if user has pending tickets
+  // check if user has pending tickets
   const numPendingTickets = await getNumPendingTickets(interaction.user);
 
   console.log(
     `User ${interaction.user.username} has ${numPendingTickets} pending tickets.`
   );
+
+  // only proceed if user has less than the maximum allowed pending tickets
+  if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {
+    await interaction.reply({
+      content: `Số lượng request của bạn đã vượt quá giới hạn (${MAX_PENDING_TICKETS_ALLOWED}). 
+Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const email = interaction.options.get("email");
+  const product = interaction.options.get("product");
+  // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
+  const screenshot = interaction.options.get("screenshot");
 
   // // Send back a message with the same attachment
   // await interaction.reply({

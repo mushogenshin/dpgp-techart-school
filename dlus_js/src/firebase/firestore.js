@@ -30,8 +30,7 @@ const getClassData = async (classId) => {
  */
 const getNumPendingTickets = async (discordUser) => {
   console.log(
-    "Checking pending tickets for Discord user",
-    discordUser.username
+    `Checking pending tickets for Discord user ${discordUser.username}`
   );
 
   try {
@@ -45,17 +44,50 @@ const getNumPendingTickets = async (discordUser) => {
 
     const userData = userDoc.data();
     const unResolvedTickets = (userData.tickets || []).filter(
-      (ticket) => ticket.resolved === false
+      (ticket) => ticket.resolved === false || ticket.resolved === undefined
     );
     return unResolvedTickets.length;
   } catch (error) {
     console.error(
-      "Error checking pending tickets for Discord user",
-      discordUser.username,
+      `Error checking pending tickets for Discord user ${discordUser.username}`,
       error
     );
     return 0;
   }
 };
 
-export { getNumPendingTickets };
+/**
+ * Adds a ticket for a Discord user.
+ * @param {User} discordUser - The Discord user to add the ticket for.
+ * @param {Object} ticketData - The data of the ticket to add.
+ * @returns {Promise<void>}
+ */
+const addTicket = async (discordUser, ticketData) => {
+  console.log(`Adding ticket for Discord user ${discordUser.username}`);
+
+  try {
+    const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
+    const userDoc = await userDocRef.get();
+
+    if (!userDoc.exists) {
+      console.log(`Discord user ${discordUser.username} has no ticket record`);
+      await userDocRef.set({
+        tickets: [ticketData],
+      });
+      return;
+    }
+
+    const userData = userDoc.data();
+    const updatedTickets = [...(userData.tickets || []), ticketData];
+    await userDocRef.update({
+      tickets: updatedTickets,
+    });
+  } catch (error) {
+    console.error(
+      `Error adding ticket for Discord user ${discordUser.username}`,
+      error
+    );
+  }
+};
+
+export { getNumPendingTickets, addTicket };
