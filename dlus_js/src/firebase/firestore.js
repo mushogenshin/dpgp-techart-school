@@ -39,13 +39,15 @@ const getNumPendingTickets = async (discordUser) => {
     const userDoc = await userDocRef.get();
 
     if (!userDoc.exists) {
-      console.log(`Discord user ${discordUser.username} has no ticket record.`);
+      console.log(`Discord user ${discordUser.username} has no ticket record`);
       return 0;
     }
 
     const userData = userDoc.data();
-    const tickets = userData.tickets || [];
-    return tickets.length;
+    const unResolvedTickets = (userData.tickets || []).filter(
+      (ticket) => ticket.resolved === false
+    );
+    return unResolvedTickets.length;
   } catch (error) {
     console.error(
       "Error checking pending tickets for Discord user",
