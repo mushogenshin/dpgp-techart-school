@@ -1,4 +1,4 @@
-import { addTicket, getNumPendingTickets } from "../../firebase/firestore";
+import { addTicket, getNumPendingTickets } from "../../firestore/tickets";
 
 const {
   ApplicationCommandOptionType,
@@ -48,9 +48,6 @@ export const run = async ({ interaction, client, _handler }) => {
 
   // check if user has pending tickets
   const numPendingTickets = await getNumPendingTickets(interaction.user);
-  console.log(
-    `User ${interaction.user.username} has ${numPendingTickets} pending tickets.`
-  );
 
   // only proceed if user has less than the maximum allowed pending tickets
   if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {
@@ -70,13 +67,15 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   // add ticket to Firestore
   const ticketAddResult = await addTicket(
     interaction.user,
+    interaction.channelId,
     product,
     email,
     screenshot
   );
 
   const msg = ticketAddResult
-    ? `Đã gửi request thành công! Số ticket của bạn là ${ticketAddResult}.
+    ? `Đã gửi request thành công! 
+## Số ticket của bạn là ${ticketAddResult}.
 Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :pray:`
     : "Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
 
@@ -90,5 +89,5 @@ Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :p
 /** @type {import('commandkit').CommandOptions} */
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
-  devOnly: true, // `false` makes this a global command
+  devOnly: false, // `false` makes this a global command
 };

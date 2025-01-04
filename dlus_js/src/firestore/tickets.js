@@ -33,14 +33,14 @@ const getClassData = async (classId) => {
  * @returns {Promise<number>} The number of pending tickets.
  */
 const getNumPendingTickets = async (discordUser) => {
-  console.log(`Checking pending tickets for user ${discordUser.username}`);
+  console.log(`[1/2] Checking pending tickets of user ${discordUser.username}`);
 
   try {
     const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
     const userDoc = await userDocRef.get();
 
     if (!userDoc.exists) {
-      console.log(`Discord user ${discordUser.username} has no ticket record`);
+      console.log(`[2/2] User ${discordUser.username} has no ticket record`);
       return 0;
     }
 
@@ -48,10 +48,14 @@ const getNumPendingTickets = async (discordUser) => {
     const unResolvedTickets = (userData.tickets || []).filter(
       (ticket) => ticket.resolved === false || ticket.resolved === undefined
     );
+
+    console.log(
+      `[2/2] User ${interaction.user.username} has ${unResolvedTickets.length} pending tickets.`
+    );
     return unResolvedTickets.length;
   } catch (error) {
     console.error(
-      `Error checking pending tickets for Discord user ${discordUser.username}`,
+      `[2/2] Error checking pending tickets for Discord user ${discordUser.username}`,
       error
     );
     return 0;
@@ -82,13 +86,20 @@ const getNextTicketNumber = async () => {
 /**
  * Adds an enrollment ticket for a Discord user.
  * @param {User} discordUser - The Discord user to add the ticket for.
+ * @param {string} channelId - The Discord channel ID where the ticket was requested.
  * @param {APIApplicationCommandOptionChoice<number>} product - The product to enroll in.
  * @param {APIApplicationCommandOptionChoice<string>} email - The email to enroll with.
  * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction screenshot.
  * @returns {Promise<number | undefined>} The ticket number.
  */
-const addTicket = async (discordUser, product, email, screenshot) => {
-  console.log(`Adding ticket for user ${discordUser.username}`);
+const addTicket = async (
+  discordUser,
+  channelId,
+  product,
+  email,
+  screenshot
+) => {
+  console.log(`[1/2] Checking ticket record of user ${discordUser.username}`);
 
   try {
     const ticketNumber = await getNextTicketNumber();
@@ -102,6 +113,7 @@ const addTicket = async (discordUser, product, email, screenshot) => {
       email: email.value,
       display_name: discordUser.displayName,
       proof: screenshot.attachment.url,
+      channel: channelId,
       created_at: new Date().toISOString(),
       created_at_local: new Date().toLocaleString(),
       resolved: false,
@@ -109,10 +121,13 @@ const addTicket = async (discordUser, product, email, screenshot) => {
 
     // if the user has no ticket record, create one
     if (!userDoc.exists) {
-      console.log(`Discord user ${discordUser.username} has no ticket record`);
       await userDocRef.set({
         tickets: [ticketData],
+        username: discordUser.username,
       });
+      console.log(
+        `[2/2] Created new ticket record for user ${discordUser.username}`
+      );
       return ticketNumber;
     }
 
@@ -122,10 +137,11 @@ const addTicket = async (discordUser, product, email, screenshot) => {
     await userDocRef.update({
       tickets: updatedTickets,
     });
+    console.log(`[2/2] Added new ticket for user ${discordUser.username}`);
     return ticketNumber;
   } catch (error) {
     console.error(
-      `Error adding ticket for Discord user ${discordUser.username}`,
+      `[2/2] Error adding ticket for Discord user ${discordUser.username}`,
       error
     );
     return undefined;
