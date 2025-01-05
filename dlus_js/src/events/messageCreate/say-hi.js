@@ -1,5 +1,5 @@
-export default function (message, client, handler) {
-  if (message.content === "hey") {
-    message.reply("Hi!");
-  }
+export default function (message, _client, _handler) {
+  // if (message.content === "hey") {
+  //   message.reply("Hi!");
+  // }
 }
