@@ -7,22 +7,21 @@ import { db } from "../firebase_config";
 // } = require("discord.js");
 
 /**
- * Fetches class data from Firestore.
- * @param {string} classId - The ID of the class to fetch.
- * @returns {Promise<Object|null>} The class data or null if no such document exists.
+ * @returns {Promise<Object>} The product code to module ID mapping object.
  */
-const getClassData = async (classId) => {
+const getProductsMapping = async () => {
   try {
-    const userRef = db.collection("classes").doc(classId);
-    const doc = await userRef.get();
-    if (!doc.exists) {
-      console.log("No such document!");
-      return null;
-    } else {
-      return doc.data();
+    const productsRef = db.collection("enrollment_desc").doc("products");
+    const productsDoc = await productsRef.get();
+
+    if (!productsDoc.exists) {
+      throw new Error("No products document found!");
     }
+
+    const productsData = productsDoc.data();
+    return productsData.mapping;
   } catch (error) {
-    console.error("Error getting document:", error);
+    console.error("Error fetching products mapping:", error);
     throw error;
   }
 };
@@ -80,4 +79,4 @@ const getEnrollmentModuleId = async (productCode) => {
   }
 };
 
-export { getNextTicketNumber, getEnrollmentModuleId };
+export { getProductsMapping, getNextTicketNumber, getEnrollmentModuleId };

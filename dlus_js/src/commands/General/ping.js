@@ -15,4 +15,5 @@ export function run({ interaction, client, _handler }) {
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
   devOnly: true,
+  deleted: true,
 };

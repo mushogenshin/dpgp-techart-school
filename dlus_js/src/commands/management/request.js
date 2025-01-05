@@ -65,7 +65,8 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   const moduleId = await getEnrollmentModuleId(product.value);
   if (!moduleId) {
     await interaction.editReply({
-      content: `Mã số sản phẩm **${product.value}** không hợp lệ. Vui lòng kiểm tra lại.`,
+      content: `Mã số sản phẩm **${product.value}** không hợp lệ.
+Vui lòng tham khảo lệnh /list để lấy mã số sản phẩm mong muốn.`,
       flags: MessageFlags.Ephemeral,
     });
     return;
