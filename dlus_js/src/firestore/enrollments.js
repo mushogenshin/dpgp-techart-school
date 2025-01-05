@@ -21,6 +21,26 @@ const getProductsMapping = async () => {
 };
 
 /**
+ * Prettifies the products mapping object into a string for Discord message.
+ * @param {Object} mapping - The raw products mapping object.
+ * @param {boolean} verbose - Whether to include module IDs in the output.
+ * @returns {string} The prettified products mapping string.
+ */
+const prettifyProductsMapping = (mapping, verbose) => {
+  let prettifiedString = "";
+
+  for (const [productCode, desc] of Object.entries(mapping)) {
+    if (verbose) {
+      prettifiedString += `- **${productCode}**: ${desc.name}. Modules: \`${desc.module_ids}\`\n\n`;
+    } else {
+      prettifiedString += `- **${productCode}**: ${desc.name}\n\n`;
+    }
+  }
+
+  return prettifiedString;
+};
+
+/**
  * @returns {Promise<number>} The next ticket number.
  */
 const getNextTicketNumber = async () => {
@@ -56,14 +76,14 @@ const getEnrollmentModuleId = async (productCode) => {
     }
 
     const productsData = productsDoc.data();
-    const moduleId = productsData.mapping[productCode];
+    const desc = productsData.mapping[productCode];
 
-    if (!moduleId) {
+    if (!desc) {
       console.log(`Product code ${productCode} not found in mapping.`);
       return null;
     }
 
-    return moduleId;
+    return desc.module_ids;
   } catch (error) {
     console.error(
       `Error fetching module ID for product ${productCode}:`,
@@ -147,6 +167,7 @@ const migrateUserEnrollments = async (email) => {
 
 export {
   getProductsMapping,
+  prettifyProductsMapping,
   getNextTicketNumber,
   getEnrollmentModuleId,
   findExistingUserByEmail,

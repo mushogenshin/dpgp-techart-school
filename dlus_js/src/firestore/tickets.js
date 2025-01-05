@@ -47,7 +47,7 @@ const prettifyTicketData = (ticket) => {
     `**Ticket Number:** ${ticket.number}\n` +
     `Created At: ${ticket.created_at_local}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n` +
-    `- Requested: \`${ticket.requested_enrollment}\` (product code: ${ticket.requested_product})\n` +
+    `- Requested: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
     `- Submitted by: ${ticket.display_name} (${ticket.username})\n` +
     `- Email: \`${ticket.email}\``
   );
@@ -71,7 +71,7 @@ const getUsrNumPendingTickets = async (discordUser) => {
     const pendingTicketsCount = snapshot.size;
 
     console.log(
-      `[2/2] User ${discordUser.username} has ${pendingTicketsCount} pending tickets.`
+      `[2/2] User ${discordUser.username} has ${pendingTicketsCount} pending tickets`
     );
     return pendingTicketsCount;
   } catch (error) {
@@ -119,7 +119,7 @@ const addTicket = async (
   discordUser,
   channelId,
   product,
-  moduleId,
+  moduleIds,
   email,
   screenshot
 ) => {
@@ -132,7 +132,7 @@ const addTicket = async (
     const ticketData = {
       number: ticketNumber,
       requested_product: product.value,
-      requested_enrollment: moduleId,
+      requested_enrollments: moduleIds,
       email: email.value,
       proof: screenshot.attachment.url,
       channel: channelId,

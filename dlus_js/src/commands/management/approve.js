@@ -58,8 +58,9 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       await migrateUserEnrollments(ticket.email);
     } catch (error) {
       await interaction.editReply({
-        content: `⛔️ Xảy ra lỗi khi tạo hồ sơ cho user: \`${error.message}\`
-Rất có thể user chưa đăng nhập lần nào 😱`,
+        content: `😱 Không thể tạo hồ sơ cho user \`${ticket.email}\`:
+**${error.message}**
+Rất có thể user chưa đăng nhập lần nào`,
         flags: MessageFlags.Ephemeral,
       });
       return; // we can't proceed without user data
@@ -69,6 +70,7 @@ Rất có thể user chưa đăng nhập lần nào 😱`,
     }
   }
 
+  // this should never happen, but just in case
   if (!user) {
     await interaction.editReply({
       content: `Không tìm thấy user với email \`${ticket.email}\` 😢.`,
@@ -84,7 +86,7 @@ Rất có thể user chưa đăng nhập lần nào 😱`,
   // TODO: send confirmation message
 
   await interaction.followUp({
-    content: `TODO: approve module \`${ticket.requested_enrollment}\` for user \`${ticket.email}\``,
+    content: `TODO: approve module \`${ticket.requested_enrollments}\` for user \`${ticket.email}\``,
     flags: MessageFlags.Ephemeral,
   });
 };

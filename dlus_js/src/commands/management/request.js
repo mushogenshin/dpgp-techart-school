@@ -62,8 +62,8 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
 
   // validate desugared product code
   const product = interaction.options.get("product");
-  const moduleId = await getEnrollmentModuleId(product.value);
-  if (!moduleId) {
+  const moduleIds = await getEnrollmentModuleId(product.value);
+  if (!moduleIds) {
     await interaction.editReply({
       content: `Mã số sản phẩm **${product.value}** không hợp lệ.
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
@@ -81,7 +81,7 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
     interaction.user,
     interaction.channelId,
     product,
-    moduleId,
+    moduleIds,
     email,
     screenshot
   );
