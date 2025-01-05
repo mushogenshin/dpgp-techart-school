@@ -1,4 +1,5 @@
 import { addTicket, getUsrNumPendingTickets } from "../../firestore/tickets";
+import { getEnrollmentModuleId } from "../../firestore/enrollments";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
@@ -37,21 +38,8 @@ export const data = {
 export const run = async ({ interaction, _client, _handler }) => {
   await interaction.deferReply();
 
-  const email = interaction.options.get("email");
-  // validate email format
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email.value)) {
-    await interaction.editReply({
-      content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
-
-  // check if user has pending tickets
-  const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
-
   // only proceed if user has less than the maximum allowed pending tickets
+  const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
   if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {
     await interaction.editReply({
       content: `Số lượng request của bạn đã vượt quá giới hạn (${MAX_PENDING_TICKETS_ALLOWED}). 
@@ -61,8 +49,29 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
     return;
   }
 
-  // guards passed, proceed to create ticket
+  // validate email format
+  const email = interaction.options.get("email");
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email.value)) {
+    await interaction.editReply({
+      content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // validate desugared product code
   const product = interaction.options.get("product");
+  const moduleId = await getEnrollmentModuleId(product.value);
+  if (!moduleId) {
+    await interaction.editReply({
+      content: `Mã số sản phẩm **${product.value}** không hợp lệ. Vui lòng kiểm tra lại.`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  // guards passed, proceed to create ticket
   // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
   const screenshot = interaction.options.get("screenshot");
 
@@ -71,6 +80,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
     interaction.user,
     interaction.channelId,
     product,
+    moduleId,
     email,
     screenshot
   );

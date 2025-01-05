@@ -1,4 +1,5 @@
 import { db } from "../firebase_config";
+import { getNextTicketNumber } from "./enrollments";
 
 const {
   User,
@@ -46,8 +47,8 @@ const prettifyTicketData = (ticket) => {
     `**Ticket Number:** ${ticket.number}\n` +
     `Created At: ${ticket.created_at_local}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n` +
-    `- Requested product: ${ticket.product}\n` +
-    `- Customer name: ${ticket.display_name}\n (${ticket.username})` +
+    `- Requested: \`${ticket.requested_enrollment}\` (product code: ${ticket.requested_product})\n` +
+    `- Submitted by: ${ticket.display_name} (${ticket.username})\n` +
     `- Email: \`${ticket.email}\``
   );
 };
@@ -80,27 +81,6 @@ const getUsrNumPendingTickets = async (discordUser) => {
     );
     return 0;
   }
-};
-
-/**
- * @returns {Promise<number>} The next ticket number.
- */
-const getNextTicketNumber = async () => {
-  return await db.runTransaction(async (transaction) => {
-    const statsRef = db.collection("enrollment_stats").doc("stats");
-    const statsDoc = await transaction.get(statsRef);
-
-    if (!statsDoc.exists) {
-      console.log("No ticket stats document found!");
-      transaction.set(statsRef, { count: 1 });
-      return 1;
-    } else {
-      const statsData = statsDoc.data();
-      const newCount = (statsData.count || 0) + 1;
-      transaction.update(statsRef, { count: newCount });
-      return newCount;
-    }
-  });
 };
 
 /**
@@ -139,6 +119,7 @@ const addTicket = async (
   discordUser,
   channelId,
   product,
+  moduleId,
   email,
   screenshot
 ) => {
@@ -150,7 +131,8 @@ const addTicket = async (
     // make the ticket data from the command options
     const ticketData = {
       number: ticketNumber,
-      product: product.value,
+      requested_product: product.value,
+      requested_enrollment: moduleId,
       email: email.value,
       proof: screenshot.attachment.url,
       channel: channelId,

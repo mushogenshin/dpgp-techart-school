@@ -1,4 +1,5 @@
 import { getTicketByNumber } from "../../firestore/tickets";
+// import { getEnrollmentModuleId } from "../../firestore/enrollments";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
@@ -44,12 +45,10 @@ export const run = async ({ interaction, client, _handler }) => {
   }
 
   await interaction.editReply({
-    content: `TODO: approve product ${ticket.product} for user ${ticket.email}`,
+    content: `TODO: approve module ${ticket.enrollment} for user ${ticket.email}`,
     flags: MessageFlags.Ephemeral,
   });
 
-  // TODO: grab email
-  // TODO: grab product code, desugared to module ID
   // TODO: grab user document (do migration if necessary)
   // TODO: add enrollment
   // TODO: mark ticket as resolved
