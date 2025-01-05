@@ -85,7 +85,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     await interaction.editReply({
-      content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+      content: "📧 Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
     });
 
@@ -106,7 +106,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   const moduleIds = await getEnrollmentModuleId(product);
   if (!moduleIds) {
     await interaction.editReply({
-      content: `Mã số sản phẩm **${product}** không hợp lệ.
+      content: `📦 Mã số sản phẩm **${product}** không hợp lệ.
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
       flags: MessageFlags.Ephemeral,
     });
@@ -139,9 +139,9 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
 
   const msg = ticketAddResult
     ? `Đã gửi request thành công! 
-## Số ticket của bạn là ${ticketAddResult.number}.
+## Số ticket của bạn là ${ticketAddResult.number}. Moderator đã nhận được thông báo.
 Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :pray:`
-    : "Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
+    : "😰 Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
 
   // announce result to user
   await interaction.editReply({

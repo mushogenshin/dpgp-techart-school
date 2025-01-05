@@ -20,10 +20,8 @@ export const data = {
 /**
  * @param {import('commandkit').SlashCommandProps} param0
  */
-export const run = async ({ interaction, client, _handler }) => {
+export const run = async ({ interaction, _client, _handler }) => {
   const email = interaction.options.getString("email");
-
-  // mock mgrate user enrollments
   await migrateUserEnrollments(email);
 };
 
@@ -31,4 +29,5 @@ export const run = async ({ interaction, client, _handler }) => {
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
   devOnly: true,
+  deleted: true,
 };

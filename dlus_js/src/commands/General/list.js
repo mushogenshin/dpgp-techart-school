@@ -14,10 +14,10 @@ const cooldowns = new Map();
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "list",
-  description: "Liệt kê các khoá học",
+  description: "Liệt kê các khoá học 👽",
   options: [
     {
-      name: "full",
+      name: "everything",
       description: "Hiển thị chi tiết",
       type: ApplicationCommandOptionType.Boolean,
       required: false,
@@ -51,7 +51,7 @@ export const run = async ({ interaction, _client, _handler }) => {
     setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
   }
 
-  const verbose = interaction.options.getBoolean("full") || false;
+  const verbose = interaction.options.getBoolean("everything") || false;
   const productsMapping = await getProductsMapping();
   interaction.editReply(
     `## 📝 Danh mục các sản phẩm ở DPGP:\n\n${prettifyProductsMapping(
