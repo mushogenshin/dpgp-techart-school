@@ -34,8 +34,10 @@ export const run = async ({ interaction, client, _handler }) => {
   const limit = interaction.options.get("limit");
   const pendingTickets = await listAllPendingTickets(limit);
 
+  console.log("Pending tickets", pendingTickets);
+
   const ticketCount = limit
-    ? Math.min(limit, pendingTickets.length)
+    ? Math.min(limit.value, pendingTickets.length)
     : pendingTickets.length;
   await interaction.editReply({
     content: `Có ${ticketCount} request cần review`,

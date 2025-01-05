@@ -29,7 +29,7 @@ const getClassData = async (classId) => {
 
 /**
  * Fetches all pending tickets and sorts them from latest to oldest.
- * @param {number} [limit] - Optional parameter to limit the number of queried tickets.
+ * @param {APIApplicationCommandOptionChoice<number>} [limit] - Optional parameter to limit the number of queried tickets.
  * @returns {Promise<Array>} The sorted list of pending tickets.
  */
 const listAllPendingTickets = async (limit) => {
@@ -52,7 +52,7 @@ const listAllPendingTickets = async (limit) => {
     );
 
     if (limit) {
-      pendingTickets = pendingTickets.slice(0, limit);
+      pendingTickets = pendingTickets.slice(0, limit.value);
     }
 
     return pendingTickets;
