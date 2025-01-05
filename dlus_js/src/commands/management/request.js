@@ -50,9 +50,9 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   }
 
   // validate email format
-  const email = interaction.options.get("email");
+  const email = interaction.options.getString("email");
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email.value)) {
+  if (!emailPattern.test(email)) {
     await interaction.editReply({
       content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
@@ -61,11 +61,11 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   }
 
   // validate desugared product code
-  const product = interaction.options.get("product");
-  const moduleIds = await getEnrollmentModuleId(product.value);
+  const product = interaction.options.getInteger("product");
+  const moduleIds = await getEnrollmentModuleId(product);
   if (!moduleIds) {
     await interaction.editReply({
-      content: `Mã số sản phẩm **${product.value}** không hợp lệ.
+      content: `Mã số sản phẩm **${product}** không hợp lệ.
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
       flags: MessageFlags.Ephemeral,
     });

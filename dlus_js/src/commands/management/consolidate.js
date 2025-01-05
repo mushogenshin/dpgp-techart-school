@@ -20,7 +20,7 @@ export const data = {
  * @param {import('commandkit').SlashCommandProps} param0
  */
 export const run = async ({ interaction, _client, _handler }) => {
-  const email = interaction.options.get("email");
+  const email = interaction.options.getString("email");
 
   // // Example Firestore query
   // const classData = await getClassData("PYTA_2024");
@@ -34,7 +34,7 @@ export const run = async ({ interaction, _client, _handler }) => {
   //   `:ping_pong: Pong!\n\`\`\`json\n${formattedClassData}\n\`\`\``
   // );
 
-  interaction.reply(`TODO: pair ${email.value} with your Discord ID to DB`);
+  interaction.reply(`TODO: pair ${email} with your Discord ID to DB`);
 };
 
 /** @type {import('commandkit').CommandOptions} */

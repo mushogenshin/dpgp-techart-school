@@ -27,11 +27,11 @@ export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
 
   // fetch all pending tickets
-  const limit = interaction.options.get("limit");
+  const limit = interaction.options.getInteger("limit");
   const pendingTickets = await listAllPendingTickets(limit);
 
   const ticketCount = limit
-    ? Math.min(limit.value, pendingTickets.length)
+    ? Math.min(limit, pendingTickets.length)
     : pendingTickets.length;
   await interaction.editReply({
     content: `Có ${ticketCount} request cần review`,

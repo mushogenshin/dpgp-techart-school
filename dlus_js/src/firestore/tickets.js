@@ -1,15 +1,11 @@
 import { db } from "../firebase_config";
 import { getNextTicketNumber } from "./enrollments";
 
-const {
-  User,
-  ApplicationCommandOptionType,
-  APIApplicationCommandOptionChoice,
-} = require("discord.js");
+const { User, ApplicationCommandOptionType } = require("discord.js");
 
 /**
  * Fetches all pending tickets and sorts them from latest to oldest.
- * @param {APIApplicationCommandOptionChoice<number>} [limit] - Optional parameter to limit the number of queried tickets.
+ * @param {number} [limit] - Optional parameter to limit the number of queried tickets.
  * @returns {Promise<Array>} The sorted list of pending tickets.
  */
 const listAllPendingTickets = async (limit) => {
@@ -27,7 +23,7 @@ const listAllPendingTickets = async (limit) => {
     );
 
     if (limit) {
-      pendingTickets = pendingTickets.slice(0, limit.value);
+      pendingTickets = pendingTickets.slice(0, limit);
     }
 
     return pendingTickets;
@@ -46,8 +42,8 @@ const prettifyTicketData = (ticket) => {
   return (
     `**Ticket Number:** ${ticket.number}\n` +
     `Created At: ${ticket.created_at_local}\n` +
-    `Transaction: [Screenshot](${ticket.proof})\n` +
-    `- Requested: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
+    `Transaction: [Screenshot](${ticket.proof})\n\n` +
+    `- Requesting: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
     `- Submitted by: ${ticket.display_name} (${ticket.username})\n` +
     `- Email: \`${ticket.email}\``
   );
@@ -110,8 +106,8 @@ const getTicketByNumber = async (ticketNumber) => {
  * Adds an enrollment ticket for a Discord user.
  * @param {User} discordUser - The Discord user to add the ticket for.
  * @param {string} channelId - The Discord channel ID where the ticket was requested.
- * @param {APIApplicationCommandOptionChoice<number>} product - The product to enroll in.
- * @param {APIApplicationCommandOptionChoice<string>} email - The email to enroll with.
+ * @param {number} product - The product to enroll in.
+ * @param {string} email - The email to enroll with.
  * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction screenshot.
  * @returns {Promise<number | undefined>} The ticket number.
  */
@@ -131,9 +127,9 @@ const addTicket = async (
     // make the ticket data from the command options
     const ticketData = {
       number: ticketNumber,
-      requested_product: product.value,
+      requested_product: product,
       requested_enrollments: moduleIds,
-      email: email.value,
+      email: email,
       proof: screenshot.attachment.url,
       channel: channelId,
       user_id: discordUser.id,

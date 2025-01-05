@@ -2,6 +2,7 @@ import { getTicketByNumber } from "../../firestore/tickets";
 import {
   findExistingUserByEmail,
   migrateUserEnrollments,
+  addEnrollments,
 } from "../../firestore/enrollments";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
@@ -18,12 +19,12 @@ export const data = {
       type: ApplicationCommandOptionType.Integer,
       required: true,
     },
-    {
-      name: "correction",
-      description: "Mã module cần override",
-      type: ApplicationCommandOptionType.String,
-      required: false,
-    },
+    // {
+    //   name: "correction",
+    //   description: "Mã module cần override",
+    //   type: ApplicationCommandOptionType.String,
+    //   required: false,
+    // },
   ],
 };
 
@@ -34,7 +35,7 @@ export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
 
   const ticketNumber = interaction.options.getInteger("ticket");
-  const correction = interaction.options.getString("correction");
+  // const correction = interaction.options.getString("correction");
 
   // fetch the requested ticket data
   const ticket = await getTicketByNumber(ticketNumber);
@@ -45,6 +46,7 @@ export const run = async ({ interaction, client, _handler }) => {
 Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       flags: MessageFlags.Ephemeral,
     });
+
     return;
   }
 
@@ -58,7 +60,7 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       await migrateUserEnrollments(ticket.email);
     } catch (error) {
       await interaction.editReply({
-        content: `😱 Không thể tạo hồ sơ cho user \`${ticket.email}\`:
+        content: `😱 Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.email}\`:
 **${error.message}**
 Rất có thể user chưa đăng nhập lần nào`,
         flags: MessageFlags.Ephemeral,
@@ -78,15 +80,31 @@ Rất có thể user chưa đăng nhập lần nào`,
     });
     return;
   }
+  // console.log(`Tìm thấy user: ${JSON.stringify(user, null, 2)}`);
 
-  console.log(`Tìm thấy user: ${JSON.stringify(user, null, 2)}`);
+  try {
+    await addEnrollments(user.id, ticket.requested_enrollments); // TODO: allow correction
+  } catch (error) {
+    await interaction.editReply({
+      content: `😱 Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.email}\`:
+**${error.message}**`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  } finally {
+    await interaction.editReply({
+      content: `SUCCESS! 🔥`,
+      flags: MessageFlags.Ephemeral,
+    });
+  }
 
-  // TODO: add enrollment
   // TODO: mark ticket as resolved
   // TODO: send confirmation message
 
+  // duchct0701@gmail.com
+  // 1QUjcPnEE3eWDzZLpz1xTPEROh73
   await interaction.followUp({
-    content: `TODO: approve module \`${ticket.requested_enrollments}\` for user \`${ticket.email}\``,
+    content: `TODO: mark ticket ${ticketNumber} as resolved`,
     flags: MessageFlags.Ephemeral,
   });
 };

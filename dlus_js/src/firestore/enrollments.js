@@ -165,11 +165,49 @@ const migrateUserEnrollments = async (email) => {
   }
 };
 
+/**
+ * Merges a string of enrollment module IDs into the "enrollments" field of a user document.
+ * @param {string} userId - The user document ID.
+ * @param {string} enrollmentModuleIds - The comma-separated string of enrollment module IDs.
+ * @returns {Promise<void>}
+ */
+const addEnrollments = async (userId, enrollmentModuleIds) => {
+  try {
+    const userRef = db.collection("users").doc(userId);
+    const moduleIdsArray = enrollmentModuleIds
+      .split(",")
+      .map((id) => id.trim());
+
+    await db.runTransaction(async (transaction) => {
+      const userDoc = await transaction.get(userRef);
+
+      if (!userDoc.exists) {
+        throw new Error(`User with ID ${userId} not found!`);
+      }
+
+      const userData = userDoc.data();
+      const currEnrollments = userData.enrollments || [];
+      const mergedEnrollments = [
+        ...new Set([...currEnrollments, ...moduleIdsArray]),
+      ];
+
+      transaction.update(userRef, { enrollments: mergedEnrollments });
+    });
+  } catch (error) {
+    console.error(
+      `Error merging enrollment module IDs for user ${userId}:`,
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getProductsMapping,
   prettifyProductsMapping,
   getNextTicketNumber,
   getEnrollmentModuleId,
   findExistingUserByEmail,
+  addEnrollments,
   migrateUserEnrollments,
 };
