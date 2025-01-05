@@ -7,13 +7,13 @@ const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
-  name: "review_enrollments",
+  name: "tickets",
   description: "Xem các request đăng ký 🔎",
   // NOTE: this non-global command is not available in DM
   options: [
     {
       name: "limit",
-      description: "Số lượng request muốn xem",
+      description: "Số lượng tickets muốn xem",
       type: ApplicationCommandOptionType.Integer,
       required: false,
     },

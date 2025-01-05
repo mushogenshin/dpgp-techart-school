@@ -1,10 +1,4 @@
-import { db } from "../firebase_config";
-
-// const {
-//   User,
-//   ApplicationCommandOptionType,
-//   APIApplicationCommandOptionChoice,
-// } = require("discord.js");
+import { admin, db } from "../firebase_config";
 
 /**
  * @returns {Promise<Object>} The product code to module ID mapping object.
@@ -79,4 +73,82 @@ const getEnrollmentModuleId = async (productCode) => {
   }
 };
 
-export { getProductsMapping, getNextTicketNumber, getEnrollmentModuleId };
+/**
+ * Finds a user document by email. This applies only to users who have registered.
+ * @param {string} email - The email to query.
+ * @returns {Promise<Object | null>} The user document or null if not found.
+ */
+const findExistingUserByEmail = async (email) => {
+  // TODO: sanitize both input email and query email from dots?
+  try {
+    const usersRef = db.collection("users");
+    const querySnapshot = await usersRef.where("email", "==", email).get();
+
+    if (querySnapshot.empty) {
+      console.log(`No user found with email ${email}`);
+      return null;
+    }
+
+    const userDoc = querySnapshot.docs[0];
+    return { id: userDoc.id, ...userDoc.data() };
+  } catch (error) {
+    console.error(`Error fetching user by email ${email}:`, error);
+    throw error;
+  }
+};
+
+/**
+ * Merges enrollment values from "enrollments_migration" collection into "users" collection.
+ * @param {string} email - The email to migrate enrollments for.
+ * @returns {Promise<void>}
+ */
+const migrateUserEnrollments = async (email) => {
+  try {
+    const userRecord = await admin.auth().getUserByEmail(email);
+    const userRef = db.collection("users").doc(userRecord.uid);
+    const historyRef = db.collection("enrollments_migration").doc(email);
+
+    await db.runTransaction(async (transaction) => {
+      const userDoc = await transaction.get(userRef);
+      const historyDoc = await transaction.get(historyRef);
+
+      const historyData = historyDoc.exists
+        ? historyDoc.data()
+        : { enrollments: [] };
+
+      const userData = userDoc.exists ? userDoc.data() : { email: email };
+      const currEnrollments = userData.enrollments || [];
+
+      const mergedEnrollments = historyData.enrollments
+        ? [...new Set([...currEnrollments, ...historyData.enrollments])]
+        : currEnrollments;
+
+      const userUpdate = {
+        ...userData,
+        ...Object.fromEntries(
+          Object.entries(historyData).filter(
+            ([key, value]) => value !== null && value !== "" && key !== "email"
+          )
+        ),
+        enrollments: mergedEnrollments, // must be last
+      };
+
+      if (userDoc.exists) {
+        transaction.update(userRef, userUpdate);
+      } else {
+        transaction.set(userRef, userUpdate);
+      }
+    });
+  } catch (error) {
+    console.error("Error migrating user enrollments:", error);
+    throw error;
+  }
+};
+
+export {
+  getProductsMapping,
+  getNextTicketNumber,
+  getEnrollmentModuleId,
+  findExistingUserByEmail,
+  migrateUserEnrollments,
+};

@@ -61,7 +61,7 @@ export const useGrantAccess = () => {
       if (failedEmails.length > 0) {
         const errorMessage = `😶‍🌫️ ${
           failedEmails.length
-        } học viên này chưa đăng nhập hoặc chưa migrate: ${failedEmails.join(
+        } học viên này chưa đăng nhập lần nào hoặc chưa migrate: ${failedEmails.join(
           ", "
         )}`;
         setError(errorMessage);

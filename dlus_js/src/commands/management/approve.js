@@ -1,5 +1,8 @@
 import { getTicketByNumber } from "../../firestore/tickets";
-// import { getEnrollmentModuleId } from "../../firestore/enrollments";
+import {
+  findExistingUserByEmail,
+  migrateUserEnrollments,
+} from "../../firestore/enrollments";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
@@ -38,21 +41,52 @@ export const run = async ({ interaction, client, _handler }) => {
 
   if (!ticket) {
     await interaction.editReply({
-      content: `Không tìm thấy ticket số ${ticketNumber}.`,
+      content: `Không tìm thấy ticket số ${ticketNumber} 🤨.
+Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       flags: MessageFlags.Ephemeral,
     });
     return;
   }
 
-  await interaction.editReply({
-    content: `TODO: approve module ${ticket.enrollment} for user ${ticket.email}`,
-    flags: MessageFlags.Ephemeral,
-  });
+  // fetch user data by email
+  let user;
+  user = await findExistingUserByEmail(ticket.email);
 
-  // TODO: grab user document (do migration if necessary)
+  if (!user) {
+    // try migrating first
+    try {
+      await migrateUserEnrollments(ticket.email);
+    } catch (error) {
+      await interaction.editReply({
+        content: `⛔️ Xảy ra lỗi khi tạo hồ sơ cho user: \`${error.message}\`
+Rất có thể user chưa đăng nhập lần nào 😱`,
+        flags: MessageFlags.Ephemeral,
+      });
+      return; // we can't proceed without user data
+    } finally {
+      // try fetching user data again
+      user = await findExistingUserByEmail(ticket.email);
+    }
+  }
+
+  if (!user) {
+    await interaction.editReply({
+      content: `Không tìm thấy user với email \`${ticket.email}\` 😢.`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  console.log(`Tìm thấy user: ${JSON.stringify(user, null, 2)}`);
+
   // TODO: add enrollment
   // TODO: mark ticket as resolved
   // TODO: send confirmation message
+
+  await interaction.followUp({
+    content: `TODO: approve module \`${ticket.requested_enrollment}\` for user \`${ticket.email}\``,
+    flags: MessageFlags.Ephemeral,
+  });
 };
 
 /** @type {import('commandkit').CommandOptions} */
