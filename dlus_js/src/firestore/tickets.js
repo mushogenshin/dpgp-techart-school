@@ -48,7 +48,7 @@ const listAllPendingTickets = async (limit) => {
     });
 
     pendingTickets.sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      (a, b) => new Date(b.created_at) - new Date(a.created_at) // still works if `created_at` is missing
     );
 
     if (limit) {
@@ -60,6 +60,22 @@ const listAllPendingTickets = async (limit) => {
     console.error("Error fetching pending tickets:", error);
     throw error;
   }
+};
+
+/**
+ * Prettifies ticket data for a Discord message.
+ * @param {Object} ticket - The ticket data to prettify.
+ * @returns {string} The prettified ticket data.
+ */
+const prettifyTicketData = (ticket) => {
+  return (
+    `**Ticket Number:** ${ticket.number}\n` +
+    `Created At: ${ticket.created_at_local}\n` +
+    `Transaction proof: [Screenshot](${ticket.proof})\n` +
+    `- Requested product: ${ticket.product}\n` +
+    `- Customer name: ${ticket.display_name}\n` +
+    `- Email: \`${ticket.email}\``
+  );
 };
 
 /**
@@ -85,7 +101,7 @@ const getUsrNumPendingTickets = async (discordUser) => {
     );
 
     console.log(
-      `[2/2] User ${interaction.user.username} has ${unResolvedTickets.length} pending tickets.`
+      `[2/2] User ${discordUser.username} has ${unResolvedTickets.length} pending tickets.`
     );
     return unResolvedTickets.length;
   } catch (error) {
@@ -183,4 +199,9 @@ const addTicket = async (
   }
 };
 
-export { getUsrNumPendingTickets, addTicket, listAllPendingTickets };
+export {
+  getUsrNumPendingTickets,
+  addTicket,
+  listAllPendingTickets,
+  prettifyTicketData,
+};
