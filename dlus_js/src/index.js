@@ -3,6 +3,7 @@ import { Client, IntentsBitField } from "discord.js";
 import { CommandKit } from "commandkit";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { MODERATOR_IDS } from "../moderator_config";
 
 const client = new Client({
   intents: [
@@ -24,7 +25,7 @@ new CommandKit({
     "456441614206763019", // ext.INKt.ion studio
     // "478115306078863361", // Dẫu Phải Giải Phẫu
   ],
-  devUserIds: ["454667337229139988"],
+  devUserIds: MODERATOR_IDS,
   bulkRegister: true,
 });
 

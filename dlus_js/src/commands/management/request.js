@@ -4,11 +4,11 @@ import {
   prettifyTicketData,
 } from "../../firestore/tickets";
 import { getEnrollmentModuleId } from "../../firestore/enrollments";
+import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 const MAX_PENDING_TICKETS_ALLOWED = 4;
-const ADMIN_USER_IDS = ["454667337229139988"];
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -105,7 +105,7 @@ Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :p
 
   // notify dev users
   const summary = prettifyTicketData(ticketAddResult);
-  for (const adminUserId of ADMIN_USER_IDS) {
+  for (const adminUserId of MODERATOR_IDS) {
     const adminUser = await client.users.fetch(adminUserId);
     if (!adminUser) {
       console.error(`Failed to notify admin user ${adminUserId}`);

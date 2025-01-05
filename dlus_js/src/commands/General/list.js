@@ -2,12 +2,12 @@ import {
   getProductsMapping,
   prettifyProductsMapping,
 } from "../../firestore/enrollments";
+import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { MessageFlags, ApplicationCommandOptionType } = require("discord.js");
 
 const cooldowns = new Map();
 const COOLDOWN_SECONDS = 600; // Set the cooldown time in seconds
-const DEV_USER_IDS = ["454667337229139988"];
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -29,7 +29,7 @@ export const data = {
 export const run = async ({ interaction, _client, _handler }) => {
   const userId = interaction.user.id;
 
-  if (!DEV_USER_IDS.includes(userId)) {
+  if (!MODERATOR_IDS.includes(userId)) {
     const now = Date.now();
     const cooldownAmount = COOLDOWN_SECONDS * 1000;
 
