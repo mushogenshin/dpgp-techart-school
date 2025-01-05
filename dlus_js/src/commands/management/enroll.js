@@ -41,6 +41,17 @@ export const data = {
 export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
 
+  const email = interaction.options.get("email");
+  // validate email format
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email.value)) {
+    await interaction.editReply({
+      content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
   // check if user has pending tickets
   const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
 
@@ -54,7 +65,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
     return;
   }
 
-  const email = interaction.options.get("email");
+  // guards passed, proceed to create ticket
   const product = interaction.options.get("product");
   // https://discord.js.org/docs/packages/discord.js/main/Attachment:Class
   const screenshot = interaction.options.get("screenshot");
