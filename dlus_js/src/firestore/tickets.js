@@ -177,8 +177,9 @@ const addTicket = async (
 };
 
 export {
-  getUsrNumPendingTickets,
-  addTicket,
   listAllPendingTickets,
+  getTicketByNumber,
+  getUsrNumPendingTickets,
   prettifyTicketData,
+  addTicket,
 };

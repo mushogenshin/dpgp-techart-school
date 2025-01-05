@@ -1,4 +1,4 @@
-import {} from "../../firestore/tickets";
+import { getTicketByNumber } from "../../firestore/tickets";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
@@ -27,6 +27,27 @@ export const data = {
  * @param {import('commandkit').SlashCommandProps} param0
  */
 export const run = async ({ interaction, client, _handler }) => {
+  await interaction.deferReply();
+
+  const ticketNumber = interaction.options.getInteger("ticket");
+  const correction = interaction.options.getString("correction");
+
+  // fetch the requested ticket data
+  const ticket = await getTicketByNumber(ticketNumber);
+
+  if (!ticket) {
+    await interaction.editReply({
+      content: `Không tìm thấy ticket số ${ticketNumber}.`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  await interaction.editReply({
+    content: `TODO: approve product ${ticket.product} for user ${ticket.email}`,
+    flags: MessageFlags.Ephemeral,
+  });
+
   // TODO: grab email
   // TODO: grab product code, desugared to module ID
   // TODO: grab user document (do migration if necessary)

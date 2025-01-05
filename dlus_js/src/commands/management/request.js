@@ -34,7 +34,7 @@ export const data = {
 /**
  * @param {import('commandkit').SlashCommandProps} param0
  */
-export const run = async ({ interaction, client, _handler }) => {
+export const run = async ({ interaction, _client, _handler }) => {
   await interaction.deferReply();
 
   const email = interaction.options.get("email");
