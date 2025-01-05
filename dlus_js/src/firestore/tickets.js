@@ -7,27 +7,6 @@ const {
 } = require("discord.js");
 
 /**
- * Fetches class data from Firestore.
- * @param {string} classId - The ID of the class to fetch.
- * @returns {Promise<Object|null>} The class data or null if no such document exists.
- */
-const getClassData = async (classId) => {
-  try {
-    const userRef = db.collection("classes").doc(classId);
-    const doc = await userRef.get();
-    if (!doc.exists) {
-      console.log("No such document!");
-      return null;
-    } else {
-      return doc.data();
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
-    throw error;
-  }
-};
-
-/**
  * Fetches all pending tickets and sorts them from latest to oldest.
  * @param {APIApplicationCommandOptionChoice<number>} [limit] - Optional parameter to limit the number of queried tickets.
  * @returns {Promise<Array>} The sorted list of pending tickets.
@@ -71,7 +50,7 @@ const prettifyTicketData = (ticket) => {
   return (
     `**Ticket Number:** ${ticket.number}\n` +
     `Created At: ${ticket.created_at_local}\n` +
-    `Transaction proof: [Screenshot](${ticket.proof})\n` +
+    `Transaction: [Screenshot](${ticket.proof})\n` +
     `- Requested product: ${ticket.product}\n` +
     `- Customer name: ${ticket.display_name}\n` +
     `- Email: \`${ticket.email}\``
@@ -132,6 +111,34 @@ const getNextTicketNumber = async () => {
       return newCount;
     }
   });
+};
+
+/**
+ * Fetches a ticket by its number.
+ * @param {number} ticketNumber - The ticket number to fetch.
+ * @returns {Promise<Object | null>} The ticket data or null if not found.
+ */
+const getTicketByNumber = async (ticketNumber) => {
+  try {
+    const ticketsRef = db.collection("enrollment_tickets");
+    const snapshot = await ticketsRef.get();
+
+    for (const doc of snapshot.docs) {
+      const userData = doc.data();
+      const userTickets = userData.tickets || [];
+      const ticket = userTickets.find((t) => t.number === ticketNumber);
+
+      if (ticket) {
+        return ticket;
+      }
+    }
+
+    console.log(`Ticket number ${ticketNumber} not found.`);
+    return null;
+  } catch (error) {
+    console.error(`Error fetching ticket number ${ticketNumber}:`, error);
+    throw error;
+  }
 };
 
 /**

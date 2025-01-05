@@ -3,17 +3,13 @@ import {
   prettifyTicketData,
 } from "../../firestore/tickets";
 
-const {
-  ApplicationCommandOptionType,
-  MessageFlags,
-  InteractionContextType,
-} = require("discord.js");
+const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "review_enrollments",
-  description: "Xem các request đăng ký cần approve",
-  // NOTE: allowing all contexts: guild, DM, private channel
+  description: "Xem các request đăng ký 🔎",
+  // NOTE: this non-global command is not available in DM
   options: [
     {
       name: "limit",
@@ -33,8 +29,6 @@ export const run = async ({ interaction, client, _handler }) => {
   // fetch all pending tickets
   const limit = interaction.options.get("limit");
   const pendingTickets = await listAllPendingTickets(limit);
-
-  console.log("Pending tickets", pendingTickets);
 
   const ticketCount = limit
     ? Math.min(limit.value, pendingTickets.length)

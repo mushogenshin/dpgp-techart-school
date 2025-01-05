@@ -1,17 +1,13 @@
 import { addTicket, getUsrNumPendingTickets } from "../../firestore/tickets";
 
-const {
-  ApplicationCommandOptionType,
-  MessageFlags,
-  InteractionContextType,
-} = require("discord.js");
+const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 const MAX_PENDING_TICKETS_ALLOWED = 4;
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "register",
-  description: "Báo nộp tiền học",
+  description: "Báo nộp tiền học 👆",
   // NOTE: allowing all contexts: guild, DM, private channel
   options: [
     {

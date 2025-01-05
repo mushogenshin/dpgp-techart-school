@@ -1,7 +1,7 @@
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "ping",
-  description: "Replies with Pong",
+  description: "Trả lại bằng Pong",
 };
 
 /**
