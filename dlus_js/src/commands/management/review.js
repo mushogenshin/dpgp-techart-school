@@ -33,15 +33,26 @@ export const run = async ({ interaction, client, _handler }) => {
   const ticketCount = limit
     ? Math.min(limit, pendingTickets.length)
     : pendingTickets.length;
+
+  if (ticketCount === 0) {
+    await interaction.editReply({
+      content: "Yay! Hổng có request nào cần review hết 🙆‍♀️",
+      flags: MessageFlags.Ephemeral,
+    });
+
+    return;
+  }
+
   await interaction.editReply({
     content: `Có ${ticketCount} request cần review`,
     flags: MessageFlags.Ephemeral,
   });
 
-  for (const ticket of pendingTickets) {
+  for (let i = 0; i < pendingTickets.length; i++) {
+    const ticket = pendingTickets[i];
     const prettyTicket = prettifyTicketData(ticket);
     await interaction.followUp({
-      content: prettyTicket,
+      content: `[${i + 1}/${pendingTickets.length}] ${prettyTicket}`,
       flags: MessageFlags.Ephemeral,
     });
   }

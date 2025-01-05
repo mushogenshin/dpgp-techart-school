@@ -44,8 +44,8 @@ const prettifyTicketData = (ticket) => {
     `Created At: ${ticket.created_at_local}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n\n` +
     `- Requesting: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
-    `- Submitted by: ${ticket.display_name} (${ticket.username})\n` +
-    `- Email: \`${ticket.email}\``
+    `- Submitted by: ${ticket.author_display_name} (${ticket.author_username})\n` +
+    `- Email: \`${ticket.beneficiary_email}\``
   );
 };
 
@@ -107,9 +107,9 @@ const getTicketByNumber = async (ticketNumber) => {
  * @param {User} discordUser - The Discord user to add the ticket for.
  * @param {string} channelId - The Discord channel ID where the ticket was requested.
  * @param {number} product - The product to enroll in.
- * @param {string} email - The email to enroll with.
+ * @param {string} email - The beneficiary email to enroll with.
  * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction screenshot.
- * @returns {Promise<number | undefined>} The ticket number.
+ * @returns {Promise<Object | undefined>} The ticket data.
  */
 const addTicket = async (
   discordUser,
@@ -129,12 +129,12 @@ const addTicket = async (
       number: ticketNumber,
       requested_product: product,
       requested_enrollments: moduleIds,
-      email: email,
+      beneficiary_email: email,
       proof: screenshot.attachment.url,
-      channel: channelId,
-      user_id: discordUser.id,
-      username: discordUser.username,
-      display_name: discordUser.displayName,
+      discord_channel_id: channelId,
+      author_discord_user_id: discordUser.id,
+      author_username: discordUser.username,
+      author_display_name: discordUser.displayName,
       created_at: new Date().toISOString(),
       created_at_local: new Date().toLocaleString(),
       resolved: false,
@@ -144,7 +144,7 @@ const addTicket = async (
     await db.collection("enrollment_tickets").add(ticketData);
 
     console.log(`[2/2] Added new ticket for user ${discordUser.username}`);
-    return ticketNumber;
+    return ticketData;
   } catch (error) {
     console.error(
       `[2/2] Error adding ticket for Discord user ${discordUser.username}`,
@@ -154,10 +154,45 @@ const addTicket = async (
   }
 };
 
+/**
+ * Marks a ticket as resolved.
+ * @param {number} ticketNumber - The ticket number to mark as resolved.
+ * @returns {Promise<boolean>} True if the ticket was successfully marked as resolved, otherwise false.
+ */
+const markTicketAsResolved = async (ticketNumber) => {
+  const ticketsRef = db.collection("enrollment_tickets");
+
+  try {
+    await db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(
+        ticketsRef.where("number", "==", ticketNumber)
+      );
+
+      if (snapshot.empty) {
+        console.log(`Ticket number ${ticketNumber} not found.`);
+        return false;
+      }
+
+      const ticketDoc = snapshot.docs[0].ref;
+      transaction.update(ticketDoc, { resolved: true });
+    });
+
+    console.log(`Ticket number ${ticketNumber} marked as resolved.`);
+    return true;
+  } catch (error) {
+    console.error(
+      `Error marking ticket number ${ticketNumber} as resolved:`,
+      error
+    );
+    return false;
+  }
+};
+
 export {
   listAllPendingTickets,
   getTicketByNumber,
   getUsrNumPendingTickets,
   prettifyTicketData,
   addTicket,
+  markTicketAsResolved,
 };

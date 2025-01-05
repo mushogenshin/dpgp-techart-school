@@ -1,4 +1,7 @@
-import { getTicketByNumber } from "../../firestore/tickets";
+import {
+  getTicketByNumber,
+  markTicketAsResolved,
+} from "../../firestore/tickets";
 import {
   findExistingUserByEmail,
   migrateUserEnrollments,
@@ -50,63 +53,75 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
     return;
   }
 
-  // fetch user data by email
-  let user;
-  user = await findExistingUserByEmail(ticket.email);
+  // fetch beneficiary user data by email
+  let beneficiaryUser;
+  beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
 
-  if (!user) {
+  if (!beneficiaryUser) {
     // try migrating first
     try {
-      await migrateUserEnrollments(ticket.email);
+      await migrateUserEnrollments(ticket.beneficiary_email);
     } catch (error) {
       await interaction.editReply({
-        content: `😱 Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.email}\`:
+        content: `😱 Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**
 Rất có thể user chưa đăng nhập lần nào`,
         flags: MessageFlags.Ephemeral,
       });
-      return; // we can't proceed without user data
+      return; // we can't proceed without beneficiary user data
     } finally {
-      // try fetching user data again
-      user = await findExistingUserByEmail(ticket.email);
+      // try fetching beneficiary user data again
+      beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
     }
   }
 
-  // this should never happen, but just in case
-  if (!user) {
+  // failing to fetch beneficiary user data again should never happen, but just in case
+  if (!beneficiaryUser) {
     await interaction.editReply({
-      content: `Không tìm thấy user với email \`${ticket.email}\` 😢.`,
+      content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.`,
       flags: MessageFlags.Ephemeral,
     });
     return;
   }
-  // console.log(`Tìm thấy user: ${JSON.stringify(user, null, 2)}`);
 
+  // add enrollments to beneficiary user
   try {
-    await addEnrollments(user.id, ticket.requested_enrollments); // TODO: allow correction
+    await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
   } catch (error) {
     await interaction.editReply({
-      content: `😱 Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.email}\`:
+      content: `😱 Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**`,
       flags: MessageFlags.Ephemeral,
     });
     return;
   } finally {
     await interaction.editReply({
-      content: `SUCCESS! 🔥`,
+      content: `🔥 Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
       flags: MessageFlags.Ephemeral,
     });
+
+    // mark ticket as resolved
+    const markResult = await markTicketAsResolved(ticketNumber);
+
+    if (!markResult) {
+      await interaction.followUp({
+        content: `😱 Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
+
+    // send confirmation message
+    const channel = await client.channels.fetch(ticket.discord_channel_id);
+    if (channel) {
+      await channel.send(`🎉 Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!
+Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` 🎉`);
+    } else {
+      console.error(
+        `Failed to send confirmation message of ticket ${ticketNumber} to channel ${ticket.discord_channel_id}`
+      );
+    }
   }
-
-  // TODO: mark ticket as resolved
-  // TODO: send confirmation message
-
-  // duchct0701@gmail.com
-  // 1QUjcPnEE3eWDzZLpz1xTPEROh73
-  await interaction.followUp({
-    content: `TODO: mark ticket ${ticketNumber} as resolved`,
-    flags: MessageFlags.Ephemeral,
-  });
 };
 
 /** @type {import('commandkit').CommandOptions} */

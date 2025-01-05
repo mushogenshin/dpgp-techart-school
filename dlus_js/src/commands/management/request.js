@@ -1,9 +1,14 @@
-import { addTicket, getUsrNumPendingTickets } from "../../firestore/tickets";
+import {
+  addTicket,
+  getUsrNumPendingTickets,
+  prettifyTicketData,
+} from "../../firestore/tickets";
 import { getEnrollmentModuleId } from "../../firestore/enrollments";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 const MAX_PENDING_TICKETS_ALLOWED = 4;
+const ADMIN_USER_IDS = ["454667337229139988"];
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -35,7 +40,7 @@ export const data = {
 /**
  * @param {import('commandkit').SlashCommandProps} param0
  */
-export const run = async ({ interaction, _client, _handler }) => {
+export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
 
   // only proceed if user has less than the maximum allowed pending tickets
@@ -88,15 +93,26 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
 
   const msg = ticketAddResult
     ? `Đã gửi request thành công! 
-## Số ticket của bạn là ${ticketAddResult}.
+## Số ticket của bạn là ${ticketAddResult.number}.
 Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :pray:`
     : "Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
 
-  // announce result
+  // announce result to user
   await interaction.editReply({
     content: msg,
     flags: MessageFlags.Ephemeral,
   });
+
+  // notify dev users
+  const summary = prettifyTicketData(ticketAddResult);
+  for (const adminUserId of ADMIN_USER_IDS) {
+    const adminUser = await client.users.fetch(adminUserId);
+    if (!adminUser) {
+      console.error(`Failed to notify admin user ${adminUserId}`);
+      continue;
+    }
+    await adminUser.send(`:warning: New ticket received:\n${summary}`);
+  }
 };
 
 /** @type {import('commandkit').CommandOptions} */
