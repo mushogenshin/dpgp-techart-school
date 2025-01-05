@@ -6,7 +6,8 @@ import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { MessageFlags, ApplicationCommandOptionType } = require("discord.js");
 
-const COOLDOWN_SECONDS = 600; // Set the cooldown time in seconds
+const COOLDOWN_AMOUNT_MS = 600 * 1000; // 10 minutes
+
 // Per-user map
 const cooldowns = new Map();
 
@@ -33,10 +34,9 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   if (!MODERATOR_IDS.includes(userId)) {
     const now = Date.now();
-    const cooldownAmount = COOLDOWN_SECONDS * 1000;
 
     if (cooldowns.has(userId)) {
-      const expirationTime = cooldowns.get(userId) + cooldownAmount;
+      const expirationTime = cooldowns.get(userId) + COOLDOWN_AMOUNT_MS;
 
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
@@ -48,7 +48,7 @@ export const run = async ({ interaction, _client, _handler }) => {
     }
 
     cooldowns.set(userId, now);
-    setTimeout(() => cooldowns.delete(userId), cooldownAmount);
+    setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
   }
 
   const verbose = interaction.options.getBoolean("full") || false;

@@ -4,14 +4,13 @@ import {
   prettifyTicketData,
 } from "../../firestore/tickets";
 import { getEnrollmentModuleId } from "../../firestore/enrollments";
-// import { MODERATOR_IDS } from "../../../moderator_config";
-const MODERATOR_IDS = [];
+import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 const MAX_PENDING_TICKETS_ALLOWED = 4;
 const MAX_FAILED_ATTEMPTS = 3;
-const COOLDOWN_SECONDS = 180;
+const COOLDOWN_AMOUNT_MS = 180 * 1000; // 3 minutes
 
 // Per-user maps
 const cooldowns = new Map();
@@ -54,10 +53,9 @@ export const run = async ({ interaction, client, _handler }) => {
   // Check if user is on cooldown
   if (!MODERATOR_IDS.includes(userId)) {
     const now = Date.now();
-    const cooldownAmount = COOLDOWN_SECONDS * 1000;
 
     if (cooldowns.has(userId)) {
-      const expirationTime = cooldowns.get(userId) + cooldownAmount;
+      const expirationTime = cooldowns.get(userId) + COOLDOWN_AMOUNT_MS;
 
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
@@ -66,10 +64,9 @@ export const run = async ({ interaction, client, _handler }) => {
           flags: MessageFlags.Ephemeral,
         });
       }
-    }
 
-    cooldowns.set(userId, now);
-    setTimeout(() => cooldowns.delete(userId), cooldownAmount);
+      // DO NOT set cooldown uncontionally here
+    }
   }
 
   // only proceed if user has less than the maximum allowed pending tickets
@@ -92,19 +89,15 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
       flags: MessageFlags.Ephemeral,
     });
 
-    // Track failed attempts
+    // Accumulate failed attempts
     const attempts = failedAttempts.get(userId) || 0;
     failedAttempts.set(userId, attempts + 1);
-    console.log(
-      `User ${interaction.user.displayName}'s failed attempts: ${attempts + 1}`
-    );
 
     if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
       cooldowns.set(userId, Date.now());
-      setTimeout(() => cooldowns.delete(userId), COOLDOWN_SECONDS * 1000);
-      failedAttempts.delete(userId);
+      setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
+      failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
     }
-
     return;
   }
 
@@ -118,19 +111,15 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
       flags: MessageFlags.Ephemeral,
     });
 
-    // Track failed attempts
+    // Accumulate failed attempts
     const attempts = failedAttempts.get(userId) || 0;
     failedAttempts.set(userId, attempts + 1);
-    console.log(
-      `User ${interaction.user.displayName}'s failed attempts: ${attempts + 1}`
-    );
 
     if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
       cooldowns.set(userId, Date.now());
-      setTimeout(() => cooldowns.delete(userId), COOLDOWN_SECONDS * 1000);
-      failedAttempts.delete(userId);
+      setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
+      failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
     }
-
     return;
   }
 
