@@ -4,11 +4,18 @@ import {
   prettifyTicketData,
 } from "../../firestore/tickets";
 import { getEnrollmentModuleId } from "../../firestore/enrollments";
-import { MODERATOR_IDS } from "../../../moderator_config";
+// import { MODERATOR_IDS } from "../../../moderator_config";
+const MODERATOR_IDS = [];
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 const MAX_PENDING_TICKETS_ALLOWED = 4;
+const MAX_FAILED_ATTEMPTS = 3;
+const COOLDOWN_SECONDS = 180;
+
+// Per-user maps
+const cooldowns = new Map();
+const failedAttempts = new Map();
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -42,6 +49,28 @@ export const data = {
  */
 export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
+  const userId = interaction.user.id;
+
+  // Check if user is on cooldown
+  if (!MODERATOR_IDS.includes(userId)) {
+    const now = Date.now();
+    const cooldownAmount = COOLDOWN_SECONDS * 1000;
+
+    if (cooldowns.has(userId)) {
+      const expirationTime = cooldowns.get(userId) + cooldownAmount;
+
+      if (now < expirationTime) {
+        const timeLeft = Math.ceil((expirationTime - now) / 1000);
+        return interaction.editReply({
+          content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+    }
+
+    cooldowns.set(userId, now);
+    setTimeout(() => cooldowns.delete(userId), cooldownAmount);
+  }
 
   // only proceed if user has less than the maximum allowed pending tickets
   const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
@@ -62,6 +91,20 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
       content: "Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
     });
+
+    // Track failed attempts
+    const attempts = failedAttempts.get(userId) || 0;
+    failedAttempts.set(userId, attempts + 1);
+    console.log(
+      `User ${interaction.user.displayName}'s failed attempts: ${attempts + 1}`
+    );
+
+    if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
+      cooldowns.set(userId, Date.now());
+      setTimeout(() => cooldowns.delete(userId), COOLDOWN_SECONDS * 1000);
+      failedAttempts.delete(userId);
+    }
+
     return;
   }
 
@@ -74,6 +117,20 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
       flags: MessageFlags.Ephemeral,
     });
+
+    // Track failed attempts
+    const attempts = failedAttempts.get(userId) || 0;
+    failedAttempts.set(userId, attempts + 1);
+    console.log(
+      `User ${interaction.user.displayName}'s failed attempts: ${attempts + 1}`
+    );
+
+    if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
+      cooldowns.set(userId, Date.now());
+      setTimeout(() => cooldowns.delete(userId), COOLDOWN_SECONDS * 1000);
+      failedAttempts.delete(userId);
+    }
+
     return;
   }
 
@@ -119,4 +176,5 @@ Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :p
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
   devOnly: false, // `false` makes this a global command
+  // deleted: true,
 };

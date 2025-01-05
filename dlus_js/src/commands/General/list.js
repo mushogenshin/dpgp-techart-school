@@ -6,8 +6,9 @@ import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { MessageFlags, ApplicationCommandOptionType } = require("discord.js");
 
-const cooldowns = new Map();
 const COOLDOWN_SECONDS = 600; // Set the cooldown time in seconds
+// Per-user map
+const cooldowns = new Map();
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -27,6 +28,7 @@ export const data = {
  * @param {import('commandkit').SlashCommandProps} param0
  */
 export const run = async ({ interaction, _client, _handler }) => {
+  await interaction.deferReply();
   const userId = interaction.user.id;
 
   if (!MODERATOR_IDS.includes(userId)) {
@@ -38,7 +40,7 @@ export const run = async ({ interaction, _client, _handler }) => {
 
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
-        return interaction.reply({
+        return interaction.editReply({
           content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
           flags: MessageFlags.Ephemeral,
         });
@@ -48,8 +50,6 @@ export const run = async ({ interaction, _client, _handler }) => {
     cooldowns.set(userId, now);
     setTimeout(() => cooldowns.delete(userId), cooldownAmount);
   }
-
-  await interaction.deferReply();
 
   const verbose = interaction.options.getBoolean("full") || false;
   const productsMapping = await getProductsMapping();
