@@ -1,4 +1,4 @@
-import { addTicket, getNumPendingTickets } from "../../firestore/tickets";
+import { addTicket, getUsrNumPendingTickets } from "../../firestore/tickets";
 
 const {
   ApplicationCommandOptionType,
@@ -12,12 +12,7 @@ const MAX_PENDING_TICKETS_ALLOWED = 4;
 export const data = {
   name: "register",
   description: "Báo nộp tiền học",
-  // NOTE: all are already allowed by default if this is a global command
-  // contexts: [
-  //   InteractionContextType.Guild,
-  //   InteractionContextType.BotDM,
-  //   InteractionContextType.PrivateChannel,
-  // ],
+  // NOTE: allowing all contexts: guild, DM, private channel
   options: [
     {
       name: "screenshot",
@@ -47,7 +42,7 @@ export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
 
   // check if user has pending tickets
-  const numPendingTickets = await getNumPendingTickets(interaction.user);
+  const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
 
   // only proceed if user has less than the maximum allowed pending tickets
   if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {

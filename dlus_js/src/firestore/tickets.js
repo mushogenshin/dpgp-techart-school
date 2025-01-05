@@ -28,11 +28,46 @@ const getClassData = async (classId) => {
 };
 
 /**
+ * Fetches all pending tickets and sorts them from latest to oldest.
+ * @param {number} [limit] - Optional parameter to limit the number of queried tickets.
+ * @returns {Promise<Array>} The sorted list of pending tickets.
+ */
+const listAllPendingTickets = async (limit) => {
+  try {
+    const ticketsRef = db.collection("enrollment_tickets");
+    const snapshot = await ticketsRef.get();
+    let pendingTickets = [];
+
+    snapshot.forEach((doc) => {
+      const userData = doc.data();
+      const userTickets = userData.tickets || [];
+      const unResolvedTickets = userTickets.filter(
+        (ticket) => ticket.resolved === false // ignore `undefined` resolved status
+      );
+      pendingTickets = pendingTickets.concat(unResolvedTickets);
+    });
+
+    pendingTickets.sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    if (limit) {
+      pendingTickets = pendingTickets.slice(0, limit);
+    }
+
+    return pendingTickets;
+  } catch (error) {
+    console.error("Error fetching pending tickets:", error);
+    throw error;
+  }
+};
+
+/**
  * Checks the number of pending enrollment tickets for a Discord user.
  * @param {User} discordUser - The Discord user to check.
  * @returns {Promise<number>} The number of pending tickets.
  */
-const getNumPendingTickets = async (discordUser) => {
+const getUsrNumPendingTickets = async (discordUser) => {
   console.log(`[1/2] Checking pending tickets of user ${discordUser.username}`);
 
   try {
@@ -148,4 +183,4 @@ const addTicket = async (
   }
 };
 
-export { getNumPendingTickets, addTicket };
+export { getUsrNumPendingTickets, addTicket, listAllPendingTickets };
