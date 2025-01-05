@@ -14,20 +14,15 @@ const {
 const listAllPendingTickets = async (limit) => {
   try {
     const ticketsRef = db.collection("enrollment_tickets");
-    const snapshot = await ticketsRef.get();
+    const snapshot = await ticketsRef.where("resolved", "==", false).get(); // ignore `undefined` resolved status
     let pendingTickets = [];
 
     snapshot.forEach((doc) => {
-      const userData = doc.data();
-      const userTickets = userData.tickets || [];
-      const unResolvedTickets = userTickets.filter(
-        (ticket) => ticket.resolved === false // ignore `undefined` resolved status
-      );
-      pendingTickets = pendingTickets.concat(unResolvedTickets);
+      pendingTickets.push(doc.data());
     });
 
     pendingTickets.sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at) // still works if `created_at` is missing
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
     );
 
     if (limit) {
@@ -52,7 +47,7 @@ const prettifyTicketData = (ticket) => {
     `Created At: ${ticket.created_at_local}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n` +
     `- Requested product: ${ticket.product}\n` +
-    `- Customer name: ${ticket.display_name}\n` +
+    `- Customer name: ${ticket.display_name}\n (${ticket.username})` +
     `- Email: \`${ticket.email}\``
   );
 };
@@ -66,23 +61,18 @@ const getUsrNumPendingTickets = async (discordUser) => {
   console.log(`[1/2] Checking pending tickets of user ${discordUser.username}`);
 
   try {
-    const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
-    const userDoc = await userDocRef.get();
+    const ticketsRef = db.collection("enrollment_tickets");
+    const snapshot = await ticketsRef
+      .where("user_id", "==", discordUser.id)
+      .where("resolved", "==", false)
+      .get();
 
-    if (!userDoc.exists) {
-      console.log(`[2/2] User ${discordUser.username} has no ticket record`);
-      return 0;
-    }
-
-    const userData = userDoc.data();
-    const unResolvedTickets = (userData.tickets || []).filter(
-      (ticket) => ticket.resolved === false || ticket.resolved === undefined
-    );
+    const pendingTicketsCount = snapshot.size;
 
     console.log(
-      `[2/2] User ${discordUser.username} has ${unResolvedTickets.length} pending tickets.`
+      `[2/2] User ${discordUser.username} has ${pendingTicketsCount} pending tickets.`
     );
-    return unResolvedTickets.length;
+    return pendingTicketsCount;
   } catch (error) {
     console.error(
       `[2/2] Error checking pending tickets for Discord user ${discordUser.username}`,
@@ -121,20 +111,15 @@ const getNextTicketNumber = async () => {
 const getTicketByNumber = async (ticketNumber) => {
   try {
     const ticketsRef = db.collection("enrollment_tickets");
-    const snapshot = await ticketsRef.get();
+    const snapshot = await ticketsRef.where("number", "==", ticketNumber).get();
 
-    for (const doc of snapshot.docs) {
-      const userData = doc.data();
-      const userTickets = userData.tickets || [];
-      const ticket = userTickets.find((t) => t.number === ticketNumber);
-
-      if (ticket) {
-        return ticket;
-      }
+    if (snapshot.empty) {
+      console.log(`Ticket number ${ticketNumber} not found.`);
+      return null;
     }
 
-    console.log(`Ticket number ${ticketNumber} not found.`);
-    return null;
+    const ticket = snapshot.docs[0].data();
+    return ticket;
   } catch (error) {
     console.error(`Error fetching ticket number ${ticketNumber}:`, error);
     throw error;
@@ -157,44 +142,29 @@ const addTicket = async (
   email,
   screenshot
 ) => {
-  console.log(`[1/2] Checking ticket record of user ${discordUser.username}`);
+  console.log(`[1/2] Making ticket for user ${discordUser.username}`);
 
   try {
     const ticketNumber = await getNextTicketNumber();
-    const userDocRef = db.collection("enrollment_tickets").doc(discordUser.id);
-    const userDoc = await userDocRef.get();
 
     // make the ticket data from the command options
     const ticketData = {
       number: ticketNumber,
       product: product.value,
       email: email.value,
-      display_name: discordUser.displayName,
       proof: screenshot.attachment.url,
       channel: channelId,
+      user_id: discordUser.id,
+      username: discordUser.username,
+      display_name: discordUser.displayName,
       created_at: new Date().toISOString(),
       created_at_local: new Date().toLocaleString(),
       resolved: false,
     };
 
-    // if the user has no ticket record, create one
-    if (!userDoc.exists) {
-      await userDocRef.set({
-        tickets: [ticketData],
-        username: discordUser.username,
-      });
-      console.log(
-        `[2/2] Created new ticket record for user ${discordUser.username}`
-      );
-      return ticketNumber;
-    }
+    // add the ticket as a new document in the "enrollment_tickets" collection
+    await db.collection("enrollment_tickets").add(ticketData);
 
-    // otherwise, append to the existing record
-    const userData = userDoc.data();
-    const updatedTickets = [...(userData.tickets || []), ticketData];
-    await userDocRef.update({
-      tickets: updatedTickets,
-    });
     console.log(`[2/2] Added new ticket for user ${discordUser.username}`);
     return ticketNumber;
   } catch (error) {
