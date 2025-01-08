@@ -39,13 +39,23 @@ const listAllPendingTickets = async (limit) => {
  * @returns {string} The prettified ticket data.
  */
 const prettifyTicketData = (ticket) => {
+  const createdAt = new Date(ticket.created_at_local);
+  const formattedCreatedAt = createdAt.toLocaleString([], {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
   return (
-    `**Ticket Number:** ${ticket.number}\n` +
-    `Created At: ${ticket.created_at_local}\n` +
+    `**Ticket Number ${ticket.number}**\n` +
+    `${formattedCreatedAt}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n\n` +
     `- Requesting: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
-    `- Submitted by: ${ticket.author_display_name} (${ticket.author_username})\n` +
-    `- Email: \`${ticket.beneficiary_email}\``
+    `- Submitted by: <@${ticket.author_discord.user_id}> (${ticket.author_discord.username})\n` +
+    `- Beneficiary: \`${ticket.beneficiary_email}\``
   );
 };
 
@@ -132,8 +142,10 @@ const addTicket = async (
       beneficiary_email: email,
       proof: screenshot.attachment.url,
       discord_channel_id: channelId,
-      author_discord_user_id: discordUser.id,
-      author_username: discordUser.username,
+      author_discord: {
+        user_id: discordUser.id,
+        username: discordUser.username,
+      },
       author_display_name: discordUser.displayName,
       created_at: new Date(),
       created_at_local: new Date().toLocaleString(),

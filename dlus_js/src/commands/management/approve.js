@@ -54,8 +54,7 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
   }
 
   // fetch beneficiary user data by email
-  let beneficiaryUser;
-  beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
+  let beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
 
   if (!beneficiaryUser) {
     // try migrating first
@@ -78,7 +77,8 @@ Rất có thể user chưa đăng nhập lần nào`,
   // failing to fetch beneficiary user data again should never happen, but just in case
   if (!beneficiaryUser) {
     await interaction.editReply({
-      content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.`,
+      content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.
+Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
       flags: MessageFlags.Ephemeral,
     });
     return;
