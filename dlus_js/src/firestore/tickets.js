@@ -135,7 +135,7 @@ const addTicket = async (
       author_discord_user_id: discordUser.id,
       author_username: discordUser.username,
       author_display_name: discordUser.displayName,
-      created_at: new Date().toISOString(),
+      created_at: new Date(),
       created_at_local: new Date().toLocaleString(),
       resolved: false,
     };
