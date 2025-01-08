@@ -15,6 +15,7 @@ const cooldowns = new Map();
 export const data = {
   name: "list",
   description: "Liệt kê các khoá học 👽",
+  // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
     {
       name: "everything",
@@ -64,5 +65,5 @@ export const run = async ({ interaction, _client, _handler }) => {
 /** @type {import('commandkit').CommandOptions} */
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
-  devOnly: false,
+  devOnly: false, // `false` makes this a global command
 };

@@ -20,7 +20,7 @@ const failedAttempts = new Map();
 export const data = {
   name: "register",
   description: "Báo nộp tiền học 👆",
-  // NOTE: allowing all contexts: guild, DM, private channel
+  // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
     {
       name: "screenshot",
@@ -165,5 +165,4 @@ Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :p
 export const options = {
   // https://commandkit.js.org/typedef/CommandOptions
   devOnly: false, // `false` makes this a global command
-  // deleted: true,
 };
