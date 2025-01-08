@@ -1,4 +1,9 @@
 import { sendVerificationEmail, verifyCode } from "../../firestore/send_mail";
+import {
+  findExistingUserByEmail,
+  updateDiscordInfo,
+} from "../../firestore/enrollments";
+
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 /** @type {import('commandkit').CommandData}  */
@@ -35,7 +40,7 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   await sendVerificationEmail(email);
   await interaction.editReply(
-    `📧 Mã xác thực đã được gửi đến ${email}, hãy xem email và nhập mã vào bên dưới:`
+    `📧 Mã xác thực đã được gửi đến \`${email}\`, hãy xem email và nhập mã vào bên dưới:`
   );
 
   const msg_filter = (m) =>
@@ -51,11 +56,40 @@ export const run = async ({ interaction, _client, _handler }) => {
       verifyCode(email, collected.first().content)
         .then((verified) => {
           if (verified) {
-            // TODO: link Discord account with user's email
+            // Discord user is the owner of the email
+            interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
 
-            interaction.followUp(
-              "🔥 Đã link thành công tên Discord của bạn với tài khoản học!"
-            );
+            // lookup user by email
+            let user = findExistingUserByEmail(email);
+            if (!user) {
+              interaction.followUp({
+                content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.
+Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
+                flags: MessageFlags.Ephemeral,
+              });
+              return;
+            }
+
+            // link Discord account with user account
+            updateDiscordInfo(
+              user.id,
+              interaction.user.id,
+              interaction.user.username
+            )
+              .then(() => {
+                interaction.followUp(
+                  "🔥 Đã link thành công tên Discord của bạn với tài khoản học!"
+                );
+              })
+              .catch((error) => {
+                console.error(
+                  `Error updating Discord info for user ${email}:`,
+                  error
+                );
+                interaction.followUp(
+                  "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
+                );
+              });
           } else {
             interaction.followUp(
               "😰 Mã xác thực không đúng. Vui lòng thử lại."

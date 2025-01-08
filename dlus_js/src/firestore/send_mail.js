@@ -32,8 +32,7 @@ const generateVerificationCode = async (email) => {
 const sendVerificationEmail = async (email) => {
   const verificationCode = await generateVerificationCode(email);
 
-  await admin
-    .firestore()
+  await db
     .collection("mail")
     .add({
       to: email,

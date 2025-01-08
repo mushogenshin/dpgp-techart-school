@@ -202,6 +202,34 @@ const addEnrollments = async (userId, enrollmentModuleIds) => {
   }
 };
 
+/**
+ * Updates the "discord" field on the user document.
+ * @param {string} userId - The user document ID.
+ * @param {string} discordId - The Discord user ID.
+ * @param {string} discordUsername - The Discord username.
+ * @returns {Promise<void>}
+ */
+const updateDiscordInfo = async (userId, discordId, discordUsername) => {
+  try {
+    const userRef = db.collection("users").doc(userId);
+
+    await db.runTransaction(async (transaction) => {
+      const userDoc = await transaction.get(userRef);
+
+      if (!userDoc.exists) {
+        throw new Error(`User with ID ${userId} not found!`);
+      }
+
+      transaction.update(userRef, {
+        discord: { user_id: discordId, username: discordUsername },
+      });
+    });
+  } catch (error) {
+    console.error(`Error updating Discord info for user ${userId}:`, error);
+    throw error;
+  }
+};
+
 export {
   getProductsMapping,
   prettifyProductsMapping,
@@ -210,4 +238,5 @@ export {
   findExistingUserByEmail,
   addEnrollments,
   migrateUserEnrollments,
+  updateDiscordInfo,
 };
