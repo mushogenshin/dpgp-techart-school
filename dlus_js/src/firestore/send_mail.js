@@ -1,6 +1,6 @@
 import { admin, db } from "../firebase_config";
 
-const EXPIRATION_MINUTES = 30;
+const EXPIRATION_MINUTES = 2;
 
 /**
  * Generates a verification code and stores it in Firestore.
@@ -43,7 +43,7 @@ const sendVerificationEmail = async (email) => {
         html: `<p>Your verification code is <strong>${verificationCode}</strong>. It will expire in ${EXPIRATION_MINUTES} minutes.</p>`,
       },
     })
-    .then(() => console.log("Queued email for delivery!"));
+    .then(() => console.log(`📦 Queued email for delivery to ${email}`));
 };
 
 /**
@@ -58,21 +58,21 @@ const verifyCode = async (email, code) => {
   const doc = await docRef.get();
 
   if (!doc.exists) {
-    throw new Error(`No verification code found for email ${email}`);
+    throw new Error(`👀 No verification code found for email ${email}`);
   }
 
   const data = doc.data();
   const currentTime = new Date();
 
   if (currentTime > data.expires_at.toDate()) {
-    throw new Error("Verification code has expired.");
+    throw new Error("⌛️ Verification code has expired.");
   }
 
   if (data.code !== code.toString()) {
-    throw new Error("Invalid verification code.");
+    throw new Error("⛔️ Invalid verification code.");
   }
 
-  console.log("Verification successful!");
+  console.log("✅ Verification successful!");
   return true;
 };
 
@@ -90,3 +90,5 @@ const sanitizeEmail = (email) => {
 // Example usage
 // sendVerificationEmail("hoan.sgn@gmail.com").catch(console.error);
 // verifyCode("hoansgn@gmail.com", "835422").catch(console.error);
+
+export { sendVerificationEmail, verifyCode };
