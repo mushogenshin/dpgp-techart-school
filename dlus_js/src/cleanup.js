@@ -53,6 +53,24 @@ const cleanUpAllUsers = async () => {
   console.log("All user documents have been processed.");
 };
 
-cleanUpAllUsers();
+// cleanUpAllUsers();
+
+const duplicateCollection = async (sourceCollection, targetCollection) => {
+  const sourceSnapshot = await db.collection(sourceCollection).get();
+  const batch = db.batch();
+
+  sourceSnapshot.forEach((doc) => {
+    const targetDocRef = db.collection(targetCollection).doc(doc.id);
+    batch.set(targetDocRef, doc.data());
+  });
+
+  await batch.commit();
+  console.log(
+    `Collection ${sourceCollection} has been duplicated to ${targetCollection}`
+  );
+};
+
+// Example usage
+// duplicateCollection("enrollments_migration", "enrollment_migration");
 
 // export { cleanUpUserDoc };
