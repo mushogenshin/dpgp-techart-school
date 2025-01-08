@@ -35,7 +35,7 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   await sendVerificationEmail(email);
   await interaction.editReply(
-    `📧 Mã xác thực đã được gửi đến ${email}, hãy xem email và nhập vào đây:`
+    `📧 Mã xác thực đã được gửi đến ${email}, hãy xem email và nhập mã vào bên dưới:`
   );
 
   const msg_filter = (m) =>
@@ -48,10 +48,11 @@ export const run = async ({ interaction, _client, _handler }) => {
       errors: ["time"],
     })
     .then((collected) => {
-      const inputCode = collected.first().content;
-      verifyCode(email, inputCode)
-        .then((verifyResult) => {
-          if (verifyResult) {
+      verifyCode(email, collected.first().content)
+        .then((verified) => {
+          if (verified) {
+            // TODO: link Discord account with user's email
+
             interaction.followUp(
               "🔥 Đã link thành công tên Discord của bạn với tài khoản học!"
             );
