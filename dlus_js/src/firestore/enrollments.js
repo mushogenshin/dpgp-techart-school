@@ -118,7 +118,7 @@ const findExistingUserByEmail = async (email) => {
 };
 
 /**
- * Merges enrollment values from "enrollments_migration" collection into "users" collection.
+ * Merges enrollment values from "enrollment_migration" collection into "users" collection.
  * @param {string} email - The email to migrate enrollments for.
  * @returns {Promise<void>}
  */
@@ -126,7 +126,7 @@ const migrateUserEnrollments = async (email) => {
   try {
     const userRecord = await admin.auth().getUserByEmail(email);
     const userRef = db.collection("users").doc(userRecord.uid);
-    const historyRef = db.collection("enrollments_migration").doc(email);
+    const historyRef = db.collection("enrollment_migration").doc(email);
 
     await db.runTransaction(async (transaction) => {
       const userDoc = await transaction.get(userRef);

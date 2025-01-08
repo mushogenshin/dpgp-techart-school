@@ -4,7 +4,7 @@
 
 - `onAuthChanged` for `user`
 - `classes` collection for `courses` page
-- `enrollments_migration` collection for `AuthContext.pre_2023_07_history`
+- `enrollment_migration` collection for `AuthContext.pre_2023_07_history`
 - `users` collection for `AuthContext.post_2023_07_conformed`
 - `admins` collection for `AuthContext.eleavatedRole`
 

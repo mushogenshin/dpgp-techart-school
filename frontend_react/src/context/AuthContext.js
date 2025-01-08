@@ -52,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         dispatch({ type: "LOGIN", payload: user });
 
-        const historyRef = doc(db, "enrollments_migration", user.email);
+        const historyRef = doc(db, "enrollment_migration", user.email);
         unsubHistory = onSnapshot(historyRef, (docSnapshot) => {
           dispatch({
             type: "SET_HISTORY",
