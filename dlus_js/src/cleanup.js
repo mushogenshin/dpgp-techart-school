@@ -1,6 +1,9 @@
 import { db } from "./firebase_config";
 import admin from "firebase-admin";
 
+/**
+ * Removes unwanted fields from a user document, i.e. createdTime, phoneNumber, and alias.
+ */
 const removedUnwantedFields = async (userId) => {
   const userRef = db.collection("users").doc(userId);
   const userDoc = await userRef.get();
@@ -45,6 +48,7 @@ const cleanUpAllUsers = async () => {
   const usersSnapshot = await db.collection("users").get();
   const promises = [];
 
+  //   we already executed this
   //   usersSnapshot.forEach((doc) => {
   //     promises.push(removedUnwantedFields(doc.id));
   //   });
@@ -52,8 +56,6 @@ const cleanUpAllUsers = async () => {
   await Promise.all(promises);
   console.log("All user documents have been processed.");
 };
-
-// cleanUpAllUsers();
 
 const duplicateCollection = async (sourceCollection, targetCollection) => {
   const sourceSnapshot = await db.collection(sourceCollection).get();
@@ -71,6 +73,5 @@ const duplicateCollection = async (sourceCollection, targetCollection) => {
 };
 
 // Example usage
+// we already executed this
 // duplicateCollection("enrollments_migration", "enrollment_migration");
-
-// export { cleanUpUserDoc };
