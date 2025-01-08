@@ -1,11 +1,10 @@
-// import { getClassData } from "../../firebase_config";
-
 const { ApplicationCommandOptionType } = require("discord.js");
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "link",
   description: "Ráp tên Discord với tài khoản học",
+  // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
     {
       name: "email",
@@ -39,8 +38,5 @@ export const run = async ({ interaction, _client, _handler }) => {
 
 /** @type {import('commandkit').CommandOptions} */
 export const options = {
-  devOnly: true,
-  //   userPermissions: ["Administrator", "AddReactions"],
-  //   botPermissions: ["Administrator", "AddReactions"],
-  deleted: true,
+  devOnly: false, // `false` makes this a global command
 };
