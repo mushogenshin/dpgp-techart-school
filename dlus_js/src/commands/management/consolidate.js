@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
-  name: "link",
+  name: "pair",
   description: "Ráp tên Discord với tài khoản học",
   // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
@@ -52,7 +52,9 @@ export const run = async ({ interaction, _client, _handler }) => {
       verifyCode(email, inputCode)
         .then((verifyResult) => {
           if (verifyResult) {
-            interaction.followUp("🔥 Xác thực thành công!");
+            interaction.followUp(
+              "🔥 Đã link thành công tên Discord của bạn với tài khoản học!"
+            );
           } else {
             interaction.followUp(
               "😰 Mã xác thực không đúng. Vui lòng thử lại."
