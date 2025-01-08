@@ -45,7 +45,9 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   const msg_filter = (m) =>
     m.author.id === interaction.user.id && /^\d{6}$/.test(m.content.trim());
-  interaction.channel
+  // interaction.channel is null for DMs
+  const channel = interaction.channel || (await interaction.user.createDM());
+  channel
     .awaitMessages({
       filter: msg_filter,
       max: 1,
@@ -53,52 +55,51 @@ export const run = async ({ interaction, _client, _handler }) => {
       errors: ["time"],
     })
     .then((collected) => {
-      verifyCode(email, collected.first().content)
-        .then((verified) => {
+      const verificationCode = collected.first().content;
+      verifyCode(email, verificationCode)
+        .then(async (verified) => {
           if (verified) {
-            // Discord user is the owner of the email
-            interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
+            await interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
 
             // lookup user by email
-            let user = findExistingUserByEmail(email);
+            const user = await findExistingUserByEmail(email);
             if (!user) {
-              interaction.followUp({
-                content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.
-Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
+              await interaction.followUp({
+                content: `Không tìm thấy user với email \`${email}\` 😢.
+      Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
                 flags: MessageFlags.Ephemeral,
               });
               return;
             }
 
             // link Discord account with user account
-            updateDiscordInfo(
-              user.id,
-              interaction.user.id,
-              interaction.user.username
-            )
-              .then(() => {
-                interaction.followUp(
-                  "🔥 Đã link thành công tên Discord của bạn với tài khoản học!"
-                );
-              })
-              .catch((error) => {
-                console.error(
-                  `Error updating Discord info for user ${email}:`,
-                  error
-                );
-                interaction.followUp(
-                  "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
-                );
-              });
+            try {
+              await updateDiscordInfo(
+                user.id,
+                interaction.user.id,
+                interaction.user.username
+              );
+              await interaction.followUp(
+                "🎯 Đã link thành công tên Discord của bạn với tài khoản học!"
+              );
+            } catch (error) {
+              console.error(
+                `Error updating Discord info for user ${email}:`,
+                error
+              );
+              await interaction.followUp(
+                "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
+              );
+            }
           } else {
-            interaction.followUp(
+            await interaction.followUp(
               "😰 Mã xác thực không đúng. Vui lòng thử lại."
             );
           }
         })
-        .catch((error) => {
+        .catch(async (error) => {
           console.error(error);
-          interaction.followUp(
+          await interaction.followUp(
             "Đã xảy ra lỗi khi xác thực. Vui lòng thử lại sau."
           );
         });

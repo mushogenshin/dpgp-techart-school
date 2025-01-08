@@ -27,9 +27,15 @@ const generateVerificationCode = async (email) => {
  * Sends an email with the verification code.
  *
  * @param {string} email - The email address to send the verification code to.
+ * @param {boolean} dryRun - Whether to simulate sending the email.
  * @returns {Promise<void>}
  */
-const sendVerificationEmail = async (email) => {
+const sendVerificationEmail = async (email, dryRun) => {
+  if (dryRun) {
+    console.log(`📦 Dry run: Queued email for delivery to ${email}`);
+    return;
+  }
+
   const verificationCode = await generateVerificationCode(email);
 
   await db
