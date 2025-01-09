@@ -57,50 +57,48 @@ export const run = async ({ interaction, _client, _handler }) => {
     .then((collected) => {
       const verificationCode = collected.first().content;
       verifyCode(email, verificationCode)
-        .then(async (verified) => {
+        .then((verified) => {
           if (verified) {
-            await interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
+            interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
 
             // lookup user by email
-            const user = await findExistingUserByEmail(email);
-            if (!user) {
-              await interaction.followUp({
-                content: `Không tìm thấy user với email \`${email}\` 😢.
-      Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
-                flags: MessageFlags.Ephemeral,
-              });
-              return;
-            }
+            findExistingUserByEmail(email).then((user) => {
+              if (!user) {
+                interaction.followUp({
+                  content: `Không tìm thấy user với email \`${email}\` 😢.
+Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
+                  flags: MessageFlags.Ephemeral,
+                });
+                return;
+              }
 
-            // link Discord account with user account
-            try {
-              await updateDiscordInfo(
-                user.id,
-                interaction.user.id,
-                interaction.user.username
-              );
-              await interaction.followUp(
-                "🎯 Đã link thành công tên Discord của bạn với tài khoản học!"
-              );
-            } catch (error) {
-              console.error(
-                `Error updating Discord info for user ${email}:`,
-                error
-              );
-              await interaction.followUp(
-                "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
-              );
-            }
+              // link Discord account with user account
+              updateDiscordInfo(user.id, interaction.user)
+                .then(() => {
+                  interaction.followUp(
+                    "🎯 Đã link thành công tên Discord của bạn với tài khoản học!"
+                  );
+                })
+                .catch((error) => {
+                  console.error(
+                    `Error updating Discord info for user ${email}:`,
+                    error
+                  );
+                  interaction.followUp(
+                    "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
+                  );
+                });
+            });
           } else {
-            await interaction.followUp(
-              "😰 Mã xác thực không đúng. Vui lòng thử lại."
+            interaction.followUp(
+              "😰 Xác thực không thành công. Vui lòng thử lại."
             );
           }
         })
-        .catch(async (error) => {
+        .catch((error) => {
           console.error(error);
-          await interaction.followUp(
-            "Đã xảy ra lỗi khi xác thực. Vui lòng thử lại sau."
+          interaction.followUp(
+            "🤨 Đã xảy ra lỗi khi xác thực: mã sai hoặc hết hạn. Vui lòng thử lại từ đầu."
           );
         });
     })

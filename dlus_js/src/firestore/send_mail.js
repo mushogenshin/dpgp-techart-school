@@ -77,7 +77,7 @@ const verifyCode = async (email, code) => {
     throw new Error("⛔️ Invalid verification code.");
   }
 
-  console.log("✅ Verification successful!");
+  console.log("✅ Email verification successful!");
   return true;
 };
 

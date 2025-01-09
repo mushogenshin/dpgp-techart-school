@@ -1,4 +1,5 @@
 import { admin, db } from "../firebase_config";
+import { User } from "discord.js";
 
 /**
  * @returns {Promise<Object>} The product code to module ID mapping object.
@@ -205,11 +206,10 @@ const addEnrollments = async (userId, enrollmentModuleIds) => {
 /**
  * Updates the "discord" field on the user document.
  * @param {string} userId - The user document ID.
- * @param {string} discordId - The Discord user ID.
- * @param {string} discordUsername - The Discord username.
+ * @param {User} discordUser - The Discord user.
  * @returns {Promise<void>}
  */
-const updateDiscordInfo = async (userId, discordId, discordUsername) => {
+const updateDiscordInfo = async (userId, discordUser) => {
   try {
     const userRef = db.collection("users").doc(userId);
 
@@ -221,7 +221,11 @@ const updateDiscordInfo = async (userId, discordId, discordUsername) => {
       }
 
       transaction.update(userRef, {
-        discord: { user_id: discordId, username: discordUsername },
+        discord: {
+          user_id: discordUser.id,
+          username: discordUser.username,
+          updated_at: new Date(),
+        },
       });
     });
   } catch (error) {
