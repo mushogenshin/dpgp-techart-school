@@ -3,8 +3,7 @@ import {
   findExistingUserByEmail,
   updateDiscordInfo,
 } from "../../firestore/enrollments";
-// import { MODERATOR_IDS } from "../../../moderator_config";
-const MODERATOR_IDS = [];
+import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
 
@@ -47,7 +46,7 @@ export const run = async ({ interaction, _client, _handler }) => {
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
         return interaction.editReply({
-          content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
+          content: `:hourglass_flowing_sand: Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
           flags: MessageFlags.Ephemeral,
         });
       }
@@ -61,7 +60,8 @@ export const run = async ({ interaction, _client, _handler }) => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     await interaction.editReply({
-      content: "🤨 Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+      content:
+        ":face_with_raised_eyebrow: Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
     });
 
@@ -70,8 +70,10 @@ export const run = async ({ interaction, _client, _handler }) => {
   }
 
   await sendVerificationEmail(email);
+  const obscuredEmail =
+    email[0] + email.slice(1, -1).replace(/./g, "*") + email.slice(-1);
   await interaction.editReply(
-    `📧 Mã xác thực đã được gửi đến \`${email}\`, hãy xem email và nhập mã vào bên dưới:`
+    `📧 Mã xác thực đã được gửi đến \`${obscuredEmail}\`, hãy xem thùng thư và nhập mã vào bên dưới:`
   );
 
   const msg_filter = (m) =>
@@ -90,13 +92,13 @@ export const run = async ({ interaction, _client, _handler }) => {
       verifyCode(email, verificationCode)
         .then((verified) => {
           if (verified) {
-            interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng 🙏`);
+            interaction.followUp(`Cảm ơn. Mã bạn vừa đưa là đúng :pray:`);
 
             // lookup user by email
             findExistingUserByEmail(email).then((user) => {
               if (!user) {
                 interaction.followUp({
-                  content: `Không tìm thấy user với email \`${email}\` 😢.
+                  content: `Không tìm thấy user với email \`${email}\` :cry:.
 Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào.
 Vui lòng đăng nhập vào website trước khi thử lại.`,
                   flags: MessageFlags.Ephemeral,
@@ -118,7 +120,7 @@ Vui lòng đăng nhập vào website trước khi thử lại.`,
                     error
                   );
                   interaction.followUp(
-                    "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
+                    ":cold_sweat: Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
                   );
                   accumulateFailedAttemps(userId);
                   return;
@@ -128,7 +130,7 @@ Vui lòng đăng nhập vào website trước khi thử lại.`,
             // the operation completed successfully but it returned false for any reason
             accumulateFailedAttemps(userId);
             interaction.followUp(
-              "😰 Xác thực không thành công. Vui lòng thử lại."
+              ":cold_sweat: Xác thực không thành công. Vui lòng thử lại."
             );
           }
         })
@@ -136,7 +138,7 @@ Vui lòng đăng nhập vào website trước khi thử lại.`,
           console.error(`Error verifying code for user ${email}:`, error);
           accumulateFailedAttemps(userId);
           interaction.followUp(
-            "🤨 Đã xảy ra lỗi khi xác thực: mã sai hoặc hết hạn. Vui lòng thử lại từ đầu."
+            ":face_with_raised_eyebrow: Đã xảy ra lỗi khi xác thực: mã sai hoặc hết hạn. Vui lòng thử lại từ đầu."
           );
         });
     })

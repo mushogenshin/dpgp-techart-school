@@ -23,7 +23,7 @@ export const data = {
 /**
  * @param {import('commandkit').SlashCommandProps} param0
  */
-export const run = async ({ interaction, client, _handler }) => {
+export const run = async ({ interaction, _client, _handler }) => {
   await interaction.deferReply();
 
   // fetch all pending tickets
@@ -36,7 +36,7 @@ export const run = async ({ interaction, client, _handler }) => {
 
   if (ticketCount === 0) {
     await interaction.editReply({
-      content: "Yay! Hổng có request nào cần review hết 🙆‍♀️",
+      content: "Yay! Hổng có request nào cần review hết :woman_gesturing_ok:",
       flags: MessageFlags.Ephemeral,
     });
 

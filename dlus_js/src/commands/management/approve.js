@@ -45,7 +45,7 @@ export const run = async ({ interaction, client, _handler }) => {
 
   if (!ticket) {
     await interaction.editReply({
-      content: `Không tìm thấy ticket số ${ticketNumber} 🤨.
+      content: `Không tìm thấy ticket số ${ticketNumber} :face_with_raised_eyebrow:.
 Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       flags: MessageFlags.Ephemeral,
     });
@@ -62,7 +62,7 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       await migrateUserEnrollments(ticket.beneficiary_email);
     } catch (error) {
       await interaction.editReply({
-        content: `😱 Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
+        content: `:scream: Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**
 Rất có thể user chưa đăng nhập lần nào`,
         flags: MessageFlags.Ephemeral,
@@ -77,7 +77,7 @@ Rất có thể user chưa đăng nhập lần nào`,
       } catch (error) {
         // this should never happen, but just in case
         await interaction.editReply({
-          content: `😱 Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
+          content: `:scream: Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
     **${error.message}**`,
           flags: MessageFlags.Ephemeral,
         });
@@ -91,14 +91,14 @@ Rất có thể user chưa đăng nhập lần nào`,
     await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
   } catch (error) {
     await interaction.editReply({
-      content: `😱 Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
+      content: `:scream: Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**`,
       flags: MessageFlags.Ephemeral,
     });
     return;
   } finally {
     await interaction.editReply({
-      content: `🔥 Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
+      content: `:fire: Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
       flags: MessageFlags.Ephemeral,
     });
 
@@ -107,7 +107,7 @@ Rất có thể user chưa đăng nhập lần nào`,
 
     if (!markResult) {
       await interaction.followUp({
-        content: `😱 Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
+        content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -116,8 +116,8 @@ Rất có thể user chưa đăng nhập lần nào`,
     // send confirmation message
     const channel = await client.channels.fetch(ticket.discord_channel_id);
     if (channel) {
-      await channel.send(`🎉 Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!
-Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` 🎉`);
+      await channel.send(`:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!
+Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`);
     } else {
       console.error(
         `Failed to send confirmation message of ticket ${ticketNumber} to channel ${ticket.discord_channel_id}`

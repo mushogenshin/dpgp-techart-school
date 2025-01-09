@@ -42,7 +42,7 @@ export const run = async ({ interaction, _client, _handler }) => {
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
         return interaction.editReply({
-          content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
+          content: `:hourglass_flowing_sand: Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
           flags: MessageFlags.Ephemeral,
         });
       }

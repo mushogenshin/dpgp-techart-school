@@ -60,7 +60,7 @@ export const run = async ({ interaction, client, _handler }) => {
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
         return interaction.editReply({
-          content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
+          content: `:hourglass_flowing_sand: Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
           flags: MessageFlags.Ephemeral,
         });
       }
@@ -85,7 +85,8 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     await interaction.editReply({
-      content: "🤨 Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+      content:
+        ":face_with_raised_eyebrow: Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
     });
 
@@ -98,7 +99,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
   const moduleIds = await getEnrollmentModuleId(product);
   if (!moduleIds) {
     await interaction.editReply({
-      content: `📦 Mã số sản phẩm **${product}** không hợp lệ.
+      content: `:package: Mã số sản phẩm **${product}** không hợp lệ.
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
       flags: MessageFlags.Ephemeral,
     });
@@ -124,8 +125,12 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
   const msg = ticketAddResult
     ? `Đã gửi request thành công! 
 ## Số ticket của bạn là ${ticketAddResult.number}. Moderator đã nhận được thông báo.
-Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :pray:`
-    : "😰 Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
+Chúng tôi sẽ xử lý và thông báo lại cho bạn sau.\n
+:point_right: Trong khi chờ đợi, nếu email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào,
+vui lòng đăng nhập vào website ngay bây giờ để chúng tôi có thể cấp access bài giảng.\n
+Nếu đã từng đăng nhập, vui lòng chờ chúng tôi xử lý request của bạn.
+Xin cảm ơn! :pray:`
+    : ":cold_sweat: Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
 
   // announce result to user
   await interaction.editReply({
