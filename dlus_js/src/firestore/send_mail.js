@@ -1,4 +1,4 @@
-import { admin, db } from "../firebase_config";
+import { db } from "../firebase_config";
 
 const EXPIRATION_MINUTES = 2;
 
@@ -41,11 +41,14 @@ const sendVerificationEmail = async (email, dryRun) => {
   await db
     .collection("mail")
     .add({
-      to: email,
-      message: {
-        subject: "👾 Your Verification Code",
-        text: `Your verification code is ${verificationCode}. It will expire in ${EXPIRATION_MINUTES} minutes.`,
-        html: `<p>Your verification code is <strong>${verificationCode}</strong>. It will expire in ${EXPIRATION_MINUTES} minutes.</p>`,
+      to: [email],
+      // using one of the templates in `mail_templates` collection
+      template: {
+        name: "verify_email",
+        data: {
+          verificationCode: verificationCode,
+          timeOut: EXPIRATION_MINUTES,
+        },
       },
     })
     .then(() => console.log(`📦 Queued email for delivery to ${email}`));

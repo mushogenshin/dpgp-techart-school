@@ -75,3 +75,13 @@ const duplicateCollection = async (sourceCollection, targetCollection) => {
 // Example usage
 // we already executed this
 // duplicateCollection("enrollments_migration", "enrollment_migration");
+
+const addMailTemplate = async () => {
+  /** add a welcome email */
+  await db.collection("mail_templates").doc("verify_email").set({
+    subject: "👾 Your Verification Code",
+    html: "<p>Your verification code is <strong>{{verificationCode}}</strong>. It will expire in {{timeOut}} minutes.</p>",
+  });
+};
+
+// addMailTemplate();
