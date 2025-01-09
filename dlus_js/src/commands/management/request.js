@@ -89,15 +89,7 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
       flags: MessageFlags.Ephemeral,
     });
 
-    // Accumulate failed attempts
-    const attempts = failedAttempts.get(userId) || 0;
-    failedAttempts.set(userId, attempts + 1);
-
-    if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
-      cooldowns.set(userId, Date.now());
-      setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
-      failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
-    }
+    accumulateFailedAttemps(userId);
     return;
   }
 
@@ -111,15 +103,7 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
       flags: MessageFlags.Ephemeral,
     });
 
-    // Accumulate failed attempts
-    const attempts = failedAttempts.get(userId) || 0;
-    failedAttempts.set(userId, attempts + 1);
-
-    if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
-      cooldowns.set(userId, Date.now());
-      setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
-      failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
-    }
+    accumulateFailedAttemps(userId);
     return;
   }
 
@@ -158,6 +142,17 @@ Chúng tôi sẽ xử lý và thông báo lại cho bạn sau. Xin cảm ơn! :p
       continue;
     }
     await adminUser.send(`:warning: New ticket received:\n${summary}`);
+  }
+};
+
+const accumulateFailedAttemps = (userId) => {
+  const attempts = failedAttempts.get(userId) || 0;
+  failedAttempts.set(userId, attempts + 1);
+
+  if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
+    cooldowns.set(userId, Date.now());
+    setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
+    failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
   }
 };
 

@@ -70,18 +70,20 @@ Rất có thể user chưa đăng nhập lần nào`,
       return; // we can't proceed without beneficiary user data
     } finally {
       // try fetching beneficiary user data again
-      beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
+      try {
+        beneficiaryUser = await findExistingUserByEmail(
+          ticket.beneficiary_email
+        );
+      } catch (error) {
+        // this should never happen, but just in case
+        await interaction.editReply({
+          content: `😱 Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
+    **${error.message}**`,
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
     }
-  }
-
-  // failing to fetch beneficiary user data again should never happen, but just in case
-  if (!beneficiaryUser) {
-    await interaction.editReply({
-      content: `Không tìm thấy user với email \`${ticket.beneficiary_email}\` 😢.
-Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
   }
 
   // add enrollments to beneficiary user

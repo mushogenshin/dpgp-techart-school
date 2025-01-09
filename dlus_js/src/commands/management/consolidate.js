@@ -3,8 +3,17 @@ import {
   findExistingUserByEmail,
   updateDiscordInfo,
 } from "../../firestore/enrollments";
+// import { MODERATOR_IDS } from "../../../moderator_config";
+const MODERATOR_IDS = [];
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
+
+const MAX_FAILED_ATTEMPTS = 3;
+const COOLDOWN_AMOUNT_MS = 180 * 1000; // 3 minutes
+
+// Per-user maps
+const cooldowns = new Map();
+const failedAttempts = new Map();
 
 /** @type {import('commandkit').CommandData}  */
 export const data = {
@@ -26,6 +35,26 @@ export const data = {
  */
 export const run = async ({ interaction, _client, _handler }) => {
   await interaction.deferReply();
+  const userId = interaction.user.id;
+
+  // Check if user is on cooldown
+  if (!MODERATOR_IDS.includes(userId)) {
+    const now = Date.now();
+
+    if (cooldowns.has(userId)) {
+      const expirationTime = cooldowns.get(userId) + COOLDOWN_AMOUNT_MS;
+
+      if (now < expirationTime) {
+        const timeLeft = Math.ceil((expirationTime - now) / 1000);
+        return interaction.editReply({
+          content: `⏳ Woah woah, ${timeLeft} seconds cooldown remaining before you can use this command again.`,
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+
+      // DO NOT set cooldown uncontionally here
+    }
+  }
 
   // validate email format
   const email = interaction.options.getString("email");
@@ -35,6 +64,8 @@ export const run = async ({ interaction, _client, _handler }) => {
       content: "🤨 Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
       flags: MessageFlags.Ephemeral,
     });
+
+    accumulateFailedAttemps(userId);
     return;
   }
 
@@ -44,8 +75,8 @@ export const run = async ({ interaction, _client, _handler }) => {
   );
 
   const msg_filter = (m) =>
-    m.author.id === interaction.user.id && /^\d{6}$/.test(m.content.trim());
-  // interaction.channel is null for DMs
+    m.author.id === userId && /^\d{6}$/.test(m.content.trim());
+  // for DMs, interaction.channel is null, so we need to create a DM channel
   const channel = interaction.channel || (await interaction.user.createDM());
   channel
     .awaitMessages({
@@ -66,9 +97,11 @@ export const run = async ({ interaction, _client, _handler }) => {
               if (!user) {
                 interaction.followUp({
                   content: `Không tìm thấy user với email \`${email}\` 😢.
-Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào`,
+Có thể email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào.
+Vui lòng đăng nhập vào website trước khi thử lại.`,
                   flags: MessageFlags.Ephemeral,
                 });
+                accumulateFailedAttemps(userId);
                 return;
               }
 
@@ -87,16 +120,21 @@ Có thể email này chưa đăng nhập vào [website](https://school.dauphaigi
                   interaction.followUp(
                     "😰 Đã xảy ra lỗi khi link tài khoản. Vui lòng thử lại sau."
                   );
+                  accumulateFailedAttemps(userId);
+                  return;
                 });
             });
           } else {
+            // the operation completed successfully but it returned false for any reason
+            accumulateFailedAttemps(userId);
             interaction.followUp(
               "😰 Xác thực không thành công. Vui lòng thử lại."
             );
           }
         })
         .catch((error) => {
-          console.error(error);
+          console.error(`Error verifying code for user ${email}:`, error);
+          accumulateFailedAttemps(userId);
           interaction.followUp(
             "🤨 Đã xảy ra lỗi khi xác thực: mã sai hoặc hết hạn. Vui lòng thử lại từ đầu."
           );
@@ -105,6 +143,17 @@ Có thể email này chưa đăng nhập vào [website](https://school.dauphaigi
     .catch(() => {
       interaction.reply("Không nhận được mã xác thực, hãy thử lại sau");
     });
+};
+
+const accumulateFailedAttemps = (userId) => {
+  const attempts = failedAttempts.get(userId) || 0;
+  failedAttempts.set(userId, attempts + 1);
+
+  if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
+    cooldowns.set(userId, Date.now());
+    setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
+    failedAttempts.delete(userId); // reset failed attempts as cooldown is enforced
+  }
 };
 
 /** @type {import('commandkit').CommandOptions} */

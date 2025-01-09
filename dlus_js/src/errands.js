@@ -44,7 +44,7 @@ const removedUnwantedFields = async (userId) => {
   }
 };
 
-const cleanUpAllUsers = async () => {
+const cleanUpForAllUsers = async () => {
   const usersSnapshot = await db.collection("users").get();
   const promises = [];
 
