@@ -2,6 +2,28 @@ import { db } from "../firebase_config";
 
 const EXPIRATION_MINUTES = 2;
 
+const sendNewsletterEmail = async (email) => {
+  const unsubscribeToken = generateUnsubscribeToken(email); // Generate a unique token
+
+  const unsubscribeLink = `https://asia-southeast1-dpgp-techart.cloudfunctions.net/unsubscribe?token=${unsubscribeToken}`;
+  await db.collection("mail").add({
+    to: [email],
+    subject: "📰 Your Weekly Newsletter",
+    html: `<p>Here's your weekly newsletter! Click <a href='${unsubscribeLink}'>here</a> to unsubscribe.</p>`,
+  });
+
+  console.log("Queued email for delivery!");
+};
+
+const generateUnsubscribeToken = (email) => {
+  // TODO
+  // Generate a unique token (e.g., using JWT or a simple hash)
+  // return Buffer.from(email).toString("base64");
+
+  // skips generating token for now
+  return email;
+};
+
 /**
  * Generates a verification code and stores it in Firestore.
  *
@@ -98,5 +120,6 @@ const sanitizeEmail = (email) => {
 // Example usage
 // sendVerificationEmail("hoan.sgn@gmail.com").catch(console.error);
 // verifyCode("hoansgn@gmail.com", "835422").catch(console.error);
+sendNewsletterEmail("hoansgn@gmail.com").catch(console.error);
 
 export { sendVerificationEmail, verifyCode };
