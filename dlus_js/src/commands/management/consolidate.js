@@ -1,8 +1,11 @@
-import { sendVerificationEmail, verifyCode } from "../../firestore/send_mail";
 import {
   findExistingUserByEmail,
   updateDiscordInfo,
 } from "../../firestore/enrollments";
+import {
+  sendVerificationEmail,
+  verifyCode,
+} from "../../firestore/mail_verification";
 import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");

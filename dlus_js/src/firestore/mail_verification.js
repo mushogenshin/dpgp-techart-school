@@ -1,31 +1,6 @@
 import { db } from "../firebase_config";
-import crypto from "crypto";
 
 const EXPIRATION_MINUTES = 2;
-// const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net/unsubscribe";
-const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
-
-const sendNewsletterEmail = async (email) => {
-  // SECURITY: must add a token to the unsubscribe link
-  const unsubscribeToken = generateUnsubscribeToken(email);
-
-  const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
-  await db.collection("mail").add({
-    to: email,
-    message: {
-      subject: "📰 Your Weekly Newsletter (4)",
-      html: `<p>Here's your weekly newsletter!</p>
-<small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
-      },
-  }).then(() => console.log(`Queued newsletter for delivery to ${email}!`));
-};
-
-const generateUnsubscribeToken = (email) => {
-  const SECRET_KEY = process.env.EMAIL_UNSUBSCRIPTION_SECRET_KEY;
-  return crypto.createHmac('sha256', SECRET_KEY)
-               .update(email)
-               .digest('hex');
-}
 
 /**
  * Generates a verification code and stores it in Firestore.
@@ -55,9 +30,11 @@ const generateVerificationCode = async (email) => {
  * @param {boolean} dryRun - Whether to simulate sending the email.
  * @returns {Promise<void>}
  */
-const sendVerificationEmail = async (email, dryRun) => {
+const sendVerificationEmail = async (email, dryRun = false) => {
   if (dryRun) {
-    console.log(`📦 Dry run: Queued verification email for delivery to ${email}`);
+    console.log(
+      `📦 Dry run: Queued verification email for delivery to ${email}`
+    );
     return;
   }
 
@@ -76,7 +53,9 @@ const sendVerificationEmail = async (email, dryRun) => {
         },
       },
     })
-    .then(() => console.log(`📦 Queued verification email for delivery to ${email}`));
+    .then(() =>
+      console.log(`📦 Queued verification email for delivery to ${email}`)
+    );
 };
 
 /**
@@ -123,6 +102,5 @@ const sanitizeEmail = (email) => {
 // Example usage
 // sendVerificationEmail("hoan.sgn@gmail.com").catch(console.error);
 // verifyCode("hoansgn@gmail.com", "835422").catch(console.error);
-sendNewsletterEmail("hoansgn@gmail.com").catch(console.error);
 
 export { sendVerificationEmail, verifyCode };
