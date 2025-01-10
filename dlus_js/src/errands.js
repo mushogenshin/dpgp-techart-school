@@ -85,3 +85,14 @@ const addMailTemplate = async () => {
 };
 
 // addMailTemplate();
+
+// /**
+//  * Removes the dots from the local part of the email address.
+//  *
+//  * @param {string} email - The email address to sanitize.
+//  * @returns {string} The sanitized email address.
+//  */
+// const sanitizeEmail = (email) => {
+//   const [localPart, domainPart] = email.split("@");
+//   return `${localPart.replace(/\./g, "")}@${domainPart}`;
+// };
