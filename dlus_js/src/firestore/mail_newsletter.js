@@ -9,7 +9,7 @@ const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
  * @param {string} email - The email address to send the newsletter to.
  * @returns {Promise<void>}
  */
-const sendNewsletterEmail = async (email) => {
+const sendSingleNewsletter = async (email) => {
   // SECURITY: must add a token to the unsubscribe link
   const unsubscribeToken = generateUnsubscribeToken(email);
 
@@ -27,12 +27,63 @@ const sendNewsletterEmail = async (email) => {
     .add({
       to: email,
       message: {
-        subject: "📰 Your Annoying Weekly Newsletter",
+        subject: "📰 Your Weekly Newsletter",
         html: `<p>Here's your weekly newsletter!</p>
 <small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
       },
     })
     .then(() => console.log(`Queued newsletter for delivery to ${email}!`));
+};
+
+/**
+ * Sends a batch of newsletter emails.
+ * @param {string[]} batch - The batch of email addresses to send the newsletter to.
+ * @returns {Promise<void>}
+ */
+const sendBatchNewsletter = async (batch, identifier = "") => {
+  console.log("First 5 emails:", batch.slice(0, 5));
+  console.log("Last 5 emails:", batch.slice(-5));
+
+  const batchWrite = db.batch();
+  batch.forEach((email) => {
+    const unsubscribeToken = generateUnsubscribeToken(email);
+    const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/?token=${unsubscribeToken}&email=${encodeURIComponent(
+      email
+    )}`;
+    const docRef = db.collection("mail").doc();
+    batchWrite.set(docRef, {
+      to: email,
+      message: {
+        subject: `📰 Your Delayed Weekly Newsletter (${identifier})`,
+        html: `<p>Here's your weekly newsletter!</p>
+  <small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
+      },
+    });
+  });
+  await batchWrite.commit();
+};
+
+/**
+ * Sends a batch, then waits for a specified interval before sending the next batch.
+ * @param {string[]} emails - The list of email addresses to send the newsletter to.
+ * @param {number} batchSize - The number of emails to send in each batch.
+ * @param {number} interval - The interval in milliseconds to wait between batches.
+ * @returns {Promise<void>}
+ */
+const sendNewsletterBatchesWithInterval = async (
+  emails,
+  batchSize = 100,
+  interval = 5000
+) => {
+  for (let i = 0; i < emails.length; i += batchSize) {
+    const batch = emails.slice(i, i + batchSize);
+    const batchIdentifier = `${i / batchSize + 1}`;
+    await sendBatchNewsletter(batch, batchIdentifier);
+    console.log(`Batch ${batchIdentifier} sent successfully.`);
+    if (i + batchSize < emails.length) {
+      await new Promise((resolve) => setTimeout(resolve, interval));
+    }
+  }
 };
 
 /**
@@ -100,12 +151,12 @@ const getMailingList = async (cc = [], dryRun = false) => {
 getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
   .then((emails) => {
     console.log(`Total emails: ${emails.length}`);
-    console.log("First 10 emails:", emails.slice(0, 10));
-    console.log("Last 10 emails:", emails.slice(-10));
 
-    emails.forEach((email) => {
-      // sendNewsletterEmail(email).catch(console.error);
-    });
+    // emails.forEach((email) => {
+    //   sendSingleNewsletter(email).catch(console.error);
+    // });
+
+    sendNewsletterBatchesWithInterval(emails, 1, 5000).catch(console.error);
   })
   .catch(console.error);
 
