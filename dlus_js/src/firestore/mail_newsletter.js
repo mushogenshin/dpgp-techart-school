@@ -4,6 +4,13 @@ import crypto from "crypto";
 // const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
 const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
 
+const getEndpoint = (route) => {
+  // Firebase gives us two flavors of the endpoint, region path or a unique app path
+  return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
+    ? `${CLOUD_FN_ENDPOINT}/${route}`
+    : CLOUD_FN_ENDPOINT;
+};
+
 /**
  * Sends a newsletter email to the specified email address.
  * @param {string} email - The email address to send the newsletter to.
@@ -13,23 +20,22 @@ const sendSingleNewsletter = async (email) => {
   // SECURITY: must add a token to the unsubscribe link
   const unsubscribeToken = generateUnsubscribeToken(email);
 
-  // Firebase gives us two flavors of the endpoint, region path or a unique app path
-  const endpoint = CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
-    ? `${CLOUD_FN_ENDPOINT}/unsubscribe`
-    : CLOUD_FN_ENDPOINT;
   // the query string needs the token and email
-  const unsubscribeLink = `${endpoint}/?token=${unsubscribeToken}&email=${encodeURIComponent(
-    email
-  )}`;
+  const unsubscribeLink = `${getEndpoint(
+    "unsubscribe"
+  )}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
 
   await db
     .collection("mail")
     .add({
       to: email,
-      message: {
-        subject: "📰 Your Weekly Newsletter",
-        html: `<p>Here's your weekly newsletter!</p>
-<small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
+      // using one of the templates in `mail_templates` collection
+      template: {
+        name: "newsletter_v1",
+        data: {
+          // content: ""
+          unsubscribeLink: unsubscribeLink,
+        },
       },
     })
     .then(() => console.log(`Queued newsletter for delivery to ${email}!`));
@@ -37,26 +43,32 @@ const sendSingleNewsletter = async (email) => {
 
 /**
  * Sends a batch of newsletter emails.
- * @param {string[]} batch - The batch of email addresses to send the newsletter to.
+ * @param {string[]} emails - The batch of email addresses to send the newsletter to.
  * @returns {Promise<void>}
  */
-const sendBatchNewsletter = async (batch, identifier = "") => {
-  console.log("First 5 emails:", batch.slice(0, 5));
-  console.log("Last 5 emails:", batch.slice(-5));
+const sendBatchNewsletter = async (subject, content, emails) => {
+  // console.log("First 5 emails:", emails.slice(0, 5));
+  // console.log("Last 5 emails:", emails.slice(-5));
 
   const batchWrite = db.batch();
-  batch.forEach((email) => {
+  emails.forEach((email) => {
     const unsubscribeToken = generateUnsubscribeToken(email);
-    const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/?token=${unsubscribeToken}&email=${encodeURIComponent(
-      email
-    )}`;
+    // the query string needs the token and email
+    const unsubscribeLink = `${getEndpoint(
+      "unsubscribe"
+    )}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
+
     const docRef = db.collection("mail").doc();
     batchWrite.set(docRef, {
       to: email,
-      message: {
-        subject: `📰 Your Delayed Weekly Newsletter (${identifier})`,
-        html: `<p>Here's your weekly newsletter!</p>
-  <small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
+      // using one of the templates in `mail_templates` collection
+      template: {
+        name: "newsletter_v1",
+        data: {
+          subject: subject,
+          content: content,
+          unsubscribeLink: unsubscribeLink,
+        },
       },
     });
   });
@@ -71,15 +83,20 @@ const sendBatchNewsletter = async (batch, identifier = "") => {
  * @returns {Promise<void>}
  */
 const sendNewsletterBatchesWithInterval = async (
+  subject,
+  content,
   emails,
   batchSize = 100,
   interval = 5000
 ) => {
   for (let i = 0; i < emails.length; i += batchSize) {
     const batch = emails.slice(i, i + batchSize);
-    const batchIdentifier = `${i / batchSize + 1}`;
-    await sendBatchNewsletter(batch, batchIdentifier);
-    console.log(`Batch ${batchIdentifier} sent successfully.`);
+    const batchNumber = `${i / batchSize + 1}`;
+
+    console.log(`Sending batch ${batchNumber}`);
+    await sendBatchNewsletter(subject, content, batch);
+    console.log(`Batch ${batchNumber} sent successfully.`);
+
     if (i + batchSize < emails.length) {
       await new Promise((resolve) => setTimeout(resolve, interval));
     }
@@ -152,11 +169,20 @@ getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
   .then((emails) => {
     console.log(`Total emails: ${emails.length}`);
 
+    // sending single emails is inefficient
     // emails.forEach((email) => {
     //   sendSingleNewsletter(email).catch(console.error);
     // });
 
-    sendNewsletterBatchesWithInterval(emails, 1, 5000).catch(console.error);
+    const subject = "📢 DPGP Newsletter";
+    const content = "Hey we miss you... 🥺";
+    sendNewsletterBatchesWithInterval(
+      subject,
+      content,
+      emails,
+      100,
+      5000
+    ).catch(console.error);
   })
   .catch(console.error);
 

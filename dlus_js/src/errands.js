@@ -77,11 +77,20 @@ const duplicateCollection = async (sourceCollection, targetCollection) => {
 // duplicateCollection("enrollments_migration", "enrollment_migration");
 
 const addMailTemplate = async () => {
-  /** add a welcome email */
-  await db.collection("mail_templates").doc("verify_email").set({
-    subject: "👾 Your Verification Code",
-    html: "<p>Your verification code is <strong>{{verificationCode}}</strong>. It will expire in {{timeOut}} minutes.</p>",
-  });
+  // await db.collection("mail_templates").doc("verify_email").set({
+  //   subject: "👾 Your Verification Code",
+  //   html: "<p>Your verification code is <strong>{{verificationCode}}</strong>. It will expire in {{timeOut}} minutes.</p>",
+  // });
+
+  await db
+    .collection("mail_templates")
+    .doc("newsletter_v1")
+    .set({
+      subject: "{{subject}}",
+      html: `<p>{{content}}</p>
+</br></br>
+<small>Don't want to receive these emails anymore? <a href="{{unsubscribeLink}}">Unsubscribe here</a>.</small>`,
+    });
 };
 
 // addMailTemplate();
