@@ -2,17 +2,18 @@ import { db } from "../firebase_config";
 import crypto from "crypto";
 
 const EXPIRATION_MINUTES = 2;
-const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
+// const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net/unsubscribe";
+const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
 
 const sendNewsletterEmail = async (email) => {
   // SECURITY: must add a token to the unsubscribe link
   const unsubscribeToken = generateUnsubscribeToken(email);
 
-  const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/unsubscribe?token=${unsubscribeToken}`;
+  const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
   await db.collection("mail").add({
     to: email,
     message: {
-      subject: "📰 Your Cúc Cu Weekly Newsletter",
+      subject: "📰 Your Weekly Newsletter (4)",
       html: `<p>Here's your weekly newsletter!</p>
 <small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
       },
