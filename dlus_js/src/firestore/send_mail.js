@@ -1,28 +1,30 @@
 import { db } from "../firebase_config";
+import crypto from "crypto";
 
 const EXPIRATION_MINUTES = 2;
+const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
 
 const sendNewsletterEmail = async (email) => {
-  const unsubscribeToken = generateUnsubscribeToken(email); // Generate a unique token
+  // SECURITY: must add a token to the unsubscribe link
+  const unsubscribeToken = generateUnsubscribeToken(email);
 
-  const unsubscribeLink = `https://asia-southeast1-dpgp-techart.cloudfunctions.net/unsubscribe?token=${unsubscribeToken}`;
+  const unsubscribeLink = `${CLOUD_FN_ENDPOINT}/unsubscribe?token=${unsubscribeToken}`;
   await db.collection("mail").add({
-    to: [email],
-    subject: "📰 Your Weekly Newsletter",
-    html: `<p>Here's your weekly newsletter! Click <a href='${unsubscribeLink}'>here</a> to unsubscribe.</p>`,
-  });
-
-  console.log("Queued email for delivery!");
+    to: email,
+    message: {
+      subject: "📰 Your Cúc Cu Weekly Newsletter",
+      html: `<p>Here's your weekly newsletter!</p>
+<small>Don't want to receive these emails anymore? <a href="${unsubscribeLink}">Unsubscribe</a>.</small>`,
+      },
+  }).then(() => console.log(`Queued newsletter for delivery to ${email}!`));
 };
 
 const generateUnsubscribeToken = (email) => {
-  // TODO
-  // Generate a unique token (e.g., using JWT or a simple hash)
-  // return Buffer.from(email).toString("base64");
-
-  // skips generating token for now
-  return email;
-};
+  const SECRET_KEY = process.env.EMAIL_UNSUBSCRIPTION_SECRET_KEY;
+  return crypto.createHmac('sha256', SECRET_KEY)
+               .update(email)
+               .digest('hex');
+}
 
 /**
  * Generates a verification code and stores it in Firestore.
@@ -54,7 +56,7 @@ const generateVerificationCode = async (email) => {
  */
 const sendVerificationEmail = async (email, dryRun) => {
   if (dryRun) {
-    console.log(`📦 Dry run: Queued email for delivery to ${email}`);
+    console.log(`📦 Dry run: Queued verification email for delivery to ${email}`);
     return;
   }
 
@@ -63,7 +65,7 @@ const sendVerificationEmail = async (email, dryRun) => {
   await db
     .collection("mail")
     .add({
-      to: [email],
+      to: email,
       // using one of the templates in `mail_templates` collection
       template: {
         name: "verify_email",
@@ -73,7 +75,7 @@ const sendVerificationEmail = async (email, dryRun) => {
         },
       },
     })
-    .then(() => console.log(`📦 Queued email for delivery to ${email}`));
+    .then(() => console.log(`📦 Queued verification email for delivery to ${email}`));
 };
 
 /**
