@@ -78,20 +78,28 @@ const duplicateCollection = async (sourceCollection, targetCollection) => {
 // duplicateCollection("enrollments_migration", "enrollment_migration");
 
 const addMailTemplate = async () => {
-  // await db.collection("mail_templates").doc("verify_email").set({
-  //   subject: "👾 Your Verification Code",
-  //   html: "<p>Your verification code is <strong>{{verificationCode}}</strong>. It will expire in {{timeOut}} minutes.</p>",
-  // });
-
+  // NEWSLETTER
   await db
     .collection("mail_templates")
     .doc("newsletter_v1")
     .set({
       subject: "{{subject}}",
       html: `<p>{{content}}</p>
-</br></br>
-<small>Don't want to receive these emails anymore? <a href="{{unsubscribeLink}}">Unsubscribe here</a>.</small>`,
+  </br></br>
+  <small>Don't want to receive these emails anymore? <a href="{{unsubscribeLink}}">Unsubscribe here</a>.</small>`,
     });
+
+  // EMAIL VERIFICATION (i.e. SEE IF USER OWNS THE EMAIL), e.g. FOR DISCORD COMMANDS
+  await db.collection("mail_templates").doc("verify_email").set({
+    subject: "👾 Your Verification Code",
+    html: "<p>Your verification code is <strong>{{verificationCode}}</strong>. It will expire in {{timeOut}} minutes.</p>",
+  });
+
+  // SUBSCRIBE CONFIRMATION
+  await db.collection("mail_templates").doc("confirm_subscription").set({
+    subject: "😌 Confirm Your DPGP Newsletter Subscription",
+    html: "<p>Please click <a href='{{confirmationLink}}'>here</a> to confirm your subscription.</p>",
+  });
 };
 
 // addMailTemplate();
