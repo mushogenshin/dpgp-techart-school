@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { sendVerificationEmail } from "../../hooks/firestore/mail_verification";
 
 import styles from "./Subscription.module.css";
 
@@ -10,8 +11,8 @@ export default function SubscribeForm() {
   const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
-
-  const isPending = false; // TODO
+  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
@@ -21,10 +22,19 @@ export default function SubscribeForm() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Email submitted:", email);
+    setError(null);
+    setIsPending(true);
+    try {
+      await sendVerificationEmail(email);
+      console.log(`Verification email sent to: ${email}`);
+    } catch (error) {
+      setError(error.message);
+      console.error(`Error sending verification email: ${error}`);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   if (user) {
@@ -32,28 +42,28 @@ export default function SubscribeForm() {
   }
 
   return (
-    <div className={styles.form}>
-      <form onSubmit={handleSubmit} className={styles.inlineForm}>
-        <label htmlFor="email" className={styles.inlineLabel}>
-          Email:
-        </label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleEmailChange}
-          required
-          placeholder="Nhập email"
-          className={styles.inlineInput}
-        />
-        <button
-          type="submit"
-          className={`btn ${styles.inlineButton}`}
-          disabled={isPending || !isEmailValid}
-        >
-          {isPending ? "Đang request..." : "Subscribe"}
-        </button>
-      </form>
+    <div>
+      <div className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.inlineForm}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+            placeholder="Nhập email"
+          />
+          <button
+            type="submit"
+            className={`btn`}
+            disabled={isPending || !isEmailValid}
+          >
+            {isPending ? "Sending..." : "Subscribe"}
+          </button>
+        </form>
+      </div>
+      {error && <p className={styles.form}>{error}</p>}
     </div>
   );
 }
