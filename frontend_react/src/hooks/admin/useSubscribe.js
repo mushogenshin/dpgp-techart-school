@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase_config";
 import { useAuthContext } from "../auth/useAuthContext";
 
@@ -37,9 +37,43 @@ const useSubscribe = () => {
     };
 
     checkSubscription();
-  }, [user]);
+  }, [user, setIsUnsubscribed]);
 
-  return { isUnsubscribed, error, isPending };
+  const subscribe = async () => {
+    setError(null);
+    setIsPending(true);
+
+    try {
+      if (user) {
+        const optRef = doc(db, "subscriptions", user.email);
+        await updateDoc(optRef, { opted_out: false });
+        setIsUnsubscribed(false);
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  const unsubscribe = async () => {
+    setError(null);
+    setIsPending(true);
+
+    try {
+      if (user) {
+        const optRef = doc(db, "subscriptions", user.email);
+        await updateDoc(optRef, { opted_out: true });
+        setIsUnsubscribed(true);
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  return { isUnsubscribed, error, isPending, subscribe, unsubscribe };
 };
 
 export default useSubscribe;
