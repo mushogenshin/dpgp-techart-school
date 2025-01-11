@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { sendVerificationEmail } from "../../hooks/firestore/mail_verification";
 
@@ -13,6 +13,7 @@ export default function SubscribeForm() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const [sendConfirmationSuccess, setConfirmationSuccess] = useState(false);
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
@@ -26,9 +27,12 @@ export default function SubscribeForm() {
     e.preventDefault();
     setError(null);
     setIsPending(true);
+    setConfirmationSuccess(false);
+
     try {
       await sendVerificationEmail(email);
       console.log(`Verification email sent to: ${email}`);
+      setConfirmationSuccess(true);
     } catch (error) {
       setError(error.message);
       console.error(`Error sending verification email: ${error}`);
@@ -64,6 +68,12 @@ export default function SubscribeForm() {
         </form>
       </div>
       {error && <p className={styles.form}>{error}</p>}
+      {sendConfirmationSuccess && (
+        <p className={styles.form}>
+          Để cho an toàn, email để confirm đã được gửi. Vui lòng xem hộp thư và
+          xác nhận nhé!
+        </p>
+      )}
     </div>
   );
 }
