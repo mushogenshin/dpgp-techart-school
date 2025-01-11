@@ -171,25 +171,25 @@ const getMailingList = async (cc = [], dryRun = false) => {
 // Example usage
 // sendNewsletterEmail("hoansgn@gmail.com").catch(console.error);
 
-getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
-  .then((emails) => {
-    console.log(`Total emails: ${emails.length}`);
+// getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
+//   .then((emails) => {
+//     console.log(`Total emails: ${emails.length}`);
 
-    // sending single emails is inefficient
-    // emails.forEach((email) => {
-    //   sendSingleNewsletter(email).catch(console.error);
-    // });
+//     // sending single emails is inefficient
+//     // emails.forEach((email) => {
+//     //   sendSingleNewsletter(email).catch(console.error);
+//     // });
 
-    const subject = "📢 DPGP Newsletter (9)";
-    const content = "Hey we miss you... 🥺";
-    sendNewsletterBatchesWithInterval(
-      subject,
-      content,
-      emails,
-      100,
-      5000
-    ).catch(console.error);
-  })
-  .catch(console.error);
+//     const subject = "📢 DPGP Newsletter (9)";
+//     const content = "Hey we miss you... 🥺";
+//     sendNewsletterBatchesWithInterval(
+//       subject,
+//       content,
+//       emails,
+//       100,
+//       5000
+//     ).catch(console.error);
+//   })
+//   .catch(console.error);
 
 export { sendNewsletterBatchesWithInterval };

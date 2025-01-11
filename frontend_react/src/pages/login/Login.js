@@ -39,7 +39,15 @@ export default function Login() {
 
       <label>
         <span>Email:</span>
-        <input type="email" onChange={handleEmailChange} value={email} />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={handleEmailChange}
+          required
+          placeholder="Nhập email"
+        />
       </label>
 
       <button

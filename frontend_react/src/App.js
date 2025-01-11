@@ -11,7 +11,7 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import AllCourses from "./pages/courses/AllCourses";
-import UnsubscribeSuccess from "./pages/subscription/Unsubscribe";
+import UnsubscribeSuccess from "./pages/subscription/UnsubscribeSuccess";
 // import AllNotes from "./pages/notes/AllNotes"; // fetch from Strapi CMS=
 // import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
 import LongAp from "./pages/longAp/LongAp";

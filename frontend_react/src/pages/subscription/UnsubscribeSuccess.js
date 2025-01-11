@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import styles from "./Unsubscribe.module.css";
+import styles from "./Subscription.module.css";
 
 const UnsubscribeSuccess = () => {
   const location = useLocation();
