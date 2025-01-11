@@ -11,8 +11,9 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import AllCourses from "./pages/courses/AllCourses";
-import AllNotes from "./pages/notes/AllNotes";
-import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
+import UnsubscribeSuccess from "./pages/subscription/Unsubscribe";
+// import AllNotes from "./pages/notes/AllNotes"; // fetch from Strapi CMS=
+// import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
 import LongAp from "./pages/longAp/LongAp";
 import Poi from "./pages/dfs/Poi";
 import NotFound from "./pages/404/404";
@@ -36,7 +37,7 @@ function App() {
             }
           />
           <Route
-            path="finishLogin"
+            path="finish-login"
             element={
               user ? (
                 // redirect to courses if user is logged in
@@ -79,10 +80,12 @@ function App() {
             path="course/:courseId/:modId/:unitId/:lessonId"
             element={<CourseDetail />}
           />
-          <Route path="wiki" element={<AllNotes />} />
-          <Route path="study-note/:id" element={<StudyNoteDetail />} />
+          <Route path="unsubscribe-success" element={<UnsubscribeSuccess />} />
+          {/* <Route path="wiki" element={<AllNotes />} /> */}
+          {/* <Route path="study-note/:id" element={<StudyNoteDetail />} /> */}
           <Route path="long-ap" element={<LongAp />} />
           <Route path="poi" element={<Poi />} />
+
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>

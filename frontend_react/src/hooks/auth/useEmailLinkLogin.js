@@ -13,7 +13,7 @@ const url =
     : "unexpectedhostname";
 
 const actionCodeSettings = {
-  url: `${url}/finishLogin`,
+  url: `${url}/finish-login`,
   handleCodeInApp: true,
   iOS: {
     bundleId: "com.dauphaigiaiphau.ios",
