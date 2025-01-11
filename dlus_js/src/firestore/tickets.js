@@ -5,7 +5,8 @@ const { User, ApplicationCommandOptionType } = require("discord.js");
 
 /**
  * Fetches all pending tickets and sorts them from latest to oldest.
- * @param {number} [limit] - Optional parameter to limit the number of queried tickets.
+ * @param {number} [limit] - Optional parameter to limit the number of queried
+ * tickets.
  * @returns {Promise<Array>} The sorted list of pending tickets.
  */
 const listAllPendingTickets = async (limit) => {
@@ -115,10 +116,12 @@ const getTicketByNumber = async (ticketNumber) => {
 /**
  * Adds an enrollment ticket for a Discord user.
  * @param {User} discordUser - The Discord user to add the ticket for.
- * @param {string} channelId - The Discord channel ID where the ticket was requested.
+ * @param {string} channelId - The Discord channel ID where the ticket was
+ * requested.
  * @param {number} product - The product to enroll in.
  * @param {string} email - The beneficiary email to enroll with.
- * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction screenshot.
+ * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction
+ * screenshot.
  * @returns {Promise<Object | undefined>} The ticket data.
  */
 const addTicket = async (
@@ -169,7 +172,8 @@ const addTicket = async (
 /**
  * Marks a ticket as resolved.
  * @param {number} ticketNumber - The ticket number to mark as resolved.
- * @returns {Promise<boolean>} True if the ticket was successfully marked as resolved, otherwise false.
+ * @returns {Promise<boolean>} True if the ticket was successfully marked as
+ * resolved, otherwise false.
  */
 const markTicketAsResolved = async (ticketNumber) => {
   const ticketsRef = db.collection("enrollment_tickets");

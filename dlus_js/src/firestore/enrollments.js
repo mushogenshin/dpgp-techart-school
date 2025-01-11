@@ -65,7 +65,8 @@ const getNextTicketNumber = async () => {
 /**
  * Gets the enrollment module ID for a product code.
  * @param {number} productCode - The product code to query.
- * @returns {Promise<string | null>} The enrollment module ID or null if not found.
+ * @returns {Promise<string | null>} The enrollment module ID or null if not
+ * found.
  */
 const getEnrollmentModuleId = async (productCode) => {
   try {
@@ -95,7 +96,8 @@ const getEnrollmentModuleId = async (productCode) => {
 };
 
 /**
- * Finds a user document by email. This applies only to users who have registered.
+ * Finds a user document by email. This applies only to users who have
+ * registered.
  * @param {string} email - The email to query.
  * @returns {Promise<Object | null>} The user document or null if not found.
  */
@@ -119,7 +121,8 @@ const findExistingUserByEmail = async (email) => {
 };
 
 /**
- * Merges enrollment values from "enrollment_migration" collection into "users" collection.
+ * Merges enrollment values from "enrollment_migration" collection into "users"
+ * collection.
  * @param {string} email - The email to migrate enrollments for.
  * @returns {Promise<void>}
  */
@@ -167,9 +170,11 @@ const migrateUserEnrollments = async (email) => {
 };
 
 /**
- * Merges a string of enrollment module IDs into the "enrollments" field of a user document.
+ * Merges a string of enrollment module IDs into the "enrollments" field of a
+ * user document.
  * @param {string} userId - The user document ID.
- * @param {string} enrollmentModuleIds - The comma-separated string of enrollment module IDs.
+ * @param {string} enrollmentModuleIds - The comma-separated string of
+ * enrollment module IDs.
  * @returns {Promise<void>}
  */
 const addEnrollments = async (userId, enrollmentModuleIds) => {

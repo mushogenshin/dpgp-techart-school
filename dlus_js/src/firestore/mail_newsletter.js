@@ -1,18 +1,20 @@
 import { db } from "../firebase_config";
 import crypto from "crypto";
 
-// const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
-const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
-
+/** Firebase gives us two flavors of the endpoint, region path or a unique app
+ */
 const getEndpoint = (route) => {
-  // Firebase gives us two flavors of the endpoint, region path or a unique app path
+  // const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
+  const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
+
   return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
     ? `${CLOUD_FN_ENDPOINT}/${route}`
     : CLOUD_FN_ENDPOINT;
 };
 
 /**
- * Sends a newsletter email to the specified email address.
+ * Sends a newsletter email to the specified email address, using template
+ * `newsletter_v1`.
  * @param {string} email - The email address to send the newsletter to.
  * @returns {Promise<void>}
  */
@@ -42,8 +44,9 @@ const sendSingleNewsletter = async (email) => {
 };
 
 /**
- * Sends a batch of newsletter emails.
- * @param {string[]} emails - The batch of email addresses to send the newsletter to.
+ * Sends a batch of newsletter emails, using template `newsletter_v1`.
+ * @param {string[]} emails - The batch of email addresses to send the
+ * newsletter to.
  * @returns {Promise<void>}
  */
 const sendBatchNewsletter = async (subject, content, emails) => {
@@ -76,10 +79,13 @@ const sendBatchNewsletter = async (subject, content, emails) => {
 };
 
 /**
- * Sends a batch, then waits for a specified interval before sending the next batch.
- * @param {string[]} emails - The list of email addresses to send the newsletter to.
+ * Sends a batch of newsletter emails, then waits for a specified interval
+ * before sending the next batch.
+ * @param {string[]} emails - The list of email addresses to send the newsletter
+ * to.
  * @param {number} batchSize - The number of emails to send in each batch.
- * @param {number} interval - The interval in milliseconds to wait between batches.
+ * @param {number} interval - The interval in milliseconds to wait between
+ * batches.
  * @returns {Promise<void>}
  */
 const sendNewsletterBatchesWithInterval = async (
@@ -174,7 +180,7 @@ getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
     //   sendSingleNewsletter(email).catch(console.error);
     // });
 
-    const subject = "📢 DPGP Newsletter";
+    const subject = "📢 DPGP Newsletter (9)";
     const content = "Hey we miss you... 🥺";
     sendNewsletterBatchesWithInterval(
       subject,
@@ -186,4 +192,4 @@ getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
   })
   .catch(console.error);
 
-export {};
+export { sendNewsletterBatchesWithInterval };

@@ -2,7 +2,8 @@ import { db } from "./firebase_config";
 import admin from "firebase-admin";
 
 /**
- * Removes unwanted fields from a user document, i.e. createdTime, phoneNumber, and alias.
+ * Removes unwanted fields from a user document, i.e. createdTime, phoneNumber,
+ * and alias.
  */
 const removedUnwantedFields = async (userId) => {
   const userRef = db.collection("users").doc(userId);
