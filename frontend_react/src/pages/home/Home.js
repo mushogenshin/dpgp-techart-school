@@ -6,61 +6,67 @@ import SubscribeForm from "../subscription/SubscribeForm";
 import styles from "./Home.module.css";
 
 export default function Home() {
+  return (
+    <div>
+      {/* <Offers /> */}
+      <div>
+        <SubscribeForm />
+      </div>
+    </div>
+  );
+}
+
+function Offers() {
   const { pageData, error, isPending } = useFetchPublicPage("home");
   // opening classes, sorted by starts_at
   const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
   const selfTaught = pageData?.self_taught;
 
   return (
-    <div>
-      <div className={styles.home}>
-        {error && <h2>😳 {error}</h2>}
+    <div className={styles.home}>
+      {error && <h2>😳 {error}</h2>}
 
-        {isPending ? (
-          <p>Đợi xíu nha 😙...</p>
-        ) : (
-          <div>
-            {/* OPENING CLASSES */}
-            {opening?.length > 0 && (
-              <>
-                <p className={styles.title}>
-                  {opening.length} lớp đang chiêu sinh:
-                </p>
-                <ul>
-                  {opening.map((item, index) => (
-                    <li key={index}>
-                      <Available cls={item} timebound={true} />
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {/* SELF-TAUGHT CLASSES */}
-            <p className={styles.title}>
-              {selfTaught?.length} lớp tự học (access trọn đời):
-            </p>
-            <ul>
-              {selfTaught &&
-                selfTaught.map((item, index) => (
+      {isPending ? (
+        <p>Đợi xíu nha 😙...</p>
+      ) : (
+        <div>
+          {/* OPENING CLASSES */}
+          {opening?.length > 0 && (
+            <>
+              <p className={styles.title}>
+                {opening.length} lớp đang chiêu sinh:
+              </p>
+              <ul>
+                {opening.map((item, index) => (
                   <li key={index}>
-                    <Available cls={item} timebound={false} />
+                    <Available cls={item} timebound={true} />
                   </li>
                 ))}
-            </ul>
-            {/* FREE COURSES */}
-            <Link
-              to="/courses"
-              className={styles.title}
-              style={{ color: "rgb(149, 143, 255)" }}
-            >
-              🤤 Và các khoá miễn phí
-            </Link>
-          </div>
-        )}
-      </div>
-      <div>
-        <SubscribeForm />
-      </div>
+              </ul>
+            </>
+          )}
+          {/* SELF-TAUGHT CLASSES */}
+          <p className={styles.title}>
+            {selfTaught?.length} lớp tự học (access trọn đời):
+          </p>
+          <ul>
+            {selfTaught &&
+              selfTaught.map((item, index) => (
+                <li key={index}>
+                  <Available cls={item} timebound={false} />
+                </li>
+              ))}
+          </ul>
+          {/* FREE COURSES */}
+          <Link
+            to="/courses"
+            className={styles.title}
+            style={{ color: "rgb(149, 143, 255)" }}
+          >
+            🤤 Và các khoá miễn phí
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
