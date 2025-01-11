@@ -57,16 +57,5 @@ service cloud.firestore {
     	allow read: if request.auth != null;
       allow write: if request.auth.token.email == email;
     }
-    
-    // MAIL DOCS: NO READ; PUBLIC WRITE (SENDING AND TEMPLATE HANDLED BY EXTENSION)
-    match /mail/{uid} {
-    	allow write;
-    }
-    
-    // MAIL VERIFICATION DOCS: PUBLIC READ/WRITE;
-    match /mail_verification/{email} {
-    	allow read;
-      allow write;
-    }
   }
 }
