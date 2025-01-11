@@ -8,7 +8,7 @@ import styles from "./Home.module.css";
 export default function Home() {
   return (
     <div>
-      {/* <Offers /> */}
+      <Offers />
       <div>
         <SubscribeForm />
       </div>

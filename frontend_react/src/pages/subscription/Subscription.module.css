@@ -4,10 +4,6 @@
   align-items: center;
 }
 
-.toggles {
-  margin-bottom: 90px;
-}
-
 .form input {
   max-width: 360px;
   padding: 8px 6px;
@@ -29,4 +25,22 @@
 .inlineForm {
   display: flex;
   align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+/* Buttons in user dashboard */
+.toggles {
+  margin-bottom: 90px;
 }

@@ -6,9 +6,10 @@ import styles from "./Subscription.module.css";
 /** Firebase gives us two flavors of the endpoint, region path or a unique app
  */
 const getEndpoint = (route) => {
+  //   const CLOUD_FN_ENDPOINT =
+  //     "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
   const CLOUD_FN_ENDPOINT =
-    "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
-  //   const CLOUD_FN_ENDPOINT = "https://?????????????-as.a.run.app";
+    "https://requestsubscription-sddsnmo5oq-as.a.run.app";
 
   return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
     ? `${CLOUD_FN_ENDPOINT}/${route}`
@@ -44,6 +45,7 @@ export default function SubscribeForm() {
     );
   };
 
+  // send a POST request to the backend (Cloud Functions) to send a confirmation email
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -58,7 +60,6 @@ export default function SubscribeForm() {
         },
         body: JSON.stringify({ email }),
       });
-      console.log(`Confirmation email sent to: ${email}`);
 
       setSubmitSuccess(true);
       handleEmailChange({ target: { value: "" } }); // Clear the input field
@@ -76,6 +77,9 @@ export default function SubscribeForm() {
 
   return (
     <div>
+      <div className={styles.header}>
+        <h4>Đăng ký nhận newsletter với nhiều thông tin bổ ích từ DPGP!</h4>
+      </div>
       <div className={styles.form}>
         <form onSubmit={handleSubmit} className={styles.inlineForm}>
           <label htmlFor="email">Email:</label>
@@ -100,8 +104,13 @@ export default function SubscribeForm() {
       {submitSuccess && (
         <p className={styles.form}>
           Để an toàn, xác nhận vừa gửi qua email, vui lòng xem hộp thư và
-          confirm để hoàn tất
+          confirm để hoàn tất 😌
         </p>
+      )}
+      {error === null && submitSuccess === false && (
+        <div className={styles.footer}>
+          <small>DPGP tôn trọng sự riêng tư của bạn</small>
+        </div>
       )}
     </div>
   );
