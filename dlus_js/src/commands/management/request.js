@@ -124,10 +124,10 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
 
   const msg = ticketAddResult
     ? `Đã gửi request thành công! 
-## Số ticket của bạn là ${ticketAddResult.number}. Moderator đã nhận được thông báo.
+## Số ticket của bạn là ${ticketAddResult.number}. Mod đã nhận được thông báo.
 Chúng tôi sẽ xử lý và thông báo lại cho bạn sau.\n
 :point_right: Trong khi chờ đợi, nếu email này chưa đăng nhập vào [website](https://school.dauphaigiaiphau.wtf) lần nào,
-vui lòng đăng nhập vào website ngay bây giờ để chúng tôi có thể cấp access bài giảng.\n
+vui lòng đăng nhập vào website ngay bây giờ để chúng tôi có thể cấp access bài giảng sau đó.\n
 Nếu đã từng đăng nhập, vui lòng chờ chúng tôi xử lý request của bạn.
 Xin cảm ơn! :pray:`
     : ":cold_sweat: Có lỗi xảy ra khi gửi request, vui lòng thử lại sau hoặc contact admin.";
