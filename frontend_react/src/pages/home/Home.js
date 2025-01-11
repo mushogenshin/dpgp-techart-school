@@ -18,16 +18,21 @@ export default function Home() {
         <p>Đợi xíu nha 😙...</p>
       ) : (
         <div>
-          {/* Opening classes */}
-          <p className={styles.title}>{opening?.length} lớp đang chiêu sinh:</p>
-          <ul>
-            {opening &&
-              opening.map((item, index) => (
-                <li key={index}>
-                  <Available cls={item} timebound={true} />
-                </li>
-              ))}
-          </ul>
+          /* Opening classes */
+          {opening?.length > 0 && (
+            <>
+              <p className={styles.title}>
+                {opening.length} lớp đang chiêu sinh:
+              </p>
+              <ul>
+                {opening.map((item, index) => (
+                  <li key={index}>
+                    <Available cls={item} timebound={true} />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
           {/* Self-taught classes */}
           <p className={styles.title}>
             {selfTaught?.length} lớp tự học (access trọn đời):
