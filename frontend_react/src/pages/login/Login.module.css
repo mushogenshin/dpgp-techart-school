@@ -1,17 +1,17 @@
 .login-form {
-    max-width: 640px;
-    margin: 60px auto;
-    padding: 20px;
+  max-width: 640px;
+  margin: 60px auto;
+  padding: 20px;
 }
 
 .login-form label {
-    display: block;
-    margin: 30px auto;
+  display: block;
+  margin: 30px auto;
 }
 
 .login-form span {
-    display: block;
-    margin-bottom: 6px;
+  display: block;
+  margin-bottom: 6px;
 }
 
 .login-form li {
@@ -22,20 +22,24 @@
 }
 
 .login-form input {
-    max-width: 360px;
-    padding: 8px 6px;
-    border-radius: 7px;
-    font-size: 1em;
-    color: #777;
-    width: 100%;
+  max-width: 360px;
+  padding: 8px 6px;
+  border-radius: 7px;
+  font-size: 1em;
+  color: #777;
+  width: 100%;
 }
 
-.login-form a  {
-  color: rgb(96, 244, 123)
+.login-form input::placeholder {
+  color: #aaa;
 }
 
-.login-form a:visited  {
-  color: rgb(96, 244, 123)
+.login-form a {
+  color: rgb(96, 244, 123);
+}
+
+.login-form a:visited {
+  color: rgb(96, 244, 123);
 }
 
 .login-form ::selection {
@@ -59,9 +63,9 @@
   padding: 20px;
   font-size: 1.3em;
   line-height: 2em;
-  
 }
 
-.finish-login li, .error {
+.finish-login li,
+.error {
   color: rgb(254, 92, 92);
 }

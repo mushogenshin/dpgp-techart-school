@@ -7,3 +7,34 @@
 .toggles {
   margin-bottom: 90px;
 }
+
+.form input {
+  max-width: 360px;
+  padding: 8px 6px;
+  border-radius: 7px;
+  font-size: 1em;
+  color: #777;
+  width: 100%;
+}
+
+.form input::placeholder {
+  color: #aaa;
+}
+
+.inlineForm {
+  display: flex;
+  align-items: center;
+}
+
+.inlineLabel {
+  margin-right: 10px;
+}
+
+.inlineInput {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.inlineButton {
+  padding: 5px 10px;
+}
