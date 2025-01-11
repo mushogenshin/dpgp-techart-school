@@ -4,7 +4,7 @@ import { useLogout } from "../../hooks/auth/useLogout";
 import { useMigrate } from "../../hooks/admin/useMigrate";
 import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 
-import SubscribeNewsletter from "../subscription/SubscribeNewsletter";
+import SubscribeToggle from "../subscription/SubscribeToggle";
 import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
@@ -17,7 +17,7 @@ export default function Dashboard() {
   return (
     <div className={styles.dashboard}>
       <LoginStatus user={user} />
-      <SubscribeNewsletter />
+      <SubscribeToggle />
       <MigrateStatus history={history} conformed={conformed} />
       <History history={history} />
 

@@ -1,6 +1,7 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import SubscribeForm from "../subscription/SubscribeForm";
 
 import styles from "./Home.module.css";
 
@@ -18,7 +19,7 @@ export default function Home() {
         <p>Đợi xíu nha 😙...</p>
       ) : (
         <div>
-          /* Opening classes */
+          {/* OPENING CLASSES */}
           {opening?.length > 0 && (
             <>
               <p className={styles.title}>
@@ -33,7 +34,7 @@ export default function Home() {
               </ul>
             </>
           )}
-          {/* Self-taught classes */}
+          {/* SELF-TAUGHT CLASSES */}
           <p className={styles.title}>
             {selfTaught?.length} lớp tự học (access trọn đời):
           </p>
@@ -45,7 +46,7 @@ export default function Home() {
                 </li>
               ))}
           </ul>
-          {/* Free courses */}
+          {/* FREE COURSES */}
           <Link
             to="/courses"
             className={styles.title}
@@ -53,6 +54,7 @@ export default function Home() {
           >
             🤤 Và các khoá miễn phí
           </Link>
+          <SubscribeForm />
         </div>
       )}
     </div>

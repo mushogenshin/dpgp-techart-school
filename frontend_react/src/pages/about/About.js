@@ -1,5 +1,6 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
 import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import SubscribeForm from "../subscription/SubscribeForm";
 
 import styles from "./About.module.css";
 
@@ -16,6 +17,7 @@ export default function About() {
         blocks &&
         blocks.map((block, index) => <ContentBlock key={index} block={block} />)
       )}
+      <SubscribeForm />
     </div>
   );
 }

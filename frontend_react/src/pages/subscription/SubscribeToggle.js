@@ -1,7 +1,10 @@
 import styles from "./Subscription.module.css";
 import useSubscribe from "../../hooks/admin/useSubscribe";
 
-export default function SubscribeNewsletter() {
+/**
+ * SubscribeToggle component for authenticated users to subscribe/unsubscribe.
+ */
+export default function SubscribeToggle() {
   const { isUnsubscribed, error, isPending, subscribe, unsubscribe } =
     useSubscribe();
 
