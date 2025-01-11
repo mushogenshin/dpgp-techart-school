@@ -55,11 +55,11 @@ const sendBatchNewsletter = async (subject, content, emails) => {
 
   const batchWrite = db.batch();
   emails.forEach((email) => {
-    const unsubscribeToken = generateSubscriptionToken(email, false);
+    const token = generateSubscriptionToken(email, false);
     // the query string needs the token and email
     const unsubscribeLink = `${getEndpoint(
       "unsubscribe"
-    )}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
+    )}/?token=${token}&email=${encodeURIComponent(email)}`;
 
     const docRef = db.collection("mail").doc();
     batchWrite.set(docRef, {

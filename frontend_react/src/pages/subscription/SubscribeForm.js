@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 import styles from "./Subscription.module.css";
+
+/** Firebase gives us two flavors of the endpoint, region path or a unique app
+ */
+const getEndpoint = (route) => {
+  const CLOUD_FN_ENDPOINT =
+    "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
+  //   const CLOUD_FN_ENDPOINT = "https://?????????????-as.a.run.app";
+
+  return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
+    ? `${CLOUD_FN_ENDPOINT}/${route}`
+    : CLOUD_FN_ENDPOINT;
+};
 
 /**
  * Form for subscribing to email updates for non-logged in users
@@ -12,7 +24,17 @@ export default function SubscribeForm() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-  const [sendConfirmationSuccess, setConfirmationSuccess] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  useEffect(() => {
+    if (submitSuccess) {
+      const timer = setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [submitSuccess]);
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
@@ -26,25 +48,23 @@ export default function SubscribeForm() {
     e.preventDefault();
     setError(null);
     setIsPending(true);
-    setConfirmationSuccess(false);
+    setSubmitSuccess(false);
 
     try {
-      const response = await fetch("https://your-cloud-function-endpoint", {
+      await fetch(getEndpoint("requestSubscription"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
-      console.log(`Verification email sent to: ${email}`);
+      console.log(`Confirmation email sent to: ${email}`);
 
-      if (!response.ok) {
-        throw new Error("Failed to send verification email");
-      }
-      setConfirmationSuccess(true);
+      setSubmitSuccess(true);
+      handleEmailChange({ target: { value: "" } }); // Clear the input field
     } catch (error) {
-      setError(error.message);
-      console.error(`Error sending verification email: ${error}`);
+      console.error(`Error sending confirmation email: ${error}`);
+      setError(`Failed to send confirmation email: ${error.message}`);
     } finally {
       setIsPending(false);
     }
@@ -77,10 +97,10 @@ export default function SubscribeForm() {
         </form>
       </div>
       {error && <p className={styles.form}>{error}</p>}
-      {sendConfirmationSuccess && (
+      {submitSuccess && (
         <p className={styles.form}>
-          Để cho an toàn, email để confirm đã được gửi. Vui lòng xem hộp thư và
-          xác nhận nhé!
+          Để an toàn, xác nhận vừa gửi qua email, vui lòng xem hộp thư và
+          confirm để hoàn tất
         </p>
       )}
     </div>
