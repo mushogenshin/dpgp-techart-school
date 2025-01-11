@@ -1,9 +1,9 @@
-.info {
+.form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.form {
+.toggles {
   margin-bottom: 90px;
 }

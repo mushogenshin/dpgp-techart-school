@@ -12,51 +12,55 @@ export default function Home() {
   const selfTaught = pageData?.self_taught;
 
   return (
-    <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
+    <div>
+      <div className={styles.home}>
+        {error && <h2>😳 {error}</h2>}
 
-      {isPending ? (
-        <p>Đợi xíu nha 😙...</p>
-      ) : (
-        <div>
-          {/* OPENING CLASSES */}
-          {opening?.length > 0 && (
-            <>
-              <p className={styles.title}>
-                {opening.length} lớp đang chiêu sinh:
-              </p>
-              <ul>
-                {opening.map((item, index) => (
+        {isPending ? (
+          <p>Đợi xíu nha 😙...</p>
+        ) : (
+          <div>
+            {/* OPENING CLASSES */}
+            {opening?.length > 0 && (
+              <>
+                <p className={styles.title}>
+                  {opening.length} lớp đang chiêu sinh:
+                </p>
+                <ul>
+                  {opening.map((item, index) => (
+                    <li key={index}>
+                      <Available cls={item} timebound={true} />
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {/* SELF-TAUGHT CLASSES */}
+            <p className={styles.title}>
+              {selfTaught?.length} lớp tự học (access trọn đời):
+            </p>
+            <ul>
+              {selfTaught &&
+                selfTaught.map((item, index) => (
                   <li key={index}>
-                    <Available cls={item} timebound={true} />
+                    <Available cls={item} timebound={false} />
                   </li>
                 ))}
-              </ul>
-            </>
-          )}
-          {/* SELF-TAUGHT CLASSES */}
-          <p className={styles.title}>
-            {selfTaught?.length} lớp tự học (access trọn đời):
-          </p>
-          <ul>
-            {selfTaught &&
-              selfTaught.map((item, index) => (
-                <li key={index}>
-                  <Available cls={item} timebound={false} />
-                </li>
-              ))}
-          </ul>
-          {/* FREE COURSES */}
-          <Link
-            to="/courses"
-            className={styles.title}
-            style={{ color: "rgb(149, 143, 255)" }}
-          >
-            🤤 Và các khoá miễn phí
-          </Link>
-          <SubscribeForm />
-        </div>
-      )}
+            </ul>
+            {/* FREE COURSES */}
+            <Link
+              to="/courses"
+              className={styles.title}
+              style={{ color: "rgb(149, 143, 255)" }}
+            >
+              🤤 Và các khoá miễn phí
+            </Link>
+          </div>
+        )}
+      </div>
+      <div>
+        <SubscribeForm />
+      </div>
     </div>
   );
 }

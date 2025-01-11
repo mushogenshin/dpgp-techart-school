@@ -17,7 +17,7 @@ export default function SubscribeToggle() {
   };
 
   return (
-    <div className={styles.form}>
+    <div className={styles.toggles}>
       <h2>📧 Newsletter</h2>
       {isUnsubscribed ? (
         <div>

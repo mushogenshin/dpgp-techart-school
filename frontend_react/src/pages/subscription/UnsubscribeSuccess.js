@@ -25,9 +25,9 @@ const UnsubscribeSuccess = () => {
 
   return (
     <div>
-      <h2 className={styles.info}>Unsubscribe Successful</h2>
-      <p className={styles.info}>Từ nay bạn sẽ không nhận email từ DPGP nữa.</p>
-      <p className={styles.info}>Email: {obscureEmail(email)}</p>
+      <h2 className={styles.form}>Unsubscribe Successful</h2>
+      <p className={styles.form}>Từ nay bạn sẽ không nhận email từ DPGP nữa.</p>
+      <p className={styles.form}>Email: {obscureEmail(email)}</p>
     </div>
   );
 };
