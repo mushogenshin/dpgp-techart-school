@@ -20,7 +20,7 @@ const getEndpoint = (route) => {
  */
 const sendSingleNewsletter = async (email) => {
   // SECURITY: must add a token to the unsubscribe link
-  const unsubscribeToken = generateUnsubscribeToken(email);
+  const unsubscribeToken = generateSubscriptionToken(email, false);
 
   // the query string needs the token and email
   const unsubscribeLink = `${getEndpoint(
@@ -55,7 +55,7 @@ const sendBatchNewsletter = async (subject, content, emails) => {
 
   const batchWrite = db.batch();
   emails.forEach((email) => {
-    const unsubscribeToken = generateUnsubscribeToken(email);
+    const unsubscribeToken = generateSubscriptionToken(email, false);
     // the query string needs the token and email
     const unsubscribeLink = `${getEndpoint(
       "unsubscribe"
@@ -110,11 +110,14 @@ const sendNewsletterBatchesWithInterval = async (
 };
 
 /**
- * Generates a secure token with a secret key for email unsubscription.
- * @param {string} email - The email address to generate the unsubscribe token for.
+ * Generates a secure token with a secret key for email subscription or
+ * unsubscription.
+ * @param {string} email - The email address to generate the token for.
  */
-const generateUnsubscribeToken = (email) => {
-  const SECRET_KEY = process.env.EMAIL_UNSUBSCRIPTION_SECRET_KEY;
+const generateSubscriptionToken = (email, optingIn) => {
+  const SECRET_KEY = optingIn
+    ? process.env.EMAIL_SUBSCRIPTION_SECRET_KEY
+    : process.env.EMAIL_UNSUBSCRIPTION_SECRET_KEY;
   return crypto.createHmac("sha256", SECRET_KEY).update(email).digest("hex");
 };
 

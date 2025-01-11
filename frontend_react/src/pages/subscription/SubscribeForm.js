@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import { sendVerificationEmail } from "../../hooks/firestore/mail_verification";
 
 import styles from "./Subscription.module.css";
 
@@ -30,8 +29,18 @@ export default function SubscribeForm() {
     setConfirmationSuccess(false);
 
     try {
-      await sendVerificationEmail(email);
+      const response = await fetch("https://your-cloud-function-endpoint", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
       console.log(`Verification email sent to: ${email}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to send verification email");
+      }
       setConfirmationSuccess(true);
     } catch (error) {
       setError(error.message);
