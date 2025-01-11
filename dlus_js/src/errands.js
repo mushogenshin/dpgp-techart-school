@@ -96,7 +96,7 @@ const addMailTemplate = async () => {
   });
 
   // SUBSCRIBE CONFIRMATION
-  await db.collection("mail_templates").doc("confirm_subscription").set({
+  await db.collection("mail_templates").doc("request_subscription").set({
     subject: "😌 Confirm Your DPGP Newsletter Subscription",
     html: "<p>Please click <a href='{{confirmationLink}}'>here</a> to confirm your subscription.</p>",
   });
