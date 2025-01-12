@@ -11,6 +11,7 @@ import CourseDetail from "./pages/courseDetail/CourseDetail";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Admin from "./pages/admin/Admin";
 import AllCourses from "./pages/courses/AllCourses";
+import SubscribeSuccess from "./pages/subscription/SubscribeSuccess";
 import UnsubscribeSuccess from "./pages/subscription/UnsubscribeSuccess";
 // import AllNotes from "./pages/notes/AllNotes"; // fetch from Strapi CMS=
 // import StudyNoteDetail from "./pages/notes/StudyNoteDetail";
@@ -80,6 +81,7 @@ function App() {
             path="course/:courseId/:modId/:unitId/:lessonId"
             element={<CourseDetail />}
           />
+          <Route path="subscribe-success" element={<SubscribeSuccess />} />
           <Route path="unsubscribe-success" element={<UnsubscribeSuccess />} />
           {/* <Route path="wiki" element={<AllNotes />} /> */}
           {/* <Route path="study-note/:id" element={<StudyNoteDetail />} /> */}

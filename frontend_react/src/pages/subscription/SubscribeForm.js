@@ -103,8 +103,8 @@ export default function SubscribeForm() {
       {error && <p className={styles.form}>{error}</p>}
       {submitSuccess && (
         <p className={styles.form}>
-          Để an toàn, xác nhận vừa gửi qua email, vui lòng xem hộp thư và
-          confirm để hoàn tất 😌
+          Để an toàn, chúng tớ vừa gửi xác nhận qua email, vui lòng xem hộp thư
+          và confirm để hoàn tất subscription của bạn nhé 😌
         </p>
       )}
       {error === null && submitSuccess === false && (

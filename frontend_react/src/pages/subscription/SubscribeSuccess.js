@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import styles from "./Subscription.module.css";
 
-const UnsubscribeSuccess = () => {
+const SubscribeSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
@@ -25,13 +25,11 @@ const UnsubscribeSuccess = () => {
 
   return (
     <div>
-      <h2 className={styles.form}>✅ Unsubscribed Successfully</h2>
-      <p className={styles.form}>
-        Từ nay bạn sẽ không nhận email từ DPGP nữa 🥺
-      </p>
+      <h2 className={styles.form}>🎉 Subscribed Successfully</h2>
+      <p className={styles.form}>Từ nay bạn sẽ nhận newsletter từ DPGP 🙆‍♀️</p>
       <p className={styles.form}>Email: {obscureEmail(email)}</p>
     </div>
   );
 };
 
-export default UnsubscribeSuccess;
+export default SubscribeSuccess;
