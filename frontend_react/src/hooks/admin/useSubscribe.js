@@ -3,6 +3,9 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase_config";
 import { useAuthContext } from "../auth/useAuthContext";
 
+/**
+ * Hook to manage newsletter subscription status for logged in user
+ */
 const useSubscribe = () => {
   const { user } = useAuthContext();
   const [error, setError] = useState(null);

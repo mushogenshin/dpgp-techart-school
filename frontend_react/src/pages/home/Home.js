@@ -9,9 +9,8 @@ export default function Home() {
   return (
     <div>
       <Offers />
-      <div>
-        <SubscribeForm />
-      </div>
+      <div style={{ height: "25" }}></div>
+      <SubscribeForm />
     </div>
   );
 }
