@@ -44,3 +44,8 @@
 .toggles {
   margin-bottom: 90px;
 }
+
+h2 {
+  color: rgb(255, 65, 40);
+  font-size: 1.2em;
+}
