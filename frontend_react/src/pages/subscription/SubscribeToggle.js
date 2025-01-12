@@ -32,7 +32,7 @@ export default function SubscribeToggle() {
         </div>
       ) : (
         <div>
-          <p>Đã subscribed để nhận 👌</p>
+          <p>Đã subscribed để nhận thư 👌</p>
           <button
             className="btn"
             onClick={handleUnsubscribe}
