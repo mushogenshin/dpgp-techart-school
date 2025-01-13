@@ -1,15 +1,11 @@
 import { db } from "../firebase_config";
 import crypto from "crypto";
 
-/** Firebase gives us two flavors of the endpoint, region path or a unique app
- */
 const getEndpoint = (route) => {
-  // const CLOUD_FN_ENDPOINT = "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
-  const CLOUD_FN_ENDPOINT = "https://unsubscribe-sddsnmo5oq-as.a.run.app";
+  const CLOUD_FN_ENDPOINT =
+    "https://asia-southeast1-dpgp-techart.cloudfunctions.net/api";
 
-  return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
-    ? `${CLOUD_FN_ENDPOINT}/${route}`
-    : CLOUD_FN_ENDPOINT;
+  return `${CLOUD_FN_ENDPOINT}/${route}`;
 };
 
 /**
@@ -174,25 +170,21 @@ const getMailingList = async (cc = [], dryRun = false) => {
 // Example usage
 // sendNewsletterEmail("hoansgn@gmail.com").catch(console.error);
 
-// getMailingList(["hoansgn@gmail.com", "mushogenshin@gmail.com"], true)
-//   .then((emails) => {
-//     console.log(`Total emails: ${emails.length}`);
+getMailingList(["hoansgn@gmail.com"], true)
+  .then((emails) => {
+    console.log(`Total emails in global mailing list: ${emails.length}`);
 
-//     // sending single emails is inefficient
-//     // emails.forEach((email) => {
-//     //   sendSingleNewsletter(email).catch(console.error);
-//     // });
+    // sending single emails is inefficient
+    // emails.forEach((email) => {
+    //   sendSingleNewsletter(email).catch(console.error);
+    // });
 
-//     const subject = "📢 DPGP Newsletter (9)";
-//     const content = "Hey we miss you... 🥺";
-//     sendNewsletterBatchesWithInterval(
-//       subject,
-//       content,
-//       emails,
-//       100,
-//       5000
-//     ).catch(console.error);
-//   })
-//   .catch(console.error);
+    const subject = "📢 DPGP Newsletter (000)";
+    const content = "Hey we miss you... 🥺";
+    sendNewsletterBatchesWithInterval(subject, content, emails, 1, 5000).catch(
+      console.error
+    );
+  })
+  .catch(console.error);
 
 export { sendNewsletterBatchesWithInterval };

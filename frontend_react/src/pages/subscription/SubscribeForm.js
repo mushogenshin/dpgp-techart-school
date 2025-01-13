@@ -3,17 +3,11 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 import styles from "./Subscription.module.css";
 
-/** Firebase gives us two flavors of the endpoint, region path or a unique app
- */
 const getEndpoint = (route) => {
-  //   const CLOUD_FN_ENDPOINT =
-  //     "https://asia-southeast1-dpgp-techart.cloudfunctions.net";
   const CLOUD_FN_ENDPOINT =
-    "https://requestsubscription-sddsnmo5oq-as.a.run.app";
+    "https://asia-southeast1-dpgp-techart.cloudfunctions.net/api";
 
-  return CLOUD_FN_ENDPOINT.includes("cloudfunctions.net")
-    ? `${CLOUD_FN_ENDPOINT}/${route}`
-    : CLOUD_FN_ENDPOINT;
+  return `${CLOUD_FN_ENDPOINT}/${route}`;
 };
 
 /**
@@ -53,7 +47,7 @@ export default function SubscribeForm() {
     setSubmitSuccess(false);
 
     try {
-      await fetch(getEndpoint("requestSubscription"), {
+      await fetch(getEndpoint("request-subscription"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +98,7 @@ export default function SubscribeForm() {
       {submitSuccess && (
         <p className={styles.form}>
           Để an toàn, chúng tớ vừa gửi xác nhận qua email, vui lòng xem hộp thư
-          và confirm để hoàn tất subscription của bạn nhé 😌
+          và confirm để hoàn tất nhé 😌
         </p>
       )}
       {error === null && submitSuccess === false && (
