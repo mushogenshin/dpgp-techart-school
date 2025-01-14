@@ -15,6 +15,9 @@ export default function Login() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
+    if (emailValue.length > 254) {
+      setIsEmailValid(false);
+    }
     setEmail(emailValue);
     setIsEmailValid(
       emailValue.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null

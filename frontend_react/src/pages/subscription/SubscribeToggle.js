@@ -4,16 +4,16 @@ import useSubscribe from "../../hooks/admin/useSubscribe";
 /**
  * SubscribeToggle component for authenticated users to subscribe/unsubscribe.
  */
-export default function SubscribeToggle() {
+export default function SubscribeToggle(source) {
   const { isUnsubscribed, error, isPending, subscribe, unsubscribe } =
     useSubscribe();
 
   const handleSubscribe = async (e) => {
-    await subscribe();
+    await subscribe(source);
   };
 
   const handleUnsubscribe = async (e) => {
-    await unsubscribe();
+    await unsubscribe(source);
   };
 
   return (

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, FieldValue } from "firebase/firestore";
 import { db } from "../../firebase_config";
 import { useAuthContext } from "../auth/useAuthContext";
 
 /**
  * Hook to manage newsletter subscription status for logged in user
  */
-const useSubscribe = () => {
+const useSubscribe = (source) => {
   const { user } = useAuthContext();
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
@@ -49,7 +49,14 @@ const useSubscribe = () => {
     try {
       if (user) {
         const optRef = doc(db, "subscriptions", user.email);
-        await updateDoc(optRef, { opted_out: false });
+        await updateDoc(optRef, {
+          opted_out: false,
+          log: FieldValue.arrayUnion({
+            action: "subscribe",
+            at: new Date(),
+            source: source,
+          }),
+        });
         setIsUnsubscribed(false);
       }
     } catch (err) {
@@ -66,7 +73,14 @@ const useSubscribe = () => {
     try {
       if (user) {
         const optRef = doc(db, "subscriptions", user.email);
-        await updateDoc(optRef, { opted_out: true });
+        await updateDoc(optRef, {
+          opted_out: true,
+          log: FieldValue.arrayUnion({
+            action: "unsubscribe",
+            at: new Date(),
+            source: source,
+          }),
+        });
         setIsUnsubscribed(true);
       }
     } catch (err) {

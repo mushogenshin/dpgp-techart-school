@@ -21,7 +21,9 @@ const sendSingleNewsletter = async (email) => {
   // the query string needs the token and email
   const unsubscribeLink = `${getEndpoint(
     "unsubscribe"
-  )}/?token=${unsubscribeToken}&email=${encodeURIComponent(email)}`;
+  )}/?token=${unsubscribeToken}&email=${encodeURIComponent(
+    email
+  )}&source=email-embedded-link`;
 
   await db
     .collection("mail")
@@ -55,7 +57,9 @@ const sendBatchNewsletter = async (subject, content, emails) => {
     // the query string needs the token and email
     const unsubscribeLink = `${getEndpoint(
       "unsubscribe"
-    )}/?token=${token}&email=${encodeURIComponent(email)}`;
+    )}/?token=${token}&email=${encodeURIComponent(
+      email
+    )}&source=email-embedded-link`;
 
     const docRef = db.collection("mail").doc();
     batchWrite.set(docRef, {

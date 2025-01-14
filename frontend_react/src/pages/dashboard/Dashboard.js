@@ -18,7 +18,7 @@ export default function Dashboard() {
     <div className={styles.dashboard}>
       <LoginStatus user={user} />
       {/* TODO */}
-      {/* <SubscribeToggle /> */}
+      <SubscribeToggle source="web-dashboard-page" />
       <MigrateStatus history={history} conformed={conformed} />
       <History history={history} />
 

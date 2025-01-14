@@ -9,7 +9,7 @@ export default function About() {
     <div>
       <Manifesto />
       <div>
-        <SubscribeForm />
+        <SubscribeForm source="web-manifesto-page" />
       </div>
     </div>
   );

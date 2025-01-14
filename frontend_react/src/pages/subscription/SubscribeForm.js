@@ -13,7 +13,7 @@ const getEndpoint = (route) => {
 /**
  * Form for subscribing to email updates for non-logged in users
  */
-export default function SubscribeForm() {
+export default function SubscribeForm({ source }) {
   const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -33,10 +33,16 @@ export default function SubscribeForm() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    setEmail(emailValue);
-    setIsEmailValid(
-      emailValue.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null
-    );
+    if (emailValue.length > 254) {
+      setError("Email is too long.");
+      setIsEmailValid(false);
+    } else {
+      setEmail(emailValue);
+      setIsEmailValid(
+        emailValue.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null
+      );
+      setError(null);
+    }
   };
 
   // send a POST request to the backend (Cloud Functions) to send a confirmation email
@@ -52,7 +58,10 @@ export default function SubscribeForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email,
+          source,
+        }),
       });
 
       setSubmitSuccess(true);
