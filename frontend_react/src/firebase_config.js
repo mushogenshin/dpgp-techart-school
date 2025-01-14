@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+// import { connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Firebase configuration
@@ -16,5 +17,18 @@ const config = {
 const app = initializeApp(config);
 const db = getFirestore(app);
 const storage = getStorage(app);
+
+// console.log("HOAN: Firebase app initialized");
+
+// // Connect to Firestore Emulator if running locally
+// if (
+//   window.location.hostname === "localhost" ||
+//   window.location.hostname === "127.0.0.1"
+// ) {
+//   console.log(
+//     "HOAN: Running in local environment. Connecting to Firestore emulator."
+//   );
+//   connectFirestoreEmulator(db, "localhost", 8081);
+// }
 
 export { db, storage };
