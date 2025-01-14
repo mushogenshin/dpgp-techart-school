@@ -23,7 +23,7 @@ const sendSingleNewsletter = async (email) => {
     "unsubscribe"
   )}/?token=${unsubscribeToken}&email=${encodeURIComponent(
     email
-  )}&source=email-embedded-link`;
+  )}&source=mail-embedded-link`;
 
   await db
     .collection("mail")
@@ -59,7 +59,7 @@ const sendBatchNewsletter = async (subject, content, emails) => {
       "unsubscribe"
     )}/?token=${token}&email=${encodeURIComponent(
       email
-    )}&source=email-embedded-link`;
+    )}&source=mail-embedded-link`;
 
     const docRef = db.collection("mail").doc();
     batchWrite.set(docRef, {
