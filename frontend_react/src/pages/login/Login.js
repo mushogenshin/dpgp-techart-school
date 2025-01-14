@@ -15,9 +15,7 @@ export default function Login() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    if (emailValue.length > 254) {
-      setIsEmailValid(false);
-    }
+    // Firebase automatically rejects email addresses that are too long
     setEmail(emailValue);
     setIsEmailValid(
       emailValue.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null

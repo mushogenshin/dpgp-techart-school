@@ -33,7 +33,7 @@ export default function SubscribeForm({ source }) {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    if (emailValue.length > 254) {
+    if (emailValue.length > 128) {
       setError("Email is too long.");
       setIsEmailValid(false);
     } else {
