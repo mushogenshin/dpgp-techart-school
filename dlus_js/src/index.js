@@ -24,6 +24,7 @@ new CommandKit({
   devGuildIds: [
     "456441614206763019", // ext.INKt.ion studio
     "478115306078863361", // Dẫu Phải Giải Phẫu
+    "478043322456211457", // Dẫu Phải Rigging
   ],
   devUserIds: MODERATOR_IDS,
   bulkRegister: true,
