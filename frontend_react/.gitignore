@@ -25,4 +25,5 @@ yarn-error.log*
 .firebase/
 *-debug.log
 
+*serviceAccountKey*
 src/pages/dfs/images/
