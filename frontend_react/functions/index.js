@@ -115,17 +115,23 @@ const setEnrollmentFromHistory = async (uid, email, displayName, callback) => {
  * @param {AuthUserRecord} user
  * @param {AuthEventContext} context
  */
-exports.beforeSignIn = functions.auth
-  .user()
+exports.updateLastSignInTime = functions
+  .region("asia-southeast1")
+  .auth.user()
   .beforeSignIn(async (user, context) => {
     logger.info(`beforeSignIn() -> user: ${JSON.stringify(user)}`);
     const uid = user.uid;
 
     try {
-      await db.collection("users").doc(uid).update({
-        last_sign_in: new Date(),
-      });
-      console.log(`Updated last sign in time for user ${uid}`);
+      const userDoc = await db.collection("users").doc(uid).get();
+      if (userDoc.exists) {
+        await db.collection("users").doc(uid).update({
+          last_sign_in: new Date(),
+        });
+        console.log(`Updated last sign in time for user ${uid}`);
+      } else {
+        console.log(`User document for ${uid} does not exist`);
+      }
     } catch (error) {
       console.error(`Error updating last sign in time for user ${uid}:`, error);
       // Optionally, you can return a response to block the sign-in if needed
