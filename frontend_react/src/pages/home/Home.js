@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <div>
       <Offers />
-      <div style={{ height: "25" }}></div>
-      <SubscribeForm source="web-course-listing-page" />
+      {/* <div style={{ height: "25" }}></div> */}
+      {/* <SubscribeForm source="web-course-listing-page" /> */}
     </div>
   );
 }

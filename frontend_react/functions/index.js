@@ -130,10 +130,10 @@ exports.updateLastSignInTime = functions
         await db.collection("users").doc(uid).update({
           last_sign_in: new Date(),
         });
-        console.log(`Updated last sign in time for user ${uid}`);
+        logger.info(`Updated last sign in time for user ${uid}`);
       } else {
         // rare cases where user happened to first sign in exactly when the migration fn wasn't functional
-        console.log(`User document for ${uid} does not exist`);
+        logger.warn(`User document for ${uid} does not exist`);
         // try migrating the enrollment history again
         await setEnrollmentFromHistory(
           uid,
@@ -146,7 +146,7 @@ exports.updateLastSignInTime = functions
         // leave the last sign in time as null
       }
     } catch (error) {
-      console.error(`Error updating last sign in time for user ${uid}:`, error);
+      logger.error(`Error updating last sign in time for user ${uid}:`, error);
       // Optionally, we can return a response to block the sign-in if needed
       // return { status: 'BLOCK', message: 'Sign-in blocked' };
     }
