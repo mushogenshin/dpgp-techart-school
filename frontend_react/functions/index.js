@@ -2,6 +2,10 @@ const admin = require("firebase-admin");
 const functions = require("firebase-functions/v1");
 const logger = require("firebase-functions/logger");
 const { setGlobalOptions } = require("firebase-functions/v2");
+const {
+  AuthUserRecord,
+  AuthEventContext,
+} = require("firebase-functions/identity");
 // const { onRequest } = require("firebase-functions/v2/https");
 // const { FieldValue } = require("firebase-admin/firestore");
 
@@ -106,6 +110,28 @@ const setEnrollmentFromHistory = async (uid, email, displayName, callback) => {
       );
     });
 };
+
+/**
+ * @param {AuthUserRecord} user
+ * @param {AuthEventContext} context
+ */
+exports.beforeSignIn = functions.auth
+  .user()
+  .beforeSignIn(async (user, context) => {
+    logger.info(`beforeSignIn() -> user: ${JSON.stringify(user)}`);
+    const uid = user.uid;
+
+    try {
+      await db.collection("users").doc(uid).update({
+        last_sign_in: new Date(),
+      });
+      console.log(`Updated last sign in time for user ${uid}`);
+    } catch (error) {
+      console.error(`Error updating last sign in time for user ${uid}:`, error);
+      // Optionally, you can return a response to block the sign-in if needed
+      // return { status: 'BLOCK', message: 'Sign-in blocked' };
+    }
+  });
 
 // // Handles a GET request triggered by the user clicking the unsubscribe link in the email.
 // app.get("/unsubscribe", async (req, res) => {
