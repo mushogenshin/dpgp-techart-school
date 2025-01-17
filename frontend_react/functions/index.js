@@ -58,12 +58,13 @@ if (process.env.FUNCTIONS_EMULATOR) {
 
 /**
  * This `auth.user().onCreate` trigger stays in v1 as it is not yet supported in v2.
+ * @param {AuthUserRecord} user
  */
 exports.migrateEnrollmentHistory = functions
   .region("asia-southeast1")
   .auth.user()
   .onCreate(async (user) => {
-    logger.info(`auth.user().onCreate() -> user: ${JSON.stringify(user)}`);
+    logger.info(`On User Created -> user: ${JSON.stringify(user)}`);
 
     const uid = user.uid;
     const email = user.email;
@@ -119,22 +120,34 @@ exports.updateLastSignInTime = functions
   .region("asia-southeast1")
   .auth.user()
   .beforeSignIn(async (user, context) => {
-    logger.info(`beforeSignIn() -> user: ${JSON.stringify(user)}`);
+    logger.info(`Before User Sign In -> user: ${JSON.stringify(user)}`);
     const uid = user.uid;
 
     try {
       const userDoc = await db.collection("users").doc(uid).get();
       if (userDoc.exists) {
+        // migration was successful at least once
         await db.collection("users").doc(uid).update({
           last_sign_in: new Date(),
         });
         console.log(`Updated last sign in time for user ${uid}`);
       } else {
+        // rare cases where user happened to first sign in exactly when the migration fn wasn't functional
         console.log(`User document for ${uid} does not exist`);
+        // try migrating the enrollment history again
+        await setEnrollmentFromHistory(
+          uid,
+          user.email,
+          user.displayName,
+          () => {
+            return Promise.resolve();
+          }
+        );
+        // leave the last sign in time as null
       }
     } catch (error) {
       console.error(`Error updating last sign in time for user ${uid}:`, error);
-      // Optionally, you can return a response to block the sign-in if needed
+      // Optionally, we can return a response to block the sign-in if needed
       // return { status: 'BLOCK', message: 'Sign-in blocked' };
     }
   });
