@@ -57,7 +57,8 @@ if (process.env.FUNCTIONS_EMULATOR) {
 // const FRONTEND_URL = "https://school.dauphaigiaiphau.wtf";
 
 /**
- * This `auth.user().onCreate` trigger stays in v1 as it is not yet supported in v2.
+ * Migrates former enrolled courses, if found, for the newly joined user. This
+ * `auth.user().onCreate` trigger stays in v1 as it is not yet supported in v2.
  * @param {AuthUserRecord} user
  */
 exports.migrateEnrollmentHistory = functions
@@ -76,7 +77,8 @@ exports.migrateEnrollmentHistory = functions
   });
 
 /**
- * Creates a new user profile whose enrollments are migrated from the old user profile.
+ * Creates a new user profile whose enrollments are migrated from the old user
+ * profile.
  */
 const setEnrollmentFromHistory = async (uid, email, displayName, callback) => {
   await db
@@ -132,7 +134,8 @@ exports.updateLastSignInTime = functions
         });
         logger.info(`Updated last sign in time for user ${uid}`);
       } else {
-        // rare cases where user happened to first sign in exactly when the migration fn wasn't functional
+        // rare cases where user happened to first sign in during the downtime
+        // of the previous migration function intances
         logger.warn(`User document for ${uid} does not exist`);
         // try migrating the enrollment history again
         await setEnrollmentFromHistory(
@@ -152,7 +155,10 @@ exports.updateLastSignInTime = functions
     }
   });
 
-// // Handles a GET request triggered by the user clicking the unsubscribe link in the email.
+// /** Handles request to unsubscribe from newsletter. It must be a GET request --
+//  * supposedly triggered by the user clicking the unsubscribe link in the
+//  * email.
+//  */
 // app.get("/unsubscribe", async (req, res) => {
 //   const token = req.query.token;
 //   if (!token) {
@@ -201,12 +207,13 @@ exports.updateLastSignInTime = functions
 //     });
 // });
 
-// // Handles a POST request submitted by the user from the frontend form.
-// app.post("/request-subscription", async (req, res) => {
-//   const { email, source = "unknown" } = req.body;
-
-//   if (!email) {
-//     return res.status(400).send("Email is required");
+// /**
+//  * Handles a request of newsletter subscription by sending a confirmation email.
+//  * It must be a POST request -- supposedly created from the frontend form.
+//  */
+// app.post("/request-subscription", async (req, res) => { const { email, source
+//   = "unknown" } = req.body; if (!email) { return res.status(400).send("Email
+//   is required");
 //   }
 
 //   try {
@@ -233,7 +240,10 @@ exports.updateLastSignInTime = functions
 //   }
 // });
 
-// // Handles a GET request triggered by the user clicking the confirmation link in the email.
+// /** Handles approval for newsletter subscription by registering the user's
+//  * opting in. It must be a GET request -- supposedly triggered by the user
+//  * clicking the confirmation link in the email.
+//  */
 // app.get("/approve-subscription", async (req, res) => {
 //   const token = req.query.token;
 //   if (!token) {
