@@ -34,18 +34,18 @@ emulatorDb.settings({
 // );
 
 const collections = {
-  users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
-  // classes: ["ACA02", "FAP03", "PYTA_2024"],
-  // modules: ["ACA02_mod2", "FAP03_trackB", "PYTA_2024_m3"],
-  // contents: [
-  //   "ACA_pectoral_muscles",
-  //   "ACA_abdominal_muscles",
-  //   "ACA_shoulder_back_muscles_1",
-  //   "FAP_what_is_likeness",
-  //   "FAP_likeness_shape_depth",
-  //   "PYTA_2024_python_unreal_practice_1",
-  //   "PYTA_2024_python_unreal_widgets_1",
-  // ],
+  // users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
+  classes: ["ACA02", "FAP03", "PYTA_2024"],
+  modules: ["ACA02_mod1", "FAP03_trackA", "PYTA_2024_m1"],
+  contents: [
+    "ACA_intro_body_plan",
+    "ACA_intro_head_skull",
+    "FAP_intro_to_structure",
+    "FAP_intro_to_skull",
+    "PYTA_intro_mindset",
+    "PYTA_2024_intro_mindset_2",
+    "PYTA_2024_python_maya_intro",
+  ],
 };
 
 async function copyDocuments() {
