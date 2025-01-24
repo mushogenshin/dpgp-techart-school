@@ -6,7 +6,7 @@ import { useFetchContents } from "../../hooks/firestore/useFetchContents";
 
 import Sidebar from "./Sidebar";
 import Lesson from "../lesson/Lesson";
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
 
 import styles from "./Unit.module.css";
 
@@ -105,7 +105,7 @@ function Pin({ blocks }) {
   return (
     <div className={styles.pin}>
       {blocks.map((block, index) => (
-        <ContentBlock key={index} block={block} />
+        <ContentBlock key={index} inner={block} />
       ))}
     </div>
   );

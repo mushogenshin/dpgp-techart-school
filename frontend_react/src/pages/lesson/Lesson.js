@@ -1,4 +1,4 @@
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
 import styles from "./Lesson.module.css";
 
 export default function Lesson({ lesson }) {
@@ -8,7 +8,7 @@ export default function Lesson({ lesson }) {
     <div className={styles.lesson}>
       {lesson.blocks &&
         lesson.blocks.map((block, index) => (
-          <ContentBlock key={index} block={block} />
+          <ContentBlock key={index} inner={block} />
         ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
 import SubscribeForm from "../subscription/SubscribeForm";
 
 import styles from "./About.module.css";
@@ -26,7 +26,7 @@ function Manifesto() {
         <p>Đợi xíu nha 😙...</p>
       ) : (
         blocks &&
-        blocks.map((block, index) => <ContentBlock key={index} block={block} />)
+        blocks.map((block, index) => <ContentBlock key={index} inner={block} />)
       )}
     </div>
   );

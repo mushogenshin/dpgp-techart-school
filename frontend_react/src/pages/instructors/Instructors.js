@@ -1,5 +1,5 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
 import SocialLink from "../../components/SocialLink";
 
 import styles from "./Instructors.module.css";
@@ -58,7 +58,7 @@ function Member({ name, member }) {
         </span>
       </h2>
       {blocks.map((block, index) => (
-        <ContentBlock key={index} block={block} />
+        <ContentBlock key={index} inner={block} />
       ))}
     </div>
   );
