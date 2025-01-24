@@ -69,12 +69,8 @@ function PreviewAndContents({ isPurchased, contentIds, bypass }) {
   useEffect(() => {
     // find the lesson with the specified lesson ID
     if (lessonParam && contents) {
-      // NOTE: we're using `flat` and `filter` because the content doc
-      // may contain undefined lessons
-      const lessons = contents
-        .map((content) => content.lessons)
-        .filter((lessons) => lessons !== undefined)
-        .flat();
+      // NOTE: some the content doc may contain undefined lessons
+      const lessons = contents.map((content) => content?.lessons ?? []).flat();
       const lessonLookup = lessons.find((lesson) => lesson.id === lessonParam);
 
       if (!lessonLookup) {
