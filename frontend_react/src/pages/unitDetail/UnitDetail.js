@@ -97,7 +97,10 @@ function GuardedContents({ contentIds, bypass }) {
   );
 }
 
-// Blocks that are stayed throughout the unit regardless of active lesson.
+/**
+ * Contents that are stayed throughout the unit regardless of active lesson.
+ * @param {Array<ContentBlock>} blocks
+ */
 function Pin({ blocks }) {
   return (
     <div className={styles.pin}>

@@ -5,6 +5,10 @@ import YouTube from "../YouTube";
 import Sketchfab from "../Sketchfab";
 import styles from "./ContentBlock.module.css";
 
+/**
+ * Renders a block of content depending on its type.
+ * @param {object} block
+ */
 export default function ContentBlock({ block }) {
   return (
     <div className={styles["content-block"]}>
