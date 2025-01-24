@@ -1,53 +1,59 @@
 :root {
-    --admin-color: rgb(127, 85, 255);
-  }
+  --admin-color: rgb(127, 85, 255);
+}
 
 .navbar {
-    background: #373745;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
+  background: #373745;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 .navbar .title {
-    margin-right: auto;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    font-size: .6em;
+  margin-right: auto;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  font-size: 0.6em;
 }
 
 .navbar ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-    list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  list-style-type: none;
 }
 
 .navbar a {
-    margin-left: 40px;
-    text-decoration: none;
-    color: rgb(50, 238, 109);
-    font-size: 1.4em;
-    font-weight: bolder;
+  margin-left: 40px;
+  text-decoration: none;
+  color: rgb(50, 238, 109);
+  font-size: 1.4em;
+  font-weight: bolder;
 }
 
 .navbar a:hover {
-    color:rgb(243, 83, 20);
+  color: rgb(243, 83, 20);
 }
 
 .admin-link {
-    color: var(--admin-color)
+  color: var(--admin-color);
 }
 
 .admin-link:hover {
-    color: rgb(238, 50, 185)
+  color: rgb(238, 50, 185);
 }
 
 .navbar .users-count {
-    font-size: 1em;
-    color: rgb(195, 175, 234);
-    cursor: pointer;
+  font-size: 1em;
+  color: rgb(195, 175, 234);
+  cursor: pointer;
+}
+
+.navbar .emulator {
+  color: rgb(255, 57, 57);
+  background-color: white;
+  padding: 5px;
 }

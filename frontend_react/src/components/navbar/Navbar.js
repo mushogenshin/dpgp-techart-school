@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { isEmulator } from "../../firebase_config";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,6 +52,7 @@ export default function Navbar() {
         </div>
 
         <ul>
+          {isEmulator && <div className={styles.emulator}>Emulator Mode</div>}
           {/* Left aligned */}
           <li className={styles.title}>
             {/* Home page */}

@@ -4,6 +4,7 @@ import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImages } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "./Courses.module.css";
 
 export default function AllCourses() {

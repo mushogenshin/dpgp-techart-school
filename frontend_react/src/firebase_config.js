@@ -16,6 +16,7 @@ const config = {
 
 const app = initializeApp(config);
 const db = getFirestore(app);
+var isEmulator = false;
 const storage = getStorage(app);
 
 // Connect to Firestore Emulator if running locally
@@ -26,7 +27,8 @@ if (
   console.log(
     "Running in local environment. Connecting to Firestore emulator."
   );
-  connectFirestoreEmulator(db, "localhost", 8081);
+  isEmulator = true;
+  connectFirestoreEmulator(db, "localhost", 8080);
 }
 
-export { db, storage };
+export { db, isEmulator, storage };
