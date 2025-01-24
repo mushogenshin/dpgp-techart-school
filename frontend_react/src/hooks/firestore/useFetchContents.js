@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { onSnapshot, query, collection, where } from "firebase/firestore";
 
+/**
+ * Fetches contents from Firestore based on an array of content IDs.
+ * @param {Array<string>} contentIds: an array of content IDs to fetch
+ * @param {boolean} bypass: if true, bypass fetching contents
+ * @returns {Object} an object containing the fetched contents, error, and pending status
+ */
 export function useFetchContents(contentIds, bypass) {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);

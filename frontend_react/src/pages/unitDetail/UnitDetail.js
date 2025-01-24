@@ -12,6 +12,7 @@ import styles from "./Unit.module.css";
 
 export default function UnitDetail({ unitData, setShowSidebar }) {
   const { ignoreLockedModules } = useCoursesContext();
+  // unit is considered unlocked if it's explicitly unlocked or if there's admin override
   const unlocked =
     ignoreLockedModules || (unitData && unitData.unlocked) || false;
 
@@ -28,7 +29,7 @@ export default function UnitDetail({ unitData, setShowSidebar }) {
   useNavigateFirstLesson(unitData);
 
   useEffect(() => {
-    // only show sidebar if there are contents and the unit is unlocked
+    // only show sidebar if the unit is unlocked and there are actual contents to show
     const should_open = unlocked && contentIds.length > 0 ? true : false;
     setShowSidebar(should_open);
   }, [unitData, contentIds, unlocked, setShowSidebar]);
@@ -45,6 +46,12 @@ export default function UnitDetail({ unitData, setShowSidebar }) {
   );
 }
 
+/**
+ * Fetches the contents of the unit, but renders only the content of the active
+ * lesson.
+ * @param {boolean} bypass: if true, bypass fetching contents, e.g. when the
+ * unit is locked
+ */
 function GuardedContents({ contentIds, bypass }) {
   const navigate = useNavigate();
   const { lessonId: lessonParam } = useParams();
@@ -52,8 +59,8 @@ function GuardedContents({ contentIds, bypass }) {
   const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
+    // find the lesson with the specified lesson ID
     if (lessonParam && contents) {
-      // find the lesson with the specified lesson ID
       // NOTE: we're using `flat` and `filter` because the content doc
       // may contain undefined lessons
       const lessons = contents
@@ -84,7 +91,9 @@ function GuardedContents({ contentIds, bypass }) {
           ) : (
             contents && (
               <div>
+                {/* renders the full sidebar tree */}
                 <Sidebar contents={contents} />
+                {/* renders only the active lesson */}
                 {targetLesson && <Lesson lesson={targetLesson} />}
               </div>
             )
@@ -98,7 +107,7 @@ function GuardedContents({ contentIds, bypass }) {
 }
 
 /**
- * Contents that are stayed throughout the unit regardless of active lesson.
+ * Contents that stay throughout the unit regardless of active lesson.
  * @param {Array<ContentBlock>} blocks
  */
 function Pin({ blocks }) {

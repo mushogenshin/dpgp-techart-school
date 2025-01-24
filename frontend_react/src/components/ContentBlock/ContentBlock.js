@@ -7,7 +7,7 @@ import styles from "./ContentBlock.module.css";
 
 /**
  * Renders a block of content depending on its type.
- * @param {object} inner
+ * @param {Object} inner: the inner content block object
  */
 export default function ContentBlock({ inner }) {
   return (
