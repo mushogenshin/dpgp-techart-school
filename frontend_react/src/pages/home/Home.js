@@ -23,7 +23,7 @@ function Offers() {
 
   return (
     <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
+      {error && <h2>😳 Failed to fetch "home": {error}</h2>}
 
       {isPending ? (
         <p>Đợi xíu nha 😙...</p>

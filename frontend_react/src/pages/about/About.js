@@ -21,7 +21,7 @@ function Manifesto() {
 
   return (
     <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
+      {error && <h2>😳 Failed to fetch "about": {error}</h2>}
       {isPending ? (
         <p>Đợi xíu nha 😙...</p>
       ) : (
