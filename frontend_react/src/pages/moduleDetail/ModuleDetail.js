@@ -7,6 +7,10 @@ import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
+/**
+ * Displays the details of a Module, including its Units and Lessons.
+ * @param {function} setShowSidebar: a function to toggle the sidebar
+ */
 export default function ModuleDetail({ setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
@@ -16,9 +20,9 @@ export default function ModuleDetail({ setShowSidebar }) {
 
   // allow viewing if content is freebie
   const isFreebie = (moduleData && moduleData.freebie) || false;
-  // see if user owns this module
+  // whether the user owns this Module
   const isPurchased = isFreebie || (purchased && purchased.includes(modId));
-  // check if the unit param is valid
+  // check if the Unit param is valid
   const unitsData = moduleData && moduleData.units ? moduleData.units : [];
   const unitLookup = unitsData.find((unit) => unit.id === unitParam);
 
@@ -40,22 +44,19 @@ export default function ModuleDetail({ setShowSidebar }) {
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
 
-      {isPurchased ? (
-        <div>
-          {/* list of buttons to choose which unit to view */}
-          <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
+      <div>
+        {/* list of buttons to choose which Unit to view */}
+        <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
-          {/* show the unit detail, i.e. lesson contents */}
-          {unitLookup && (
-            <UnitDetail unitData={unitLookup} setShowSidebar={setShowSidebar} />
-          )}
-        </div>
-      ) : (
-        <h3>
-          📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {modId}
-          )
-        </h3>
-      )}
+        {/* show the Unit detail, i.e. Lesson contents */}
+        {unitLookup && (
+          <UnitDetail
+            isPurchased={isPurchased}
+            unitData={unitLookup}
+            setShowSidebar={setShowSidebar}
+          />
+        )}
+      </div>
     </div>
   );
 }

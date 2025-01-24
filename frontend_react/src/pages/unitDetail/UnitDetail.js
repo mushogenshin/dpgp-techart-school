@@ -10,7 +10,7 @@ import ContentBlock from "../../components/contentBlock/ContentBlock";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({ unitData, setShowSidebar }) {
+export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
   const { ignoreLockedModules } = useCoursesContext();
   // unit is considered unlocked if it's explicitly unlocked or if there's admin override
   const unlocked =
@@ -28,6 +28,7 @@ export default function UnitDetail({ unitData, setShowSidebar }) {
 
   useNavigateFirstLesson(unitData);
 
+  // TODO: show sidebar even for non-paying customers, but limit the content
   useEffect(() => {
     // only show sidebar if the unit is unlocked and there are actual contents to show
     const should_open = unlocked && contentIds.length > 0 ? true : false;
@@ -37,8 +38,14 @@ export default function UnitDetail({ unitData, setShowSidebar }) {
   return unlocked ? (
     <div className={styles["unit-content"]}>
       {preface && <Pin blocks={preface} />}
-      {/* bypass fetching contents if the unit is locked */}
-      {<GuardedContents contentIds={contentIds} bypass={!unlocked} />}
+      {/* bypass fetching contents if the Unit is locked */}
+      {
+        <PreviewAndContents
+          isPurchased={isPurchased}
+          contentIds={contentIds}
+          bypass={!unlocked}
+        />
+      }
       {postscript && <Pin blocks={postscript} />}
     </div>
   ) : (
@@ -47,14 +54,15 @@ export default function UnitDetail({ unitData, setShowSidebar }) {
 }
 
 /**
- * Fetches the contents of the unit, but renders only the content of the active
- * lesson.
+ * Fetches the contents of the Unit, but renders only the content of the active
+ * Lesson.
  * @param {boolean} bypass: if true, bypass fetching contents, e.g. when the
- * unit is locked
+ * Unit is locked
  */
-function GuardedContents({ contentIds, bypass }) {
+function PreviewAndContents({ isPurchased, contentIds, bypass }) {
   const navigate = useNavigate();
-  const { lessonId: lessonParam } = useParams();
+  const { modId, lessonId: lessonParam } = useParams();
+  // TODO: fetch partially if not purchased, i.e. teasers
   const { contents, error, isPending } = useFetchContents(contentIds, bypass);
   const [targetLesson, setTargetLesson] = useState(null);
 
@@ -81,7 +89,7 @@ function GuardedContents({ contentIds, bypass }) {
     }
   }, [contents, lessonParam, navigate]);
 
-  return (
+  return isPurchased ? (
     <div>
       {contentIds.length > 0 ? (
         <div>
@@ -93,7 +101,9 @@ function GuardedContents({ contentIds, bypass }) {
               <div>
                 {/* renders the full sidebar tree */}
                 <Sidebar contents={contents} />
+
                 {/* renders only the active lesson */}
+                {/* TODO: check if it belongs to teaser lessons and render conditionally */}
                 {targetLesson && <Lesson lesson={targetLesson} />}
               </div>
             )
@@ -103,6 +113,10 @@ function GuardedContents({ contentIds, bypass }) {
         <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào.</h3>
       )}
     </div>
+  ) : (
+    <h3>
+      📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {modId})
+    </h3>
   );
 }
 
