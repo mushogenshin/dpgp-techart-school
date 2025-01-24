@@ -1,37 +1,65 @@
-const admin = require("firebase-admin");
+const { initializeApp, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
-const productionApp = admin.initializeApp(
+// Initialize Firebase Admin SDK for production Firestore
+const serviceAccount = require("../.keys/dpgp-techart-firebase-adminsdk-1pzwt-ff1a0d3c2d.json");
+const prodApp = initializeApp(
   {
-    credential: admin.credential.cert(
-      require("../.keys/dpgp-techart-firebase-adminsdk-1pzwt-ff1a0d3c2d.json")
-    ),
+    credential: cert(serviceAccount),
     databaseURL: "https://dpgp-techart.firebaseapp.com",
   },
-  "productionApp"
+  "prodApp"
 );
 
-const sourceDb = productionApp.firestore();
-const destinationDb = productionApp.firestore();
+const prodDb = getFirestore(prodApp);
+// console.log(
+//   `Connected to production Firestore: ${JSON.stringify(prodDb._settings)}`
+// );
 
-async function copyCollection(srcColl, dstColl) {
-  const snapshot = await sourceDb.collection(srcColl).get();
-  // NOTE: if you want to limit the number of documents copied, use this instead:
-  // const snapshot = await sourceDb.collection(srcColl).limit(10).get();
-  const writeBatch = destinationDb.batch();
+// Initialize Firebase Admin SDK for Firestore emulator
+const emulatorApp = initializeApp(
+  {
+    projectId: "dpgp-techart",
+  },
+  "emulatorApp"
+);
 
-  snapshot.docs.forEach((doc) => {
-    const docRef = destinationDb.collection(dstColl).doc(doc.id);
-    const student = doc.data();
+const emulatorDb = getFirestore(emulatorApp);
+emulatorDb.settings({
+  host: "localhost:8081",
+  ssl: false,
+});
+// console.log(
+//   `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
+// );
 
-    // map over the student's enrollments and return only the module IDs
-    let enrollments = [];
-    if (Array.isArray(student.enrollments)) {
-      enrollments = student.enrollments.map((enrollment) => enrollment.module);
-    }
-    writeBatch.set(docRef, { ...student, enrollments });
-  });
+const collections = ["classes"];
 
-  return writeBatch.commit();
+async function copyDocuments(numOfDocs = 10) {
+  for (const coll of collections) {
+    const prodCollectionRef = prodDb.collection(coll);
+    const emulatorCollectionRef = emulatorDb.collection(coll);
+
+    const snapshot = await prodCollectionRef.limit(numOfDocs).get();
+    snapshot.forEach(async (doc) => {
+      const data = doc.data();
+      // console.log(`Document ${doc.id} from ${coll}:`, data);
+      try {
+        await emulatorCollectionRef.doc(doc.id).set(data);
+        console.log(`Copied document ${doc.id} from ${coll}`);
+      } catch (error) {
+        console.error(`Error copying document ${doc.id} from ${coll}:`, error);
+      }
+    });
+  }
 }
 
-// Usage
+copyDocuments(2)
+  .then(() => {
+    console.log("Documents copied successfully");
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error("Error copying documents:", error);
+    process.exit(1);
+  });
