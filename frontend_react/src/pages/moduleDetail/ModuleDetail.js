@@ -14,8 +14,11 @@ export default function ModuleDetail({ setShowSidebar }) {
 
   const { moduleData, error, isPending } = useFetchModule(modId);
 
+  // allow viewing if content is freebie
   const isFreebie = (moduleData && moduleData.freebie) || false;
+  // see if user owns this module
   const isPurchased = isFreebie || (purchased && purchased.includes(modId));
+  // check if the unit param is valid
   const unitsData = moduleData && moduleData.units ? moduleData.units : [];
   const unitLookup = unitsData.find((unit) => unit.id === unitParam);
 
@@ -32,13 +35,17 @@ export default function ModuleDetail({ setShowSidebar }) {
   ) : (
     <div>
       {error && <h2>😳 Failed to fetch module: {error}</h2>}
+
+      {/* module metadata */}
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
+
       {isPurchased ? (
         <div>
-          {/* carousel-style clickable elements to select a Unit */}
+          {/* list of buttons to choose which unit to view */}
           <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
+          {/* show the unit detail, i.e. lesson contents */}
           {unitLookup && (
             <UnitDetail unitData={unitLookup} setShowSidebar={setShowSidebar} />
           )}
@@ -53,6 +60,10 @@ export default function ModuleDetail({ setShowSidebar }) {
   );
 }
 
+/**
+ * Carousel-style clickable elements to select a Unit.
+ * @param {string} activeUnitId: used to highlight the selected Unit
+ */
 function ChooseUnit({ unitsData, activeUnitId }) {
   const navigate = useNavigate();
   const { courseId, modId } = useParams();
