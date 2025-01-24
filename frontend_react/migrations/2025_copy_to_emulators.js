@@ -26,12 +26,12 @@ const emulatorApp = initializeApp(
 
 const emulatorDb = getFirestore(emulatorApp);
 emulatorDb.settings({
-  host: "localhost:8081",
+  host: "localhost:8080",
   ssl: false,
 });
-// console.log(
-//   `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
-// );
+console.log(
+  `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
+);
 
 const collections = ["classes"];
 
@@ -41,16 +41,16 @@ async function copyDocuments(numOfDocs = 10) {
     const emulatorCollectionRef = emulatorDb.collection(coll);
 
     const snapshot = await prodCollectionRef.limit(numOfDocs).get();
-    snapshot.forEach(async (doc) => {
+    for (const doc of snapshot.docs) {
       const data = doc.data();
-      // console.log(`Document ${doc.id} from ${coll}:`, data);
+      console.log(`Document ${doc.id} from ${coll}:`, data);
       try {
         await emulatorCollectionRef.doc(doc.id).set(data);
         console.log(`Copied document ${doc.id} from ${coll}`);
       } catch (error) {
         console.error(`Error copying document ${doc.id} from ${coll}:`, error);
       }
-    });
+    }
   }
 }
 
