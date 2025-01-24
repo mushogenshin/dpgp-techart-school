@@ -31,7 +31,7 @@ export default function ModuleDetail({ setShowSidebar }) {
     <h2>Đợi xíu nha 😙...</h2>
   ) : (
     <div>
-      {error && <h2>😳 {error}</h2>}
+      {error && <h2>😳 Failed to fetch module: {error}</h2>}
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
       {isPurchased ? (

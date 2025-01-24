@@ -78,7 +78,7 @@ function GuardedContents({ contentIds, bypass }) {
     <div>
       {contentIds.length > 0 ? (
         <div>
-          {error && <h2>😳 {error}</h2>}
+          {error && <h2>😳 Failed to fetch content: {error}</h2>}
           {isPending ? (
             <p>Đợi xíu nha 😙...</p>
           ) : (

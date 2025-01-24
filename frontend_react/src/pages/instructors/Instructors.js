@@ -21,8 +21,12 @@ export default function Instructors() {
 
   return (
     <div className={styles.about}>
-      {memberListError ||
-        (membersError && <h2>😳 {memberListError || membersError}</h2>)}
+      {(memberListError || membersError) && (
+        <h2>
+          😳 Failed to fetch "instructors"/"members":{" "}
+          {memberListError || membersError}
+        </h2>
+      )}
 
       {isMemberListPending || isMembersPending ? (
         <p>Đợi xíu nha 😙...</p>
