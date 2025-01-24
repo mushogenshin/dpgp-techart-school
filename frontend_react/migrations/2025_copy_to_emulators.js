@@ -29,32 +29,53 @@ emulatorDb.settings({
   host: "localhost:8080",
   ssl: false,
 });
-console.log(
-  `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
-);
+// console.log(
+//   `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
+// );
 
-const collections = ["classes"];
+const collections = {
+  users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
+  // classes: ["ACA02", "FAP03", "PYTA_2024"],
+  // modules: ["ACA02_mod2", "FAP03_trackB", "PYTA_2024_m3"],
+  // contents: [
+  //   "ACA_pectoral_muscles",
+  //   "ACA_abdominal_muscles",
+  //   "ACA_shoulder_back_muscles_1",
+  //   "FAP_what_is_likeness",
+  //   "FAP_likeness_shape_depth",
+  //   "PYTA_2024_python_unreal_practice_1",
+  //   "PYTA_2024_python_unreal_widgets_1",
+  // ],
+};
 
-async function copyDocuments(numOfDocs = 10) {
-  for (const coll of collections) {
+async function copyDocuments() {
+  for (const [coll, docIds] of Object.entries(collections)) {
     const prodCollectionRef = prodDb.collection(coll);
     const emulatorCollectionRef = emulatorDb.collection(coll);
 
-    const snapshot = await prodCollectionRef.limit(numOfDocs).get();
-    for (const doc of snapshot.docs) {
-      const data = doc.data();
-      console.log(`Document ${doc.id} from ${coll}:`, data);
-      try {
-        await emulatorCollectionRef.doc(doc.id).set(data);
-        console.log(`Copied document ${doc.id} from ${coll}`);
-      } catch (error) {
-        console.error(`Error copying document ${doc.id} from ${coll}:`, error);
+    for (const docId of docIds) {
+      const docRef = prodCollectionRef.doc(docId);
+      const doc = await docRef.get();
+      if (doc.exists) {
+        const data = doc.data();
+        // console.log(`Document ${doc.id} from ${coll}:`, data);
+        try {
+          await emulatorCollectionRef.doc(doc.id).set(data);
+          console.log(`Copied document ${doc.id} from ${coll}`);
+        } catch (error) {
+          console.error(
+            `Error copying document ${doc.id} from ${coll}:`,
+            error
+          );
+        }
+      } else {
+        console.log(`Document ${docId} does not exist in collection ${coll}`);
       }
     }
   }
 }
 
-copyDocuments(2)
+copyDocuments()
   .then(() => {
     console.log("Documents copied successfully");
     process.exit(0);

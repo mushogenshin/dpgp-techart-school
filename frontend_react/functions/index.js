@@ -32,7 +32,7 @@ if (process.env.FUNCTIONS_EMULATOR) {
     "Running in local environment. Connecting to Firestore emulator."
   );
   db.settings({
-    host: "localhost:8081",
+    host: "localhost:8080",
     ssl: false,
   });
 }
@@ -115,6 +115,7 @@ const setEnrollmentFromHistory = async (uid, email, displayName, callback) => {
 };
 
 /**
+ * This requires Firebase Identity to be enabled in the Firebase Console.
  * @param {AuthUserRecord} user
  * @param {AuthEventContext} context
  */

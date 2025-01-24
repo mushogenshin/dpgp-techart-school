@@ -26,6 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "emu": "firebase emulators:start --import=./.emulator.firestore --export-on-exit",
     "deploy": "npm run build && firebase deploy --only hosting"
   },
   "eslintConfig": {
