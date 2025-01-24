@@ -1,6 +1,6 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
 import ContentBlock from "../../components/contentBlock/ContentBlock";
-import SocialLink from "../../components/SocialLink";
+import SocialLink from "../../components/contentBlock/SocialLink";
 
 import styles from "./Instructors.module.css";
 

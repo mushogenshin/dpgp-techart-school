@@ -1,7 +1,7 @@
 import React from "react";
 import gfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
-import Vimeo from "../../components/Vimeo";
+import Vimeo from "../../components/contentBlock/Vimeo";
 import styles from "./Poi.module.css";
 
 export default function Poi() {

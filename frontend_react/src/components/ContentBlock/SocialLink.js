@@ -1,6 +1,6 @@
-import InstagramLogo from "./logo/InstagramLogo";
-import ArtStationLogo from "./logo/ArtStationLogo";
-import LinkedInLogo from "./logo/LinkedInLogo";
+import InstagramLogo from "../logo/InstagramLogo";
+import ArtStationLogo from "../logo/ArtStationLogo";
+import LinkedInLogo from "../logo/LinkedInLogo";
 
 export default function SocialLink({ social }) {
   return (

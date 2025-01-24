@@ -1,8 +1,8 @@
 import ReactMarkdown from "react-markdown";
-import Image from "../Image";
-import Vimeo from "../Vimeo";
-import YouTube from "../YouTube";
-import Sketchfab from "../Sketchfab";
+import Image from "./Image";
+import Vimeo from "./Vimeo";
+import YouTube from "./YouTube";
+import Sketchfab from "./Sketchfab";
 import styles from "./ContentBlock.module.css";
 
 /**
