@@ -51,8 +51,8 @@ export default function ModuleDetail({ setShowSidebar }) {
         {/* show the Unit detail, i.e. Lesson contents */}
         {unitLookup && (
           <UnitDetail
-            isPurchased={isPurchased}
             unitData={unitLookup}
+            isPurchased={isPurchased}
             setShowSidebar={setShowSidebar}
           />
         )}
