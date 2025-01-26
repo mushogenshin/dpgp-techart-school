@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useNavigateFirstLesson } from "../../hooks/firestore/useNavigateFirstLesson";
 import { useFetchContents } from "../../hooks/firestore/useFetchContents";
 
@@ -28,7 +29,6 @@ export default function UnitDetail({ unitData, isPurchased, setShowSidebar }) {
 
   useNavigateFirstLesson(unitData);
 
-  // TODO: show sidebar even for non-paying customers, but limit the content
   useEffect(() => {
     // only show sidebar if the unit is unlocked and there are actual contents to show
     const should_open = unlocked && contentIds.length > 0 ? true : false;
@@ -66,6 +66,7 @@ export default function UnitDetail({ unitData, isPurchased, setShowSidebar }) {
  */
 function PreviewAndContents({ contentIds, bypass, isPurchased }) {
   const navigate = useNavigate();
+  const { elevatedRole } = useAuthContext();
   const { modId, lessonId: lessonParam } = useParams();
   const { contents, error, isPending } = useFetchContents(
     contentIds,
@@ -95,6 +96,20 @@ function PreviewAndContents({ contentIds, bypass, isPurchased }) {
 
   return (
     <div>
+      {/* ADMIN: show the content IDs for ease of backtracking  */}
+      {elevatedRole && (
+        <div className={styles.debug}>
+          <h3>🔑 Content IDs: </h3>
+          <ul>
+            {contentIds.map((id) => (
+              <li key={id}>
+                <pre>{id}</pre>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {contentIds.length > 0 ? (
         <div>
           {error && <h2>😳 Failed to fetch content: {error}</h2>}
