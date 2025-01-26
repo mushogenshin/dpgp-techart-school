@@ -8,9 +8,10 @@ export default function About() {
   return (
     <div>
       <Manifesto />
-      {/* <div>
+      <div>
+        {/* this is only visible to guests */}
         <SubscribeForm source="web-manifesto-page" />
-      </div> */}
+      </div>
     </div>
   );
 }

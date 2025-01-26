@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SubscribeForm from "../subscription/SubscribeForm";
 
-import styles from "./Home.module.css";
+import styles from "./Buy.module.css";
 
-export default function Home() {
+export default function Buy() {
   return (
     <div>
       <Offers />
-      {/* <div style={{ height: "25" }}></div> */}
-      {/* <SubscribeForm source="web-course-listing-page" /> */}
+      <div style={{ height: "25" }}></div>
+      {/* this is only visible to guests */}
+      <SubscribeForm source="web-course-listing-page" />
     </div>
   );
 }

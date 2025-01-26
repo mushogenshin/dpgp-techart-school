@@ -97,8 +97,8 @@ export default function Navbar() {
           )}
 
           {/* Right aligned */}
-          <Link onClick={toggleClass} to="/courses">
-            Courses
+          <Link onClick={toggleClass} to="/buy">
+            Offers
           </Link>
           {user ? (
             <>
