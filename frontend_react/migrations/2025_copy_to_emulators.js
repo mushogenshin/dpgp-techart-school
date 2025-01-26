@@ -75,12 +75,43 @@ async function copyDocuments() {
   }
 }
 
-copyDocuments()
+// copyDocuments()
+//   .then(() => {
+//     console.log("Documents copied successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error copying documents:", error);
+//     process.exit(1);
+//   });
+
+async function updateContents(db) {
+  const contentsRef = db.collection("contents");
+  const snapshot = await contentsRef.get();
+
+  if (snapshot.empty) {
+    console.log("No matching documents.");
+    return;
+  }
+
+  const promises = snapshot.docs.map(async (doc) => {
+    const data = doc.data();
+    if (data.lessons && data.lessons.length > 0) {
+      data.lessons[0].allows_peek = true;
+      await contentsRef.doc(doc.id).update({ lessons: data.lessons });
+      console.log(`Updated document ${doc.id}`);
+    }
+  });
+
+  await Promise.all(promises);
+}
+
+updateContents(prodDb)
   .then(() => {
-    console.log("Documents copied successfully");
+    console.log("Documents updated successfully");
     process.exit(0);
   })
   .catch((error) => {
-    console.error("Error copying documents:", error);
+    console.error("Error updating documents:", error);
     process.exit(1);
   });
