@@ -58,6 +58,8 @@ export default function CourseDetail() {
       }
     >
       <CourseMetadata courseData={courseLookup} />
+
+      {/* optional featured student works */}
       {showStudentWorks && (
         <Album
           albumName="Bài nộp học viên"
@@ -67,15 +69,18 @@ export default function CourseDetail() {
         />
       )}
       <hr></hr>
+
       {/* carousel-style clickable elements to select a Module */}
       <ChooseModule moduleIds={moduleIds} activeModId={modParam} />
+
+      {/* show the Module detail, i.e. Unit contents */}
       {modParam &&
         (user ? (
           <ModuleDetail setShowSidebar={setShowSidebar} />
         ) : (
           <h3 className={styles.prompt}>
             🗝️ <Link to="/login">Đăng nhập</Link> để xem: các tài liệu miễn phí
-            + toàn bộ modules đã mua
+            + toàn bộ modules đã mua + nhiều nội dung học thử khác
           </h3>
         ))}
     </div>
