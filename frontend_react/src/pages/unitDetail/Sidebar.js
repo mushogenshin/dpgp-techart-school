@@ -54,8 +54,8 @@ export default function Sidebar({ contents }) {
 function Outline({ content, activeLessonId, setActiveLessonId }) {
   return (
     <div id="itu_sidebar_2">
-      <h3>{content.name || "Section"}</h3>
-      {content.lessons && content.lessons.length > 0 ? (
+      <h3>{content?.name || "Unknown Section"}</h3>
+      {content?.lessons && content.lessons.length > 0 ? (
         <ul>
           {content.lessons.map((lesson, index) => {
             return (
