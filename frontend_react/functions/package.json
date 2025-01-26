@@ -19,7 +19,7 @@
     "express": "5.0.1",
     "express-rate-limit": "^7.5.0",
     "firebase-admin": "13.0.2",
-    "firebase-functions": "^6.0.1"
+    "firebase-functions": "^6.3.0"
   },
   "devDependencies": {
     "eslint": "9.18.0",
