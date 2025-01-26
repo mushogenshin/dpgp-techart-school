@@ -101,29 +101,32 @@ function PreviewAndContents({ contentIds, bypass, isPurchased }) {
           {isPending ? (
             <p>Đợi xíu nha 😙...</p>
           ) : (
-            contents && (
-              <div>
-                {/* renders the full sidebar tree */}
-                <Sidebar contents={contents} />
+            <div>
+              {contents && (
+                <div>
+                  {/* renders the full sidebar tree */}
+                  <Sidebar contents={contents} />
 
-                {/* renders only the active lesson */}
-                {/* TODO: check if it belongs to teaser lessons and render conditionally */}
-                {targetLesson && <Lesson lesson={targetLesson} />}
-              </div>
-            )
+                  {/* renders only the active lesson */}
+                  {targetLesson && <Lesson lesson={targetLesson} />}
+                </div>
+              )}
+
+              {/* prompt users to purchase if they are viewing teasers */}
+              {!isPurchased && (
+                <h3>
+                  📺 Để xem toàn bộ video bài giảng, hãy liên lạc DPGP để mua
+                  module này (👉 {modId})
+                </h3>
+              )}
+            </div>
           )}
         </div>
       ) : (
-        <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào.</h3>
+        <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào</h3>
       )}
     </div>
   );
-  // (
-  //   <h3>
-  //     📺 Để xem toàn bộ video bài giảng, hãy liên lạc DPGP để mua module này (👉{" "}
-  //     {modId})
-  //   </h3>
-  // );
 }
 
 /**

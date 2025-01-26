@@ -88,7 +88,7 @@ function ChooseUnit({ unitsData, activeUnitId }) {
           ))}
         </ul>
       ) : (
-        <h3>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h3>
+        <h3>😳 Khóa học này trống trơn, không tìm thấy modules nào</h3>
       )}
     </div>
   );
