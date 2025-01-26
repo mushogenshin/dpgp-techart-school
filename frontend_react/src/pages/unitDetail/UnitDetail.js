@@ -37,8 +37,10 @@ export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
 
   return unlocked ? (
     <div className={styles["unit-content"]}>
-      {preface && <Pin blocks={preface} />}
-      {/* bypass fetching contents if the Unit is locked */}
+      {/* pinned preface, won't be shown in teasers */}
+      {isPurchased && preface && <Pin blocks={preface} />}
+
+      {/* modify fetched contents if the Unit is locked */}
       {
         <PreviewAndContents
           isPurchased={isPurchased}
@@ -46,7 +48,9 @@ export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
           bypass={!unlocked}
         />
       }
-      {postscript && <Pin blocks={postscript} />}
+
+      {/* pinned postscript, won't be shown in teasers */}
+      {isPurchased && postscript && <Pin blocks={postscript} />}
     </div>
   ) : (
     <h3>🔏 Nội dung này còn đang bị khoá (vì chưa đến thời điểm được mở)</h3>
@@ -111,7 +115,8 @@ function PreviewAndContents({ isPurchased, contentIds, bypass }) {
     </div>
   ) : (
     <h3>
-      📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {modId})
+      📺 Để xem toàn bộ video bài giảng, hãy liên lạc DPGP để mua module này (👉{" "}
+      {modId})
     </h3>
   );
 }
