@@ -33,25 +33,11 @@ emulatorDb.settings({
 //   `Connected to Firestore emulator: ${JSON.stringify(emulatorDb._settings)}`
 // );
 
-const collections = {
-  // users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
-  classes: ["ACA02", "FAP03", "PYTA_2024"],
-  modules: ["ACA02_mod1", "FAP03_trackA", "PYTA_2024_m1"],
-  contents: [
-    "ACA_intro_body_plan",
-    "ACA_intro_head_skull",
-    "FAP_intro_to_structure",
-    "FAP_intro_to_skull",
-    "PYTA_intro_mindset",
-    "PYTA_2024_intro_mindset_2",
-    "PYTA_2024_python_maya_intro",
-  ],
-};
-
-async function copyDocuments() {
+// ------------------------------------------------------------
+async function copyProdToEmulator(src, dst, collections) {
   for (const [coll, docIds] of Object.entries(collections)) {
-    const prodCollectionRef = prodDb.collection(coll);
-    const emulatorCollectionRef = emulatorDb.collection(coll);
+    const prodCollectionRef = src.collection(coll);
+    const emulatorCollectionRef = dst.collection(coll);
 
     for (const docId of docIds) {
       const docRef = prodCollectionRef.doc(docId);
@@ -75,7 +61,22 @@ async function copyDocuments() {
   }
 }
 
-// copyDocuments()
+const collections = {
+  // users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
+  classes: ["ACA02", "FAP03", "PYTA_2024"],
+  modules: ["ACA02_mod1", "FAP03_trackA", "PYTA_2024_m1"],
+  contents: [
+    "ACA_intro_body_plan",
+    "ACA_intro_head_skull",
+    "FAP_intro_to_structure",
+    "FAP_intro_to_skull",
+    "PYTA_intro_mindset",
+    "PYTA_2024_intro_mindset_2",
+    "PYTA_2024_python_maya_intro",
+  ],
+};
+
+// copyProdToEmulator(prodDb, emulatorDb, collections)
 //   .then(() => {
 //     console.log("Documents copied successfully");
 //     process.exit(0);
@@ -85,7 +86,8 @@ async function copyDocuments() {
 //     process.exit(1);
 //   });
 
-async function updateContents(db) {
+// ------------------------------------------------------------
+async function allowPeekAllFirstLessons(db, value = true) {
   const contentsRef = db.collection("contents");
   const snapshot = await contentsRef.get();
 
@@ -97,7 +99,7 @@ async function updateContents(db) {
   const promises = snapshot.docs.map(async (doc) => {
     const data = doc.data();
     if (data.lessons && data.lessons.length > 0) {
-      data.lessons[0].allows_peek = true;
+      data.lessons[0].allows_peek = value;
       await contentsRef.doc(doc.id).update({ lessons: data.lessons });
       console.log(`Updated document ${doc.id}`);
     }
@@ -106,12 +108,48 @@ async function updateContents(db) {
   await Promise.all(promises);
 }
 
-updateContents(prodDb)
-  .then(() => {
-    console.log("Documents updated successfully");
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error("Error updating documents:", error);
-    process.exit(1);
+// // NOTE: change to Emulator Firestore for testing
+// allowPeekAllFirstLessons(prodDb, true)
+//   .then(() => {
+//     console.log("Documents updated successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error updating documents:", error);
+//     process.exit(1);
+//   });
+
+// ------------------------------------------------------------
+async function allowPeekForPrefixedDocs(db, prefixes, value = true) {
+  const contentsRef = db.collection("contents");
+  const snapshot = await contentsRef.get();
+
+  if (snapshot.empty) {
+    console.log("No matching documents.");
+    return;
+  }
+
+  const promises = snapshot.docs.map(async (doc) => {
+    if (prefixes.some((prefix) => doc.id.startsWith(prefix))) {
+      const data = doc.data();
+      if (data.lessons && data.lessons.length > 0) {
+        data.lessons[0].allows_peek = value;
+        await contentsRef.doc(doc.id).update({ lessons: data.lessons });
+        console.log(`Updated document ${doc.id}`);
+      }
+    }
   });
+
+  await Promise.all(promises);
+}
+
+// // NOTE: change to Emulator Firestore for testing
+// allowPeekForPrefixedDocs(prodDb, ["PNFD", "ACA"], false)
+//   .then(() => {
+//     console.log("Documents with specified prefixes updated successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error updating documents with specified prefixes:", error);
+//     process.exit(1);
+//   });
