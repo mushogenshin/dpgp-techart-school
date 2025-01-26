@@ -24,21 +24,17 @@ export default function AllCourses() {
 
   return (
     <div className={styles.courses}>
-      {isPending ? (
-        <p>Đợi xíu nha 😙...</p>
-      ) : (
-        <div>
-          <Purchased user={user} />
-          <Freebie user={user} courses={courses} />
-          <AllExisting courses={courses} coursesError={coursesError} />
-          {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
+      {isPending && <p>Đợi xíu nha 😙...</p>}
+
+      <Purchased user={user} />
+      <Freebie user={user} courses={courses} />
+      <AllExisting courses={courses} coursesError={coursesError} />
+      {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
         <div key={category}>
           <h2>{category}</h2>
           <AllExisting courses={courses} coursesError={coursesError} />
         </div>
       ))} */}
-        </div>
-      )}
     </div>
   );
 }
