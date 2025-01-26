@@ -60,17 +60,20 @@ export function useFetchContents(
               // some content doc may be undefined
               if (content && content.lessons) {
                 content.lessons = content.lessons.map((lesson) => {
-                  return {
-                    ...lesson,
-                    // TODO: show only lessons that are teasers, and replace the
-                    // rest with a placeholder image
-                    blocks: lesson.blocks.map((block) => {
-                      return {
-                        ...block,
-                        type: "text",
-                      };
-                    }),
-                  };
+                  if (lesson.allows_peek || false) {
+                    return lesson;
+                  } else {
+                    return {
+                      ...lesson,
+                      blocks: lesson.blocks.map((block) => {
+                        return {
+                          ...block,
+                          type: "image",
+                          data: "https://i.imgur.com/Q3LIzVr_d.webp?maxwidth=520&shape=thumb&fidelity=high",
+                        };
+                      }),
+                    };
+                  }
                 });
               }
             });
