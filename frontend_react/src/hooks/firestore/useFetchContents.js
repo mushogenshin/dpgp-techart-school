@@ -79,9 +79,12 @@ export function useFetchContents(
                         },
                         {
                           type: "html",
-                          data: `${videoCount} video của bài "${
+                          data: `
+                          ${videoCount > 0 ? videoCount : ""} ${
+                            videoCount > 0 ? "video" : "Nội dung"
+                          } của bài "${
                             lesson.name || ""
-                          }" này đang bị khoá</br>vì bạn chưa mua khóa học`,
+                          }" này</br>đang bị khoá vì bạn chưa mua khóa học`,
                         },
                       ],
                     };
