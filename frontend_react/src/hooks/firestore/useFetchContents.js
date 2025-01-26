@@ -69,7 +69,7 @@ export function useFetchContents(
                         return {
                           ...block,
                           type: "image",
-                          data: "https://i.imgur.com/Q3LIzVr_d.webp?maxwidth=520&shape=thumb&fidelity=high",
+                          data: "https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2Flock_icon_128x128.png?alt=media&token=af5e3630-8cb8-45c9-9bf0-ef50e0b8ebd6",
                         };
                       }),
                     };
