@@ -63,15 +63,27 @@ export function useFetchContents(
                   if (lesson.allows_peek || false) {
                     return lesson;
                   } else {
+                    const videoCount = lesson.blocks.reduce((count, block) => {
+                      if (block.type === "vimeo" || block.type === "youtube") {
+                        return count + 1;
+                      }
+                      return count;
+                    }, 0);
+
                     return {
                       ...lesson,
-                      blocks: lesson.blocks.map((block) => {
-                        return {
-                          ...block,
+                      blocks: [
+                        {
                           type: "image",
                           data: "https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2Flock_icon_128x128.png?alt=media&token=af5e3630-8cb8-45c9-9bf0-ef50e0b8ebd6",
-                        };
-                      }),
+                        },
+                        {
+                          type: "html",
+                          data: `${videoCount} video của bài "${
+                            lesson.name || ""
+                          }" này đang bị khoá</br>vì bạn chưa mua khóa học`,
+                        },
+                      ],
                     };
                   }
                 });
