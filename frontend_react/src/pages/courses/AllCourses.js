@@ -9,7 +9,7 @@ import styles from "./Courses.module.css";
 
 export default function AllCourses() {
   const { user } = useAuthContext();
-  const { courses, coursesError } = useCoursesContext();
+  const { courses, coursesError, isPending } = useCoursesContext();
 
   // // Group courses by category
   // const coursesByCategory = courses.reduce((acc, course) => {
@@ -24,15 +24,21 @@ export default function AllCourses() {
 
   return (
     <div className={styles.courses}>
-      <Purchased user={user} />
-      <Freebie user={user} courses={courses} />
-      <AllExisting courses={courses} coursesError={coursesError} />
-      {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
+      {isPending ? (
+        <p>Đợi xíu nha 😙...</p>
+      ) : (
+        <div>
+          <Purchased user={user} />
+          <Freebie user={user} courses={courses} />
+          <AllExisting courses={courses} coursesError={coursesError} />
+          {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
         <div key={category}>
           <h2>{category}</h2>
           <AllExisting courses={courses} coursesError={coursesError} />
         </div>
       ))} */}
+        </div>
+      )}
     </div>
   );
 }
