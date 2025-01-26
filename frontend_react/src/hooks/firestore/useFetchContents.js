@@ -6,9 +6,10 @@ import { onSnapshot, query, collection, where } from "firebase/firestore";
  * Fetches contents from Firestore based on an array of content IDs.
  * @param {Array<string>} contentIds: an array of content IDs to fetch
  * @param {boolean} bypass: if true, bypass fetching contents
+ * @param {boolean} onlyTeasers: if true, modify the fetched contents to show only teasers
  * @returns {Object} an object containing the fetched contents, error, and pending status
  */
-export function useFetchContents(contentIds, bypass) {
+export function useFetchContents(contentIds, bypass, onlyTeasers = false) {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [contents, setContents] = useState(null);

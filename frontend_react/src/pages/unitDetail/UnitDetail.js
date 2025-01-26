@@ -10,7 +10,7 @@ import ContentBlock from "../../components/contentBlock/ContentBlock";
 
 import styles from "./Unit.module.css";
 
-export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
+export default function UnitDetail({ unitData, isPurchased, setShowSidebar }) {
   const { ignoreLockedModules } = useCoursesContext();
   // unit is considered unlocked if it's explicitly unlocked or if there's admin override
   const unlocked =
@@ -43,9 +43,9 @@ export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
       {/* modify fetched contents if the Unit is locked */}
       {
         <PreviewAndContents
-          isPurchased={isPurchased}
           contentIds={contentIds}
           bypass={!unlocked}
+          isPurchased={isPurchased}
         />
       }
 
@@ -60,14 +60,18 @@ export default function UnitDetail({ isPurchased, unitData, setShowSidebar }) {
 /**
  * Fetches the contents of the Unit, but renders only the content of the active
  * Lesson.
+ * @param {Array<string>} contentIds: content references for the Unit
  * @param {boolean} bypass: if true, bypass fetching contents, e.g. when the
- * Unit is locked
+ * Unit is locked, or the content refs is empty
  */
-function PreviewAndContents({ isPurchased, contentIds, bypass }) {
+function PreviewAndContents({ contentIds, bypass, isPurchased }) {
   const navigate = useNavigate();
   const { modId, lessonId: lessonParam } = useParams();
-  // TODO: fetch partially if not purchased, i.e. teasers
-  const { contents, error, isPending } = useFetchContents(contentIds, bypass);
+  const { contents, error, isPending } = useFetchContents(
+    contentIds,
+    bypass,
+    !isPurchased // only fetch teasers if not purchased
+  );
   const [targetLesson, setTargetLesson] = useState(null);
 
   useEffect(() => {
@@ -89,7 +93,7 @@ function PreviewAndContents({ isPurchased, contentIds, bypass }) {
     }
   }, [contents, lessonParam, navigate]);
 
-  return isPurchased ? (
+  return (
     <div>
       {contentIds.length > 0 ? (
         <div>
@@ -113,12 +117,13 @@ function PreviewAndContents({ isPurchased, contentIds, bypass }) {
         <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào.</h3>
       )}
     </div>
-  ) : (
-    <h3>
-      📺 Để xem toàn bộ video bài giảng, hãy liên lạc DPGP để mua module này (👉{" "}
-      {modId})
-    </h3>
   );
+  // (
+  //   <h3>
+  //     📺 Để xem toàn bộ video bài giảng, hãy liên lạc DPGP để mua module này (👉{" "}
+  //     {modId})
+  //   </h3>
+  // );
 }
 
 /**
