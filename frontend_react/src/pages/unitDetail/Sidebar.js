@@ -67,8 +67,15 @@ export default function Sidebar({ contents }) {
 
 function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
   const { elevatedRole } = useAuthContext();
+  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
 
   const toggleAllowsPeek = async (lessonId) => {
+    setError(null);
+    setIsPending(true);
+
+    // console.log(`Toggling allows_peek for lesson ${lessonId}`);
+
     const targetLesson = content.lessons.find(
       (lesson) => lesson.id === lessonId
     );
@@ -93,7 +100,10 @@ function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
         console.log("Lesson successfully updated!");
       }
     } catch (error) {
-      console.error("Error updating lesson: ", error);
+      console.error("Error updating lesson:", error);
+      setError(error.message);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -117,6 +127,7 @@ function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
                         type="checkbox"
                         checked={lesson.allows_peek || false}
                         className={styles["allows-peek"]}
+                        disabled={isPending}
                         onChange={(e) => {
                           e.stopPropagation(); // Prevent li onClick from firing
                           toggleAllowsPeek(lesson.id);
