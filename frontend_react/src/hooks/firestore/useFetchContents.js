@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { onSnapshot, query, collection, where } from "firebase/firestore";
 
+const LOCK_ICON_URL =
+  "https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2Flock_icon_128x128.png?alt=media&token=af5e3630-8cb8-45c9-9bf0-ef50e0b8ebd6";
+
 /**
  * Fetches contents from Firestore based on an array of content IDs.
  * @param {Array<string>} contentIds: an array of content IDs to fetch
@@ -61,8 +64,21 @@ export function useFetchContents(
               if (content && content.lessons) {
                 content.lessons = content.lessons.map((lesson) => {
                   if (lesson.allows_peek || false) {
+                    // return {
+                    //   ...lesson,
+                    //   blocks: [
+                    //     // add a text block
+                    //     {
+                    //       type: "text",
+                    //       data: `Nội dung miễn phí: "${lesson.name || ""}"`,
+                    //     },
+                    //     ...(lesson.blocks || []),
+                    //   ],
+                    // };
                     return lesson;
                   } else {
+                    // guarded contents, so we replace the lesson with a lock
+                    // icon and a text prompt
                     const videoCount = lesson.blocks.reduce((count, block) => {
                       if (block.type === "vimeo" || block.type === "youtube") {
                         return count + 1;
@@ -75,7 +91,7 @@ export function useFetchContents(
                       blocks: [
                         {
                           type: "image",
-                          data: "https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2Flock_icon_128x128.png?alt=media&token=af5e3630-8cb8-45c9-9bf0-ef50e0b8ebd6",
+                          data: LOCK_ICON_URL,
                         },
                         {
                           type: "html",

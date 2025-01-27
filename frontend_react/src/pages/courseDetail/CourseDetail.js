@@ -100,7 +100,7 @@ function ChooseModule({ moduleIds, activeModId }) {
   return (
     <div id="course_carousel_module" className={styles.carousel}>
       {moduleIds && (
-        <div>
+        <>
           <ul>
             {moduleIds.map((modId, i) => (
               <li
@@ -115,7 +115,7 @@ function ChooseModule({ moduleIds, activeModId }) {
           {/* {moduleIds.length > 1 && index !== null && (
             <small className={styles.hint}>Module #{index + 1}:</small>
           )} */}
-        </div>
+        </>
       )}
     </div>
   );

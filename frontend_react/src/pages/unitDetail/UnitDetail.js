@@ -95,7 +95,7 @@ function PreviewAndContents({ contentIds, bypass, isPurchased }) {
   }, [contents, lessonParam, navigate]);
 
   return (
-    <div>
+    <>
       {/* ADMIN: show the content IDs for ease of backtracking  */}
       {elevatedRole && (
         <div className={styles.debug}>
@@ -111,20 +111,21 @@ function PreviewAndContents({ contentIds, bypass, isPurchased }) {
       )}
 
       {contentIds.length > 0 ? (
-        <div>
+        <>
           {error && <h2>😳 Failed to fetch content: {error}</h2>}
+
           {isPending ? (
             <p>Đợi xíu nha 😙...</p>
           ) : (
-            <div>
+            <>
               {contents && (
-                <div>
+                <>
                   {/* renders the full sidebar tree */}
                   <Sidebar contents={contents} />
 
                   {/* renders only the active lesson */}
                   {targetLesson && <Lesson lesson={targetLesson} />}
-                </div>
+                </>
               )}
 
               {/* prompt users to purchase if they are viewing teasers */}
@@ -134,13 +135,13 @@ function PreviewAndContents({ contentIds, bypass, isPurchased }) {
                   module này (👉 {modId})
                 </h3>
               )}
-            </div>
+            </>
           )}
-        </div>
+        </>
       ) : (
         <h3>😳 Unit này trống trơn, không tìm thấy nội dung nào</h3>
       )}
-    </div>
+    </>
   );
 }
 

@@ -45,18 +45,24 @@ function Offers() {
               </ul>
             </>
           )}
+
           {/* SELF-TAUGHT CLASSES */}
-          <p className={styles.title}>
-            {selfTaught?.length} lớp tự học (access trọn đời):
-          </p>
-          <ul>
-            {selfTaught &&
-              selfTaught.map((item, index) => (
-                <li key={index}>
-                  <Available cls={item} timebound={false} />
-                </li>
-              ))}
-          </ul>
+          {selfTaught?.length > 0 && (
+            <>
+              <p className={styles.title}>
+                {selfTaught?.length} lớp tự học (access trọn đời):
+              </p>
+              <ul>
+                {selfTaught &&
+                  selfTaught.map((item, index) => (
+                    <li key={index}>
+                      <Available cls={item} timebound={false} />
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+
           {/* FREE COURSES */}
           <Link
             to="/courses"

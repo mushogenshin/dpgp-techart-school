@@ -37,27 +37,25 @@ export default function ModuleDetail({ setShowSidebar }) {
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
   ) : (
-    <div>
+    <>
       {error && <h2>😳 Failed to fetch module: {error}</h2>}
 
       {/* module metadata */}
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
 
-      <div>
-        {/* list of buttons to choose which Unit to view */}
-        <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
+      {/* list of buttons to choose which Unit to view */}
+      <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
-        {/* show the Unit detail, i.e. Lesson contents */}
-        {unitLookup && (
-          <UnitDetail
-            unitData={unitLookup}
-            isPurchased={isPurchased}
-            setShowSidebar={setShowSidebar}
-          />
-        )}
-      </div>
-    </div>
+      {/* show the Unit detail, i.e. Lesson contents */}
+      {unitLookup && (
+        <UnitDetail
+          unitData={unitLookup}
+          isPurchased={isPurchased}
+          setShowSidebar={setShowSidebar}
+        />
+      )}
+    </>
   );
 }
 

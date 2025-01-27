@@ -51,7 +51,7 @@ function Purchased({ user }) {
 
   return (
     user && (
-      <div>
+      <>
         <p>Các khoá đã mua</p>
         {courses.length > 0 ? (
           <ul>
@@ -75,7 +75,7 @@ function Purchased({ user }) {
             ) : null}
           </div>
         )}
-      </div>
+      </>
     )
   );
 }
@@ -113,7 +113,7 @@ function Freebie({ user, courses }) {
 
 function AllExisting({ courses, coursesError }) {
   return (
-    <div>
+    <>
       <p>Các khoá đã dạy</p>
       {coursesError && <h2>{coursesError}</h2>}
       <ul>
@@ -132,6 +132,6 @@ function AllExisting({ courses, coursesError }) {
             </li>
           ))}
       </ul>
-    </div>
+    </>
   );
 }
