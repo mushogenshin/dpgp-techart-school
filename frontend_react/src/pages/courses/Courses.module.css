@@ -39,15 +39,17 @@
 
 .courses .migrating {
   color: #5c5c5c;
+  font-size: 0.7em;
 }
 
 .courses .migrating-symbol {
   color: #0f0f0f;
+  font-size: 0.7em;
 }
 
 .courses .migrating-hint {
   color: #6843f0;
-  font-size: 0.5em;
+  font-size: 0.4em;
 }
 
 .courses a {

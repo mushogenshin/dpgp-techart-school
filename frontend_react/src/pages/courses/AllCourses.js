@@ -123,14 +123,7 @@ function AllExisting({ courses, coursesError }) {
       <ul>
         {courses &&
           courses.map((cls) => (
-            <li
-              key={cls.id}
-              style={
-                cls.migration_incomplete || false
-                  ? { listStyleType: "none" }
-                  : {}
-              }
-            >
+            <li key={cls.id}>
               <Link to={`/course/${cls.id}`}>
                 {(cls.migration_incomplete || false) && (
                   <>
