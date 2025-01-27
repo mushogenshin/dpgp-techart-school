@@ -7,12 +7,12 @@
   padding: var(--navbar-height-offset) 0 0 10px;
   color: rgb(163, 163, 163);
   font-size: 0.7em;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   background: #005485;
   overflow-x: hidden;
   overflow-y: auto;
 }
-  
+
 .sidebarHandle {
   position: absolute;
   top: 0;
@@ -25,7 +25,7 @@
 
 .sidebar ul {
   list-style-type: none;
-  padding: 0 0 ;
+  padding: 0 0;
   margin: 0 0;
 }
 
@@ -38,7 +38,16 @@
 
 .sidebar .active {
   color: rgb(96, 244, 123);
-  background:  #023350;
+  background: #023350;
   /* font-weight: bold; */
   border-left: 7px solid rgb(36, 30, 28);
+}
+
+.sidebar .allows-peek {
+  margin-right: 10px;
+  transform: scale(2);
+}
+
+.sidebar .allows-peek-hint {
+  font-size: 0.5em;
 }

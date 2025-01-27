@@ -78,15 +78,24 @@ function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
                 onClick={() => setActiveLessonId(lesson.id)}
                 className={activeLessonId === lesson.id ? styles.active : {}}
               >
-                {/* show checkbox of `allows_peek` value */}
+                {/* show checkbox of `allows_peek` value of the lesson */}
                 <span>
-                  {/* {elevatedRole && (
-                    <input
-                      type="checkbox"
-                      checked={lesson.allows_peek || false}
-                      className={styles.allows_peek}
-                    />
-                  )} */}
+                  {elevatedRole && (
+                    <>
+                      <input
+                        type="checkbox"
+                        checked={lesson.allows_peek || false}
+                        className={styles["allows-peek"]}
+                      />
+                      {lesson.allows_peek || false ? (
+                        <span className={styles["allows-peek-hint"]}>
+                          (public){" "}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )}
                   {lesson.name || "Untitled"}
                 </span>
               </li>
