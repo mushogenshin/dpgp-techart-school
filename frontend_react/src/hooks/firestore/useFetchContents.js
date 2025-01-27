@@ -101,7 +101,7 @@ export function useFetchContents(
                             videoCount > 0 ? "video" : "Nội dung"
                           } của bài "${
                             lesson.name || ""
-                          }" này</br>đang bị khoá vì bạn chưa mua khóa học 🥲`,
+                          }" này</br>còn đang bị khoá vì bạn chưa mua khóa học 🥲`,
                         },
                       ],
                     };
