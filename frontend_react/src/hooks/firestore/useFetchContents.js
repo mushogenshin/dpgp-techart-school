@@ -130,7 +130,7 @@ export function useFetchContents(
     return () => {
       unsubscribe && unsubscribe();
     };
-  }, [contentIds, bypass]);
+  }, [contentIds, bypass, onlyTeasers]);
 
   return { contents, error, isPending };
 }
