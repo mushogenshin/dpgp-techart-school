@@ -161,16 +161,16 @@ async function allowPeekForPrefixedDocs(db, prefixes, n = 1, value = true) {
   await Promise.all(promises);
 }
 
-// NOTE: change to Emulator Firestore for testing
-allowPeekForPrefixedDocs(prodDb, ["HAA"], 4, true)
-  .then(() => {
-    console.log("Documents with specified prefixes updated successfully");
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error("Error updating documents with specified prefixes:", error);
-    process.exit(1);
-  });
+// // NOTE: change to Emulator Firestore for testing
+// allowPeekForPrefixedDocs(prodDb, ["HAA"], 4, true)
+//   .then(() => {
+//     console.log("Documents with specified prefixes updated successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error updating documents with specified prefixes:", error);
+//     process.exit(1);
+//   });
 
 // ------------------------------------------------------------
 async function findClassesWithEmptyContent(db) {

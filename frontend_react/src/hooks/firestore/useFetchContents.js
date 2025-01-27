@@ -58,25 +58,23 @@ export function useFetchContents(
           );
 
           if (onlyTeasers) {
-            // modify the fetched content to show only teasers
+            // modify the fetched content **ON THE FLY** to show only teasers
             sortedResults.forEach((content) => {
               // some content doc may be undefined
               if (content && content.lessons) {
                 content.lessons = content.lessons.map((lesson) => {
                   if (lesson.allows_peek || false) {
-                    // return {
-                    //   ...lesson,
-                    //   blocks: [
-                    //     // add a text block
-                    //     {
-                    //       type: "text",
-                    //       data: "Teaser",
-                    //       // data: `Nội dung miễn phí: "${lesson.name || ""}"`,
-                    //     },
-                    //     ...(lesson.blocks || []),
-                    //   ],
-                    // };
-                    return lesson;
+                    return {
+                      ...lesson,
+                      blocks: [
+                        // add a text block
+                        {
+                          type: "text",
+                          data: `PREVIEW: "${lesson.name || ""}"`,
+                        },
+                        ...(lesson.blocks || []),
+                      ],
+                    };
                   } else {
                     // guarded contents, so we replace the lesson with a lock
                     // icon and a text prompt
