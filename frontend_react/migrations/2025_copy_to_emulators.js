@@ -63,16 +63,30 @@ async function copyProdToEmulator(src, dst, collections) {
 
 const collections = {
   // users: ["0GC6YBv6pkNyZ72KQOy9uloFKI43"],
-  classes: ["ACA02", "FAP03", "PYTA_2024"],
-  modules: ["ACA02_mod1", "FAP03_trackA", "PYTA_2024_m1"],
+  classes: [
+    // "ACA02",
+    // "FAP03",
+    // "PYTA_2024",
+    // "HAA01",
+    // "HAA02",
+    // "HAA03",
+  ],
+  modules: [
+    // "ACA02_mod1",
+    // "FAP03_trackA",
+    // "PYTA_2024_m1",
+    // "HAA01_all",
+    // "HAA02_all",
+    // "HAA03_all",
+  ],
   contents: [
-    "ACA_intro_body_plan",
-    "ACA_intro_head_skull",
-    "FAP_intro_to_structure",
-    "FAP_intro_to_skull",
-    "PYTA_intro_mindset",
-    "PYTA_2024_intro_mindset_2",
-    "PYTA_2024_python_maya_intro",
+    // "ACA_intro_body_plan",
+    // "ACA_intro_head_skull",
+    // "FAP_intro_to_structure",
+    // "FAP_intro_to_skull",
+    // "PYTA_intro_mindset",
+    // "PYTA_2024_intro_mindset_2",
+    // "PYTA_2024_python_maya_intro",
   ],
 };
 
@@ -147,13 +161,58 @@ async function allowPeekForPrefixedDocs(db, prefixes, n = 1, value = true) {
   await Promise.all(promises);
 }
 
-// NOTE: change to Emulator Firestore for testing
-allowPeekForPrefixedDocs(prodDb, ["ACA", "DPRG_2023"], 2, false)
-  .then(() => {
-    console.log("Documents with specified prefixes updated successfully");
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error("Error updating documents with specified prefixes:", error);
-    process.exit(1);
+// // NOTE: change to Emulator Firestore for testing
+// allowPeekForPrefixedDocs(prodDb, ["ACA", "DPRG_2023"], 2, false)
+//   .then(() => {
+//     console.log("Documents with specified prefixes updated successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error updating documents with specified prefixes:", error);
+//     process.exit(1);
+//   });
+
+async function findClassesWithEmptyContent(db) {
+  const classesRef = db.collection("classes");
+  const modulesRef = db.collection("modules");
+  const snapshot = await classesRef.get();
+
+  if (snapshot.empty) {
+    console.log("No matching documents in classes collection.");
+    return;
+  }
+
+  const promises = snapshot.docs.map(async (doc) => {
+    const cls = doc.data();
+    let hasEmptyContent = true;
+    if (cls.modules && cls.modules.length > 0) {
+      for (const moduleId of cls.modules) {
+        const moduleDoc = await modulesRef.doc(moduleId).get();
+        if (moduleDoc.exists) {
+          const moduleData = moduleDoc.data();
+          if (moduleData.units && moduleData.units.length > 0) {
+            hasEmptyContent = false;
+            break;
+          }
+        }
+      }
+    }
+    if (hasEmptyContent) {
+      console.log(`Class ${doc.id} has empty content.`);
+      await classesRef.doc(doc.id).update({ migration_incomplete: true });
+    }
   });
+
+  await Promise.all(promises);
+}
+
+// // NOTE: change to Emulator Firestore for testing
+// findClassesWithEmptyContent(prodDb)
+//   .then(() => {
+//     console.log("Classes with empty content checked successfully");
+//     process.exit(0);
+//   })
+//   .catch((error) => {
+//     console.error("Error checking classes with empty content:", error);
+//     process.exit(1);
+//   });
