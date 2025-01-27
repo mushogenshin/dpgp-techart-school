@@ -74,14 +74,14 @@ export const AuthContextProvider = ({ children }) => {
           });
         });
 
+        // IMPORTANT: Firestore security takes precedence over client-side checks,
+        // i.e. if Firestore security rules prevent access, this `role` will be null
         const adminRef = doc(db, "admins", user.uid);
         unsubAdmin = onSnapshot(adminRef, (docSnapshot) => {
-          const elevatedRole = docSnapshot.exists()
-            ? docSnapshot.data().role
-            : null;
+          const role = docSnapshot.exists() ? docSnapshot.data().role : null;
           dispatch({
             type: "SET_ADMIN",
-            payload: elevatedRole,
+            payload: role,
           });
         });
 
