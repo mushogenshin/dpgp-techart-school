@@ -23,7 +23,7 @@ export default function Admin() {
       Your role: {elevatedRole.toUpperCase()} <UserCount />
       <small>🔑 UID: {user.uid}</small>
       <hr></hr>
-      {["admin", "collaborator"].includes(elevatedRole) ? (
+      {elevatedRole ? (
         <div className={styles.admin}>
           <UnlockUnit />
           <GrantAccess />
