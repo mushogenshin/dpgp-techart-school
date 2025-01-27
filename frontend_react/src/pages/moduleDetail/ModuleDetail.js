@@ -7,6 +7,10 @@ import UnitDetail from "../unitDetail/UnitDetail";
 
 import styles from "./Module.module.css";
 
+/**
+ * Displays the details of a Module, including its Units and Lessons.
+ * @param {function} setShowSidebar: a function to toggle the sidebar
+ */
 export default function ModuleDetail({ setShowSidebar }) {
   const navigate = useNavigate();
   const { purchased } = useAuthContext();
@@ -14,8 +18,11 @@ export default function ModuleDetail({ setShowSidebar }) {
 
   const { moduleData, error, isPending } = useFetchModule(modId);
 
+  // allow viewing if content is freebie
   const isFreebie = (moduleData && moduleData.freebie) || false;
+  // whether the user owns this Module
   const isPurchased = isFreebie || (purchased && purchased.includes(modId));
+  // check if the Unit param is valid
   const unitsData = moduleData && moduleData.units ? moduleData.units : [];
   const unitLookup = unitsData.find((unit) => unit.id === unitParam);
 
@@ -30,29 +37,32 @@ export default function ModuleDetail({ setShowSidebar }) {
   return isPending ? (
     <h2>Đợi xíu nha 😙...</h2>
   ) : (
-    <div>
-      {error && <h2>😳 {error}</h2>}
+    <>
+      {error && <h2>😳 Failed to fetch module: {error}</h2>}
+
+      {/* module metadata */}
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
       <hr></hr>
-      {isPurchased ? (
-        <div>
-          {/* carousel-style clickable elements to select a Unit */}
-          <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
 
-          {unitLookup && (
-            <UnitDetail unitData={unitLookup} setShowSidebar={setShowSidebar} />
-          )}
-        </div>
-      ) : (
-        <h3>
-          📺 Để xem video bài giảng, liên lạc DPGP để mua module này (👉 {modId}
-          )
-        </h3>
+      {/* list of buttons to choose which Unit to view */}
+      <ChooseUnit unitsData={unitsData} activeUnitId={unitParam} />
+
+      {/* show the Unit detail, i.e. Lesson contents */}
+      {unitLookup && (
+        <UnitDetail
+          unitData={unitLookup}
+          isPurchased={isPurchased}
+          setShowSidebar={setShowSidebar}
+        />
       )}
-    </div>
+    </>
   );
 }
 
+/**
+ * Carousel-style clickable elements to select a Unit.
+ * @param {string} activeUnitId: used to highlight the selected Unit
+ */
 function ChooseUnit({ unitsData, activeUnitId }) {
   const navigate = useNavigate();
   const { courseId, modId } = useParams();
@@ -76,7 +86,7 @@ function ChooseUnit({ unitsData, activeUnitId }) {
           ))}
         </ul>
       ) : (
-        <h3>😳 Khóa học này trống trơn, không tìm thấy modules nào.</h3>
+        <h3>😳 Khóa học này trống trơn, không tìm thấy modules nào</h3>
       )}
     </div>
   );

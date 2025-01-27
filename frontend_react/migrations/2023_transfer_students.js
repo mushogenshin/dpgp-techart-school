@@ -1,6 +1,6 @@
 // This script migrates data from the old "musho-genshin" Firebase Firestore
 // database to the newer "dpgp-techart", copy the `students` collection from the
-// source database to the `enrollment_migration collection in the destination
+// source database to the `enrollment_migration` collection in the destination
 // database, for each document it copies, it will transform the `enrollments`
 // field to include only module IDs.
 

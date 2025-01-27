@@ -45,7 +45,9 @@ export default function SubscribeForm({ source }) {
     }
   };
 
-  // send a POST request to the backend (Cloud Functions) to send a confirmation email
+  /** Make a POST request to the backend (Cloud Functions) to send a
+confirmation email.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);

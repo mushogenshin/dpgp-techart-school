@@ -25,4 +25,6 @@ yarn-error.log*
 .firebase/
 *-debug.log
 
+*serviceAccountKey*
+.emulators-data/
 src/pages/dfs/images/

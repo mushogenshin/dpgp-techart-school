@@ -5,12 +5,17 @@ export const CoursesContext = createContext();
 
 export const CoursesContextProvider = ({ children }) => {
   const [ignoreLockedModules, setIgnoreLockedModules] = useState(false);
-  const { documents: courses, error: coursesError } = useCollection("classes");
+  const {
+    isPending,
+    documents: courses,
+    error: coursesError,
+  } = useCollection("classes");
 
   return (
     <CoursesContext.Provider
       value={{
         courses,
+        isPending,
         coursesError,
         ignoreLockedModules,
         setIgnoreLockedModules,

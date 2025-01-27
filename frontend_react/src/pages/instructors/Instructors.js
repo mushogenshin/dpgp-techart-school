@@ -1,6 +1,6 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
-import SocialLink from "../../components/SocialLink";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
+import SocialLink from "../../components/contentBlock/SocialLink";
 
 import styles from "./Instructors.module.css";
 
@@ -21,8 +21,12 @@ export default function Instructors() {
 
   return (
     <div className={styles.about}>
-      {memberListError ||
-        (membersError && <h2>😳 {memberListError || membersError}</h2>)}
+      {(memberListError || membersError) && (
+        <h2>
+          😳 Failed to fetch "instructors"/"members":{" "}
+          {memberListError || membersError}
+        </h2>
+      )}
 
       {isMemberListPending || isMembersPending ? (
         <p>Đợi xíu nha 😙...</p>
@@ -58,7 +62,7 @@ function Member({ name, member }) {
         </span>
       </h2>
       {blocks.map((block, index) => (
-        <ContentBlock key={index} block={block} />
+        <ContentBlock key={index} inner={block} />
       ))}
     </div>
   );

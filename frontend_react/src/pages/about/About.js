@@ -1,5 +1,5 @@
 import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
-import ContentBlock from "../../components/ContentBlock/ContentBlock";
+import ContentBlock from "../../components/contentBlock/ContentBlock";
 import SubscribeForm from "../subscription/SubscribeForm";
 
 import styles from "./About.module.css";
@@ -9,6 +9,7 @@ export default function About() {
     <div>
       <Manifesto />
       <div>
+        {/* this is only visible to guests */}
         <SubscribeForm source="web-manifesto-page" />
       </div>
     </div>
@@ -21,12 +22,12 @@ function Manifesto() {
 
   return (
     <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
+      {error && <h2>😳 Failed to fetch "about": {error}</h2>}
       {isPending ? (
         <p>Đợi xíu nha 😙...</p>
       ) : (
         blocks &&
-        blocks.map((block, index) => <ContentBlock key={index} block={block} />)
+        blocks.map((block, index) => <ContentBlock key={index} inner={block} />)
       )}
     </div>
   );

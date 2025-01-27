@@ -3,6 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../../firebase_config";
 import { doc, getDoc } from "firebase/firestore";
 
+/**
+ * Automatically navigates to the first lesson of the unit if the URL params
+ * don't already specify a lesson param.
+ */
 export function useNavigateFirstLesson(unitData) {
   const navigate = useNavigate();
   const { courseId, modId, unitId, lessonId: lessonParam } = useParams();

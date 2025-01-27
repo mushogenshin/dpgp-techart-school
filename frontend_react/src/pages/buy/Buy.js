@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SubscribeForm from "../subscription/SubscribeForm";
 
-import styles from "./Home.module.css";
+import styles from "./Buy.module.css";
 
-export default function Home() {
+export default function Buy() {
   return (
     <div>
       <Offers />
       <div style={{ height: "25" }}></div>
+      {/* this is only visible to guests */}
       <SubscribeForm source="web-course-listing-page" />
     </div>
   );
@@ -23,7 +24,7 @@ function Offers() {
 
   return (
     <div className={styles.home}>
-      {error && <h2>😳 {error}</h2>}
+      {error && <h2>😳 Failed to fetch "home": {error}</h2>}
 
       {isPending ? (
         <p>Đợi xíu nha 😙...</p>
@@ -44,18 +45,24 @@ function Offers() {
               </ul>
             </>
           )}
+
           {/* SELF-TAUGHT CLASSES */}
-          <p className={styles.title}>
-            {selfTaught?.length} lớp tự học (access trọn đời):
-          </p>
-          <ul>
-            {selfTaught &&
-              selfTaught.map((item, index) => (
-                <li key={index}>
-                  <Available cls={item} timebound={false} />
-                </li>
-              ))}
-          </ul>
+          {selfTaught?.length > 0 && (
+            <>
+              <p className={styles.title}>
+                {selfTaught?.length} lớp tự học (access trọn đời):
+              </p>
+              <ul>
+                {selfTaught &&
+                  selfTaught.map((item, index) => (
+                    <li key={index}>
+                      <Available cls={item} timebound={false} />
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+
           {/* FREE COURSES */}
           <Link
             to="/courses"

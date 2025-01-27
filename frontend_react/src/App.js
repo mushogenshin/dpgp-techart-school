@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/auth/useAuthContext";
 
 import Navbar from "./components/navbar/Navbar";
-import Home from "./pages/home/Home";
+import Buy from "./pages/buy/Buy";
 import About from "./pages/about/About";
 import Instructors from "./pages/instructors/Instructors";
 import Login from "./pages/login/Login";
@@ -27,7 +27,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<AllCourses />} />
           <Route path="about" element={<About />} />
           <Route path="instructors" element={<Instructors />} />
           <Route
@@ -66,11 +66,8 @@ function App() {
               )
             }
           />
-          <Route
-            path="courses"
-            //  Unguarded Courses page
-            element={<AllCourses />}
-          />
+          <Route path="buy" element={<Buy />} />
+          <Route path="courses" element={<AllCourses />} />
           <Route path="course/:courseId" element={<CourseDetail />} />
           <Route path="course/:courseId/:modId" element={<CourseDetail />} />
           <Route

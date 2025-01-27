@@ -1,57 +1,71 @@
 .courses {
-    max-width: 1024px;
-    margin: 20px auto;
-    font-size: 1.5em;
-    font-family: 'Montserrat';
-    font-weight: bolder;
-    color: rgb(225, 70, 18);
+  max-width: 1024px;
+  margin: 20px auto;
+  font-size: 1.5em;
+  font-family: "Montserrat";
+  font-weight: bolder;
+  color: rgb(225, 70, 18);
 }
 
 .courses ::selection {
-    color: rgb(208, 202, 41);
-    background-color: rgb(221, 68, 7);
+  color: rgb(208, 202, 41);
+  background-color: rgb(221, 68, 7);
 }
 
 .courses .hint {
-    color: #ffea8b;
-    font-size: .6em;
+  color: #ffea8b;
+  font-size: 0.6em;
 }
 
 .courses .hint a {
-    color: rgb(197, 126, 255);
-    font-size: 1.05em;
-    text-decoration: underline;
-    text-decoration-style: dotted;
+  color: rgb(197, 126, 255);
+  font-size: 1.05em;
+  text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 .courses .hint a:visited {
-    color: rgb(115, 90, 255);
+  color: rgb(115, 90, 255);
 }
 
 .courses .freebies li {
-    color: rgb(133, 76, 141);
-    list-style: square;
+  color: rgb(133, 76, 141);
+  list-style: square;
 }
 
-.courses .student-works {
-    color: #f0b643;
+.courses .fa-icon {
+  color: #f0b643;
+}
+
+.courses .migrating {
+  color: #5c5c5c;
+  font-size: 0.7em;
+}
+
+.courses .migrating-symbol {
+  color: #0f0f0f;
+  font-size: 0.7em;
+}
+
+.courses .migrating-hint {
+  color: #6843f0;
+  font-size: 0.4em;
 }
 
 .courses a {
-    text-decoration: none;
-    /* color: #9494ae; */
-    color: rgb(19, 191, 133);
-    font-size: .6em;
-    font-family: 'Lexend';
-    line-height: 1.5;
+  text-decoration: none;
+  /* color: #9494ae; */
+  color: rgb(19, 191, 133);
+  font-size: 0.6em;
+  font-family: "Lexend";
+  line-height: 1.5;
 }
 
 .course-id {
-    font-size: 0.6em;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 7px;
-    color: rgb(36, 20, 20);
-    background: #baf043;
+  font-size: 0.6em;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 7px;
+  color: rgb(36, 20, 20);
+  background: #baf043;
 }
-

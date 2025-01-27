@@ -1,38 +1,42 @@
 import ReactMarkdown from "react-markdown";
-import Image from "../Image";
-import Vimeo from "../Vimeo";
-import YouTube from "../YouTube";
-import Sketchfab from "../Sketchfab";
+import Image from "./Image";
+import Vimeo from "./Vimeo";
+import YouTube from "./YouTube";
+import Sketchfab from "./Sketchfab";
 import styles from "./ContentBlock.module.css";
 
-export default function ContentBlock({ block }) {
+/**
+ * Renders a block of content depending on its type.
+ * @param {Object} inner: the inner content block object
+ */
+export default function ContentBlock({ inner }) {
   return (
     <div className={styles["content-block"]}>
-      {block.type === "text" ? (
-        <ReactMarkdown>{block.data}</ReactMarkdown>
+      {inner.type === "text" ? (
+        <ReactMarkdown>{inner.data}</ReactMarkdown>
       ) : // ) : block.type === "plain_text" ? (
       //   <pre>{block.data}</pre>
-      block.type === "html" ? (
-        <div dangerouslySetInnerHTML={{ __html: block.data }} />
-      ) : block.type === "image" ? (
-        <Image src={block.data} />
-      ) : block.type === "vimeo" ? (
-        <Vimeo id={block.data} />
-      ) : block.type === "youtube" ? (
-        <YouTube id={block.data} />
-      ) : block.type === "file" ? (
+      inner.type === "html" ? (
+        <div dangerouslySetInnerHTML={{ __html: inner.data }} />
+      ) : inner.type === "image" ? (
+        <Image src={inner.data} />
+      ) : inner.type === "vimeo" ? (
+        <Vimeo id={inner.data} />
+      ) : inner.type === "youtube" ? (
+        <YouTube id={inner.data} />
+      ) : inner.type === "file" ? (
         <div className={styles.download}>
           <a
-            href={block.data}
+            href={inner.data}
             target="_blank"
             rel="noreferrer noopener"
-            download={block.name || "Resources"}
+            download={inner.name || "Resources"}
           >
-            📎 {block.name || "Resources"}
+            📎 {inner.name || "Resources"}
           </a>
         </div>
-      ) : block.type === "sketchfab" ? (
-        <Sketchfab id={block.data} />
+      ) : inner.type === "sketchfab" ? (
+        <Sketchfab id={inner.data} />
       ) : // TODO: add support for other block types, e.g. audio, etc.
       null}
     </div>

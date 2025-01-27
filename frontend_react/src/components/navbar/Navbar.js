@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { isEmulator } from "../../firebase_config";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,16 +16,16 @@ export default function Navbar() {
     setIgnoreLockedModules(event.target.checked);
   };
 
-  const [isActive, setActive] = useState(false);
-  const toggleClass = () => {
-    setActive(!isActive);
+  const [navCollapsed, setNavCollapsed] = useState(true);
+  const toggleNavCollapseState = () => {
+    setNavCollapsed(!navCollapsed);
   };
 
   return (
     <nav className={styles.navbar}>
       {/* Nav bar icon for mobile */}
       <div id="mob_header" className="tab">
-        <span onClick={toggleClass} className="mob_nav_open_btn">
+        <span onClick={toggleNavCollapseState} className="mob_nav_open_btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -36,9 +37,9 @@ export default function Navbar() {
         </span>
       </div>
       {/* Nav bar icon for mobile */}
-      <div className={isActive ? "nav_wrapper open" : "nav_wrapper"}>
+      <div className={navCollapsed ? "nav_wrapper" : "nav_wrapper open"}>
         <div id="mob_nav_close" className="tab">
-          <span onClick={toggleClass} className="mob_nav_close_btn">
+          <span onClick={toggleNavCollapseState} className="mob_nav_close_btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -51,18 +52,19 @@ export default function Navbar() {
         </div>
 
         <ul>
+          {isEmulator && <div className={styles.emulator}>Emulator Mode</div>}
           {/* Left aligned */}
           <li className={styles.title}>
             {/* Home page */}
-            <Link onClick={toggleClass} to="/">
+            <Link onClick={toggleNavCollapseState} to="/">
               DPGP TechArt
             </Link>{" "}
             {/* About */}
-            <Link onClick={toggleClass} to="/about">
+            <Link onClick={toggleNavCollapseState} to="/about">
               About
             </Link>
             {/* Instructors */}
-            <Link onClick={toggleClass} to="/instructors">
+            <Link onClick={toggleNavCollapseState} to="/instructors">
               Instructors
             </Link>
             {/* <Link onClick={toggleClass} to="/long-ap">
@@ -75,7 +77,7 @@ export default function Navbar() {
           {elevatedRole && (
             <span>
               {/* Admin panels */}
-              <Link onClick={toggleClass} to="/admin">
+              <Link onClick={toggleNavCollapseState} to="/admin">
                 Admin
               </Link>
 
@@ -95,13 +97,28 @@ export default function Navbar() {
           )}
 
           {/* Right aligned */}
-          <Link onClick={toggleClass} to="/courses">
+          <Link
+            onClick={toggleNavCollapseState}
+            style={{ fontSize: "1em" }}
+            to="/courses"
+          >
             Courses
+          </Link>
+          <Link
+            onClick={toggleNavCollapseState}
+            style={{ fontSize: "1em" }}
+            to="/buy"
+          >
+            Self-taught
           </Link>
           {user ? (
             <>
               <li>
-                <Link onClick={toggleClass} to="/dashboard" title="Dashboard">
+                <Link
+                  onClick={toggleNavCollapseState}
+                  to="/dashboard"
+                  title="Dashboard"
+                >
                   <FontAwesomeIcon icon={faSkull} />
                 </Link>
               </li>
@@ -109,7 +126,11 @@ export default function Navbar() {
           ) : (
             <>
               <li>
-                <Link onClick={toggleClass} to="/login" title="Login">
+                <Link
+                  onClick={toggleNavCollapseState}
+                  to="/login"
+                  title="Login"
+                >
                   <span
                     className="material-symbols-outlined"
                     style={{ fontSize: "1em" }}

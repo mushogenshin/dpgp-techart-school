@@ -1,3 +1,4 @@
+// Deployed with pm2 on Linode
 module.exports = {
   apps: [
     {

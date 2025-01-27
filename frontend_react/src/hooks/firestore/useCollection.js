@@ -3,12 +3,14 @@ import { query, collection, onSnapshot, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export const useCollection = (collectionName, docsLimit) => {
-  const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [documents, setDocuments] = useState(null);
 
   useEffect(() => {
     setDocuments(null);
     setError(null);
+    setIsPending(true);
 
     let ref = docsLimit
       ? query(collection(db, collectionName), limit(docsLimit))
@@ -22,12 +24,14 @@ export const useCollection = (collectionName, docsLimit) => {
         });
 
         // update state
-        setDocuments(results);
         setError(null);
+        setDocuments(results);
+        setIsPending(false);
       },
       (error) => {
-        setDocuments(null);
         setError(error.message);
+        setDocuments(null);
+        setIsPending(false);
       }
     );
 
@@ -35,5 +39,5 @@ export const useCollection = (collectionName, docsLimit) => {
     return () => unsub();
   }, [collectionName, docsLimit]);
 
-  return { documents, error };
+  return { documents, error, isPending };
 };

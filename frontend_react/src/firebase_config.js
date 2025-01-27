@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Firebase configuration
@@ -15,6 +16,19 @@ const config = {
 
 const app = initializeApp(config);
 const db = getFirestore(app);
+var isEmulator = false;
 const storage = getStorage(app);
 
-export { db, storage };
+// Connect to Firestore Emulator if running locally
+if (
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+) {
+  console.log(
+    "Running in local environment. Connecting to Firestore emulator."
+  );
+  isEmulator = true;
+  connectFirestoreEmulator(db, "localhost", 8080);
+}
+
+export { db, isEmulator, storage };
