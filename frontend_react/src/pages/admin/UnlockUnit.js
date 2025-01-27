@@ -149,6 +149,7 @@ function UnitsList({ units, unlockUnit, isPending }) {
               <input
                 type="checkbox"
                 checked={unit.unlocked}
+                className={styles.checkbox}
                 onChange={() => unlockUnit(unit)}
                 disabled={isPending}
               />
