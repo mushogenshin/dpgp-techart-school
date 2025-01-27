@@ -3,7 +3,11 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useCoursesContext } from "../../hooks/auth/useCoursesContext";
 import { useMapModulesToCourses } from "../../hooks/firestore/useMapModulesToCourses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImages } from "@fortawesome/free-solid-svg-icons";
+import {
+  faImages,
+  faPaintRoller,
+  faPersonDigging,
+} from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Courses.module.css";
 
@@ -119,13 +123,50 @@ function AllExisting({ courses, coursesError }) {
       <ul>
         {courses &&
           courses.map((cls) => (
-            <li key={cls.id}>
+            <li
+              key={cls.id}
+              style={
+                cls.migration_incomplete || false
+                  ? { listStyleType: "none" }
+                  : {}
+              }
+            >
               <Link to={`/course/${cls.id}`}>
-                {cls.name} <span className={styles["course-id"]}>{cls.id}</span>{" "}
+                {(cls.migration_incomplete || false) && (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faPaintRoller}
+                      className={styles["migrating-symbol"]}
+                    />{" "}
+                  </>
+                )}
+                {/* the Class name */}
+                <span
+                  className={
+                    cls.migration_incomplete || false ? styles.migrating : null
+                  }
+                >
+                  {cls.name}{" "}
+                </span>
+                {/* the Class ID */}
+                <span className={styles["course-id"]}>{cls.id}</span>{" "}
+                {/* migrating hint */}
+                {(cls.migration_incomplete || false) && (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faPersonDigging}
+                      className={styles["migrating-symbol"]}
+                    />
+                    <span className={styles["migrating-hint"]}>
+                      {" "}
+                      (migrating)
+                    </span>
+                  </>
+                )}
                 {cls.shows_student_works && (
                   <FontAwesomeIcon
                     icon={faImages}
-                    className={styles["student-works"]}
+                    className={styles["fa-icon"]}
                   />
                 )}
               </Link>
