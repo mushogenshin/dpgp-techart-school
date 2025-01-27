@@ -70,7 +70,8 @@ export function useFetchContents(
                     //     // add a text block
                     //     {
                     //       type: "text",
-                    //       data: `Nội dung miễn phí: "${lesson.name || ""}"`,
+                    //       data: "Teaser",
+                    //       // data: `Nội dung miễn phí: "${lesson.name || ""}"`,
                     //     },
                     //     ...(lesson.blocks || []),
                     //   ],
