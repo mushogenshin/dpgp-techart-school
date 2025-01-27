@@ -1,7 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./Sidebar.module.css";
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
+import styles from "./Sidebar.module.css";
+
+/**
+ *
+ * @param {Array<Object>} contents
+ * Each content has this shape: { id: string, name: string, lessons: Array<Object> }
+ */
 export default function Sidebar({ contents }) {
   const navigate = useNavigate();
   const { courseId, modId, unitId, lessonId: lessonParam } = useParams();
@@ -10,22 +17,21 @@ export default function Sidebar({ contents }) {
     navigate(`/course/${courseId}/${modId}/${unitId}/${target}`);
   };
 
-  const [isActive, setActive] = useState(false);
-  const toggleClass = () => {
-    setActive(!isActive);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const toggleSidebarVis = () => {
+    setSidebarVisible(!sidebarVisible);
   };
 
-  /* <div id="itu_sidebar_main" className={styles.sidebar}> */
-
+  // using CSS in `responsive.css` to toggle the sidebar
   return (
     <div id="itu_sidebar_wrap">
       <div
         id="itu_sidebar_main"
-        className={isActive ? styles.sidebar + " open" : styles.sidebar}
+        className={sidebarVisible ? styles.sidebar + " open" : styles.sidebar}
       >
         <div className={styles.sidebarHandle}></div>
         {contents.map((content, index) => (
-          <Outline
+          <ContentOutline
             key={index}
             content={content}
             activeLessonId={lessonParam}
@@ -34,7 +40,7 @@ export default function Sidebar({ contents }) {
         ))}
       </div>
       <div id="itu_sidebar_footer" className="mob">
-        <span onClick={toggleClass}>
+        <span onClick={toggleSidebarVis}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="36"
@@ -47,7 +53,7 @@ export default function Sidebar({ contents }) {
           </svg>
         </span>
         <span
-          onClick={toggleClass}
+          onClick={toggleSidebarVis}
           style={{ marginLeft: "10px", color: "#fc5aff" }}
         >
           CONTENTS
@@ -57,7 +63,9 @@ export default function Sidebar({ contents }) {
   );
 }
 
-function Outline({ content, activeLessonId, setActiveLessonId }) {
+function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
+  const { elevatedRole } = useAuthContext();
+
   return (
     <div id="itu_sidebar_2">
       <h3>{content?.name || "Unknown Section"}</h3>
@@ -70,7 +78,17 @@ function Outline({ content, activeLessonId, setActiveLessonId }) {
                 onClick={() => setActiveLessonId(lesson.id)}
                 className={activeLessonId === lesson.id ? styles.active : {}}
               >
-                {lesson.name || "Untitled"}
+                {/* show checkbox of `allows_peek` value */}
+                <span>
+                  {/* {elevatedRole && (
+                    <input
+                      type="checkbox"
+                      checked={lesson.allows_peek || false}
+                      className={styles.allows_peek}
+                    />
+                  )} */}
+                  {lesson.name || "Untitled"}
+                </span>
               </li>
             );
           })}
