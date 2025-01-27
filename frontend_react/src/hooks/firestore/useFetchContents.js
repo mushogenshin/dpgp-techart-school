@@ -60,7 +60,10 @@ export function useFetchContents(
           if (onlyTeasers) {
             // modify the fetched content **ON THE FLY** to show only teasers
             sortedResults.forEach((content) => {
-              // some content doc may be undefined
+              // NOTE: some content doc may be undefined
+
+              // TODO: this isn't accounting for malformed content.lessons, e.g.
+              // when it's an Object instead of Array
               if (content && content.lessons) {
                 content.lessons = content.lessons.map((lesson) => {
                   if (lesson.allows_peek || false) {
