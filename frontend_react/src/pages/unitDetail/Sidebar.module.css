@@ -45,7 +45,8 @@
 
 .sidebar .allows-peek {
   margin: 0 10px 0 10px;
-  transform: scale(2);
+  width: 20px;
+  height: 20px;
 }
 
 .sidebar .allows-peek-hint {
