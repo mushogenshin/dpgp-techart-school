@@ -44,7 +44,7 @@ export function useFetchContents(
           // contentData objects may be returned in a different order
           const results = contentSnapshot.docs.map((contentDoc) => {
             const contentData = contentDoc.data();
-            console.log("Fetched contentData:", contentData);
+            // console.log("Fetched contentData:", contentData);
             return {
               ...contentData,
               id: contentDoc.id,
