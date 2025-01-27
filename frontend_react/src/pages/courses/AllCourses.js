@@ -142,7 +142,16 @@ function AllExisting({ courses, coursesError }) {
                   {cls.name}{" "}
                 </span>
                 {/* the Class ID */}
-                <span className={styles["course-id"]}>{cls.id}</span>{" "}
+                <span
+                  className={styles["course-id"]}
+                  style={
+                    cls.migration_incomplete || false
+                      ? { background: "#6b8b26" }
+                      : {}
+                  }
+                >
+                  {cls.id}
+                </span>{" "}
                 {/* migrating hint */}
                 {(cls.migration_incomplete || false) && (
                   <>
