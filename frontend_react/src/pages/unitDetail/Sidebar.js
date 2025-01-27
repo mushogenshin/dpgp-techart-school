@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase_config";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 import styles from "./Sidebar.module.css";
@@ -66,6 +68,35 @@ export default function Sidebar({ contents }) {
 function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
   const { elevatedRole } = useAuthContext();
 
+  const toggleAllowsPeek = async (lessonId) => {
+    const targetLesson = content.lessons.find(
+      (lesson) => lesson.id === lessonId
+    );
+    const newAllowsPeek = !targetLesson.allows_peek;
+
+    try {
+      const contentRef = doc(db, "contents", content.id);
+      const contentDoc = await getDoc(contentRef);
+
+      if (contentDoc.exists()) {
+        const data = contentDoc.data();
+
+        const updatedLessons = data.lessons.map((lesson) =>
+          lesson.id === lessonId
+            ? { ...lesson, allows_peek: newAllowsPeek }
+            : lesson
+        );
+
+        await updateDoc(contentRef, {
+          lessons: updatedLessons,
+        });
+        console.log("Lesson successfully updated!");
+      }
+    } catch (error) {
+      console.error("Error updating lesson: ", error);
+    }
+  };
+
   return (
     <div id="itu_sidebar_2">
       <h3>{content?.name || "Unknown Section"}</h3>
@@ -86,6 +117,10 @@ function ContentOutline({ content, activeLessonId, setActiveLessonId }) {
                         type="checkbox"
                         checked={lesson.allows_peek || false}
                         className={styles["allows-peek"]}
+                        onChange={(e) => {
+                          e.stopPropagation(); // Prevent li onClick from firing
+                          toggleAllowsPeek(lesson.id);
+                        }}
                       />
                       {lesson.allows_peek || false ? (
                         <span className={styles["allows-peek-hint"]}>
