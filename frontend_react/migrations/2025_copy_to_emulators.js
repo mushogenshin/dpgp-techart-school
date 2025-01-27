@@ -87,7 +87,7 @@ const collections = {
 //   });
 
 // ------------------------------------------------------------
-async function allowPeekAllFirstLessons(db, value = true) {
+async function allowPeekAllFirstNLessons(db, n = 1, value = true) {
   const contentsRef = db.collection("contents");
   const snapshot = await contentsRef.get();
 
@@ -99,7 +99,9 @@ async function allowPeekAllFirstLessons(db, value = true) {
   const promises = snapshot.docs.map(async (doc) => {
     const data = doc.data();
     if (data.lessons && data.lessons.length > 0) {
-      data.lessons[0].allows_peek = value;
+      for (let i = 0; i < Math.min(n, data.lessons.length); i++) {
+        data.lessons[i].allows_peek = value;
+      }
       await contentsRef.doc(doc.id).update({ lessons: data.lessons });
       console.log(`Updated document ${doc.id}`);
     }
@@ -109,7 +111,7 @@ async function allowPeekAllFirstLessons(db, value = true) {
 }
 
 // // NOTE: change to Emulator Firestore for testing
-// allowPeekAllFirstLessons(prodDb, true)
+// allowPeekAllFirstNLessons(prodDb, 2, true)
 //   .then(() => {
 //     console.log("Documents updated successfully");
 //     process.exit(0);
@@ -120,7 +122,7 @@ async function allowPeekAllFirstLessons(db, value = true) {
 //   });
 
 // ------------------------------------------------------------
-async function allowPeekForPrefixedDocs(db, prefixes, value = true) {
+async function allowPeekForPrefixedDocs(db, prefixes, n = 1, value = true) {
   const contentsRef = db.collection("contents");
   const snapshot = await contentsRef.get();
 
@@ -133,7 +135,9 @@ async function allowPeekForPrefixedDocs(db, prefixes, value = true) {
     if (prefixes.some((prefix) => doc.id.startsWith(prefix))) {
       const data = doc.data();
       if (data.lessons && data.lessons.length > 0) {
-        data.lessons[0].allows_peek = value;
+        for (let i = 0; i < Math.min(n, data.lessons.length); i++) {
+          data.lessons[i].allows_peek = value;
+        }
         await contentsRef.doc(doc.id).update({ lessons: data.lessons });
         console.log(`Updated document ${doc.id}`);
       }
@@ -143,13 +147,13 @@ async function allowPeekForPrefixedDocs(db, prefixes, value = true) {
   await Promise.all(promises);
 }
 
-// // NOTE: change to Emulator Firestore for testing
-// allowPeekForPrefixedDocs(prodDb, ["PNFD", "ACA"], false)
-//   .then(() => {
-//     console.log("Documents with specified prefixes updated successfully");
-//     process.exit(0);
-//   })
-//   .catch((error) => {
-//     console.error("Error updating documents with specified prefixes:", error);
-//     process.exit(1);
-//   });
+// NOTE: change to Emulator Firestore for testing
+allowPeekForPrefixedDocs(prodDb, ["ACA", "DPRG_2023"], 2, false)
+  .then(() => {
+    console.log("Documents with specified prefixes updated successfully");
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error("Error updating documents with specified prefixes:", error);
+    process.exit(1);
+  });
