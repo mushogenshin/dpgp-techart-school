@@ -63,12 +63,13 @@ const getNextTicketNumber = async () => {
 };
 
 /**
- * Gets the enrollment module ID for a product code.
+ * Gets the enrollment description for a product code.
  * @param {number} productCode - The product code to query.
- * @returns {Promise<string | null>} The enrollment module ID or null if not
- * found.
+ * @returns {Promise<Object | null>} The enrollment desc in the form of:
+ * { module_ids: string, website_access: boolean }
+ * or null if not found.
  */
-const getEnrollmentModuleId = async (productCode) => {
+const getEnrollmentDescFromProduct = async (productCode) => {
   try {
     const productsRef = db.collection("enrollment_desc").doc("products");
     const productsDoc = await productsRef.get();
@@ -85,7 +86,10 @@ const getEnrollmentModuleId = async (productCode) => {
       return null;
     }
 
-    return desc.module_ids;
+    return {
+      module_ids: desc.module_ids,
+      requires_website_access: desc.requires_website_access || false,
+    };
   } catch (error) {
     console.error(
       `Error fetching module ID for product ${productCode}:`,
@@ -243,7 +247,7 @@ export {
   getProductsMapping,
   prettifyProductsMapping,
   getNextTicketNumber,
-  getEnrollmentModuleId,
+  getEnrollmentDescFromProduct,
   findExistingUserByEmail,
   addEnrollments,
   migrateUserEnrollments,

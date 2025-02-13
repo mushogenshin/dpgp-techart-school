@@ -3,7 +3,7 @@ import {
   getUsrNumPendingTickets,
   prettifyTicketData,
 } from "../../firestore/tickets";
-import { getEnrollmentModuleId } from "../../firestore/enrollments";
+import { getEnrollmentDescFromProduct } from "../../firestore/enrollments";
 import { MODERATOR_IDS } from "../../../moderator_config";
 
 const { ApplicationCommandOptionType, MessageFlags } = require("discord.js");
@@ -96,8 +96,8 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
 
   // validate desugared product code
   const product = interaction.options.getInteger("product");
-  const moduleIds = await getEnrollmentModuleId(product);
-  if (!moduleIds) {
+  const enrollmentDesc = await getEnrollmentDescFromProduct(product);
+  if (!enrollmentDesc) {
     await interaction.editReply({
       content: `:package: Mã số sản phẩm **${product}** không hợp lệ.
 Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong muốn.`,
@@ -117,7 +117,7 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
     interaction.user,
     interaction.channelId,
     product,
-    moduleIds,
+    enrollmentDesc,
     email,
     screenshot
   );

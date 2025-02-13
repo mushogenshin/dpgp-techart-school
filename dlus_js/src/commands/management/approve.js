@@ -87,42 +87,49 @@ Rất có thể user chưa đăng nhập lần nào`,
   }
 
   // add enrollments to beneficiary user
-  try {
-    await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
-  } catch (error) {
-    await interaction.editReply({
-      content: `:scream: Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
+  if (ticket.requires_website_access) {
+    try {
+      await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
+    } catch (error) {
+      await interaction.editReply({
+        content: `:scream: Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**`,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  } finally {
-    await interaction.editReply({
-      content: `:fire: Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
-      flags: MessageFlags.Ephemeral,
-    });
-
-    // mark ticket as resolved
-    const markResult = await markTicketAsResolved(ticketNumber);
-
-    if (!markResult) {
-      await interaction.followUp({
-        content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
         flags: MessageFlags.Ephemeral,
       });
       return;
-    }
+    } finally {
+      await interaction.editReply({
+        content: `:fire: Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
+        flags: MessageFlags.Ephemeral,
+      });
 
-    // send confirmation message
-    const channel = await client.channels.fetch(ticket.discord_channel_id);
-    if (channel) {
-      await channel.send(`:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!
-Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`);
-    } else {
-      console.error(
-        `Failed to send confirmation message of ticket ${ticketNumber} to channel ${ticket.discord_channel_id}`
-      );
+      // mark ticket as resolved
+      const markResult = await markTicketAsResolved(ticketNumber);
+
+      if (!markResult) {
+        await interaction.followUp({
+          content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
     }
+  }
+
+  // send confirmation message
+  const channel = await client.channels.fetch(ticket.discord_channel_id);
+  if (channel) {
+    const msg = `:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!`;
+    if (ticket.requires_website_access) {
+      msg += ` :tada: Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`;
+    } else {
+      // TODO
+    }
+    await channel.send(msg);
+  } else {
+    console.error(
+      `Failed to send confirmation message of ticket ${ticketNumber} to channel ${ticket.discord_channel_id}`
+    );
   }
 };
 

@@ -55,7 +55,10 @@ const prettifyTicketData = (ticket) => {
     `${formattedCreatedAt}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n\n` +
     `- Requesting: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
-    `- Submitted by: <@${ticket.author_discord.user_id}> (${ticket.author_discord.username})\n` +
+    `- Needs website access: ${
+      ticket.requires_website_access ? "Yes" : "No"
+    }\n` +
+    `- Submitted by: <@${ticket.author_discord?.user_id}> (${ticket.author_discord?.username})\n` +
     `- Beneficiary: \`${ticket.beneficiary_email}\``
   );
 };
@@ -119,6 +122,7 @@ const getTicketByNumber = async (ticketNumber) => {
  * @param {string} channelId - The Discord channel ID where the ticket was
  * requested.
  * @param {number} product - The product to enroll in.
+ * @param {Object} enrollmentDesc - The description of module IDs to enroll in, and whether website access is necessary.
  * @param {string} email - The beneficiary email to enroll with.
  * @param {ApplicationCommandOptionType.Attachment} screenshot - The transaction
  * screenshot.
@@ -128,7 +132,7 @@ const addTicket = async (
   discordUser,
   channelId,
   product,
-  moduleIds,
+  enrollmentDesc,
   email,
   screenshot
 ) => {
@@ -141,7 +145,8 @@ const addTicket = async (
     const ticketData = {
       number: ticketNumber,
       requested_product: product,
-      requested_enrollments: moduleIds,
+      requested_enrollments: enrollmentDesc.module_ids,
+      requires_website_access: enrollmentDesc.requires_website_access,
       beneficiary_email: email,
       proof: screenshot.attachment.url,
       discord_channel_id: channelId,
