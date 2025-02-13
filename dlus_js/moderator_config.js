@@ -1,1 +1,4 @@
-export const MODERATOR_IDS = ["454667337229139988"];
+export const MODERATOR_IDS = [
+  "454667337229139988", // Hoan
+  "454679841921433600", // Huệ
+];
