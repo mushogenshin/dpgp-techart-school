@@ -50,17 +50,25 @@ const prettifyTicketData = (ticket) => {
     hour12: true,
   });
 
-  return (
+  var msg =
     `**Ticket Number ${ticket.number}**\n` +
     `${formattedCreatedAt}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n\n` +
-    `- Requesting: \`${ticket.requested_enrollments}\` (product code: ${ticket.requested_product})\n` +
-    `- Needs website access: ${
-      ticket.requires_website_access ? "Yes" : "No"
-    }\n` +
-    `- Submitted by: <@${ticket.author_discord?.user_id}> (${ticket.author_discord?.username})\n` +
-    `- Beneficiary: \`${ticket.beneficiary_email}\``
-  );
+    `- Requesting: \`${
+      ticket.requested_enrollments || "special event"
+    }\` (product code: ${ticket.requested_product})`;
+
+  if (ticket.requires_website_access) {
+    msg += `\n- Needs website access`;
+  }
+
+  msg += `\n- Submitted by: <@${ticket.author_discord?.user_id}> (${ticket.author_discord?.username})`;
+
+  if (ticket.requires_website_access) {
+    msg += `\n- Beneficiary: \`${ticket.beneficiary_email}\``;
+  }
+
+  return msg;
 };
 
 /**
