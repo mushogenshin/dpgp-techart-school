@@ -119,7 +119,7 @@ Rất có thể user chưa đăng nhập lần nào`,
   // send confirmation message
   const channel = await client.channels.fetch(ticket.discord_channel_id);
   if (channel) {
-    const msg = `:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!`;
+    var msg = `:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!`;
     if (ticket.requires_website_access) {
       msg += ` :tada: Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`;
     } else {

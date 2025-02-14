@@ -14,6 +14,7 @@ const getProductsMapping = async () => {
     }
 
     const productsData = productsDoc.data();
+    // all listings are stored in the "mapping" field
     return productsData.mapping;
   } catch (error) {
     console.error("Error fetching products mapping:", error);
@@ -32,7 +33,11 @@ const prettifyProductsMapping = (mapping, verbose) => {
 
   for (const [productCode, desc] of Object.entries(mapping)) {
     if (verbose) {
-      prettifiedString += `- **${productCode}**: ${desc.name}. Modules: \`${desc.module_ids}\`\n\n`;
+      if (desc.requires_website_access) {
+        prettifiedString += `- **${productCode}**: ${desc.name}. Modules: \`${desc.module_ids}\`\n\n`;
+      } else {
+        prettifiedString += `- **${productCode}**: ${desc.name}. Requires no website access\n\n`;
+      }
     } else {
       prettifiedString += `- **${productCode}**: ${desc.name}\n\n`;
     }
@@ -66,7 +71,7 @@ const getNextTicketNumber = async () => {
  * Gets the enrollment description for a product code.
  * @param {number} productCode - The product code to query.
  * @returns {Promise<Object | null>} The enrollment desc in the form of:
- * { module_ids: string, website_access: boolean }
+ * { module_ids: string, requires_website_access: boolean }
  * or null if not found.
  */
 const getEnrollmentDescFromProduct = async (productCode) => {
