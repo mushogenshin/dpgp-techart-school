@@ -29,15 +29,15 @@ export const data = {
       required: true,
     },
     {
-      name: "email",
-      description: "Email dùng để access khoá học",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-    {
       name: "product",
       description: "Mã số sản phẩm",
       type: ApplicationCommandOptionType.Integer,
+      required: true,
+    },
+    {
+      name: "email",
+      description: "Email dùng để access khoá học",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
@@ -49,6 +49,7 @@ export const data = {
 export const run = async ({ interaction, client, _handler }) => {
   await interaction.deferReply();
   const userId = interaction.user.id;
+  const email = interaction.options.getString("email") || "";
 
   // Check if user is on cooldown
   if (!MODERATOR_IDS.includes(userId)) {
@@ -80,20 +81,6 @@ Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
     return;
   }
 
-  // validate email format
-  const email = interaction.options.getString("email");
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email)) {
-    await interaction.editReply({
-      content:
-        ":face_with_raised_eyebrow: Email không hợp lệ. Vui lòng nhập lại email đúng định dạng.",
-      flags: MessageFlags.Ephemeral,
-    });
-
-    accumulateFailedAttemps(userId);
-    return;
-  }
-
   // validate desugared product code
   const product = interaction.options.getInteger("product");
   const enrollmentDesc = await getEnrollmentDescFromProduct(product);
@@ -106,6 +93,21 @@ Vui lòng tham khảo lệnh \`/list\` để lấy mã số sản phẩm mong mu
 
     accumulateFailedAttemps(userId);
     return;
+  }
+
+  // only validate email format if product requires website access
+  if (enrollmentDesc.requires_website_access) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      await interaction.editReply({
+        content:
+          ":face_with_raised_eyebrow: Sản phẩm này cần bạn nhập email hợp lệ. Vui lòng nhập lại email đúng định dạng.",
+        flags: MessageFlags.Ephemeral,
+      });
+
+      accumulateFailedAttemps(userId);
+      return;
+    }
   }
 
   // guards passed, proceed to create ticket

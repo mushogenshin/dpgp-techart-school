@@ -145,7 +145,7 @@ const addTicket = async (
     const ticketData = {
       number: ticketNumber,
       requested_product: product,
-      requested_enrollments: enrollmentDesc.module_ids,
+      requested_enrollments: enrollmentDesc.module_ids || "",
       requires_website_access: enrollmentDesc.requires_website_access,
       beneficiary_email: email,
       proof: screenshot.attachment.url,
