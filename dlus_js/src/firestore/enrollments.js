@@ -2,9 +2,10 @@ import { admin, db } from "../firebase_config";
 import { User } from "discord.js";
 
 /**
- * @returns {Promise<Object>} The product code to module ID mapping object.
+ * @returns {Promise<Object>} The product-code-to-enrollment-description mapping
+ * object for unexpired listings.
  */
-const getProductsMapping = async () => {
+const getProductsMapping = async (includes_expired = false) => {
   try {
     const productsRef = db.collection("enrollment_desc").doc("products");
     const productsDoc = await productsRef.get();
@@ -15,6 +16,13 @@ const getProductsMapping = async () => {
 
     const productsData = productsDoc.data();
     // all listings are stored in the "mapping" field
+    if (!includes_expired) {
+      productsData.mapping = Object.fromEntries(
+        Object.entries(productsData.mapping).filter(([_, desc]) => {
+          return !desc.expiry_date || desc.expiry_date.toDate() >= new Date();
+        })
+      );
+    }
     return productsData.mapping;
   } catch (error) {
     console.error("Error fetching products mapping:", error);
@@ -71,7 +79,7 @@ const getNextTicketNumber = async () => {
  * Gets the enrollment description for a product code.
  * @param {number} productCode - The product code to query.
  * @returns {Promise<Object | null>} The enrollment desc in the form of:
- * { module_ids: string, requires_website_access: boolean }
+ * { module_ids: string, requires_website_access: boolean, expiry_date: Date }
  * or null if not found.
  */
 const getEnrollmentDescFromProduct = async (productCode) => {
@@ -94,6 +102,7 @@ const getEnrollmentDescFromProduct = async (productCode) => {
     return {
       module_ids: desc.module_ids,
       requires_website_access: desc.requires_website_access || false,
+      expiry_date: desc.expiry_date,
     };
   } catch (error) {
     console.error(

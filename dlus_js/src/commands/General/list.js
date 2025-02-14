@@ -18,8 +18,14 @@ export const data = {
   // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
     {
-      name: "everything",
+      name: "details",
       description: "Hiển thị chi tiết",
+      type: ApplicationCommandOptionType.Boolean,
+      required: false,
+    },
+    {
+      name: "includes_expired",
+      description: "Bao gồm cả những sản phẩm không còn hiện hành",
       type: ApplicationCommandOptionType.Boolean,
       required: false,
     },
@@ -52,8 +58,11 @@ export const run = async ({ interaction, _client, _handler }) => {
     setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
   }
 
-  const verbose = interaction.options.getBoolean("everything") || false;
-  const productsMapping = await getProductsMapping();
+  const verbose = interaction.options.getBoolean("details") || false;
+  const includesExpired =
+    interaction.options.getBoolean("includes_expired") || false;
+
+  const productsMapping = await getProductsMapping(includesExpired);
   interaction.editReply(
     `## 📝 Danh mục các sản phẩm ở DPGP:\n\n${prettifyProductsMapping(
       productsMapping,
