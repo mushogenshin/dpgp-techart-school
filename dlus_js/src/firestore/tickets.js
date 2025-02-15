@@ -39,6 +39,39 @@ const listAllPendingTickets = async (limit) => {
 };
 
 /**
+ * Fetches all approved tickets for a specific product and sorts them from latest to oldest.
+ * @param {number} product - The product code to filter by.
+ * @returns {Promise<Array>} The sorted list of approved tickets.
+ */
+const queryApprovedTickets = async (product) => {
+  try {
+    const ticketsRef = db.collection("enrollment_tickets");
+    const snapshot = await ticketsRef
+      .where("requested_product", "==", product)
+      .where("resolved", "==", true)
+      .get();
+    let approvedTickets = [];
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      // just to be sure, we exclude spam tickets
+      if (data.is_spam === false || data.is_spam === undefined) {
+        approvedTickets.push(data);
+      }
+    });
+
+    approvedTickets.sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    return approvedTickets;
+  } catch (error) {
+    console.error("Error fetching approved tickets:", error);
+    throw error;
+  }
+};
+
+/**
  * Prettifies ticket data for a Discord message.
  * @param {Object} ticket - The ticket data to prettify.
  * @returns {string} The prettified ticket data.
@@ -258,6 +291,7 @@ const flagTicketAsSpam = async (ticketNumber) => {
 
 export {
   listAllPendingTickets,
+  queryApprovedTickets,
   getTicketByNumber,
   getUsrNumPendingTickets,
   prettifyTicketData,
