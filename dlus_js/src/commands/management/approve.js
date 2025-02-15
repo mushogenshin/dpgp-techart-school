@@ -53,41 +53,44 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
     return;
   }
 
-  // fetch beneficiary user data by email
-  let beneficiaryUser = await findExistingUserByEmail(ticket.beneficiary_email);
+  // grant website access if necessary
+  if (ticket.requires_website_access) {
+    // fetch beneficiary user data by email
+    let beneficiaryUser = await findExistingUserByEmail(
+      ticket.beneficiary_email
+    );
 
-  if (!beneficiaryUser) {
-    // try migrating first
-    try {
-      await migrateUserEnrollments(ticket.beneficiary_email);
-    } catch (error) {
-      await interaction.editReply({
-        content: `:scream: Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
+    if (!beneficiaryUser) {
+      // try migrating first
+      try {
+        await migrateUserEnrollments(ticket.beneficiary_email);
+      } catch (error) {
+        await interaction.editReply({
+          content: `:scream: Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**
 Rất có thể user chưa đăng nhập lần nào`,
-        flags: MessageFlags.Ephemeral,
-      });
-      return; // we can't proceed without beneficiary user data
-    } finally {
-      // try fetching beneficiary user data again
-      try {
-        beneficiaryUser = await findExistingUserByEmail(
-          ticket.beneficiary_email
-        );
-      } catch (error) {
-        // this should never happen, but just in case
-        await interaction.editReply({
-          content: `:scream: Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
-    **${error.message}**`,
           flags: MessageFlags.Ephemeral,
         });
-        return;
+        return; // we can't proceed without beneficiary user data
+      } finally {
+        // try fetching beneficiary user data again
+        try {
+          beneficiaryUser = await findExistingUserByEmail(
+            ticket.beneficiary_email
+          );
+        } catch (error) {
+          // this should never happen, but just in case
+          await interaction.editReply({
+            content: `:scream: Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
+    **${error.message}**`,
+            flags: MessageFlags.Ephemeral,
+          });
+          return;
+        }
       }
     }
-  }
 
-  // add enrollments to beneficiary user
-  if (ticket.requires_website_access) {
+    // add enrollments to beneficiary user
     try {
       await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
     } catch (error) {
@@ -102,29 +105,42 @@ Rất có thể user chưa đăng nhập lần nào`,
         content: `:fire: Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
         flags: MessageFlags.Ephemeral,
       });
-
-      // mark ticket as resolved
-      const markResult = await markTicketAsResolved(ticketNumber);
-
-      if (!markResult) {
-        await interaction.followUp({
-          content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
-          flags: MessageFlags.Ephemeral,
-        });
-        return;
-      }
     }
+  }
+
+  // mark ticket as resolved
+  const markResult = await markTicketAsResolved(ticketNumber);
+
+  if (!markResult) {
+    await interaction.followUp({
+      content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  if (ticket.is_one_time) {
+    interaction.editReply({
+      content: `:fire: Đã duyệt xong đơn \`${ticketNumber}\` cho sự kiện \`${ticket.requested_product}\``,
+      flags: MessageFlags.Ephemeral,
+    });
   }
 
   // send confirmation message
   const channel = await client.channels.fetch(ticket.discord_channel_id);
   if (channel) {
-    var msg = `:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!`;
+    var msg = ticket.is_one_time
+      ? `:tada: Ghi danh cho hoạt động ${ticket.requested_product} của bạn đã hoàn tất!`
+      : `:tada: Ticket số ${ticketNumber} cho sản phẩm ${ticket.requested_product} của bạn đã được duyệt!`;
+
     if (ticket.requires_website_access) {
-      msg += ` :tada: Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`;
-    } else {
-      // TODO
+      msg += ` Bạn đã được cấp access để xem nội dung \`${ticket.requested_enrollments}\` :tada:`;
     }
+
+    if (ticket.is_one_time) {
+      msg += ` Hẹn gặp bạn ở sự kiện! :tada:`;
+    }
+
     await channel.send(msg);
   } else {
     console.error(

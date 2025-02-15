@@ -155,6 +155,7 @@ const addTicket = async (
       requested_product: product,
       requested_enrollments: enrollmentDesc.module_ids || "",
       requires_website_access: enrollmentDesc.requires_website_access,
+      is_one_time: enrollmentDesc.is_one_time,
       beneficiary_email: email,
       proof: screenshot.attachment.url,
       discord_channel_id: channelId,
