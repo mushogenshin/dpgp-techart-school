@@ -222,6 +222,40 @@ const markTicketAsResolved = async (ticketNumber) => {
   }
 };
 
+/**
+ * Flags a ticket as spam.
+ * @param {number} ticketNumber - The ticket number to flag as spam.
+ * @returns {Promise<boolean>} True if the ticket was successfully flagged as spam, otherwise false.
+ */
+const flagTicketAsSpam = async (ticketNumber) => {
+  const ticketsRef = db.collection("enrollment_tickets");
+
+  try {
+    await db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(
+        ticketsRef.where("number", "==", ticketNumber)
+      );
+
+      if (snapshot.empty) {
+        console.log(`Ticket number ${ticketNumber} not found.`);
+        return false;
+      }
+
+      const ticketDoc = snapshot.docs[0].ref;
+      transaction.update(ticketDoc, { is_spam: true });
+    });
+
+    console.log(`Ticket number ${ticketNumber} flagged as spam.`);
+    return true;
+  } catch (error) {
+    console.error(
+      `Error flagging ticket number ${ticketNumber} as spam:`,
+      error
+    );
+    return false;
+  }
+};
+
 export {
   listAllPendingTickets,
   getTicketByNumber,
@@ -229,4 +263,5 @@ export {
   prettifyTicketData,
   addTicket,
   markTicketAsResolved,
+  flagTicketAsSpam,
 };
