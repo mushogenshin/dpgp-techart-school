@@ -164,4 +164,5 @@ const accumulateFailedAttemps = (userId) => {
 /** @type {import('commandkit').CommandOptions} */
 export const options = {
   devOnly: false, // `false` makes this a global command
+  deleted: true,
 };

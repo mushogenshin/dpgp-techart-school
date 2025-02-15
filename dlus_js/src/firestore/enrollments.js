@@ -119,9 +119,8 @@ const getEnrollmentDescFromProduct = async (productCode) => {
     }
 
     return {
-      module_ids: desc.module_ids,
+      ...desc,
       requires_website_access: desc.requires_website_access || false,
-      expiry_date: desc.expiry_date,
       is_one_time: desc.is_one_time || false,
     };
   } catch (error) {
