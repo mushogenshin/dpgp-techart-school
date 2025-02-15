@@ -16,7 +16,11 @@ const listAllPendingTickets = async (limit) => {
     let pendingTickets = [];
 
     snapshot.forEach((doc) => {
-      pendingTickets.push(doc.data());
+      const data = doc.data();
+      // exclude spam tickets
+      if (data.is_spam === false || data.is_spam === undefined) {
+        pendingTickets.push(data);
+      }
     });
 
     pendingTickets.sort(
