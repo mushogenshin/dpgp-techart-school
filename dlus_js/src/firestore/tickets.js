@@ -76,7 +76,7 @@ const queryApprovedTickets = async (product) => {
  * @param {Object} ticket - The ticket data to prettify.
  * @returns {string} The prettified ticket data.
  */
-const prettifyTicketData = (ticket) => {
+const prettifyTicketData = (ticket, prefix = "") => {
   const createdAt = new Date(ticket.created_at_local);
   const formattedCreatedAt = createdAt.toLocaleString([], {
     year: "numeric",
@@ -88,6 +88,7 @@ const prettifyTicketData = (ticket) => {
   });
 
   var msg =
+    prefix +
     `**Ticket Number ${ticket.number}**\n` +
     `${formattedCreatedAt}\n` +
     `Transaction: [Screenshot](${ticket.proof})\n\n` +

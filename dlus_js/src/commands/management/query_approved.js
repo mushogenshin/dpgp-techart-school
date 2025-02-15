@@ -43,6 +43,14 @@ export const run = async ({ interaction, _client, _handler }) => {
   const productCode = interaction.options.getInteger("product");
   const approvedTickets = await queryApprovedTickets(productCode);
 
+  if (approvedTickets.length === 0) {
+    await interaction.editReply({
+      content: `Không có đăng ký nào được duyệt cho sản phẩm \`${productCode}\``,
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
   await interaction.editReply({
     content: `Có ${approvedTickets.length} đăng ký đã được duyệt cho sản phẩm \`${productCode}\``,
     flags: MessageFlags.Ephemeral,
@@ -67,10 +75,10 @@ export const run = async ({ interaction, _client, _handler }) => {
     const attachment = new AttachmentBuilder(Buffer.from(csv), {
       name: `product-${productCode}_approved-tickets_${timestamp}.csv`,
     });
-    writeFileSync(
-      `product-${productCode}_approved-tickets_${timestamp}.csv`,
-      csv
-    );
+    // writeFileSync(
+    //   `product-${productCode}_approved-tickets_${timestamp}.csv`,
+    //   csv
+    // );
 
     await interaction.followUp({
       content: "Đây là file CSV tổng hợp:",
@@ -90,7 +98,7 @@ export const run = async ({ interaction, _client, _handler }) => {
   if (verbose) {
     for (let i = 0; i < approvedTickets.length; i++) {
       const ticket = approvedTickets[i];
-      const prettyTicket = prettifyTicketData(ticket);
+      const prettyTicket = prettifyTicketData(ticket, "(--Đã approved--) ");
       await interaction.followUp({
         content: `[${i + 1}/${approvedTickets.length}] ${prettyTicket}`,
         flags: MessageFlags.Ephemeral,
