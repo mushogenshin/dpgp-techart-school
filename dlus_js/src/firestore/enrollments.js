@@ -5,7 +5,10 @@ import { User } from "discord.js";
  * @returns {Promise<Object>} The product-code-to-enrollment-description mapping
  * object for unexpired listings.
  */
-const getProductsMapping = async (includes_expired = false) => {
+const getProductsMapping = async (
+  events_only = false,
+  includes_expired = false
+) => {
   try {
     const productsRef = db.collection("enrollment_desc").doc("products");
     const productsDoc = await productsRef.get();
@@ -16,6 +19,15 @@ const getProductsMapping = async (includes_expired = false) => {
 
     const productsData = productsDoc.data();
     // all listings are stored in the "mapping" field
+
+    if (events_only) {
+      productsData.mapping = Object.fromEntries(
+        Object.entries(productsData.mapping).filter(([_, desc]) => {
+          return desc.is_one_time;
+        })
+      );
+    }
+
     if (!includes_expired) {
       productsData.mapping = Object.fromEntries(
         Object.entries(productsData.mapping).filter(([_, desc]) => {
@@ -40,15 +52,22 @@ const prettifyProductsMapping = (mapping, verbose) => {
   let prettifiedString = "";
 
   for (const [productCode, desc] of Object.entries(mapping)) {
+    var detail = `- **${productCode}**: ${desc.name}.`;
+
+    if (desc.max_allowed) {
+      detail += ` Nhận tối đa: **${desc.max_allowed}** chỗ.`;
+    }
+
     if (verbose) {
       if (desc.requires_website_access) {
-        prettifiedString += `- **${productCode}**: ${desc.name}. Modules: \`${desc.module_ids}\`\n\n`;
+        detail += ` Modules: \`${desc.module_ids}\`\n\n`;
       } else {
-        prettifiedString += `- **${productCode}**: ${desc.name}. Requires no website access\n\n`;
+        detail += ` Không cần website access\n\n`;
       }
     } else {
-      prettifiedString += `- **${productCode}**: ${desc.name}\n\n`;
+      detail += `\n\n`;
     }
+    prettifiedString += detail;
   }
 
   return prettifiedString;

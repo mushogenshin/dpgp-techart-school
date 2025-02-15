@@ -14,9 +14,15 @@ const cooldowns = new Map();
 /** @type {import('commandkit').CommandData}  */
 export const data = {
   name: "list",
-  description: "Liệt kê các khoá học 👽",
+  description: "Liệt kê các khoá học hoặc sự kiện 👽",
   // NOTE: this global command allows all contexts: guild, DM, private channel
   options: [
+    {
+      name: "events_only",
+      description: "Sự kiện không thôi",
+      type: ApplicationCommandOptionType.Boolean,
+      required: false,
+    },
     {
       name: "details",
       description: "Hiển thị chi tiết",
@@ -58,16 +64,18 @@ export const run = async ({ interaction, _client, _handler }) => {
     setTimeout(() => cooldowns.delete(userId), COOLDOWN_AMOUNT_MS);
   }
 
+  const eventsOnly = interaction.options.getBoolean("events_only") || false;
   const verbose = interaction.options.getBoolean("details") || false;
   const includesExpired =
     interaction.options.getBoolean("includes_expired") || false;
 
-  const productsMapping = await getProductsMapping(includesExpired);
+  const productsMapping = await getProductsMapping(eventsOnly, includesExpired);
+  const header = eventsOnly
+    ? "## :clock: Danh sách sự kiện ở DPGP:"
+    : "## :pencil: Danh sách các sản phẩm ở DPGP:";
+
   interaction.editReply(
-    `## 📝 Danh mục các sản phẩm ở DPGP:\n\n${prettifyProductsMapping(
-      productsMapping,
-      verbose
-    )}`
+    `${header}\n\n${prettifyProductsMapping(productsMapping, verbose)}`
   );
 };
 
