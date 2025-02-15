@@ -44,11 +44,10 @@ export const run = async ({ interaction, _client, _handler }) => {
   const approvedTickets = await queryApprovedTickets(productCode);
 
   if (approvedTickets.length === 0) {
-    await interaction.editReply({
+    return interaction.editReply({
       content: `Không có đăng ký nào được duyệt cho sản phẩm \`${productCode}\``,
       flags: MessageFlags.Ephemeral,
     });
-    return;
   }
 
   await interaction.editReply({

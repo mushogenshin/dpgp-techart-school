@@ -73,12 +73,11 @@ export const run = async ({ interaction, client, _handler }) => {
   // only proceed if user has less than the maximum allowed pending tickets
   const numPendingTickets = await getUsrNumPendingTickets(interaction.user);
   if (numPendingTickets >= MAX_PENDING_TICKETS_ALLOWED) {
-    await interaction.editReply({
+    return interaction.editReply({
       content: `Số lượng request của bạn đã vượt quá giới hạn (${MAX_PENDING_TICKETS_ALLOWED}). 
 Vui lòng chờ xử lý các request cũ trước khi tạo request mới.`,
       flags: MessageFlags.Ephemeral,
     });
-    return;
   }
 
   // validate desugared product code

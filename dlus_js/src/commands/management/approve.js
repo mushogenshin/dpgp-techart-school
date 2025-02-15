@@ -44,13 +44,11 @@ export const run = async ({ interaction, client, _handler }) => {
   const ticket = await getTicketByNumber(ticketNumber);
 
   if (!ticket) {
-    await interaction.editReply({
+    return interaction.editReply({
       content: `Không tìm thấy ticket số ${ticketNumber} :face_with_raised_eyebrow:.
 Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       flags: MessageFlags.Ephemeral,
     });
-
-    return;
   }
 
   // grant website access if necessary
@@ -65,13 +63,13 @@ Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       try {
         await migrateUserEnrollments(ticket.beneficiary_email);
       } catch (error) {
-        await interaction.editReply({
+        // we can't proceed without beneficiary user data
+        return interaction.editReply({
           content: `:scream: Xảy ra lỗi khi tạo hồ sơ cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**
 Rất có thể user chưa đăng nhập lần nào`,
           flags: MessageFlags.Ephemeral,
         });
-        return; // we can't proceed without beneficiary user data
       } finally {
         // try fetching beneficiary user data again
         try {
@@ -80,12 +78,11 @@ Rất có thể user chưa đăng nhập lần nào`,
           );
         } catch (error) {
           // this should never happen, but just in case
-          await interaction.editReply({
+          return interaction.editReply({
             content: `:scream: Xảy ra lỗi khi tìm user \`${ticket.beneficiary_email}\`:
     **${error.message}**`,
             flags: MessageFlags.Ephemeral,
           });
-          return;
         }
       }
     }
@@ -94,12 +91,11 @@ Rất có thể user chưa đăng nhập lần nào`,
     try {
       await addEnrollments(beneficiaryUser.id, ticket.requested_enrollments); // TODO: allow correction
     } catch (error) {
-      await interaction.editReply({
+      return interaction.editReply({
         content: `:scream: Xảy ra lỗi khi cấp access \`${ticket.requested_enrollments}\` cho user \`${ticket.beneficiary_email}\`:
 **${error.message}**`,
         flags: MessageFlags.Ephemeral,
       });
-      return;
     } finally {
       await interaction.editReply({
         content: `:fire: Đã cấp quyền vào \`${ticket.requested_enrollments}\` xong cho \`${ticket.beneficiary_email}\``,
@@ -112,11 +108,10 @@ Rất có thể user chưa đăng nhập lần nào`,
   const markResult = await markTicketAsResolved(ticketNumber);
 
   if (!markResult) {
-    await interaction.followUp({
+    return interaction.followUp({
       content: `:scream: Xảy ra lỗi khi đóng ticket số ${ticketNumber}.`,
       flags: MessageFlags.Ephemeral,
     });
-    return;
   }
 
   if (ticket.is_one_time) {

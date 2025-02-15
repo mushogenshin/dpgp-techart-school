@@ -29,24 +29,21 @@ export const run = async ({ interaction, client, _handler }) => {
   const ticket = await getTicketByNumber(ticketNumber);
 
   if (!ticket) {
-    await interaction.editReply({
+    return interaction.editReply({
       content: `Không tìm thấy ticket số ${ticketNumber} :face_with_raised_eyebrow:.
 Thử dùng lệnh \`/tickets\` để xem những đơn đang chờ xử lý.`,
       flags: MessageFlags.Ephemeral,
     });
-
-    return;
   }
 
   // flag ticket as spam
   const flagResult = await flagTicketAsSpam(ticketNumber);
 
   if (!flagResult) {
-    await interaction.followUp({
+    return interaction.followUp({
       content: `:scream: Xảy ra lỗi khi flag ticket số ${ticketNumber}.`,
       flags: MessageFlags.Ephemeral,
     });
-    return;
   }
 
   interaction.editReply({

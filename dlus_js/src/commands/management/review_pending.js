@@ -35,12 +35,10 @@ export const run = async ({ interaction, _client, _handler }) => {
     : pendingTickets.length;
 
   if (ticketCount === 0) {
-    await interaction.editReply({
+    return interaction.editReply({
       content: "Yay! Hổng có request nào cần review hết :woman_gesturing_ok:",
       flags: MessageFlags.Ephemeral,
     });
-
-    return;
   }
 
   await interaction.editReply({
