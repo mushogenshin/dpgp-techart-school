@@ -39,7 +39,7 @@ const listAllPendingTickets = async (limit) => {
 };
 
 /**
- * Fetches all approved tickets for a specific product and sorts them from latest to oldest.
+ * Fetches all approved tickets for a specific product and sorts them by number.
  * @param {number} product - The product code to filter by.
  * @returns {Promise<Array>} The sorted list of approved tickets.
  */
@@ -60,9 +60,7 @@ const queryApprovedTickets = async (product) => {
       }
     });
 
-    approvedTickets.sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at)
-    );
+    approvedTickets.sort((a, b) => new Date(b.number) - new Date(a.number));
 
     return approvedTickets;
   } catch (error) {
