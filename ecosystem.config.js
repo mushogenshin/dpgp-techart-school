@@ -14,7 +14,7 @@ module.exports = {
       name: "dlus-bot",
       cwd: "/data/dpgp-techart-school/dlus_js",
       script: "npm",
-      args: "run dev",
+      args: "run start",
     },
   ],
 };
