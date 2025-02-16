@@ -2,6 +2,7 @@ import {
   queryApprovedTickets,
   prettifyTicketData,
 } from "../../firestore/tickets";
+import { getEnrollmentDescFromProduct } from "../../firestore/enrollments";
 
 import { parse } from "json2csv";
 // import { writeFileSync } from "node:fs";
@@ -41,6 +42,15 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   // fetch all approved tickets
   const productCode = interaction.options.getInteger("product");
+  const enrollmentDesc = await getEnrollmentDescFromProduct(productCode);
+
+  if (!enrollmentDesc) {
+    return interaction.editReply({
+      content: `:woman_getting_face_massage: Không tìm thấy sản phẩm có mã \`${productCode}\``,
+      flags: MessageFlags.Ephemeral,
+    });
+  }
+
   const approvedTickets = await queryApprovedTickets(productCode);
 
   if (approvedTickets.length === 0) {
@@ -50,8 +60,14 @@ export const run = async ({ interaction, _client, _handler }) => {
     });
   }
 
+  var msg = `Có ${approvedTickets.length} đăng ký đã được duyệt cho sản phẩm \`${productCode}\``;
+
+  msg += enrollmentDesc.max_allowed
+    ? `, còn ${enrollmentDesc.max_allowed - approvedTickets.length} slot trống`
+    : ` (không giới hạn số lượng)`;
+
   await interaction.editReply({
-    content: `Có ${approvedTickets.length} đăng ký đã được duyệt cho sản phẩm \`${productCode}\``,
+    content: msg,
     flags: MessageFlags.Ephemeral,
   });
 

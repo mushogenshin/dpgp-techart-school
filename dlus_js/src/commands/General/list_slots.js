@@ -52,7 +52,6 @@ export const run = async ({ interaction, _client, _handler }) => {
 
   const productCode = interaction.options.getNumber("event_code");
   const enrollmentDesc = await getEnrollmentDescFromProduct(productCode);
-  const approvedTickets = await queryApprovedTickets(productCode);
 
   if (!enrollmentDesc) {
     return interaction.editReply({
@@ -68,6 +67,7 @@ export const run = async ({ interaction, _client, _handler }) => {
     });
   }
 
+  const approvedTickets = await queryApprovedTickets(productCode);
   const remainingSlots = enrollmentDesc.max_allowed - approvedTickets.length;
 
   interaction.editReply(
