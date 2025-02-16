@@ -1,4 +1,4 @@
-import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
+import { useFetchLivePage } from "../../hooks/firestore/useFetchLivePage";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SubscribeForm from "../subscription/SubscribeForm";
@@ -17,7 +17,10 @@ export default function Buy() {
 }
 
 function Offers() {
-  const { pageData, error, isPending } = useFetchPublicPage("home");
+  const { pageData, error, isPending } = useFetchLivePage(
+    "public_pages",
+    "home"
+  );
   // opening classes, sorted by starts_at
   const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
   const selfTaught = pageData?.self_taught;

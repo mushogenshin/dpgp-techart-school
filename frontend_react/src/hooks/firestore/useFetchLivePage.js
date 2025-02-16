@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase_config";
 import { doc, onSnapshot } from "firebase/firestore";
 
-export const useFetchPublicPage = (pageId) => {
+export const useFetchLivePage = (path, pageId) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [pageData, setPageData] = useState(null);
@@ -12,7 +12,7 @@ export const useFetchPublicPage = (pageId) => {
     setError(null);
     setIsPending(true);
 
-    const moduleRef = doc(db, "public_pages", pageId);
+    const moduleRef = doc(db, path, pageId);
     const unsub = onSnapshot(
       moduleRef,
       (doc) => {

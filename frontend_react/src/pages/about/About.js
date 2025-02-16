@@ -1,4 +1,4 @@
-import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
+import { useFetchLivePage } from "../../hooks/firestore/useFetchLivePage";
 import ContentBlock from "../../components/contentBlock/ContentBlock";
 import SubscribeForm from "../subscription/SubscribeForm";
 
@@ -17,7 +17,10 @@ export default function About() {
 }
 
 function Manifesto() {
-  const { pageData, error, isPending } = useFetchPublicPage("about");
+  const { pageData, error, isPending } = useFetchLivePage(
+    "public_pages",
+    "about"
+  );
   const blocks = pageData?.versions["1"]?.blocks;
 
   return (

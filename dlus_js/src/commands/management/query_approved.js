@@ -40,7 +40,6 @@ export const data = {
 export const run = async ({ interaction, _client, _handler }) => {
   await interaction.deferReply();
 
-  // fetch all approved tickets
   const productCode = interaction.options.getInteger("product");
   const enrollmentDesc = await getEnrollmentDescFromProduct(productCode);
 
@@ -51,6 +50,7 @@ export const run = async ({ interaction, _client, _handler }) => {
     });
   }
 
+  // fetch all approved tickets
   const approvedTickets = await queryApprovedTickets(productCode);
 
   if (approvedTickets.length === 0) {

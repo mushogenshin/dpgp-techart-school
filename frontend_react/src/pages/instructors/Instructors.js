@@ -1,4 +1,4 @@
-import { useFetchPublicPage } from "../../hooks/firestore/useFetchPublicPage";
+import { useFetchLivePage } from "../../hooks/firestore/useFetchLivePage";
 import ContentBlock from "../../components/contentBlock/ContentBlock";
 import SocialLink from "../../components/contentBlock/SocialLink";
 
@@ -9,13 +9,13 @@ export default function Instructors() {
     pageData: memberList,
     error: memberListError,
     isPending: isMemberListPending,
-  } = useFetchPublicPage("instructors");
+  } = useFetchLivePage("public_pages", "instructors");
 
   const {
     pageData: members,
     error: membersError,
     isPending: isMembersPending,
-  } = useFetchPublicPage("members");
+  } = useFetchLivePage("public_pages", "members");
 
   const memberListArray = memberList?.members || [];
 
