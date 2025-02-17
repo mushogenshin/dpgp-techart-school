@@ -1,7 +1,7 @@
 .home {
   /* background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%); */
   max-width: 1024px;
-  padding: 0 50px;
+  padding: 0 20px;
 }
 
 .home a {
@@ -54,7 +54,12 @@
   padding: 10px;
 }
 
+.home td:first-child {
+  padding: 0 20px; /* Adjust the padding value as needed */
+}
+
 .home .enrollment_modules {
+  color: rgb(177, 184, 147);
   font-size: 0.5em;
 }
 
