@@ -50,7 +50,7 @@ function Offers() {
             </>
           )} */}
 
-          {/* SELF-TAUGHT CLASSES */}
+          {/* SELF-TAUGHT CLASSES  */}
           {pageData?.mapping && (
             <>
               <p className={styles.title}>Các lớp tự học (access trọn đời):</p>
@@ -70,7 +70,19 @@ function Offers() {
                         <td>
                           <b>{id}</b>
                         </td>
-                        <td>{data.name}</td>
+                        <td>
+                          {data.url ? (
+                            <a
+                              href={data.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {data.name}
+                            </a>
+                          ) : (
+                            data.name
+                          )}
+                        </td>
                         <td className={styles.enrollment_modules}>
                           {data.module_ids}
                         </td>
@@ -80,8 +92,6 @@ function Offers() {
               </table>
             </>
           )}
-
-          {/* FREE COURSES */}
           <Link
             to="/courses"
             className={styles.title}
