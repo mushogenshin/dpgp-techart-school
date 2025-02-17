@@ -22,7 +22,6 @@ function Offers() {
     "products"
   );
 
-  console.log(pageData?.mapping);
   // // opening classes, sorted by starts_at
   // const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
   // const selfTaught = pageData?.self_taught;
@@ -52,21 +51,35 @@ function Offers() {
           )} */}
 
           {/* SELF-TAUGHT CLASSES */}
-          {/* {selfTaught?.length > 0 && (
+          {pageData?.mapping && (
             <>
-              <p className={styles.title}>
-                {selfTaught?.length} lớp tự học (access trọn đời):
-              </p>
-              <ul>
-                {selfTaught &&
-                  selfTaught.map((item, index) => (
-                    <li key={index}>
-                      <Available cls={item} timebound={false} />
-                    </li>
-                  ))}
-              </ul>
+              <p className={styles.title}>Các lớp tự học (access trọn đời):</p>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Mã</th>
+                    <th>Sản phẩm</th>
+                    <th>Modules</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(pageData?.mapping)
+                    .filter(([_, data]) => data.requires_website_access)
+                    .map(([id, data]) => (
+                      <tr key={id}>
+                        <td>
+                          <b>{id}</b>
+                        </td>
+                        <td>{data.name}</td>
+                        <td className={styles.enrollment_modules}>
+                          {data.module_ids}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
             </>
-          )} */}
+          )}
 
           {/* FREE COURSES */}
           <Link

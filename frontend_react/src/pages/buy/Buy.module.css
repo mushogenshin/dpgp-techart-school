@@ -1,36 +1,59 @@
 .home {
-    /* background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%); */
-    max-width: 1024px;
-    padding: 0 50px;
+  /* background: linear-gradient(180deg,rgb(148, 182, 103) 20%,rgb(168, 85, 140) 100%); */
+  max-width: 1024px;
+  padding: 0 50px;
 }
 
-
 .home a {
-    color: rgb(210, 72, 26);
-    text-decoration-style: dotted;
+  color: rgb(210, 72, 26);
+  text-decoration-style: dotted;
 }
 
 .home a:visited {
-    color: rgb(210, 72, 26)
+  color: rgb(210, 72, 26);
 }
 
 .home li {
-    margin-top: 15px;
-    padding-top: 15px;
+  margin-top: 15px;
+  padding-top: 15px;
 }
 
 .home .title {
-    margin: 0 15;
-    font-size: 1.5em;
-    color: rgb(149, 143, 255);
+  margin: 0 15;
+  font-size: 1.5em;
+  color: rgb(149, 143, 255);
 }
 
-
 .home .opening {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .home .countdown {
-    font-size: 0.8em;
-    color: rgb(196, 180, 180);
+  font-size: 0.8em;
+  color: rgb(196, 180, 180);
+}
+
+.home table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.home table,
+.home th,
+.home td {
+  border: 1px solid rgb(137, 137, 137);
+}
+
+.home th {
+  background-color: rgb(210, 72, 26);
+  color: white;
+  padding: 10px;
+}
+
+.home td {
+  padding: 10px;
+}
+
+.home .enrollment_modules {
+  font-size: 0.5em;
 }
