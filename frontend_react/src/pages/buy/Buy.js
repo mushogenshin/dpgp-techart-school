@@ -18,12 +18,14 @@ export default function Buy() {
 
 function Offers() {
   const { pageData, error, isPending } = useFetchLivePage(
-    "public_pages",
-    "home"
+    "enrollment_desc",
+    "products"
   );
-  // opening classes, sorted by starts_at
-  const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
-  const selfTaught = pageData?.self_taught;
+
+  console.log(pageData?.mapping);
+  // // opening classes, sorted by starts_at
+  // const opening = pageData?.opening?.sort((a, b) => a.starts_at - b.starts_at);
+  // const selfTaught = pageData?.self_taught;
 
   return (
     <div className={styles.home}>
@@ -34,7 +36,7 @@ function Offers() {
       ) : (
         <div>
           {/* OPENING CLASSES */}
-          {opening?.length > 0 && (
+          {/* {opening?.length > 0 && (
             <>
               <p className={styles.title}>
                 {opening.length} lớp đang chiêu sinh:
@@ -47,10 +49,10 @@ function Offers() {
                 ))}
               </ul>
             </>
-          )}
+          )} */}
 
           {/* SELF-TAUGHT CLASSES */}
-          {selfTaught?.length > 0 && (
+          {/* {selfTaught?.length > 0 && (
             <>
               <p className={styles.title}>
                 {selfTaught?.length} lớp tự học (access trọn đời):
@@ -64,7 +66,7 @@ function Offers() {
                   ))}
               </ul>
             </>
-          )}
+          )} */}
 
           {/* FREE COURSES */}
           <Link

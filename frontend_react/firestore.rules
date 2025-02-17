@@ -51,6 +51,11 @@ service cloud.firestore {
     match /enrollment_migration/{email} {
     	allow read: if request.auth != null;
     }
+
+    // SELF-TAUGHT PRODUCTS DESCRIPTION DOCS: PUBLIC READ; NO WRITE
+    match /enrollment_desc/products {
+    	allow read;
+    }
     
     // SUBSCRIPTION DOCS: READ IF LOGGED IN; WRITE IF OWNED
     match /subscriptions/{email} {
