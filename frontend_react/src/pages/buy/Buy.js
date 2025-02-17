@@ -5,6 +5,9 @@ import SubscribeForm from "../subscription/SubscribeForm";
 
 import styles from "./Buy.module.css";
 
+const DLUS_GUIDE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/dpgp-techart.appspot.com/o/login-instructions%2Fdlus-guide.jpg?alt=media&token=e329c85f-6dfc-4789-9ce6-8aaff23c5a13";
+
 export default function Buy() {
   return (
     <div>
@@ -60,6 +63,7 @@ function Offers() {
                     <th>Mã</th>
                     <th>Sản phẩm</th>
                     <th>Modules</th>
+                    <th>Giá</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,13 +76,13 @@ function Offers() {
                         </td>
                         <td>
                           {data.url ? (
-                            <a
-                              href={data.url}
+                            <Link
+                              to={data.url}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
                               {data.name}
-                            </a>
+                            </Link>
                           ) : (
                             data.name
                           )}
@@ -86,12 +90,25 @@ function Offers() {
                         <td className={styles.enrollment_modules}>
                           {data.module_ids}
                         </td>
+                        <td className={styles.price}>{data.price}</td>
                       </tr>
                     ))}
                 </tbody>
               </table>
             </>
           )}
+
+          <div style={{ padding: "50px" }}>
+            <Link to={DLUS_GUIDE_URL} target="_blank" rel="noopener noreferrer">
+              <img
+                src={DLUS_GUIDE_URL}
+                width="597"
+                height="900"
+                alt="hướng dẫn sử dụng DLUS"
+              />
+            </Link>
+          </div>
+
           <Link
             to="/courses"
             className={styles.title}
