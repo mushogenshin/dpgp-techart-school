@@ -19,7 +19,7 @@ export const data = {
       name: "message",
       description: "Nội dung tin nhắn",
       type: ApplicationCommandOptionType.String,
-      required: true,
+      required: false,
     },
     {
       name: "attachment",
@@ -67,25 +67,35 @@ export const run = async ({ interaction, client, _handler }) => {
       const channel = await client.channels.fetch(ticket.discord_channel_id);
       if (channel) {
         await channel.send({
-          content: msg.value,
+          content: msg ? msg.value : "",
           files: media ? [media.attachment] : [],
         });
       } else {
-        failedChannels.push(ticket.author_display_name);
+        failedChannels.push([ticket.number, ticket.author_display_name]);
       }
     } catch (error) {
       console.error(
-        `Failed to send message for ${ticket.author_display_name} of ticket ${ticket.number}:`,
+        `Failed to send message to ${ticket.author_display_name} of ticket ${ticket.number}:`,
         error
       );
-      failedChannels.push(ticket.author_display_name);
+      failedChannels.push([ticket.number, ticket.author_display_name]);
     }
   }
 
+  const success = approvedTickets.length - failedChannels.length;
+  var replyMsg =
+    success > 0
+      ? `Đã gửi tin nhắn đến ${success} người`
+      : `Không gửi được tin nhắn nào`;
+
+  if (failedChannels.length > 0) {
+    replyMsg += `\n\n:face_with_spiral_eyes: Gặp lỗi khi gửi tin cho:\n${failedChannels
+      .map(([number, name]) => `- ${name} (ticket ${number})`)
+      .join("\n")}`;
+  }
+
   await interaction.editReply({
-    content: `Đã gửi tin nhắn đến ${
-      approvedTickets.length - failedChannels.length
-    } người`,
+    content: replyMsg,
     flags: MessageFlags.Ephemeral,
   });
 };
