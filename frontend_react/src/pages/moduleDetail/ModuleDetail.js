@@ -22,16 +22,21 @@ export default function ModuleDetail({ setShowSidebar }) {
   const isFreebie = (moduleData && moduleData.freebie) || false;
 
   // whether the user is qualified for a bonus module
-  const isBonus =
+  const [isBonus, matchedPrefix] =
     moduleData && moduleData.bonus_for
       ? moduleData.bonus_for
           .split(",")
           .map((prefix) => prefix.trim())
-          .some(
-            (prefix) =>
-              purchased && purchased.some((id) => id.startsWith(prefix))
+          .reduce(
+            (acc, prefix) => {
+              if (acc[0]) return acc;
+              const isMatch =
+                purchased && purchased.some((id) => id.startsWith(prefix));
+              return isMatch ? [true, prefix] : acc;
+            },
+            [false, null]
           )
-      : false;
+      : [false, null];
 
   // the user is allowed to access the module if one of the following is true:
   // 1. the module is a freebie
@@ -59,6 +64,12 @@ export default function ModuleDetail({ setShowSidebar }) {
 
       {/* module metadata */}
       {moduleData && <ModuleMetadata moduleData={moduleData} />}
+      {isBonus && (
+        <h3>
+          🎉 Bạn đã mua khóa học "{matchedPrefix}" nên được xem miễn phí nội
+          dung này
+        </h3>
+      )}
       <hr></hr>
 
       {/* list of buttons to choose which Unit to view */}
