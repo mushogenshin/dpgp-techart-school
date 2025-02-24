@@ -19,7 +19,7 @@ export const data = {
       name: "message",
       description: "Nội dung tin nhắn",
       type: ApplicationCommandOptionType.String,
-      required: false,
+      required: true,
     },
     {
       name: "attachment",
@@ -67,8 +67,12 @@ export const run = async ({ interaction, client, _handler }) => {
       const channel = await client.channels.fetch(ticket.discord_channel_id);
       if (channel) {
         await channel.send({
-          content: msg ? msg.value : "",
+          content: msg.value,
           files: media ? [media.attachment] : [],
+        });
+        await interaction.followUp({
+          content: `- \`${ticket.author_display_name}\` (ticket ${ticket.number}) đã nhận được tin`,
+          flags: MessageFlags.Ephemeral,
         });
       } else {
         failedChannels.push([ticket.number, ticket.author_display_name]);
@@ -94,7 +98,7 @@ export const run = async ({ interaction, client, _handler }) => {
       .join("\n")}`;
   }
 
-  await interaction.editReply({
+  await interaction.followUp({
     content: replyMsg,
     flags: MessageFlags.Ephemeral,
   });
