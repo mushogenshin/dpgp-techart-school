@@ -200,8 +200,10 @@ async function findClassesWithEmptyContent(db) {
     }
     if (hasEmptyContent) {
       console.log(`Class ${doc.id} has empty content.`);
-      await classesRef.doc(doc.id).update({ migration_incomplete: true });
     }
+    await classesRef
+      .doc(doc.id)
+      .update({ migration_incomplete: hasEmptyContent });
   });
 
   await Promise.all(promises);
