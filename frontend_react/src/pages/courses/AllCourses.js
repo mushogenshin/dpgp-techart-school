@@ -32,7 +32,8 @@ export default function AllCourses() {
 
       <Purchased user={user} />
       <Freebie user={user} courses={courses} />
-      <AllExisting courses={courses} coursesError={coursesError} />
+      <AllMigrated courses={courses} coursesError={coursesError} />
+      <MigrationIncomplete courses={courses} coursesError={coursesError} />
       {/* {Object.entries(coursesByCategory).map(([category, courses]) => (
         <div key={category}>
           <h2>{category}</h2>
@@ -115,56 +116,73 @@ function Freebie({ user, courses }) {
   );
 }
 
-function AllExisting({ courses, coursesError }) {
+function AllMigrated({ courses, coursesError }) {
+  const filteredCourses = courses.filter((cls) => !cls.migration_incomplete);
+
   return (
     <>
       <p>Các khoá đã dạy</p>
       {coursesError && <h2>{coursesError}</h2>}
       <ul>
-        {courses &&
-          courses.map((cls) => (
+        {filteredCourses &&
+          filteredCourses.map((cls) => (
             <li key={cls.id}>
               <Link to={`/course/${cls.id}`}>
-                {(cls.migration_incomplete || false) && (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faPaintRoller}
-                      className={styles["migrating-symbol"]}
-                    />{" "}
-                  </>
-                )}
                 {/* the Class name */}
-                <span
-                  className={
-                    cls.migration_incomplete || false ? styles.migrating : null
-                  }
-                >
-                  {cls.name}{" "}
-                </span>
+                <span>{cls.name} </span>
+                {/* the Class ID */}
+                <span className={styles["course-id"]}>{cls.id}</span>{" "}
+                {cls.shows_student_works && (
+                  <FontAwesomeIcon
+                    icon={faImages}
+                    className={styles["fa-icon"]}
+                  />
+                )}
+              </Link>
+            </li>
+          ))}
+      </ul>
+    </>
+  );
+}
+
+function MigrationIncomplete({ courses, coursesError }) {
+  const filteredCourses = courses.filter(
+    (cls) => cls.migration_incomplete || false
+  );
+
+  return (
+    <>
+      <p>Các khoá cũ</p>
+      {coursesError && <h2>{coursesError}</h2>}
+      <ul>
+        {filteredCourses &&
+          filteredCourses.map((cls) => (
+            <li key={cls.id}>
+              <Link to={`/course/${cls.id}`}>
+                <>
+                  <FontAwesomeIcon
+                    icon={faPaintRoller}
+                    className={styles["migrating-symbol"]}
+                  />{" "}
+                </>
+                {/* the Class name */}
+                <span className={styles.migrating}>{cls.name} </span>
                 {/* the Class ID */}
                 <span
                   className={styles["course-id"]}
-                  style={
-                    cls.migration_incomplete || false
-                      ? { background: "#6b8b26" }
-                      : {}
-                  }
+                  style={{ background: "#6b8b26" }}
                 >
                   {cls.id}
                 </span>{" "}
                 {/* migrating hint */}
-                {(cls.migration_incomplete || false) && (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faPersonDigging}
-                      className={styles["migrating-symbol"]}
-                    />
-                    <span className={styles["migrating-hint"]}>
-                      {" "}
-                      (migrating)
-                    </span>
-                  </>
-                )}
+                <>
+                  <FontAwesomeIcon
+                    icon={faPersonDigging}
+                    className={styles["migrating-symbol"]}
+                  />
+                  <span className={styles["migrating-hint"]}> (migrating)</span>
+                </>
                 {cls.shows_student_works && (
                   <FontAwesomeIcon
                     icon={faImages}
