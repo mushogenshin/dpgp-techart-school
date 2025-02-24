@@ -117,7 +117,8 @@ function Freebie({ user, courses }) {
 }
 
 function AllMigrated({ courses, coursesError }) {
-  const filteredCourses = courses.filter((cls) => !cls.migration_incomplete);
+  const filteredCourses =
+    courses && courses.filter((cls) => !cls.migration_incomplete);
 
   return (
     <>
@@ -147,9 +148,8 @@ function AllMigrated({ courses, coursesError }) {
 }
 
 function MigrationIncomplete({ courses, coursesError }) {
-  const filteredCourses = courses.filter(
-    (cls) => cls.migration_incomplete || false
-  );
+  const filteredCourses =
+    courses && courses.filter((cls) => cls.migration_incomplete || false);
 
   return (
     <>
