@@ -37,7 +37,7 @@ export default function ModuleDetail({ setShowSidebar }) {
   // 1. the module is a freebie
   // 2. the user has purchased the module
   // 3. the module is a bonus for the user
-  const isPurchased =
+  const isAccessible =
     isFreebie || (purchased && purchased.includes(modId)) || isBonus;
   // check if the Unit param is valid
   const unitsData = moduleData && moduleData.units ? moduleData.units : [];
@@ -68,7 +68,7 @@ export default function ModuleDetail({ setShowSidebar }) {
       {unitLookup && (
         <UnitDetail
           unitData={unitLookup}
-          isPurchased={isPurchased}
+          isPurchased={isAccessible}
           setShowSidebar={setShowSidebar}
         />
       )}
