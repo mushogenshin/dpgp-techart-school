@@ -69,30 +69,51 @@ function Offers() {
                 <tbody>
                   {Object.entries(pageData?.mapping)
                     .filter(([_, data]) => data.requires_website_access)
-                    .map(([id, data]) => (
-                      <tr key={id}>
-                        <td>
-                          <b>{id}</b>
-                        </td>
-                        <td>
-                          {data.url ? (
-                            <Link
-                              to={data.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {data.name}
-                            </Link>
-                          ) : (
-                            data.name
-                          )}
-                        </td>
-                        <td className={styles.enrollment_modules}>
-                          {data.module_ids}
-                        </td>
-                        <td className={styles.price}>{data.price}</td>
-                      </tr>
-                    ))}
+                    .map(([id, data]) => {
+                      const priceNumber = Number(data.price.replace(/\./g, ""));
+                      const discountedPrice = data.discount
+                        ? priceNumber - (priceNumber * data.discount) / 100
+                        : priceNumber;
+                      const formattedDiscountedPrice = discountedPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                      return (
+                        <tr key={id}>
+                          <td>
+                            <b>{id}</b>
+                          </td>
+                          <td>
+                            {data.url ? (
+                              <Link
+                                to={data.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {data.name}
+                              </Link>
+                            ) : (
+                              data.name
+                            )}
+                          </td>
+                          <td className={styles.enrollment_modules}>
+                            {data.module_ids}
+                          </td>
+                          <td className={styles.price}>
+                            {data.discount ? (
+                              <>
+                                <span>
+                                  <s>{data.price}</s>
+                                </span>
+                                <br />
+                                <span>{formattedDiscountedPrice}</span>
+                              </>
+                            ) : (
+                              data.price
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </>
