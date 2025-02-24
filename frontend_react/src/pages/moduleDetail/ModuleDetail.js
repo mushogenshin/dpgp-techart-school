@@ -18,10 +18,27 @@ export default function ModuleDetail({ setShowSidebar }) {
 
   const { moduleData, error, isPending } = useFetchModule(modId);
 
-  // allow viewing if content is freebie
+  // whether the module is a freebie
   const isFreebie = (moduleData && moduleData.freebie) || false;
-  // whether the user owns this Module
-  const isPurchased = isFreebie || (purchased && purchased.includes(modId));
+
+  // whether the user is qualified for a bonus module
+  const isBonus =
+    moduleData && moduleData.bonus_for
+      ? moduleData.bonus_for
+          .split(",")
+          .map((prefix) => prefix.trim())
+          .some(
+            (prefix) =>
+              purchased && purchased.some((id) => id.startsWith(prefix))
+          )
+      : false;
+
+  // the user is allowed to access the module if one of the following is true:
+  // 1. the module is a freebie
+  // 2. the user has purchased the module
+  // 3. the module is a bonus for the user
+  const isPurchased =
+    isFreebie || (purchased && purchased.includes(modId)) || isBonus;
   // check if the Unit param is valid
   const unitsData = moduleData && moduleData.units ? moduleData.units : [];
   const unitLookup = unitsData.find((unit) => unit.id === unitParam);
